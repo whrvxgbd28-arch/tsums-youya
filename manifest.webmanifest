@@ -1,0 +1,11 @@
+{
+  "name": "TSUMS 山上優雅",
+  "short_name": "山上優雅",
+  "description": "TSUMS 4.0V Field Operations Runtime",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "lang": "zh-Hant"
+}

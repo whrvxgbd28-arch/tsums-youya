@@ -1,7 +1,7 @@
 {
   "name": "TSUMS 山上優雅",
   "short_name": "山上優雅",
-  "description": "TSUMS 4.0V Field Operations Runtime",
+  "description": "TSUMS 4.0V Journey UX Rebase + Ledger Hardened Field Runtime",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

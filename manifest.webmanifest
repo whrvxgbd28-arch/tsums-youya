@@ -1,7 +1,7 @@
 {
   "name": "TSUMS 山上優雅",
   "short_name": "山上優雅",
-  "description": "TSUMS 4.0V Mountain Universal Governance Runtime v0.6.4 · Field Runtime Phase-1",
+  "description": "TSUMS 4.0V Mountain Universal Governance Runtime v0.6.4.1 · Control-Layer Hardening",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

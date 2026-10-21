@@ -1,7 +1,7 @@
 {
   "name": "TSUMS 山上優雅",
   "short_name": "山上優雅",
-  "description": "TSUMS 4.0V App-first Field Runtime v0.6.3",
+  "description": "TSUMS 4.0V App-first Field Runtime v0.6.3.1 · Cache Hardened",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

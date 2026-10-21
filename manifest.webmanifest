@@ -1,7 +1,7 @@
 {
   "name": "TSUMS 山上優雅",
   "short_name": "山上優雅",
-  "description": "TSUMS 4.0V 山上優雅 v0.6.4.4｜台灣繁中介面｜單人獨攀｜選擇性影像證據附註",
+  "description": "TSUMS 4.0V 山上優雅 v0.6.4.5｜官方查核矩陣｜封閉狀態核驗｜Blocker State Integrity",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

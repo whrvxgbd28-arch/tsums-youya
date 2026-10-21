@@ -1,11 +1,10 @@
 {
   "name": "TSUMS 山上優雅",
   "short_name": "山上優雅",
-  "description": "TSUMS 4.0V 山上優雅 v0.6.4.5｜官方查核矩陣｜封閉狀態核驗｜Blocker State Integrity",
   "start_url": "./",
-  "scope": "./",
   "display": "standalone",
   "background_color": "#050505",
   "theme_color": "#050505",
-  "lang": "zh-Hant-TW"
+  "lang": "zh-Hant-TW",
+  "description": "TSUMS 4.0V 山域風險前移部署版 v0.6.4.6｜Taiwan Profile｜App-first / Web-compatible"
 }

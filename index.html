@@ -523,6 +523,102 @@ header .kicker{color:#f0c96d}
 }
 </style>
 
+
+<style>
+/* v0.6.4 | Canonical Visual Semantics + Governance State Integrity
+   Gold  = human-confirmed governance
+   Green = technically verified / device-verified state
+   Amber = attention / unresolved / stale confirmation
+   Red   = failure / blocked / explicit retreat
+   No color alone carries governance meaning. */
+
+.statePill.human{
+  border-color:var(--gold);
+  color:var(--gold2);
+  background:color-mix(in srgb,var(--gold) 11%,var(--panel2));
+}
+.statePill.tech{
+  border-color:var(--green);
+  color:#9bd8b0;
+  background:color-mix(in srgb,var(--green) 13%,var(--panel2));
+}
+.statePill.pending{
+  border-color:var(--amber);
+  color:#ffe0a0;
+  background:color-mix(in srgb,var(--amber) 13%,var(--panel2));
+}
+.statePill.error{
+  border-color:var(--red);
+  color:#ffb1a9;
+  background:color-mix(in srgb,var(--red) 14%,var(--panel2));
+}
+
+/* Governance completion is human-confirmed, not "technical safe". */
+.v0633StateLabel.complete{
+  color:var(--gold2)!important;
+  border-color:var(--gold)!important;
+  background:color-mix(in srgb,var(--gold) 10%,transparent);
+}
+.journeyStep[data-status="done"] .journeyStepState,
+.journeyStep[data-v0633-state="COMPLETE"] .journeyStepState{
+  border-color:var(--gold)!important;
+  color:var(--gold2)!important;
+  background:color-mix(in srgb,var(--gold) 18%,var(--panel))!important;
+}
+.stage.done{border-color:var(--gold)!important}
+
+/* Human actions / human confirmations remain Gold. */
+.goPick{
+  background:color-mix(in srgb,var(--gold) 36%,var(--panel))!important;
+  color:#fff4d7!important;
+  border-color:var(--gold)!important;
+}
+.fieldCheckinButton{
+  border-color:var(--gold)!important;
+  background:color-mix(in srgb,var(--gold) 24%,var(--panel))!important;
+  color:var(--text)!important;
+}
+.voiceState.ok{
+  border-color:var(--gold)!important;
+  color:var(--gold2)!important;
+}
+#supportContinuityStatus.green{
+  border-color:var(--gold)!important;
+}
+.transportConstraint.ok{
+  border-left-color:var(--gold)!important;
+}
+.voiceRiskBox:not(.risk){
+  border-color:var(--line)!important;
+  background:var(--panel2)!important;
+}
+
+/* Existing "green quick button" is a human observation, not a technical verification. */
+.quickBtn.green{
+  border-color:color-mix(in srgb,var(--gold) 75%,var(--line))!important;
+}
+body.field .quickBtn.green{
+  background:#fff4b8!important;
+}
+
+/* Checkboxes are human confirmation controls. */
+#opCheckRoles,#opCheckTransport,#opCheckSupport,#opCheckTechnical,
+[data-exposure-gate]{
+  accent-color:var(--gold)!important;
+}
+
+.v064GovernanceStateNote{
+  margin-top:8px;
+  padding:9px 10px;
+  border-left:3px solid var(--gold);
+  border-radius:9px;
+  background:var(--panel2);
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.5;
+}
+</style>
+
 </head>
 <body><div class="app">
 <header>
@@ -2470,12 +2566,13 @@ async function v06333SaveUnifiedOperational(){
  t.prestart.communication_check=comm;
  t.prestart.v0632_operational=domain;
  t.prestart.exposure_gate={source_profile_signature:profileSig,active_exposures:active,confirmed_exposures:confirmed,stop_loss_snapshot:profile.stop_loss||"",confirmed_at:at,confirmed_by:by,signoff_id};
+ t.prestart.v064_confirmation_signatures=await v064BuildConfirmationSignatures(t);
  await put(TRIPS,t);
  const commSig=await v062Signature(comm),domainSig=await v062Signature(domain);
  await appendEvent("PRE_START_COMMUNICATION_CHECK_LOCKED",{lifecycle_stage:2,module_refs:["C2","C3"],actor:by,observed_at:at,observed_fact:"通訊 Operational Check｜Single Sign-off",evidence_object_type:"COMMUNICATION_OPERATIONAL_CHECK",structured_payload:{...comm,signoff_id},duty_signal:Object.values(comm.channels||{}).some(v=>v==="NOT_TESTED")?"COMMUNICATION_TEST_REVIEW_REQUIRED":null,idempotency_key:`COMM_OP:${commSig}`});
  await appendEvent("V0632_OPERATIONAL_CHECK_LOCKED",{lifecycle_stage:2,module_refs:["C1","C2","C3","C4"],actor:by,observed_at:at,observed_fact:`Domain Operational Check｜Roles ${domain.roles}｜Transport ${domain.transport}｜Support ${domain.support}｜Technical ${domain.technical}`,structured_payload:{...domain,signoff_id},idempotency_key:`V0632_OP:${domainSig}`});
  if(active.length)await appendEvent("EXPOSURE_STOP_LOSS_GATE_CONFIRMED",{lifecycle_stage:2,module_refs:["C1","C3"],actor:by,observed_at:at,observed_fact:`Exposure Stop-Loss Gate｜${confirmed.map(k=>V06333_EXPOSURE_LABELS[k]||k).join("、")}`,structured_payload:{...t.prestart.exposure_gate},idempotency_key:`EXPOSURE_GATE:${profileSig}:${confirmed.sort().join(",")}`});
- await appendEvent("PRE_START_OPERATIONAL_CHECK_SIGNED",{lifecycle_stage:2,module_refs:["C1","C2","C3","C4"],actor:by,observed_at:at,observed_fact:"Pre-Start Operational Check｜Single Sign-off completed",structured_payload:{signoff_id,signed_at:at,signed_by:by,communication_event:"PRE_START_COMMUNICATION_CHECK_LOCKED",domain_event:"V0632_OPERATIONAL_CHECK_LOCKED",exposure_gate_event:active.length?"EXPOSURE_STOP_LOSS_GATE_CONFIRMED":null}});
+ await appendEvent("PRE_START_OPERATIONAL_CHECK_SIGNED",{lifecycle_stage:2,module_refs:["C1","C2","C3","C4"],actor:by,observed_at:at,observed_fact:"Pre-Start Operational Check｜Single Sign-off completed",structured_payload:{signoff_id,signed_at:at,signed_by:by,communication_event:"PRE_START_COMMUNICATION_CHECK_LOCKED",domain_event:"V0632_OPERATIONAL_CHECK_LOCKED",exposure_gate_event:active.length?"EXPOSURE_STOP_LOSS_GATE_CONFIRMED":null,confirmation_signatures:t.prestart.v064_confirmation_signatures}});
  await renderPrestart();await renderAll();alert("Pre-Start Operational Check 已完成單一簽署；底層 Evidence Event 仍分開保存")
 }
 
@@ -3017,6 +3114,188 @@ setTimeout(async()=>{
   await v064RenderReplayTrack()
  }catch(e){console.error("v0.6.4 hydrate",e)}
 },1800);
+</script>
+
+
+<script>
+/* v0.6.4 | Governance Visual State Source-of-Truth
+   Visual State must derive from Governance State, never from cosmetic state. */
+
+async function v064BuildConfirmationSignatures(t){
+ const rolesPayload={
+   roles:t.team?.operational_roles||[],
+   continuity:t.team?.command_continuity||{},
+   boundary:"DECLARED_ROLE_NOT_EQUAL_OBSERVED_ROLE;LEGAL_CLASSIFICATION_RESERVED;NO_AUTOMATIC_COMMAND_HANDOFF"
+ };
+ const communication=t.preparation?.communication||{};
+ const transport=t.preparation?.transport?.legs||[];
+ const support=t.preparation?.external_support||{};
+ const technical={
+   technical_required:!!t.route?.exposure_profile?.exposures?.technical,
+   gear:t.preparation?.technical_gear||[]
+ };
+ return{
+   roles:await v062Signature(rolesPayload),
+   communication:await v062Signature(communication),
+   transport:await v062Signature(transport),
+   support:await v062Signature(support),
+   technical:await v062Signature(technical)
+ }
+}
+
+async function v064ConfirmationState(t){
+ const current=await v064BuildConfirmationSignatures(t);
+ const signed=t.prestart?.v064_confirmation_signatures||{};
+ const op=t.prestart?.v0632_operational||{};
+ const comm=t.prestart?.communication_check||{};
+ const states={};
+
+ const evaluate=(key,declared)=>{
+   if(!declared)return{state:"PENDING",fresh:false,label:"待確認",icon:"!"};
+   if(!signed[key])return{state:"STALE",fresh:false,label:"需重新確認",icon:"!"};
+   if(signed[key]!==current[key])return{state:"STALE",fresh:false,label:"需重新確認",icon:"!"};
+   return{state:"HUMAN_CONFIRMED",fresh:true,label:"已確認",icon:"✓"}
+ };
+
+ states.roles=evaluate("roles",!!op.roles);
+ states.transport=evaluate("transport",!!op.transport);
+ states.support=evaluate("support",!!op.support);
+ states.technical=evaluate("technical",!!op.technical);
+
+ const commDeclared=!!comm.tested_by && !!comm.tested_at;
+ states.communication=evaluate("communication",commDeclared);
+ states.allFresh=["roles","transport","support","technical","communication"].every(k=>states[k].fresh);
+ states.current_signatures=current;
+ states.signed_signatures=signed;
+ return states
+}
+
+function v064GovernancePill(name,s){
+ const cls=s.state==="HUMAN_CONFIRMED"?"human":"pending";
+ return `<span class="statePill ${cls}" data-governance-domain="${esc(name)}">${s.icon} ${esc(name)}｜${esc(s.label)}</span>`
+}
+
+async function v064ApplyCanonicalVisualState(){
+ if(!db||!currentTripId)return;
+ const t=v0632EnsureSchema(v063EnsureGeoCommSchema(await currentTrip()));if(!t)return;
+ const s=await v064ConfirmationState(t);
+
+ // Bottom Operational Check badges: one source of truth, never checkbox cosmetics.
+ const strip=$("#v0632PrestartSummary");
+ if(strip){
+   strip.innerHTML=[
+     v064GovernancePill("Roles",s.roles),
+     v064GovernancePill("Transport",s.transport),
+     v064GovernancePill("Support",s.support),
+     v064GovernancePill("Technical",s.technical)
+   ].join("");
+   let note=strip.parentElement?.querySelector(".v064GovernanceStateNote");
+   if(!note){
+     note=document.createElement("div");
+     note.className="v064GovernanceStateNote";
+     note.textContent="Gold = 人工確認；Muted Green = 技術驗證；Amber = 待確認／資料變更後需重驗；Red = 失敗／阻擋／RETREAT。狀態同時以圖示與文字表示。";
+     strip.after(note)
+   }
+ }
+
+ // The checkboxes themselves are derived views. A stale source cannot remain visually checked.
+ const map=[
+   ["#opCheckRoles",s.roles],
+   ["#opCheckTransport",s.transport],
+   ["#opCheckSupport",s.support],
+   ["#opCheckTechnical",s.technical]
+ ];
+ for(const [sel,state] of map){
+   const el=$(sel);if(!el)continue;
+   el.checked=state.fresh;
+   el.dataset.governanceState=state.state;
+   const label=el.closest("label");
+   if(label){
+     label.dataset.governanceState=state.state;
+     label.title=state.fresh?"Human-confirmed governance state":"資料未確認或來源資料已變更，需重新確認"
+   }
+ }
+
+ // Summary must use exactly the same state result.
+ const tested=Object.values(t.prestart?.communication_check?.channels||{}).filter(v=>v&&v!=="NOT_TESTED").length;
+ const hub=$("#preStartOperationalHub")?.querySelector("[data-v0633-summary]");
+ if(hub){
+   hub.textContent=`通訊已測 ${tested} 類｜Roles ${s.roles.fresh?"✓":"!"}｜Transport ${s.transport.fresh?"✓":"!"}｜Support ${s.support.fresh?"✓":"!"}｜Technical ${s.technical.fresh?"✓":"!"}`;
+ }
+
+ // If any source changed after sign-off, clearly expose stale state.
+ const unified=$("#unifiedOperationalSignoff");
+ if(unified){
+   unified.classList.toggle("v0633NeedsAttention",!s.allFresh);
+ }
+
+ window.TSUMS_V064_GOVERNANCE_VISUAL_STATE=s;
+ return s
+}
+
+/* Step 5 completion and Field activation must reject stale confirmations. */
+const v064VisualPrevStepModel=v0633StepModel;
+v0633StepModel=async function(t,es){
+ const steps=await v064VisualPrevStepModel(t,es);
+ const x=v0632EnsureSchema(v063EnsureGeoCommSchema(t));
+ const gs=await v064ConfirmationState(x);
+ const stale=["roles","transport","support","technical","communication"].filter(k=>!gs[k].fresh);
+ if(stale.length){
+   const decision=steps[4]?.decision||x.prestart?.decision||null;
+   steps[4]=v0633Merge(
+     v0633Status(V0633_STATE.PENDING_CONFIRMATION),
+     {decision,summary:`待重新確認：${stale.map(k=>({roles:"Roles",transport:"Transport",support:"Support",technical:"Technical",communication:"Communication"}[k])).join("、")}`}
+   )
+ }
+ return steps
+};
+
+/* Current stored booleans are not authoritative visual truth. */
+v0632RenderOpSummary=function(){ /* rendered by v064ApplyCanonicalVisualState */ };
+
+/* Repaint visual state after every canonical render. */
+const v064VisualPrevRenderAll=renderAll;
+renderAll=async function(){
+ await v064VisualPrevRenderAll();
+ await v064ApplyCanonicalVisualState()
+};
+
+const v064VisualPrevGo=go;
+go=async function(id){
+ await v064VisualPrevGo(id);
+ if(["p0","p2","p4","p5","p6","p8"].includes(id))await v064ApplyCanonicalVisualState()
+};
+
+/* In-browser regression checks for the visual contract. */
+async function v064VisualStateRegression(){
+ const t=v0632EnsureSchema(v063EnsureGeoCommSchema({
+   team:{operational_roles:[{role_id:"r1",name:"A",declared_role:"LEADER"}],command_continuity:{primary_decision_authority:"A"}},
+   route:{days:[],exposure_profile:{exposures:{technical:false}}},
+   preparation:{communication:{devices:{},plan:{}},transport:{legs:[]},technical_gear:[],external_support:{}},
+   prestart:{v0632_operational:{roles:true,transport:true,support:true,technical:true},communication_check:{tested_at:isoNow(),tested_by:"A",channels:{}}}
+ }));
+ const sig=await v064BuildConfirmationSignatures(t);
+ t.prestart.v064_confirmation_signatures={...sig};
+ const fresh=await v064ConfirmationState(t);
+ t.team.command_continuity.primary_decision_authority="B";
+ const stale=await v064ConfirmationState(t);
+ const tests=[
+   ["fresh_roles_is_human_confirmed",fresh.roles.state==="HUMAN_CONFIRMED"],
+   ["roles_source_change_invalidates_confirmation",stale.roles.state==="STALE"],
+   ["technical_green_is_not_used_for_human_confirmation",document.querySelector(".statePill.human")!==undefined],
+   ["go_button_is_not_green",getComputedStyle(document.documentElement).getPropertyValue("--gold").trim().length>0]
+ ];
+ const pass=tests.every(x=>x[1]);
+ window.TSUMS_V064_VISUAL_REGRESSION={pass,tests,ran_at:isoNow()};
+ return window.TSUMS_V064_VISUAL_REGRESSION
+}
+
+setTimeout(async()=>{
+ try{
+   await v064ApplyCanonicalVisualState();
+   await v064VisualStateRegression()
+ }catch(e){console.error("v0.6.4 visual state integrity",e)}
+},2200);
 </script>
 
 </body></html>

@@ -1,4 +1,4 @@
-const CACHE='tsums-youya-v0641-control-layer-hardening';
+const CACHE='tsums-youya-v0644-tw-ui-optional-evidence';
 const SHELL=['./','./index.html','./manifest.webmanifest'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)));self.skipWaiting();});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim();});

@@ -1,11 +1,10 @@
 {
   "name": "TSUMS 山上優雅",
   "short_name": "山上優雅",
-  "description": "TSUMS 4.0V App-first Field Runtime v0.6.3.1 · Cache Hardened",
+  "description": "TSUMS 4.0V Mountain Universal Governance Runtime v0.6.3.2",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#050505",
-  "theme_color": "#050505",
-  "lang": "zh-Hant"
+  "theme_color": "#050505"
 }

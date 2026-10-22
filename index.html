@@ -925,6 +925,92 @@ body.field #p5 #officialVerificationPortalCard .tsumsPortalEntry > a.tsumsPortal
 body.field #p5 #officialVerificationPortalCard > .officialPortalIntro {color:#222!important}
 body.field #p5 #officialVerificationPortalCard > summary {color:#6d4700!important}
 </style>
+
+<style id="tsums-p5-official-source-checks-v6">
+/* S5 official-source checklist | mobile/high-glare legibility hotfix.
+   Presentation only: source ids, evidence capture and decision gates remain untouched. */
+#p5 #officialVerificationCard .officialSourceChecks {
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:14px!important;
+  margin:18px 0 22px!important;
+}
+#p5 #officialVerificationCard .officialSourceChecks > label {
+  display:grid!important;
+  grid-template-columns:44px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:18px!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:96px!important;
+  margin:0!important;
+  padding:18px 20px!important;
+  border:2px solid #87693d!important;
+  border-radius:16px!important;
+  background:#17130e!important;
+  color:#fff1d8!important;
+  font-size:24px!important;
+  line-height:1.42!important;
+  font-weight:850!important;
+  text-align:left!important;
+  letter-spacing:0!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+  cursor:pointer!important;
+}
+#p5 #officialVerificationCard .officialSourceChecks > label > input[type="checkbox"] {
+  box-sizing:border-box!important;
+  display:block!important;
+  position:static!important;
+  width:36px!important;
+  height:36px!important;
+  min-width:36px!important;
+  min-height:36px!important;
+  max-width:36px!important;
+  max-height:36px!important;
+  margin:0!important;
+  padding:0!important;
+  border:2px solid #f1c874!important;
+  border-radius:7px!important;
+  background:#21180e!important;
+  box-shadow:none!important;
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  place-items:center!important;
+  accent-color:#f1c874!important;
+  align-self:center!important;
+  justify-self:center!important;
+  flex:0 0 36px!important;
+}
+#p5 #officialVerificationCard .officialSourceChecks > label > input[type="checkbox"]:checked {
+  background:#f1c874!important;
+  border-color:#f1c874!important;
+}
+#p5 #officialVerificationCard .officialSourceChecks > label > input[type="checkbox"]:checked::after {
+  content:"✓"!important;
+  color:#16120b!important;
+  font-size:27px!important;
+  font-weight:900!important;
+  line-height:1!important;
+}
+#p5 #officialVerificationCard .officialSourceChecks > label:focus-within {
+  outline:3px solid #ffffff!important;
+  outline-offset:3px!important;
+}
+body.field #p5 #officialVerificationCard .officialSourceChecks > label {
+  background:#fff9e8!important;
+  color:#191919!important;
+  border-color:#765624!important;
+}
+body.field #p5 #officialVerificationCard .officialSourceChecks > label > input[type="checkbox"] {
+  accent-color:#805500!important;
+  border-color:#805500!important;
+}
+body.field #p5 #officialVerificationCard .officialSourceChecks > label > input[type="checkbox"]:checked {
+  background:#d7a73a!important;
+}
+</style>
 </head>
 <body>
 <div id="tsums-review-banner" role="status" style="position:relative;z-index:99;background:#33220c;color:#ffdf98;border:3px solid #e8b553;text-align:center;padding:15px 12px;font-size:18px;line-height:1.5;font-weight:800">TSUMS R2 · V5 × S5-05｜空行程初始化修正版（QA）<br><span style="font-size:15px;font-weight:600">僅使用合成資料｜獨立測試資料庫｜不讀取原有行程｜S5-05 真實瀏覽器驗收尚未完成</span></div>

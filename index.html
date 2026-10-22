@@ -927,7 +927,7 @@ body.field #p5 #officialVerificationPortalCard > summary {color:#6d4700!importan
 </style>
 </head>
 <body>
-<div id="tsums-review-banner" role="status" style="position:relative;z-index:99;background:#33220c;color:#ffdf98;border:3px solid #e8b553;text-align:center;padding:15px 12px;font-size:18px;line-height:1.5;font-weight:800">TSUMS R2 · V5 視覺 × S5-05 隔離驗收候選<br><span style="font-size:15px;font-weight:600">僅使用合成資料｜獨立測試資料庫｜不讀取原有行程｜S5-05 真實瀏覽器驗收尚未完成</span></div>
+<div id="tsums-review-banner" role="status" style="position:relative;z-index:99;background:#33220c;color:#ffdf98;border:3px solid #e8b553;text-align:center;padding:15px 12px;font-size:18px;line-height:1.5;font-weight:800">TSUMS R2 · V5 × S5-05｜空行程初始化修正版（QA）<br><span style="font-size:15px;font-weight:600">僅使用合成資料｜獨立測試資料庫｜不讀取原有行程｜S5-05 真實瀏覽器驗收尚未完成</span></div>
 
 <div role="status" style="position:sticky;top:0;z-index:99999;background:#592500;color:#fff7e8;padding:12px 16px;font-size:18px;line-height:1.4;text-align:center;border-bottom:3px solid #ffdf96">TSUMS 隔離驗收預覽｜Synthetic QA only｜非正式部署｜不得輸入真實行程</div><div class="app">
 <header>
@@ -2749,6 +2749,12 @@ function v0633Status(state){return {state,done:state===V0633_STATE.COMPLETE,stat
 function v0633Merge(base,extra){return Object.assign(base,extra)}
 
 async function v0633StepModel(raw,es){
+ /* R2 QA empty-state: no trip is an expected state, not an IndexedDB failure.
+    Fail closed: all five steps remain NOT_STARTED; no synthetic GO is created. */
+ if(!raw){
+  const summaries=["尚未建立招募來源","尚未建立隊伍資料","尚未建立路線風險","尚未建立行前準備","尚未開始最終確認"];
+  return summaries.map(summary=>v0633Merge(v0633Status(V0633_STATE.NOT_STARTED),{summary}));
+ }
  const t=v0632EnsureSchema(v063EnsureGeoCommSchema(raw));
  const recruitment=t?.recruitment||null,flags=recruitment?.flags||{},rMissing=[];
  if(recruitment){if(!flags.insDone)rMissing.push("保險完成狀態未確認");if(!flags.leave)rMissing.push("留守未見");if(!flags.lost)rMissing.push("失聯升級未見")}
@@ -3163,7 +3169,9 @@ computePrestartIssues=async function(){
 
 const v06333OldStepModel=v0633StepModel;
 v0633StepModel=async function(t,es){
- const s=await v06333OldStepModel(t,es),x=v0632EnsureSchema(v063EnsureGeoCommSchema(t)),p=x.route?.exposure_profile||{},active=Object.entries(p.exposures||{}).filter(([,v])=>v).map(([k])=>k);
+ const s=await v06333OldStepModel(t,es);
+ if(!t)return s; /* R2 QA: no-trip path must not dereference route. */
+ const x=v0632EnsureSchema(v063EnsureGeoCommSchema(t)),p=x.route?.exposure_profile||{},active=Object.entries(p.exposures||{}).filter(([,v])=>v).map(([k])=>k);
  if(active.length){
   const sig=await v062Signature(p),g=x.prestart?.exposure_gate||{},fresh=g.source_profile_signature===sig,all=!!p.stop_loss?.trim()&&fresh&&active.every(k=>g.confirmed_exposures?.includes(k));
   if(!all){
@@ -3789,6 +3797,7 @@ async function v064ApplyCanonicalVisualState(){
 const v064VisualPrevStepModel=v0633StepModel;
 v0633StepModel=async function(t,es){
  const steps=await v064VisualPrevStepModel(t,es);
+ if(!t)return steps; /* R2 QA: all governance confirmations remain unavailable. */
  const x=v0632EnsureSchema(v063EnsureGeoCommSchema(t));
  const gs=await v064ConfirmationState(x);
  const stale=["roles","transport","support","technical","communication"].filter(k=>!gs[k].fresh);
@@ -5229,7 +5238,7 @@ function v0646SetupStaticUI(){
  const motto=document.querySelector('.motto span');if(motto)motto.textContent='從行前至賦歸；系統不替人作最終 GO / WAIT / RETREAT 決定。';
  if($('#journeyHomeBtn'))$('#journeyHomeBtn').textContent='行動總覽';if($('#journeyPhaseBadge'))$('#journeyPhaseBadge').textContent='風險前移';
  const footer=document.querySelector('footer');if(footer)footer.textContent='TSUMS Bunun Governance Technologies Co., Ltd. · TSUMS 4.0V 山域風險前移部署版 · 公共層｜受保護核心未載入';
- if($('#dbText')&&/IndexedDB|資料庫|初始化/.test($('#dbText').textContent))$('#dbText').textContent='本機存檔初始化';
+ if($('#dbText')&&$('#dbText').textContent.trim()==='本機資料庫初始化')$('#dbText').textContent='本機存檔初始化';
 
  // Recruitment disclosure matrix + questions.
  if($('#recruitFlags')&&!$('#v0646RecruitIntro')){
@@ -5455,8 +5464,8 @@ $('#lockPreparation').onclick=async function(){const t=await currentTrip();if(!t
 $('#v0646SaveWeather')?.addEventListener('click',async()=>{const t=await currentTrip();if(!t)return alert('請先建立行程');const p=v0646CollectWeatherProfile();t.prestart=t.prestart||{};t.prestart.weather_profile=p;delete t.prestart.weatherAt;delete t.prestart.rain;delete t.prestart.wind;delete t.prestart.officialAlert;delete t.prestart.weatherNote;delete t.prestart.officialAlertStructured;await put(TRIPS,t);const sig=await v062Signature(p);await appendEvent('PRESTART_WEATHER_PROFILE_LOCKED',{lifecycle_stage:2,module_refs:['C1','C3'],actor:t.leader||'未具名',observed_at:p.checked_at?new Date(p.checked_at).toISOString():isoNow(),observed_fact:'天候、官方雨量警特報、颱風與前期降雨狀態已保存於行前風險存檔',duty_signal:(!['NOT_CHECKED','NONE_SEEN'].includes(p.official_rain_alert)||!['NOT_CHECKED','NONE'].includes(p.typhoon_info)||['PRIOR_HEAVY_OR_TORRENTIAL','MULTIDAY_RAIN'].includes(p.prior_rain))?'WEATHER_REASSESSMENT_REQUIRED':null,decision_required:(!['NOT_CHECKED','NONE_SEEN'].includes(p.official_rain_alert)||!['NOT_CHECKED','NONE'].includes(p.typhoon_info)),structured_payload:p,idempotency_key:`WEATHER:${sig}`});await renderAll();alert('天候查核已保存；重大天候訊號只觸發重新評估，不替您作最終決策。')});
 
 // Compact time dialog bindings.
-$('#v0646TimeCancel').onclick=()=>{$('#v0646TimeDialog').close();V0646_TIME_TARGET=null};
-$('#v0646TimeSave').onclick=()=>{if(!V0646_TIME_TARGET)return;const d=$('#v0646TimeDate').value,t=$('#v0646TimeClock').value;if(!d||!t)return alert('請選擇日期與時間');const input=$('#'+V0646_TIME_TARGET);input.value=`${d}T${t}`;input.dispatchEvent(new Event('change',{bubbles:true}));v0646RefreshTime(V0646_TIME_TARGET);$('#v0646TimeDialog').close();V0646_TIME_TARGET=null};
+if($('#v0646TimeCancel'))$('#v0646TimeCancel').onclick=()=>{$('#v0646TimeDialog')?.close();V0646_TIME_TARGET=null};
+if($('#v0646TimeSave'))$('#v0646TimeSave').onclick=()=>{if(!V0646_TIME_TARGET)return;const d=$('#v0646TimeDate').value,t=$('#v0646TimeClock').value;if(!d||!t)return alert('請選擇日期與時間');const input=$('#'+V0646_TIME_TARGET);input.value=`${d}T${t}`;input.dispatchEvent(new Event('change',{bubbles:true}));v0646RefreshTime(V0646_TIME_TARGET);$('#v0646TimeDialog').close();V0646_TIME_TARGET=null};
 
 // Team governance save with split semantics and provenance confirmation.
 $('#lockTeamGovernance').onclick=async function(){const btn=this;await v062Run('team-lock-v0646',btn,async()=>{const t=await v0641MigrateControlSchema(await currentTrip());if(!t)return alert('請先建立行程');const recruitType=$('#recruitType').value,identity=v0646CollectRecruitIdentity();if(['SOCIAL_PUBLIC','CLUB','PAID_SUPPORT','COMMERCIAL_PROVIDER'].includes(recruitType)&&!identity.entity_name)return alert('此活動／招募型態需要填寫實際社群、社團、服務團隊或商業服務提供者名稱。');t.leader=$('#leader').value.trim();t.team.governance={...(t.team.governance||{}),leaderContact:$('#leaderContact').value,leaderCredential:$('#leaderCredential').value,leaderRole:$('#leaderRole').value,leaderRoleNote:$('#leaderRoleNote')?.value||'',recruitType,recruit_identity:identity,insuranceMode:$('#insuranceMode').value,insuranceCoverageDetail:$('#insuranceCoverageDetail')?.value||'',parkPermitMode:$('#parkPermitMode').value,mountainPermitMode:$('#mountainPermitMode').value,costStructure:$('#costStructure').value};const leaderSig=await v0641LeaderSignature(t);t.source_provenance.leader={value:t.leader,state:'HUMAN_CONFIRMED',source:t.recruitment?.extracted?.團長===t.leader?'RECRUITMENT_TEXT + HUMAN_CONFIRMATION':'HUMAN_ENTRY',confirmed_at:isoNow(),confirmed_by:t.leader||'UNNAMED',confirmation_signature:leaderSig};if(t.team.members?.[0]&&t.leader){t.team.members[0].name=t.leader;t.team.members[0].role=$('#leaderRole').value}await put(TRIPS,t);const payload={leader:t.leader,governance:t.team.governance,members:t.team.members,source_provenance:t.source_provenance.leader},sig=await v062Signature(payload);await appendEvent('PRE_EVENT_TEAM_GOVERNANCE_LOCKED',{lifecycle_stage:2,module_refs:['C1','C3','C4'],actor:t.leader||'未具名',observed_fact:'活動形成、主要角色、保險、入山／入園申請關係、費用與名冊已保存於行前風險存檔',structured_payload:payload,idempotency_key:`TEAM_LOCK:${sig}`});await renderAll();alert('團隊風險前移存檔已保存')})};
@@ -5584,6 +5593,32 @@ setTimeout(async()=>{try{v0646SetupStaticUI();v0646BindCompactTime('weatherAt','
 
 <script id="v0646-p2-bootstrap">
 /* v0.6.4.6-P2 | Legacy UI Removal & State Consolidation bootstrap */
-init().catch(e=>{$("#dbText").textContent="IndexedDB 啟動失敗";console.error(e)});
+/* R2 QA bootstrap: separate database failure from empty-trip/render failure.
+   This is a diagnostic QA page; no automatic retry, deletion or mutation. */
+async function vR2SafeInit(){
+ const label=$("#dbText");
+ try{db=await openDB()}catch(e){
+  label.textContent="資料庫開啟失敗："+String(e?.name||"UNKNOWN");
+  console.error("R2_QA_DB_OPEN",e);return;
+ }
+ label.textContent="IndexedDB 已開啟（QA）";
+ let trips;
+ try{trips=await getAll(TRIPS)}catch(e){
+  label.textContent="資料庫讀取失敗："+String(e?.name||"UNKNOWN");
+  console.error("R2_QA_DB_READ",e);return;
+ }
+ try{
+  if(trips.length){
+   currentTripId=trips.sort((a,b)=>String(b.updated_at||"").localeCompare(String(a.updated_at||"")))[0].id;
+   await hydrate();
+  }else{currentTripId=null;renderPreparation({preparation:{gear:{}}})}
+  await renderAll();
+  label.textContent=trips.length?"IndexedDB QA 已就緒":"IndexedDB QA 已就緒｜目前無行程";
+ }catch(e){
+  label.textContent="畫面初始化失敗："+String(e?.name||"UNKNOWN");
+  console.error("R2_QA_RENDER",e);
+ }
+}
+vR2SafeInit();
 </script>
 </body></html>

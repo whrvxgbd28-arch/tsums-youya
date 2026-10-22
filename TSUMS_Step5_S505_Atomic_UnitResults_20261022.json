@@ -1,0 +1,25 @@
+{
+  "scope": "In-memory IndexedDB transaction simulation (not real IndexedDB)",
+  "candidate": "/mnt/data/tsums_step5_review/index.field-runtime-p0-v5-s505-review.html",
+  "sha256": "ba13f9960c01478c6fad27384b415cbe4aee34e140be5d470469a9468825161d",
+  "results": [
+    {
+      "id": "S5_ATOMIC_BOTH_COMMIT",
+      "status": "PASS",
+      "detail": "Both stores committed in a single simulated transaction"
+    },
+    {
+      "id": "S5_ATOMIC_ROLLBACK_IF_EVENT_FAILS",
+      "status": "PASS",
+      "detail": "Injected event-store failure leaves prior WAIT unchanged, no unpaired GO"
+    },
+    {
+      "id": "S5_ATOMIC_STALE_WRITE_REJECTED",
+      "status": "PASS",
+      "detail": "Stale trip rejected without modifying decision or event chain"
+    }
+  ],
+  "all_pass": true,
+  "real_browser_qa": "BLOCKED_BY_CONTAINER_BROWSER_NAVIGATION_POLICY",
+  "codespaces_qa": "PENDING"
+}

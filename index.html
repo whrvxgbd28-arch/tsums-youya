@@ -1020,9 +1020,20 @@ body.field #p5 #officialVerificationCard .officialSourceChecks > label > input[t
 body.field #prestartGateCard .v8PrestartMeaning{background:#fff4d8!important;color:#141414!important}
 body.field #prestartGateCard .v8PrestartMeaning strong{color:#614000!important}
 </style>
+
+<style id="tsums-s5-wait-checkpoint-p9">
+#p5 .s5WaitCheckpoint{margin:18px 0;padding:19px;border:2px solid #a68247;border-radius:17px;background:#20190f}
+#p5 .s5WaitCheckpoint h3{color:#ffda91;font-size:24px!important;line-height:1.4!important}
+#p5 .s5WaitCheckpoint p{color:#f2d8a6;font-size:18px!important;line-height:1.6!important}
+#p5 .s5WaitCheckpoint label{display:block;font-size:22px!important;font-weight:850!important;color:#ffe5b0!important;margin:15px 0 7px!important}
+#p5 .s5WaitCheckpoint input,#p5 .s5WaitCheckpoint textarea{font-size:21px!important;min-height:64px!important;width:100%;margin-bottom:8px}
+#p5 .s5WaitCheckpoint textarea{min-height:108px!important}
+body.field #p5 .s5WaitCheckpoint{background:#fff4d6!important;color:#111!important}
+body.field #p5 .s5WaitCheckpoint label,body.field #p5 .s5WaitCheckpoint h3{color:#6b4800!important}
+</style>
 </head>
 <body>
-<div id="tsums-review-banner" role="status" style="position:relative;z-index:99;background:#33220c;color:#ffdf98;border:3px solid #e8b553;text-align:center;padding:15px 12px;font-size:18px;line-height:1.5;font-weight:800">TSUMS R2 · V5 × S5-05｜空行程初始化修正版（QA）<br><span style="font-size:15px;font-weight:600">僅使用合成資料｜獨立測試資料庫｜不讀取原有行程｜S5-05 真實瀏覽器驗收尚未完成</span></div>
+<div id="tsums-review-banner" role="status" style="position:relative;z-index:99;background:#33220c;color:#ffdf98;border:3px solid #e8b553;text-align:center;padding:15px 12px;font-size:18px;line-height:1.5;font-weight:800">TSUMS R2 · V5 × S5-05｜P9 WAIT／RETREAT 閘門測試版（QA）<br><span style="font-size:15px;font-weight:600">僅使用合成資料｜獨立測試資料庫｜不讀取原有行程｜S5-05 真實瀏覽器驗收尚未完成</span></div>
 
 <div role="status" style="position:sticky;top:0;z-index:99999;background:#592500;color:#fff7e8;padding:12px 16px;font-size:18px;line-height:1.4;text-align:center;border-bottom:3px solid #ffdf96">TSUMS 隔離驗收預覽｜Synthetic QA only｜非正式部署｜不得輸入真實行程</div><div class="app">
 <header>
@@ -1411,6 +1422,14 @@ body.field #prestartGateCard .v8PrestartMeaning strong{color:#614000!important}
   </div>
 </details>
 <label>決策理由</label><textarea id="preReason" placeholder="GO / WAIT / RETREAT 均須留下當時理由。"></textarea>
+<div class="s5WaitCheckpoint" role="group" aria-label="WAIT 複核計畫">
+ <h3>WAIT 複核計畫｜暫緩待複核時必填</h3>
+ <p>WAIT 不准予出發。請先具名指定複核者、複核時間、待確認條件及停損點；超過期限不得沿用舊授權。</p>
+ <label for="preWaitReviewBy">具名複核責任人</label><input id="preWaitReviewBy" autocomplete="off" placeholder="合成測試責任人">
+ <label for="preWaitReviewAt">下次複核期限</label><input id="preWaitReviewAt" type="datetime-local">
+ <label for="preWaitReviewConditions">待確認條件</label><textarea id="preWaitReviewConditions" placeholder="例：取得最新氣象公告；核對隊伍狀況（僅合成資料）"></textarea>
+ <label for="preWaitStopLoss">停損條件</label><textarea id="preWaitStopLoss" placeholder="例：期限內無法完成補正，終止本次行程（僅合成資料）"></textarea>
+</div>
 
 <div id="v0641OverridePanel" class="v0641OverridePanel" hidden>
   <div class="sectionEyebrow">需覆決</div>
@@ -3423,6 +3442,19 @@ function v064PrestartSnapshot(t,es){
 async function v064ActivationCheck(t,es){
  if(!t)return{ok:false,message:"請先建立行程"};
  if(t.prestart?.decision!=="GO")return{ok:false,message:"開始行程前必須由人作成 GO。"};
+ const rec=t.prestart?.decision_record;
+ if(!rec||rec.decision_state!=='GO'||rec.authority_state!=='HUMAN_CONFIRMED'||!rec.decision_record_id||!rec.snapshot_hash)return{ok:false,message:'S5_ACTIVATION_UNPAIRED_GO_REJECTED：缺少有效具名行前 Decision Record'};
+ const auth=await v0641AuthorityState(t);
+ if(!auth.fresh||!auth.candidates.includes(rec.decision_maker))return{ok:false,message:'S5_ACTIVATION_AUTHORITY_STALE：決策權已變更'};
+ if(rec.valid_until&&(!Number.isFinite(Date.parse(rec.valid_until))||Date.parse(rec.valid_until)<=Date.now()))return{ok:false,message:'S5_ACTIVATION_GO_EXPIRED：行前 GO 已逾有效期限'};
+ const matching=(es||[]).filter(e=>e.chain_scope==='PRETRIP_ARCHIVE'&&e.structured_payload?.decision_record_id===rec.decision_record_id&&e.event_type==='GO'&&e.human_decision==='GO');
+ if(matching.length!==1)return{ok:false,message:'S5_ACTIVATION_UNPAIRED_GO_REJECTED：GO 無唯一對應證據事件'};
+ const ev=matching[0],latest=(es||[]).filter(e=>e.chain_scope==='PRETRIP_ARCHIVE'&&['GO','WAIT','RETREAT'].includes(e.event_type)).at(-1);
+ if(latest?.event_id!==ev.event_id||stable(ev.structured_payload)!==stable(rec))return{ok:false,message:'S5_ACTIVATION_DECISION_MISMATCH：非最新決策或紀錄不一致'};
+ const {event_hash,...evBase}=ev;
+ if(await sha256(stable(evBase))!==event_hash)return{ok:false,message:'S5_ACTIVATION_EVIDENCE_HASH_FAIL：GO 證據雜湊驗證失敗'};
+ const currentFp=await v0641ReviewFingerprint(t);
+ if(stable(currentFp)!==stable(rec.review_fingerprint))return{ok:false,message:'S5_ACTIVATION_REVIEW_STALE：行前資料變更，請重新確認'};
  if(typeof v0633StepModel==="function"){
   const steps=await v0633StepModel(t,es),bad=steps.map((s,i)=>({i:i+1,s})).filter(x=>x.s.state!==V0633_STATE.COMPLETE);
   if(bad.length)return{ok:false,message:`行前治理尚未完成：Step ${bad.map(x=>x.i).join(", ")} 尚非 COMPLETE。`};
@@ -4180,6 +4212,7 @@ renderPrestart=async function(){await v0641RenderPrestartGate()};
 let V0641_PENDING_PRE_DECISION=null,V0641_HOLD_TIMER=null,V0641_HOLD_DONE=false;
 async function v0641PreparePreDecision(choice){
  const t=await currentTrip();if(!t)return alert("請先建立行程");
+ if(t.prestart?.decision==='RETREAT')return alert('本次行程已終止（RETREAT）。不得在原案號重新 GO／WAIT；改期請另建新行程。');
  const gate=await v0641RenderPrestartGate(),actor=$("#preActor").value,reason=$("#preReason").value.trim(),reasonCode=$("#preReasonCode").value;
  if(!actor)return alert("決策人必須來自 Human Confirmed 決策權綁定。");
  if(!reasonCode)return alert("請選擇 決策理由類型。");
@@ -4192,8 +4225,16 @@ async function v0641PreparePreDecision(choice){
    if(!measures||!valid||!evidence.length)return alert("GO 存在 需覆決：必須具名留下補償措施、有效期限與 證據參照。");
    overrideRecord={issues:gate.override.map(x=>({code:x.code,message:x.message})),compensating_measures:measures,valid_until:new Date(valid).toISOString(),evidence_refs:evidence}
  }
- const fp=await v0641ReviewFingerprint(t),snapshotHash=await v062Signature({trip_id:t.id,choice,actor,reasonCode,reason,gate:{hard:gate.hard,override:gate.override,warning:gate.warning,unknown:gate.unknown},review_fingerprint:fp,override:overrideRecord}),snapshotId=`PS-${snapshotHash.slice(0,12)}`;
- V0641_PENDING_PRE_DECISION={trip_id:t.id,prepared_at:isoNow(),choice,actor,reasonCode,reason,gate,overrideRecord,review_fingerprint:fp,snapshot_id:snapshotId,snapshot_hash:snapshotHash,valid_until:$("#preDecisionValidUntil").value?new Date($("#preDecisionValidUntil").value).toISOString():null,evidence_refs:v0641CSV($("#preEvidenceRefs").value),scope:$("#preDecisionScope").value};
+ let waitCheckpoint=null;
+ if(choice==='WAIT'){
+  const reviewer=$('#preWaitReviewBy').value.trim(),rawAt=$('#preWaitReviewAt').value;
+  const conditions=$('#preWaitReviewConditions').value.trim(),stopLoss=$('#preWaitStopLoss').value.trim();
+  const time=Date.parse(rawAt);
+  if(!reviewer||!conditions||!stopLoss||!rawAt||!Number.isFinite(time)||time<=Date.now())return alert('WAIT 不可沒有具名複核人、未來複核期限、待確認條件與停損點。');
+  waitCheckpoint={reviewer,check_at:new Date(time).toISOString(),conditions,stop_loss:stopLoss};
+ }
+ const fp=await v0641ReviewFingerprint(t),snapshotHash=await v062Signature({trip_id:t.id,choice,actor,reasonCode,reason,gate:{hard:gate.hard,override:gate.override,warning:gate.warning,unknown:gate.unknown},review_fingerprint:fp,override:overrideRecord,wait_checkpoint:waitCheckpoint}),snapshotId=`PS-${snapshotHash.slice(0,12)}`;
+ V0641_PENDING_PRE_DECISION={trip_id:t.id,prepared_at:isoNow(),choice,actor,reasonCode,reason,gate,overrideRecord,review_fingerprint:fp,snapshot_id:snapshotId,snapshot_hash:snapshotHash,wait_checkpoint:waitCheckpoint,valid_until:choice==='WAIT'?waitCheckpoint.check_at:($('#preDecisionValidUntil').value?new Date($('#preDecisionValidUntil').value).toISOString():null),evidence_refs:v0641CSV($("#preEvidenceRefs").value),scope:$("#preDecisionScope").value};
  $("#v0641ConfirmDecisionTitle").textContent=choice==="RETREAT"?"RETREAT｜終止本次行程":choice==="WAIT"?"WAIT｜暫緩待複核":"GO｜按計畫出發";
  $("#v0641ConfirmActor").textContent=actor;$("#v0641ConfirmHard").textContent=gate.hard.length;$("#v0641ConfirmWarning").textContent=gate.warning.length+gate.override.length;$("#v0641ConfirmUnknown").textContent=gate.unknown.length;$("#v0641ConfirmSnapshot").textContent=snapshotId;
  $("#prestartDecisionConfirmDialog").showModal()
@@ -4240,6 +4281,7 @@ async function v0641CommitPreDecision(){
  try{
   const tRaw=await currentTrip();
   if(!tRaw||!currentTripId||p.trip_id!==currentTripId||p.trip_id!==tRaw.id)throw Error('S5_TRIP_SWITCHED_RECONFIRM_REQUIRED');
+  if(tRaw.prestart?.decision==='RETREAT')throw Error('S5_RETREAT_TERMINAL_NEW_TRIP_REQUIRED');
   if(await v0646HasFieldStarted())throw Error('S5_FIELD_ALREADY_STARTED_PREDECISION_NOT_ALLOWED');
   const expectedTrip=stable(tRaw),t=await v0641MigrateControlSchema(tRaw);
   const authority=await v0641AuthorityState(t);
@@ -4250,13 +4292,17 @@ async function v0641CommitPreDecision(){
   if(p.choice==='GO'&&gate.hard.length)throw Error('S5_GO_HARD_BLOCKED');
   if(p.choice==='GO'&&gate.override.length&&!p.overrideRecord)throw Error('S5_GO_OVERRIDE_RECORD_REQUIRED');
   if(!['GO','WAIT','RETREAT'].includes(p.choice)||!p.actor||!p.reason||!p.reasonCode)throw Error('S5_DECISION_INCOMPLETE');
+  if(p.choice==='WAIT'){
+   const w=p.wait_checkpoint;
+   if(!w?.reviewer||!w.conditions||!w.stop_loss||!w.check_at||!Number.isFinite(Date.parse(w.check_at))||Date.parse(w.check_at)<=Date.now()||p.valid_until!==w.check_at)throw Error('S5_WAIT_CHECKPOINT_REQUIRED');
+  }
   const freshSnapshot=await v062Signature({trip_id:t.id,choice:p.choice,actor:p.actor,reasonCode:p.reasonCode,reason:p.reason,gate:actualGate,review_fingerprint:fp,override:p.overrideRecord});
   // The prepared fingerprint in older v5 included the full gate shape; compare against the original structure too.
-  const freshOriginal=await v062Signature({trip_id:t.id,choice:p.choice,actor:p.actor,reasonCode:p.reasonCode,reason:p.reason,gate:{hard:gate.hard,override:gate.override,warning:gate.warning,unknown:gate.unknown},review_fingerprint:fp,override:p.overrideRecord});
+  const freshOriginal=await v062Signature({trip_id:t.id,choice:p.choice,actor:p.actor,reasonCode:p.reasonCode,reason:p.reason,gate:{hard:gate.hard,override:gate.override,warning:gate.warning,unknown:gate.unknown},review_fingerprint:fp,override:p.overrideRecord,wait_checkpoint:p.wait_checkpoint||null});
   if(freshOriginal!==p.snapshot_hash)throw Error('S5_PREPARED_SNAPSHOT_CHANGED_RECONFIRM_REQUIRED');
   const es=await eventsFor(t.id);
   const t0='T0,'+crypto.randomUUID().slice(0,8),decidedAt=isoNow(),recordId=crypto.randomUUID();
-  const decisionRecord={decision_record_id:recordId,decision_state:p.choice,decision_maker:p.actor,authority_state:'HUMAN_CONFIRMED',reason_code:p.reasonCode,reason_text:p.reason,evidence_refs:p.evidence_refs,scope:p.scope,valid_until:p.valid_until,decided_at:decidedAt,t0_id:t0,snapshot_id:p.snapshot_id,snapshot_hash:p.snapshot_hash,gate_summary:{hard_blockers:gate.hard.length,override_required:gate.override.length,warnings:gate.warning.length,unknowns:gate.unknown.length},override:p.overrideRecord,review_fingerprint:fp,time_basis:'DEVICE_CLOCK + EVENT_SEQUENCE'};
+  const decisionRecord={decision_record_id:recordId,decision_state:p.choice,decision_maker:p.actor,authority_state:'HUMAN_CONFIRMED',wait_checkpoint:p.wait_checkpoint||null,reason_code:p.reasonCode,reason_text:p.reason,evidence_refs:p.evidence_refs,scope:p.scope,valid_until:p.valid_until,decided_at:decidedAt,t0_id:t0,snapshot_id:p.snapshot_id,snapshot_hash:p.snapshot_hash,gate_summary:{hard_blockers:gate.hard.length,override_required:gate.override.length,warnings:gate.warning.length,unknowns:gate.unknown.length},override:p.overrideRecord,review_fingerprint:fp,time_basis:'DEVICE_CLOCK + EVENT_SEQUENCE'};
   const prior=t.prestart?.decision_record;
   t.prestart={...(t.prestart||{}),weather_profile:t.prestart?.weather_profile||v0646WeatherProfileFromUI(),issues:[...gate.hard,...gate.override,...gate.warning,...gate.unknown].map(x=>x.message),decision:p.choice,actor:p.actor,reason:p.reason,reason_code:p.reasonCode,decision_record:decisionRecord,decided_at:decidedAt};
   // Prior records remain as independent append-only EVENTS; this field references the predecessor.

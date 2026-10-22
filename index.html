@@ -1011,6 +1011,15 @@ body.field #p5 #officialVerificationCard .officialSourceChecks > label > input[t
   background:#d7a73a!important;
 }
 </style>
+<style id="tsums-p5-prestart-decision-meaning-v8">
+/* UI-only pre-start decision labels. Data/state values and S5-05 transactions unchanged. */
+#prestartGateCard .bigActions{grid-template-columns:minmax(0,1fr)!important;gap:14px!important}
+#prestartGateCard .bigActions button[data-pre]{display:block!important;width:100%!important;min-height:96px!important;padding:18px!important;font-size:24px!important;line-height:1.4!important;white-space:normal!important;overflow-wrap:anywhere!important;border:2px solid #bb9457!important}
+#prestartGateCard .v8PrestartMeaning{font-size:19px!important;line-height:1.7!important;padding:18px!important;margin:16px 0!important;border:2px solid #a8864d!important;border-radius:15px!important;background:#211b13!important;color:#f4e5c9!important}
+#prestartGateCard .v8PrestartMeaning strong{color:#f2ca78!important}
+body.field #prestartGateCard .v8PrestartMeaning{background:#fff4d8!important;color:#141414!important}
+body.field #prestartGateCard .v8PrestartMeaning strong{color:#614000!important}
+</style>
 </head>
 <body>
 <div id="tsums-review-banner" role="status" style="position:relative;z-index:99;background:#33220c;color:#ffdf98;border:3px solid #e8b553;text-align:center;padding:15px 12px;font-size:18px;line-height:1.5;font-weight:800">TSUMS R2 · V5 × S5-05｜空行程初始化修正版（QA）<br><span style="font-size:15px;font-weight:600">僅使用合成資料｜獨立測試資料庫｜不讀取原有行程｜S5-05 真實瀏覽器驗收尚未完成</span></div>
@@ -1396,7 +1405,7 @@ body.field #p5 #officialVerificationCard .officialSourceChecks > label > input[t
         <option value="OTHER">其他</option>
       </select></div>
       <div><label>決策適用範圍</label><input id="preDecisionScope" value="PRE_START / TRIP_ACTIVATION" readonly></div>
-      <div><label>有效期限 / 重新評估時間（如適用）</label><input id="preDecisionValidUntil" type="datetime-local"></div>
+      <div><label>有效期限／WAIT 複核時間（依決策填寫）</label><input id="preDecisionValidUntil" type="datetime-local"></div>
     </div>
     <label>證據參照（可選）</label><input id="preEvidenceRefs" placeholder="Event ID / Evidence ref，以逗號分隔">
   </div>
@@ -1414,7 +1423,8 @@ body.field #p5 #officialVerificationCard .officialSourceChecks > label > input[t
   </div>
 </div>
 
-<div class="bigActions"><button data-pre="GO">GO｜出發</button><button class="warn" data-pre="WAIT">WAIT｜等待</button><button class="stop" data-pre="RETREAT">RETREAT｜取消 / 延期</button></div>
+<div class="bigActions"><button data-pre="GO">GO｜按計畫出發</button><button class="warn" data-pre="WAIT">WAIT｜暫緩待複核</button><button class="stop" data-pre="RETREAT">RETREAT｜終止本次行程</button></div>
+<div class="v8PrestartMeaning" role="note"><strong>行前決策範圍：</strong>GO 僅表示依原計畫啟程，不取代登山口現場覆核；WAIT 表示暫不出發，應記載具名複核人、時間、待查條件與停損點；RETREAT 表示終止本次計畫，取消或改期應保留原始紀錄並另行建案重評。<strong>本版只修正介面文案，WAIT 期限與改期重建案的強制檢核尚未驗收。</strong></div>
 <div class="alert blue">系統只揭露 風險狀態、責任訊號、尚缺事實、Blocker / 警示 / 未確認 與 需要決策。最終決策仍由具權限的人作成；GO 不等於安全保證。</div></div>
 <div class="toolbar"><button class="primary" id="startFieldSession">開始行程｜進入現場運作</button></div>
 </section>
@@ -1686,7 +1696,7 @@ body.field #p5 #officialVerificationCard .officialSourceChecks > label > input[t
 
 <dialog id="prestartDecisionConfirmDialog" class="decisionSheet">
   <div class="sheetInner">
-    <div class="sheetHeader"><div><div class="small">重要決策再次確認</div><h3 id="v0641ConfirmDecisionTitle">GO｜出發</h3></div><button class="sheetClose" id="v0641CancelDecision">取消</button></div>
+    <div class="sheetHeader"><div><div class="small">重要決策再次確認</div><h3 id="v0641ConfirmDecisionTitle">GO｜按計畫出發</h3></div><button class="sheetClose" id="v0641CancelDecision">取消</button></div>
     <div class="v0641ConfirmGrid">
       <div><span>決策人</span><b id="v0641ConfirmActor">—</b></div>
       <div><span>必要補正</span><b id="v0641ConfirmHard">0</b></div>
@@ -4184,7 +4194,7 @@ async function v0641PreparePreDecision(choice){
  }
  const fp=await v0641ReviewFingerprint(t),snapshotHash=await v062Signature({trip_id:t.id,choice,actor,reasonCode,reason,gate:{hard:gate.hard,override:gate.override,warning:gate.warning,unknown:gate.unknown},review_fingerprint:fp,override:overrideRecord}),snapshotId=`PS-${snapshotHash.slice(0,12)}`;
  V0641_PENDING_PRE_DECISION={trip_id:t.id,prepared_at:isoNow(),choice,actor,reasonCode,reason,gate,overrideRecord,review_fingerprint:fp,snapshot_id:snapshotId,snapshot_hash:snapshotHash,valid_until:$("#preDecisionValidUntil").value?new Date($("#preDecisionValidUntil").value).toISOString():null,evidence_refs:v0641CSV($("#preEvidenceRefs").value),scope:$("#preDecisionScope").value};
- $("#v0641ConfirmDecisionTitle").textContent=choice==="RETREAT"?"RETREAT｜取消／延期":choice==="WAIT"?"WAIT｜等待":"GO｜出發";
+ $("#v0641ConfirmDecisionTitle").textContent=choice==="RETREAT"?"RETREAT｜終止本次行程":choice==="WAIT"?"WAIT｜暫緩待複核":"GO｜按計畫出發";
  $("#v0641ConfirmActor").textContent=actor;$("#v0641ConfirmHard").textContent=gate.hard.length;$("#v0641ConfirmWarning").textContent=gate.warning.length+gate.override.length;$("#v0641ConfirmUnknown").textContent=gate.unknown.length;$("#v0641ConfirmSnapshot").textContent=snapshotId;
  $("#prestartDecisionConfirmDialog").showModal()
 }

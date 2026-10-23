@@ -1836,8 +1836,149 @@ body.field .journeyTopNav #journeyHomeBtn{
 <div class="card v0632Card" id="exposureProfileCard">
 <div class="sectionEyebrow">暴露驅動｜不預設運動類型</div><h3>依自身能力、裝備條件、地形暴露、支援條件展開能力剖面</h3>
 <p class="hint">不預設運動類型。請勾選實質暴露點，並在下方填寫對應的個人能力短板、裝備補償與支援需求，落實行前風險前移。</p>
-<div class="exposureGrid">
-<label class="exposureItem"><input type="checkbox" data-exposure="terrain">地形 / 空間</label><label class="exposureItem"><input type="checkbox" data-exposure="geology">地質 / 坡面</label><label class="exposureItem"><input type="checkbox" data-exposure="weather">天候 / 熱環境</label><label class="exposureItem"><input type="checkbox" data-exposure="hydrology">水文 / 水域</label><label class="exposureItem"><input type="checkbox" data-exposure="altitude">高度</label><label class="exposureItem"><input type="checkbox" data-exposure="fall">墜落 / 垂直暴露</label><label class="exposureItem"><input type="checkbox" data-exposure="dynamic">速度 / 動態暴露</label><label class="exposureItem"><input type="checkbox" data-exposure="technical">技術系統</label><label class="exposureItem"><input type="checkbox" data-exposure="communication">通訊依賴</label><label class="exposureItem"><input type="checkbox" data-exposure="medical">醫療 / 行動能力</label><label class="exposureItem"><input type="checkbox" data-exposure="transport">交通 / 進出支援</label><label class="exposureItem"><input type="checkbox" data-exposure="other">其他暴露</label>
+<div class="exposureGrid tsumsExposureTaxonomy" aria-label="山域風險暴露主分類與實務細節">
+ <div class="tsumsExposureGroup" data-exp-group="terrain">
+  <label class="exposureItem tsumsExposureParent"><input type="checkbox" data-exposure="terrain"><span>碎石坡／稜線／溪谷地形</span></label>
+  <button type="button" class="tsumsExposureExpand" aria-expanded="false" hidden>＋ 選擇具體地形／動作</button>
+  <div class="tsumsExposureSub" data-exp-sub="terrain" hidden aria-label="碎石坡／稜線／溪谷地形的實務細節">
+   <div class="tsumsExposureSubHint">實務細項（可複選；僅記錄已提供資訊，不代表完成查核）</div>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="terrain:scree"><span>碎石坡</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="terrain:knife_ridge"><span>瘦稜／刀刃稜</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="terrain:gorge"><span>溪谷地形</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="terrain:exposed_rock"><span>狹窄裸岩</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="terrain:bamboo_route"><span>箭竹密生／路跡不清</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="terrain:cliff_edge"><span>崖邊／崩壁邊緣</span></label>
+  </div></div>
+ <div class="tsumsExposureGroup" data-exp-group="geology">
+  <label class="exposureItem tsumsExposureParent"><input type="checkbox" data-exposure="geology"><span>岩石／碎岩／坡面</span></label>
+  <button type="button" class="tsumsExposureExpand" aria-expanded="false" hidden>＋ 選擇具體地形／動作</button>
+  <div class="tsumsExposureSub" data-exp-sub="geology" hidden aria-label="岩石／碎岩／坡面的實務細節">
+   <div class="tsumsExposureSubHint">實務細項（可複選；僅記錄已提供資訊，不代表完成查核）</div>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="geology:loose_rocks"><span>鬆動碎岩</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="geology:rockfall"><span>落石／岩塊崩落</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="geology:weathered_rock"><span>風化岩石</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="geology:loose_soil"><span>鬆動土石坡</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="geology:mud"><span>濕滑泥濘</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="geology:roots"><span>樹根濕滑／踩點不穩</span></label>
+  </div></div>
+ <div class="tsumsExposureGroup" data-exp-group="weather">
+  <label class="exposureItem tsumsExposureParent"><input type="checkbox" data-exposure="weather"><span>強風／降雨／低溫</span></label>
+  <button type="button" class="tsumsExposureExpand" aria-expanded="false" hidden>＋ 選擇具體地形／動作</button>
+  <div class="tsumsExposureSub" data-exp-sub="weather" hidden aria-label="強風／降雨／低溫的實務細節">
+   <div class="tsumsExposureSubHint">實務細項（可複選；僅記錄已提供資訊，不代表完成查核）</div>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="weather:wind"><span>強風／陣風</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="weather:heavy_rain"><span>強降雨</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="weather:fog"><span>濃霧／視線受限</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="weather:cold"><span>低溫／失溫暴露</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="weather:heat"><span>曝曬／熱壓力</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="weather:lightning"><span>雷雨／雷擊暴露</span></label>
+  </div></div>
+ <div class="tsumsExposureGroup" data-exp-group="hydrology">
+  <label class="exposureItem tsumsExposureParent"><input type="checkbox" data-exposure="hydrology"><span>渡溪／水域</span></label>
+  <button type="button" class="tsumsExposureExpand" aria-expanded="false" hidden>＋ 選擇具體地形／動作</button>
+  <div class="tsumsExposureSub" data-exp-sub="hydrology" hidden aria-label="渡溪／水域的實務細節">
+   <div class="tsumsExposureSubHint">實務細項（可複選；僅記錄已提供資訊，不代表完成查核）</div>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="hydrology:stream_crossing"><span>渡溪</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="hydrology:valley_water"><span>溪谷／河床</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="hydrology:flash_flood"><span>水位暴漲／急流</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="hydrology:slippery_rock"><span>濕滑溪石／踩點</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="hydrology:pool_falls"><span>深潭／瀑布落差</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="hydrology:subsurface"><span>伏流／水流不明</span></label>
+  </div></div>
+ <div class="tsumsExposureGroup" data-exp-group="altitude">
+  <label class="exposureItem tsumsExposureParent"><input type="checkbox" data-exposure="altitude"><span>高海拔／爬升</span></label>
+  <button type="button" class="tsumsExposureExpand" aria-expanded="false" hidden>＋ 選擇具體地形／動作</button>
+  <div class="tsumsExposureSub" data-exp-sub="altitude" hidden aria-label="高海拔／爬升的實務細節">
+   <div class="tsumsExposureSubHint">實務細項（可複選；僅記錄已提供資訊，不代表完成查核）</div>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="altitude:rapid_ascent"><span>快速爬升</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="altitude:high_altitude"><span>高海拔低氧暴露</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="altitude:long_exposure"><span>長時間高海拔</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="altitude:acclim_unknown"><span>適應狀態待確認</span></label>
+  </div></div>
+ <div class="tsumsExposureGroup" data-exp-group="fall">
+  <label class="exposureItem tsumsExposureParent"><input type="checkbox" data-exposure="fall"><span>攀爬／墜落／踩點</span></label>
+  <button type="button" class="tsumsExposureExpand" aria-expanded="false" hidden>＋ 選擇具體地形／動作</button>
+  <div class="tsumsExposureSub" data-exp-sub="fall" hidden aria-label="攀爬／墜落／踩點的實務細節">
+   <div class="tsumsExposureSubHint">實務細項（可複選；僅記錄已提供資訊，不代表完成查核）</div>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="fall:scrambling"><span>手腳並用攀爬</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="fall:climbing"><span>垂直攀登／攀岩</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="fall:small_foothold"><span>腳點微小／踩點不足</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="fall:loose_foothold"><span>踩點鬆動</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="fall:vertical_drop"><span>垂直落差／墜落暴露</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="fall:exposed_ridge"><span>暴露稜線／無護欄</span></label>
+  </div></div>
+ <div class="tsumsExposureGroup" data-exp-group="dynamic">
+  <label class="exposureItem tsumsExposureParent"><input type="checkbox" data-exposure="dynamic"><span>速度／疲勞／夜行</span></label>
+  <button type="button" class="tsumsExposureExpand" aria-expanded="false" hidden>＋ 選擇具體地形／動作</button>
+  <div class="tsumsExposureSub" data-exp-sub="dynamic" hidden aria-label="速度／疲勞／夜行的實務細節">
+   <div class="tsumsExposureSubHint">實務細項（可複選；僅記錄已提供資訊，不代表完成查核）</div>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="dynamic:steep_descent"><span>陡降／快速下坡</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="dynamic:pace_pressure"><span>配速壓力／追趕</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="dynamic:fatigue"><span>長程疲勞／注意力下降</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="dynamic:night"><span>夜間行進／視線不足</span></label>
+  </div></div>
+ <div class="tsumsExposureGroup" data-exp-group="technical">
+  <label class="exposureItem tsumsExposureParent"><input type="checkbox" data-exposure="technical"><span>架繩／攀登技術</span></label>
+  <button type="button" class="tsumsExposureExpand" aria-expanded="false" hidden>＋ 選擇具體地形／動作</button>
+  <div class="tsumsExposureSub" data-exp-sub="technical" hidden aria-label="架繩／攀登技術的實務細節">
+   <div class="tsumsExposureSubHint">實務細項（可複選；僅記錄已提供資訊，不代表完成查核）</div>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="technical:fixed_rope"><span>固定繩／拉繩段</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="technical:belay"><span>繩索確保／攀登保護</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="technical:rappel"><span>攀降／下降技術</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="technical:anchor"><span>固定點／錨點狀態待確認</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="technical:gear_system"><span>技術裝備／系統相容性</span></label>
+  </div></div>
+ <div class="tsumsExposureGroup" data-exp-group="communication">
+  <label class="exposureItem tsumsExposureParent"><input type="checkbox" data-exposure="communication"><span>通訊死角／聯絡</span></label>
+  <button type="button" class="tsumsExposureExpand" aria-expanded="false" hidden>＋ 選擇具體地形／動作</button>
+  <div class="tsumsExposureSub" data-exp-sub="communication" hidden aria-label="通訊死角／聯絡的實務細節">
+   <div class="tsumsExposureSubHint">實務細項（可複選；僅記錄已提供資訊，不代表完成查核）</div>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="communication:dead_zone"><span>通訊死角</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="communication:unstable_signal"><span>訊號不穩定</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="communication:single_device"><span>單一裝置依賴</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="communication:contact_window"><span>通聯時間窗／失聯升級未明</span></label>
+  </div></div>
+ <div class="tsumsExposureGroup" data-exp-group="medical">
+  <label class="exposureItem tsumsExposureParent"><input type="checkbox" data-exposure="medical"><span>身體狀況／行動能力</span></label>
+  <button type="button" class="tsumsExposureExpand" aria-expanded="false" hidden>＋ 選擇具體地形／動作</button>
+  <div class="tsumsExposureSub" data-exp-sub="medical" hidden aria-label="身體狀況／行動能力的實務細節">
+   <div class="tsumsExposureSubHint">實務細項（可複選；僅記錄已提供資訊，不代表完成查核）</div>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="medical:load_capacity"><span>負重與體能差距</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="medical:fatigue_judgment"><span>疲勞／判斷力下降</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="medical:mobility"><span>傷病或行動能力受限</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="medical:evacuation"><span>醫療支援／後送距離</span></label>
+  </div></div>
+ <div class="tsumsExposureGroup" data-exp-group="transport">
+  <label class="exposureItem tsumsExposureParent"><input type="checkbox" data-exposure="transport"><span>交通／登山口進出</span></label>
+  <button type="button" class="tsumsExposureExpand" aria-expanded="false" hidden>＋ 選擇具體地形／動作</button>
+  <div class="tsumsExposureSub" data-exp-sub="transport" hidden aria-label="交通／登山口進出的實務細節">
+   <div class="tsumsExposureSubHint">實務細項（可複選；僅記錄已提供資訊，不代表完成查核）</div>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="transport:road_closure"><span>聯外道路中斷</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="transport:shuttle"><span>接駁交通不確定</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="transport:trailhead"><span>登山口進出限制</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="transport:rescue_access"><span>救援車輛／運輸限制</span></label>
+  </div></div>
+ <div class="tsumsExposureGroup" data-exp-group="snow_ice">
+  <label class="exposureItem tsumsExposureParent"><input type="checkbox" data-exposure="snow_ice"><span>積雪／結冰／雪簷</span></label>
+  <button type="button" class="tsumsExposureExpand" aria-expanded="false" hidden>＋ 選擇具體地形／動作</button>
+  <div class="tsumsExposureSub" data-exp-sub="snow_ice" hidden aria-label="積雪／結冰／雪簷的實務細節">
+   <div class="tsumsExposureSubHint">實務細項（可複選；僅記錄已提供資訊，不代表完成查核）</div>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="snow_ice:hard_snow"><span>積雪／硬雪</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="snow_ice:icy_slope"><span>結冰斜坡</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="snow_ice:icy_rock"><span>覆冰岩面</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="snow_ice:cornice"><span>雪簷／破裂風險</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="snow_ice:mixed"><span>冰雪岩混合地形</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="snow_ice:crampon_axe"><span>冰爪／冰斧技術需求</span></label>
+  </div></div>
+ <div class="tsumsExposureGroup" data-exp-group="other">
+  <label class="exposureItem tsumsExposureParent"><input type="checkbox" data-exposure="other"><span>其他暴露／自行補充</span></label>
+  <button type="button" class="tsumsExposureExpand" aria-expanded="false" hidden>＋ 選擇具體地形／動作</button>
+  <div class="tsumsExposureSub" data-exp-sub="other" hidden aria-label="其他暴露／自行補充的實務細節">
+   <div class="tsumsExposureSubHint">實務細項（可複選；僅記錄已提供資訊，不代表完成查核）</div>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="other:animal"><span>動物／昆蟲暴露</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="other:human"><span>人為活動／擁擠</span></label>
+   <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="other:unknown"><span>不明暴露／待現勘</span></label>
+  </div></div>
 </div>
 <div class="v0632Grid"><div><label>實際暴露描述</label><textarea id="exposureDescription"></textarea></div><div><label>能力 / 支援需求</label><textarea id="capabilityRequirement"></textarea></div></div>
 <label>依暴露設定停損／撤退條件</label><textarea id="exposureStopLoss" placeholder="由隊伍自行設定；TSUMS 不補造統一閾值。"></textarea>
@@ -3720,8 +3861,8 @@ if(!$("#roleSuggestions")){const d=document.createElement("datalist");d.id="role
 $("#addOperationalRole").onclick=()=>{$("#operationalRolesList .hint")?.remove();$("#operationalRolesList").insertAdjacentHTML("beforeend",v0632RoleTemplate());$("#operationalRolesList .roleRow:last-child [data-remove-role]").onclick=e=>e.currentTarget.closest(".roleRow").remove()};
 $("#lockOperationalRoles").onclick=async()=>{const t=v0632EnsureSchema(await currentTrip());if(!t)return alert("請先建立行程");const roles=v0632CollectRoles(),continuity={primary_decision_authority:$("#commandPrimary").value.trim(),successor_1:$("#commandSuccessor1").value.trim(),successor_2:$("#commandSuccessor2").value.trim(),medical_lead:$("#commandMedicalLead").value.trim(),communications_lead:$("#commandCommsLead").value.trim(),technical_lead:$("#commandTechnicalLead").value.trim(),authority_basis:$("#commandAuthorityBasis").value.trim()};t.team.operational_roles=roles;t.team.command_continuity=continuity;await put(TRIPS,t);const payload={roles,continuity,boundary:"DECLARED_ROLE_NOT_EQUAL_OBSERVED_ROLE;LEGAL_CLASSIFICATION_RESERVED;NO_AUTOMATIC_COMMAND_HANDOFF"},sig=await v062Signature(payload);await appendEvent("TEAM_OPERATIONAL_ROLES_LOCKED",{lifecycle_stage:2,module_refs:["C1","C3"],actor:t.leader||"未具名",observed_fact:`運作角色 ${roles.length} 人；Primary ${continuity.primary_decision_authority||"未設定"}`,structured_payload:payload,idempotency_key:`TEAM_ROLES:${sig}`});alert("角色與指揮連續性已保存")};
 
-function v0632ExposurePayload(){const exposures={};$$("[data-exposure]").forEach(i=>exposures[i.dataset.exposure]=!!i.checked);return{exposures,description:$("#exposureDescription").value.trim(),capability_requirement:$("#capabilityRequirement").value.trim(),stop_loss:$("#exposureStopLoss").value.trim(),boundary:"EXPOSURE_DRIVEN_ACTIVITY_AGNOSTIC"}}
-function v0632HydrateExposure(t){const x=t.route.exposure_profile||{};$$("[data-exposure]").forEach(i=>i.checked=!!x.exposures?.[i.dataset.exposure]);$("#exposureDescription").value=x.description||"";$("#capabilityRequirement").value=x.capability_requirement||"";$("#exposureStopLoss").value=x.stop_loss||""}
+function v0632ExposurePayload(){const exposures={};$$("[data-exposure]").forEach(i=>exposures[i.dataset.exposure]=!!i.checked);return{exposures,detail_tags:window.TSUMS_EXPOSURE_QA032?.collect()||{},detail_taxonomy_version:"PUBLIC_TERMS_20261023_QA032",detail_source_state:"USER_SELECTED_UNVERIFIED",description:$("#exposureDescription").value.trim(),capability_requirement:$("#capabilityRequirement").value.trim(),stop_loss:$("#exposureStopLoss").value.trim(),boundary:"EXPOSURE_DRIVEN_ACTIVITY_AGNOSTIC"}}
+function v0632HydrateExposure(t){const x=t.route.exposure_profile||{};$$("[data-exposure]").forEach(i=>i.checked=!!x.exposures?.[i.dataset.exposure]);$("#exposureDescription").value=x.description||"";$("#capabilityRequirement").value=x.capability_requirement||"";$("#exposureStopLoss").value=x.stop_loss||"";window.TSUMS_EXPOSURE_QA032?.hydrate(x)}
 $("#lockExposureProfile").onclick=async()=>{const t=v0632EnsureSchema(await currentTrip());if(!t)return alert("請先建立行程");const p=v0632ExposurePayload();t.route.exposure_profile=p;await put(TRIPS,t);const sig=await v062Signature(p);await appendEvent("MOUNTAIN_EXPOSURE_PROFILE_LOCKED",{lifecycle_stage:2,module_refs:["C1","C3"],actor:t.leader||"未具名",observed_fact:`Exposure Profile｜${Object.entries(p.exposures).filter(([,v])=>v).map(([k])=>k).join(" / ")||"未勾選"}`,structured_payload:p,idempotency_key:`EXPOSURE:${sig}`});alert("山域暴露與能力剖面已保存")};
 
 function v0632TransportTemplate(l={}){
@@ -8222,4 +8363,75 @@ body.field #p3 #v0646RouteSummaryBody .v0646SummaryValue.is-missing {
 }
 body.field #p3 #v0646RouteSummaryBody > .hint {color:#45351d!important;background:#f5e3bb!important;}
 </style>
+
+<style id="tsums-qa032-exposure-style">
+#p3 #exposureProfileCard .tsumsExposureTaxonomy{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+#p3 #exposureProfileCard .tsumsExposureGroup{min-width:0;border:1px solid #82643a;border-radius:16px;overflow:hidden;background:#15110c}
+#p3 #exposureProfileCard .tsumsExposureParent{border:0!important;border-radius:0!important;margin:0!important;display:flex!important;align-items:center!important;gap:12px!important;padding:15px!important;min-height:92px!important;font-size:19px!important;line-height:1.4!important;cursor:pointer!important;touch-action:manipulation}
+#p3 #exposureProfileCard .tsumsExposureParent span{overflow-wrap:anywhere;min-width:0}
+#p3 #exposureProfileCard .tsumsExposureExpand{display:block;width:calc(100% - 22px);margin:0 11px 10px;min-height:48px;border:1px solid #896a3a;border-radius:10px;background:#292016;color:#f4d5a1;font-size:15px;font-weight:850;text-align:left;padding:10px 12px;cursor:pointer;touch-action:manipulation}
+#p3 #exposureProfileCard .tsumsExposureExpand[hidden]{display:none!important}
+#p3 #exposureProfileCard .tsumsExposureSub{padding:6px 11px 14px;border-top:1px solid #614a2a;display:flex;flex-wrap:wrap;gap:9px}
+#p3 #exposureProfileCard .tsumsExposureSub[hidden]{display:none!important}
+#p3 #exposureProfileCard .tsumsExposureSubHint{width:100%;font-size:15px;line-height:1.55;color:#ead2a4;padding:5px 4px}
+#p3 #exposureProfileCard .tsumsExposureChip{display:flex;gap:8px;align-items:center;min-height:50px;padding:11px 12px;border:1px solid #9b7950;border-radius:13px;cursor:pointer;font-weight:750;font-size:16px;line-height:1.35;color:#ffeed0;background:#21190e;flex:1 1 132px;min-width:0;touch-action:manipulation;overflow-wrap:anywhere}
+#p3 #exposureProfileCard .tsumsExposureChip input{flex:0 0 22px;width:22px;height:22px;accent-color:#dcaf5d;margin:0}
+#p3 #exposureProfileCard .tsumsExposureChip:has(input:checked){background:#72521e;color:#fff3d8;border-color:#edc572}
+#p3 #exposureProfileCard .tsumsExposureChip:focus-within{outline:2px solid #ffd27b;outline-offset:2px}
+#p3 #exposureProfileCard .tsumsExposureParent:active,#p3 #exposureProfileCard .tsumsExposureChip:active{filter:brightness(1.23)}
+#p3 #exposureProfileCard .tsumsExposureEvidenceNote{font-size:15px;line-height:1.65;color:#e0c69c;margin:10px 0 14px}
+@media(max-width:600px){#p3 #exposureProfileCard .tsumsExposureTaxonomy{grid-template-columns:1fr;gap:11px}#p3 #exposureProfileCard .tsumsExposureParent{min-height:72px!important;font-size:19px!important}}
+body.field #p3 #exposureProfileCard .tsumsExposureGroup{background:#fff2d3;border-color:#88612d}
+body.field #p3 #exposureProfileCard .tsumsExposureChip{background:#f6e9cf;color:#2b2012}
+body.field #p3 #exposureProfileCard .tsumsExposureChip:has(input:checked){background:#deb668;color:#211408}
+body.field #p3 #exposureProfileCard .tsumsExposureSubHint,body.field #p3 #exposureProfileCard .tsumsExposureEvidenceNote{color:#52371a}
+</style>
+<script id="tsums-qa032-exposure-script">
+(function(){
+ 'use strict';
+ const root=document.getElementById('exposureProfileCard');if(!root)return;
+ const detailNodes=Array.from(root.querySelectorAll('[data-exp-detail]'));
+ function syncPanels(){
+   root.querySelectorAll('[data-exp-group]').forEach(group=>{
+     const main=group.querySelector('[data-exposure]'),panel=group.querySelector('[data-exp-sub]'),button=group.querySelector('.tsumsExposureExpand');
+     const open=!!(main?.checked&&group.dataset.expanded==='1');
+     if(panel)panel.hidden=!open;
+     if(button){
+       button.hidden=!main?.checked;
+       button.setAttribute('aria-expanded',String(open));
+       const n=group.querySelectorAll('[data-exp-detail]:checked').length;
+       button.textContent=(open?'－ 收合實務細項':'＋ 展開實務細項')+(n?'（已選 '+n+' 項）':'');
+     }
+   });
+ }
+ function expand(group){
+   root.querySelectorAll('[data-exp-group]').forEach(g=>{g.dataset.expanded=g===group?'1':'0'});
+   syncPanels();
+ }
+ function collect(){
+   const out={};detailNodes.forEach(el=>{if(!el.checked)return;const [category,id]=el.dataset.expDetail.split(':');
+      const main=root.querySelector('[data-exposure="'+category+'"]');
+      if(!main?.checked)return;(out[category] ||= []).push(id);
+   });return out;
+ }
+ function hydrate(profile){
+   const selected=profile?.detail_tags||{};
+   detailNodes.forEach(el=>{const [cat,id]=el.dataset.expDetail.split(':');el.checked=!!(profile?.exposures?.[cat]&&Array.isArray(selected[cat])&&selected[cat].includes(id));});
+   root.querySelectorAll('[data-exp-group]').forEach(g=>{g.dataset.expanded='0'});
+   syncPanels();
+ }
+ root.querySelectorAll('[data-exposure]').forEach(el=>el.addEventListener('change',()=>{
+    const group=el.closest('[data-exp-group]');
+    if(!el.checked){ group?.querySelectorAll('[data-exp-detail]').forEach(i=>{i.checked=false;});group.dataset.expanded='0';syncPanels(); }
+    else expand(group);
+ }));
+ root.querySelectorAll('.tsumsExposureExpand').forEach(button=>button.addEventListener('click',()=>{
+    const group=button.closest('[data-exp-group]');
+    if(group.dataset.expanded==='1'){group.dataset.expanded='0';syncPanels();} else expand(group);
+ }));
+ detailNodes.forEach(el=>el.addEventListener('change',()=>{if(el.checked){const group=el.closest('[data-exp-group]');const main=group?.querySelector('[data-exposure]');if(main)main.checked=true;}syncPanels();}));
+ window.TSUMS_EXPOSURE_QA032={collect,hydrate,syncPanels,taxonomy:'PUBLIC_TERMS_20261023_QA032'};
+ syncPanels();
+})();
+</script>
 </body></html>

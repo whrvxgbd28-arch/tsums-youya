@@ -7385,17 +7385,28 @@ document.querySelectorAll('#p6ui [data-p10wear-demo]').forEach(function(button){
  function addFitness(){
   const p2=$('#p2');if(!p2||$('#p9qaFitness'))return;
   const host=$('#operationalRolesCard')||p2.querySelector('.card:last-of-type');
-  const card=section('p9qaFitness','近期活動 GPX｜能力證據（本機解析）','可計算個人提供的軌跡距離、累積爬升、起訖時間；不據此認證體能或產出未授權的「上河腳程係數」。路線難度與實際負重須另行比對。');
+  const card=section('p9qaFitness','個人選項｜近期活動 GPX 與能力證據','可計算個人提供的軌跡距離、累積爬升、起訖時間；不據此認證體能或產出未授權的「上河腳程係數」。路線難度與實際負重須另行比對。');
   const f=labelled(card,'p9qaActivityGPX','上傳近期活動 GPX（僅讀取本機檔案，不上傳伺服器）','file',{accept:'.gpx,application/gpx+xml,text/xml'});
   const output=add(card,'div',{class:'p9qa-status',id:'p9qaFitnessResult',role:'status'},'尚未提供近期活動 GPX。');
-  const fitnessSave=add(card,'button',{type:'button',class:'secondary',id:'p9qaFitnessSave'},'保存 GPX 統計摘要到行程（不儲存軌跡座標）');
+  const fitnessSave=add(card,'button',{type:'button',class:'secondary',id:'p9qaFitnessSave'},'保存統計至此隊員（不儲存軌跡座標）');
   fitnessSave.disabled=true;
   let parsedObservation=null;
+  card.addEventListener('tsums-person-changed',(e)=>{
+    parsedObservation=null;fitnessSave.disabled=true;f.value='';
+    output.textContent=e.detail?.summary||'尚未提供此隊員的近期活動 GPX。';
+  });
   const photo=add(card,'button',{type:'button',class:'secondary',id:'p9qaFitnessEvidence'},'📷 附近期運動紀錄照片（僅存證）');
-  photo.addEventListener('click',()=>{if(typeof v0644OpenEvidence==='function')v0644OpenEvidence('RECENT_ACTIVITY_RECORD','近期運動紀錄照片');else output.textContent='原始影像存證流程不可用，照片未保存。'});
+  photo.addEventListener('click',()=>{
+   const personId=card.dataset.personId;
+   if(!personId){output.textContent='請先從隊員名冊選擇「個人選項」。';return}
+   const display=card.dataset.personLabel||'指定隊員';
+   if(typeof v0644OpenEvidence==='function')v0644OpenEvidence('RECENT_ACTIVITY_RECORD',display+'｜近期運動紀錄照片',personId);
+   else output.textContent='原始影像存證流程不可用，照片未保存。';
+  });
   add(card,'div',{class:'hint'},'上河圖表／腳程係數：未接正式授權資料與校準規格，維持「未驗證」。');
   f.addEventListener('change',async()=>{
    const file=f.files?.[0];if(!file)return;
+   if(!card.dataset.personId||!card.dataset.tripId){output.textContent='請先選擇具名隊員的個人選項。';f.value='';return}
    parsedObservation=null;fitnessSave.disabled=true;
    try{
     if(file.size>5*1024*1024)throw Error('檔案超過 5 MB');
@@ -7425,7 +7436,8 @@ document.querySelectorAll('#p6ui [data-p10wear-demo]').forEach(function(button){
     parsedObservation={source_kind:'USER_PROVIDED_GPX',source_name:file.name,source_bytes:file.size,
       source_sha256:sha256,local_distance_km:Number(km.toFixed(3)),local_ascent_m:Math.round(up),
       trackpoint_count:pts.length,elapsed_hours:hours?Number(hours.toFixed(3)):null,
-      identity_verified:false,shanghe_coefficient:null,processing:'LOCAL_STATISTICS_ONLY',recorded_at:new Date().toISOString()};
+      identity_verified:false,shanghe_coefficient:null,processing:'LOCAL_STATISTICS_ONLY',recorded_at:new Date().toISOString(),
+      member_ref:card.dataset.personId,trip_ref:card.dataset.tripId};
     fitnessSave.disabled=false;
     output.textContent=`本機初算：${km.toFixed(2)} km、累積上升 ${Math.round(up)} m、${pts.length} 點${hours?`、紀錄時差 ${hours.toFixed(1)} 小時`:''}。可選擇保存本次統計；未驗證感測器、採樣間距、休息時間與個人身份；不推算上河係數。`;
     status('QA-009','LOCAL_GPX_PARSED_NOT_FITNESS_VALIDATED');
@@ -7436,13 +7448,22 @@ document.querySelectorAll('#p6ui [data-p10wear-demo]').forEach(function(button){
     try{
       if(typeof currentTrip!=='function'||typeof put!=='function'||typeof TRIPS==='undefined')throw Error('原行程資料庫接口不可用');
       const t=await currentTrip();if(!t)throw Error('請先建立合成測試行程');
-      t.team=t.team||{};t.team.recent_activity_observation=parsedObservation;
+      const pid=card.dataset.personId;
+      if(t.id!==card.dataset.tripId||parsedObservation.member_ref!==pid||parsedObservation.trip_ref!==t.id)
+        throw Error('隊員或行程已切換，請重新上傳此人的 GPX。');
+      const member=(t.team?.members||[]).find(x=>x.p9_person_id===pid);
+      if(!member||!member.name?.trim())throw Error('請先於名冊輸入隊員姓名，並重新選擇個人選項。');
+      member.personal_evidence=member.personal_evidence||{};
+      member.personal_evidence.recent_activity_gpx={...parsedObservation,identity_status:'USER_ATTRIBUTED_UNVERIFIED'};
       await put(TRIPS,t);
-      if(typeof appendEvent==='function')await appendEvent('PRE_EVENT_RECENT_ACTIVITY_GPX_OBSERVED',{
+      if(typeof appendEvent==='function')await appendEvent('PRE_EVENT_MEMBER_ACTIVITY_GPX_OBSERVED',{
         lifecycle_stage:2,module_refs:['C1','C3'],source_state:'USER_RECORDED',
-        observed_fact:'使用者提供近期 GPX：僅保存檔案來源及本機距離、爬升、時間統計；身分、能力與上河係數未經驗證。'
+        observed_fact:'個人近期 GPX 統計已登錄至指定隊員；僅保存檔案識別與統計，不保存軌跡座標；身份及能力未驗證。',
+        structured_payload:{member_ref:pid,source_sha256:parsedObservation.source_sha256,
+         local_distance_km:parsedObservation.local_distance_km,local_ascent_m:parsedObservation.local_ascent_m,
+         elapsed_hours:parsedObservation.elapsed_hours,identity_status:'USER_ATTRIBUTED_UNVERIFIED'}
       });
-      output.textContent+=' 已寫入既有行程摘要；仍須重新載入驗證。';
+      output.textContent+=' 已保存至此隊員個人選項（身分與體能未驗證）。';
     }catch(e){output.textContent='統計保存尚未完成：'+String(e?.message||e)}
   });
   host?.insertAdjacentElement('afterend',card);
@@ -7573,8 +7594,8 @@ document.querySelectorAll('#p6ui [data-p10wear-demo]').forEach(function(button){
     t.preparation=t.preparation||{};t.preparation.pack_weight_observation=obs;
     await put(TRIPS,t);
     if(typeof appendEvent==='function')await appendEvent('PRE_EVENT_PACK_WEIGHT_OBSERVED',{lifecycle_stage:2,module_refs:['C1','C3'],determination_layer:'UNCLASSIFIED',source_state:'USER_RECORDED',observed_fact:`使用者登錄背負拆項加總 ${obs.total_kg.toFixed(2)} kg；僅算術加總，未作安全適配判定。`});
-    const f=t.team?.recent_activity_observation;
-    match.textContent+=f?` 近期 GPX 觀察：${f.local_distance_km ?? '—'} km、爬升 ${f.local_ascent_m ?? '—'} m；路線差異仍須人工核查。`:' 尚未提供近期 GPX 統計。';
+    const personalCount=(t.team?.members||[]).filter(m=>m.personal_evidence?.recent_activity_gpx).length;
+    match.textContent+=` 已有 ${personalCount} 位成員提供個人近期 GPX 統計；個人與全隊能力不可互相替代，請至各隊員個人選項檢視。`;
     info.textContent='重量拆項已保存；內容屬人工申報或容量換算，不代表真實秤重或安全合格。';
    }catch(e){info.textContent='儲存失敗：'+String(e.message||e)}
   });
@@ -8020,5 +8041,81 @@ body.field .tsumsPermitEvidence h4,body.field .tsumsPermitEvidence .permitHelp,b
   window.TSUMS_PERMIT_QA={version:'QA-029',scope:'P9 only',preservesOriginalPermitState:true,blobStorage:'IndexedDB media_blobs',ocr:'NOT_ENABLED',externalApproval:'NOT_CHECKED'};
 })();
 
+</script>
+<style id="tsums-p9-qa030-person-css">
+#p9qaFitness:not([data-person-id]){display:none!important}
+.tsumsPersonOpen{width:100%;min-height:58px;font-size:17px!important;line-height:1.4!important;margin-top:12px;text-align:left;touch-action:manipulation}
+.tsumsPersonOpen[aria-expanded="true"]{background:rgba(215,174,91,.18)!important;border-color:#d7ae5b!important}
+.tsumsPersonalHint{font-size:14px;line-height:1.55;margin:8px 0;color:#dbcaac}
+#p9qaFitness{min-width:0;margin:12px 0 0!important;padding:14px!important}
+#p9qaFitness input[type=file]{max-width:100%}
+#p9qaFitness .p9qa-status{overflow-wrap:anywhere}
+#p9qaFitness button{min-height:50px;white-space:normal;overflow-wrap:anywhere}
+#tsumsPersonLegacyNote{font-size:14px;line-height:1.55;padding:10px;border-left:3px solid #d7ae5b;color:#e6d1a4}
+</style>
+<script id="tsums-p9-qa030-member-profile">
+(function(){
+'use strict';
+const q=(s,r=document)=>r.querySelector(s);
+const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
+let owner=null;
+function park(){
+  const card=q('#p9qaFitness');
+  const p2=q('#p2');
+  if(card&&p2){card.removeAttribute('data-person-id');card.removeAttribute('data-trip-id');card.removeAttribute('data-person-label');
+    let holder=q('#tsumsPersonParking');if(!holder){holder=document.createElement('div');holder.id='tsumsPersonParking';holder.hidden=true;p2.appendChild(holder)}
+    holder.appendChild(card);
+    card.dispatchEvent(new CustomEvent('tsums-person-changed',{detail:{summary:'請從名冊選取個人選項。'}}));
+  }
+  owner=null;
+}
+async function selectPerson(i,button){
+  const trip=await currentTrip();
+  const m=trip?.team?.members?.[i];if(!m){alert('請先建立行程並新增隊員');return}
+  if(!m.name?.trim()){alert('請先填入這位隊員的姓名，再開啟個人能力證據。');return}
+  const card=q('#p9qaFitness');if(!card){alert('個人 GPX 模組未載入');return}
+  if(!m.p9_person_id){m.p9_person_id=crypto.randomUUID();await put(TRIPS,trip)}
+  const id=m.p9_person_id;
+  if(owner===id){park();qa('.tsumsPersonOpen').forEach(b=>b.setAttribute('aria-expanded','false'));return}
+  owner=id;
+  const memberPanel=button.closest('.member');
+  memberPanel.appendChild(card);card.dataset.personId=id;card.dataset.tripId=trip.id;card.dataset.personLabel=m.name;
+  qa('.tsumsPersonOpen').forEach(b=>b.setAttribute('aria-expanded',String(b===button)));
+  const gp=m.personal_evidence?.recent_activity_gpx;
+  const bindings=trip.preparation?.evidence_bindings||[];
+  const pics=bindings.filter(x=>x.target==='RECENT_ACTIVITY_RECORD'&&x.target_ref===id).length;
+  const legacy=trip.team?.recent_activity_observation;
+  let summary=gp?`已存的個人統計：${gp.local_distance_km??'—'} km、爬升 ${gp.local_ascent_m??'—'} m；來源 ${gp.source_name||'未提供'}（人工歸屬、未驗證能力）。`:
+    '此隊員尚無專屬 GPX 統計；請上傳該隊員的紀錄。';
+  summary+=` 個人運動照片：${pics} 張。`;
+  if(legacy)summary+=' 另有舊版未具名的行程層級 GPX 摘要，未自動移入任何個人。';
+  card.dispatchEvent(new CustomEvent('tsums-person-changed',{detail:{summary}}));
+}
+function decorateRoster(t){
+ const host=q('#members');if(!host)return;
+ const memberCards=qa(':scope > .member',host);
+ memberCards.forEach((panel,i)=>{
+   if(q('.tsumsPersonOpen',panel))return;
+   const btn=document.createElement('button');btn.type='button';btn.className='secondary tsumsPersonOpen';btn.dataset.index=String(i);
+   btn.textContent='個人選項｜近期 GPX／運動紀錄 ›';btn.setAttribute('aria-expanded','false');
+   panel.appendChild(btn);
+   const note=document.createElement('div');note.className='tsumsPersonalHint';note.textContent='個人 GPX 與運動照片只歸屬本隊員，非整隊體能驗證。';panel.appendChild(note);
+   btn.addEventListener('click',()=>selectPerson(i,btn).catch(e=>alert('無法開啟個人選項：'+String(e.message||e))));
+ });
+ if(t?.team?.recent_activity_observation&&!q('#tsumsPersonLegacyNote')){
+   const warn=document.createElement('div');warn.id='tsumsPersonLegacyNote';warn.textContent='舊版曾保存未具名的行程層級近期 GPX 摘要；資料保留但不自動指派給任何隊員。';
+   host.insertAdjacentElement('afterend',warn);
+ }else if(!t?.team?.recent_activity_observation)q('#tsumsPersonLegacyNote')?.remove();
+}
+function install(){
+  if(typeof renderMembers!=='function'||!q('#members'))return;
+  park();
+  const previous=renderMembers;
+  renderMembers=function(t){park();const result=previous.apply(this,arguments);decorateRoster(t);return result};
+  currentTrip().then(t=>{if(t)decorateRoster(t)}).catch(()=>{});
+  window.TSUMS_P9_PERSONAL_QA={scope:'member-specific evidence',status:'LOCAL_UI_CANDIDATE',legacyTeamObservation:'PRESERVED_NOT_ASSIGNED'};
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
+})();
 </script>
 </body></html>

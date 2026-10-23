@@ -1031,9 +1031,29 @@ body.field #prestartGateCard .v8PrestartMeaning strong{color:#614000!important}
 body.field #p5 .s5WaitCheckpoint{background:#fff4d6!important;color:#111!important}
 body.field #p5 .s5WaitCheckpoint label,body.field #p5 .s5WaitCheckpoint h3{color:#6b4800!important}
 </style>
+<style id="tsums-p10a-onsite-activation-public-review">
+/* TSUMS 4.0V Public-Layer Field Runtime P10-A. No protected thresholds. */
+#p5 #p10aCheckpointCard,#p6 #p10aFieldStatus{border:2px solid #b18b4c!important;background:#19140e!important;border-radius:19px!important;padding:22px!important;margin:20px 0!important;color:#f8e9ca!important}
+#p5 #p10aCheckpointCard h3,#p6 #p10aFieldStatus h3{font-size:27px!important;color:#f6cb77!important;line-height:1.35!important}
+#p5 #p10aCheckpointCard p,#p6 #p10aFieldStatus p{font-size:18px!important;line-height:1.6!important;color:#efdfc0!important}
+#p5 #p10aCheckpointCard label{font-size:22px!important;line-height:1.4!important;color:#ffdf9b!important;margin:18px 0 8px!important;font-weight:800!important}
+#p5 #p10aCheckpointCard .p10aGroup{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+#p5 #p10aCheckpointCard input:not([type=checkbox]),#p5 #p10aCheckpointCard textarea,#p5 #p10aCheckpointCard select{display:block!important;width:100%!important;min-height:65px!important;border:2px solid #aa8955!important;border-radius:13px!important;background:#100d09!important;color:#fff1d5!important;padding:13px 14px!important;font-size:21px!important;box-sizing:border-box!important}
+#p5 #p10aCheckpointCard textarea{min-height:112px!important}
+#p5 #p10aCheckpointCard .p10aConfirm{display:flex!important;align-items:center!important;gap:18px!important;min-height:96px!important;border:2px solid #9e7e4a!important;border-radius:15px!important;padding:14px 18px!important;background:#292014!important;font-size:21px!important;line-height:1.4!important}
+#p5 #p10aCheckpointCard .p10aConfirm input{width:34px!important;height:34px!important;min-width:34px!important;accent-color:#f3ca79!important}
+#p5 #p10aCheckpointCard .p10aNotice{border-left:5px solid #e7b866;padding:13px 14px;background:#2b2113;border-radius:8px;font-size:18px;line-height:1.6}
+#p5 #p10aCheckpointCard .p10aEmergency{display:block;min-height:96px;text-align:center;text-decoration:none;background:#4c2320;border:2px solid #f38a78;color:#fff!important;border-radius:14px;padding:20px 12px;margin:18px 0;font-size:24px;font-weight:850}
+#p5 #startFieldSession{min-height:96px!important;font-size:24px!important;line-height:1.35!important;width:100%!important}
+body.field #p5 #p10aCheckpointCard,body.field #p6 #p10aFieldStatus{background:#fff6da!important;color:#121212!important;border-color:#87601d!important}
+body.field #p5 #p10aCheckpointCard label,body.field #p5 #p10aCheckpointCard h3{color:#684500!important}
+body.field #p5 #p10aCheckpointCard input:not([type=checkbox]),body.field #p5 #p10aCheckpointCard textarea,body.field #p5 #p10aCheckpointCard select{background:#fff!important;color:#111!important}
+body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#292013!important}
+@media(max-width:600px){#p5 #p10aCheckpointCard{padding:17px!important}}
+</style>
 </head>
 <body>
-<div id="tsums-review-banner" role="status" style="position:relative;z-index:99;background:#33220c;color:#ffdf98;border:3px solid #e8b553;text-align:center;padding:15px 12px;font-size:18px;line-height:1.5;font-weight:800">TSUMS R2 · V5 × S5-05｜P9 WAIT／RETREAT 閘門測試版（QA）<br><span style="font-size:15px;font-weight:600">僅使用合成資料｜獨立測試資料庫｜不讀取原有行程｜S5-05 真實瀏覽器驗收尚未完成</span></div>
+<div id="tsums-review-banner" role="status" style="position:relative;z-index:99;background:#33220c;color:#ffdf98;border:3px solid #e8b553;text-align:center;padding:15px 12px;font-size:18px;line-height:1.5;font-weight:800">TSUMS R2 · V5 × S5-05｜P10-A 現場二次確認啟動閘門（QA）<br><span style="font-size:15px;font-weight:600">僅使用合成資料｜獨立測試資料庫｜不讀取原有行程｜S5-05 真實瀏覽器驗收尚未完成</span></div>
 
 <div role="status" style="position:sticky;top:0;z-index:99999;background:#592500;color:#fff7e8;padding:12px 16px;font-size:18px;line-height:1.4;text-align:center;border-bottom:3px solid #ffdf96">TSUMS 隔離驗收預覽｜Synthetic QA only｜非正式部署｜不得輸入真實行程</div><div class="app">
 <header>
@@ -1445,10 +1465,32 @@ body.field #p5 .s5WaitCheckpoint label,body.field #p5 .s5WaitCheckpoint h3{color
 <div class="bigActions"><button data-pre="GO">GO｜按計畫出發</button><button class="warn" data-pre="WAIT">WAIT｜暫緩待複核</button><button class="stop" data-pre="RETREAT">RETREAT｜終止本次行程</button></div>
 <div class="v8PrestartMeaning" role="note"><strong>行前決策範圍：</strong>GO 僅表示依原計畫啟程，不取代登山口現場覆核；WAIT 表示暫不出發，應記載具名複核人、時間、待查條件與停損點；RETREAT 表示終止本次計畫，取消或改期應保留原始紀錄並另行建案重評。<strong>本版只修正介面文案，WAIT 期限與改期重建案的強制檢核尚未驗收。</strong></div>
 <div class="alert blue">系統只揭露 風險狀態、責任訊號、尚缺事實、Blocker / 警示 / 未確認 與 需要決策。最終決策仍由具權限的人作成；GO 不等於安全保證。</div></div>
+<div class="card" id="p10aCheckpointCard" data-p10a-public-layer="true">
+  <h3>第二頁啟動前｜登山口現場二次確認</h3>
+  <p>這是 Step 5 行前 GO → Field Runtime 現場啟動的獨立責任交接。現場資訊必須由具權限的人重新確認；不依賴行前 GO 自動放行。</p>
+  <p class="p10aNotice">P10-A 公開層 QA：只用合成資料。選擇「有新風險／未知」會暫停正式現場啟動；請先作成 WAIT／RETREAT 並更新事實。此檢查不表示山域安全保證。</p>
+  <div class="p10aGroup">
+    <div><label for="p10aActor">現場具名確認人（須符合有效授權）</label><input id="p10aActor" autocomplete="off" placeholder="僅輸入合成授權角色"></div>
+    <div><label for="p10aSite">現場檢查位置／登山口名稱</label><input id="p10aSite" autocomplete="off" placeholder="合成登山口／不可輸入敏感座標"></div>
+    <div><label for="p10aRoad">道路與聯外安全／工程封閉</label><select id="p10aRoad"><option value="">尚未核對</option><option value="AS_OBSERVED">已現場核對，無新增阻擋事實</option><option value="ISSUE">發現新增危險／管制</option><option value="UNKNOWN">未知／無法確認</option></select></div>
+    <div><label for="p10aWeather">現場天候與能見度</label><select id="p10aWeather"><option value="">尚未核對</option><option value="AS_OBSERVED">已現場核對，無新增阻擋事實</option><option value="ISSUE">發現新增危險／警示</option><option value="UNKNOWN">未知／無法確認</option></select></div>
+    <div><label for="p10aRoute">路線開放與現場進入條件</label><select id="p10aRoute"><option value="">尚未核對</option><option value="AS_OBSERVED">已現場核對，無新增阻擋事實</option><option value="ISSUE">發現封閉／偏離／阻擋</option><option value="UNKNOWN">未知／無法確認</option></select></div>
+    <div><label for="p10aTeam">全隊當下身體、裝備與行動能力</label><select id="p10aTeam"><option value="">尚未核對</option><option value="AS_OBSERVED">已現場核對，無新增阻擋事實</option><option value="ISSUE">有人不適／能力下降／裝備問題</option><option value="UNKNOWN">未知／無法確認</option></select></div>
+    <div><label for="p10aComm">主要與備援通訊確認</label><select id="p10aComm"><option value="">尚未核對</option><option value="AS_OBSERVED">已現場核對，符合本次有效通訊安排</option><option value="ISSUE">通訊缺口／備援不符安排</option><option value="UNKNOWN">未知／無法確認</option></select></div>
+    <div><label for="p10aKnown">當時已知事實</label><textarea id="p10aKnown" placeholder="合成觀察；不得代填未觀察事實"></textarea></div>
+    <div><label for="p10aUnknown">當時未知／尚待確認（無則填「無」）</label><textarea id="p10aUnknown" placeholder="如實寫明未知；不可事後補寫到當時紀錄"></textarea></div>
+    <div><label for="p10aEvidence">證據參照（可留空，不等於已附證據）</label><input id="p10aEvidence" placeholder="合成截圖代碼／觀察紀錄代碼"></div>
+  </div>
+  <label class="p10aConfirm"><input id="p10aHumanConfirm" type="checkbox"><span>由我本人依目前實際事實完成現場複核；已理解行前 GO 不取代登山口決策。</span></label>
+  <p class="p10aNotice" id="p10aStatus" role="status" aria-live="polite">尚未完成現場二次確認｜現場會話不得啟動。</p>
+  <a class="p10aEmergency" href="tel:119">緊急狀況｜直接開啟 119 撥號（不需 GO）</a>
+  <p>撥號按鈕僅交付手機系統，不保證撥出、接通或完成救援通報；也不會自動建立救援回執。</p>
+</div>
 <div class="toolbar"><button class="primary" id="startFieldSession">開始行程｜進入現場運作</button></div>
 </section>
 
 <section id="p6" class="page">
+<div class="card" id="p10aFieldStatus"><h3>4.0V 現場責任交接</h3><p id="p10aFieldSummary">現場啟動紀錄尚未建立；不得由行前 GO 推定已進入 Field Session。</p></div>
 <div class="card">
   <h2>行程進行中</h2><p class="hint">現場運作｜優先記錄治理事實。</p>
   <div class="fieldRuntimeTop">
@@ -3463,13 +3505,17 @@ async function v064ActivationCheck(t,es){
 }
 
 async function v064LocalActivationCommit(){
- return v06WriteLock=v06WriteLock.then(async()=>{
+ return v06WriteLock=v06WriteLock.catch(()=>{}).then(async()=>{
   const t=await currentTrip(),es=await eventsFor(currentTripId),gate=await v064ActivationCheck(t,es);
   if(!gate.ok)throw new Error(gate.message);
   const existing=await v064ActiveSession(t.id);
   if(existing)return existing;
 
-  const started_at=isoNow(),started_by=t.prestart.actor||t.leader||"未具名";
+  // P10-A Public-Layer onsite check: re-check human authority and observed facts.
+  // Never infer an onsite GO from a prestart GO.
+  const onsiteCheckpoint=await vP10AValidateOnsite(t);
+  const onsite_checkpoint_hash=await sha256(stable(onsiteCheckpoint));
+  const started_at=isoNow(),started_by=onsiteCheckpoint.actor;
   const session_id=crypto.randomUUID(),track_id=crypto.randomUUID(),planned_route_id=crypto.randomUUID();
   const snapshot=v064PrestartSnapshot(t,es),prestart_snapshot_hash=await sha256(stable(snapshot));
   const plannedPoints=v064Clone(t.route?.gpx?.points||[]);
@@ -3487,6 +3533,7 @@ async function v064LocalActivationCommit(){
   const session={
    session_id,trip_id:t.id,status:"ACTIVE",started_at,started_by,ended_at:null,
    prestart_snapshot:snapshot,prestart_snapshot_hash,
+   onsite_checkpoint:onsiteCheckpoint,onsite_checkpoint_hash,
    planned_route_ref:planned_route_id,recorded_track_ref:track_id,
    track_state:V064_TRACK_STATES.STARTING,adapter_state:"NOT_ATTACHED",
    background_location_acceptance:"NOT_YET_ESTABLISHED",
@@ -3503,7 +3550,7 @@ async function v064LocalActivationCommit(){
    lifecycle_stage:3,module_refs:["C1","C2","C3"],actor:started_by,observed_at:started_at,
    observed_fact:"Field 現場會話 started after Local Activation Commit",
    evidence_object_type:"FIELD_SESSION",
-   structured_payload:{session_id,track_id,planned_route_ref:planned_route_id,prestart_snapshot_hash,track_state:"STARTING",background_location_acceptance:"NOT_YET_ESTABLISHED"},
+   structured_payload:{session_id,track_id,planned_route_ref:planned_route_id,prestart_snapshot_hash,onsite_checkpoint:onsiteCheckpoint,onsite_checkpoint_hash,track_state:"STARTING",background_location_acceptance:"NOT_YET_ESTABLISHED"},
    idempotency_key:`FIELD_SESSION_STARTED:${session_id}`
   },es);
   const nextTrip={...t,field_session:{active:true,session_id,status:"ACTIVE",track_id,track_state:"STARTING",started_at,started_by,ended_at:null},updated_at:started_at};
@@ -5761,6 +5808,58 @@ async function vR2SafeInit(){
   console.error("R2_QA_RENDER",e);
  }
 }
+/* TSUMS Field Runtime P10-A. Public-Layer only; no Protected Core logic.
+   All inputs are human-observed. This gate has no hidden or invented risk threshold. */
+async function vP10AValidateOnsite(trip){
+  const read=id=>String(document.getElementById(id)?.value||'').trim();
+  const actor=read('p10aActor'),site=read('p10aSite'),known=read('p10aKnown'),unknown=read('p10aUnknown');
+  const obs={road:read('p10aRoad'),weather:read('p10aWeather'),route:read('p10aRoute'),team:read('p10aTeam'),communication:read('p10aComm')};
+  const status=document.getElementById('p10aStatus');
+  const refuse=msg=>{if(status)status.textContent='現場啟動阻擋｜'+msg;throw new Error('P10A_ONSITE_BLOCKED：'+msg)};
+  if(!trip||!trip.id)refuse('缺少行程與行前紀錄');
+  if(!actor||!site||!known||!unknown)refuse('缺少具名者、位置、當時已知或未知事實');
+  if(!document.getElementById('p10aHumanConfirm')?.checked)refuse('尚未完成本人現場複核確認');
+  const unresolved=Object.entries(obs).filter(([_,v])=>v!=='AS_OBSERVED').map(([k])=>k);
+  if(unresolved.length)refuse('路況／天候／路線／成員／通訊仍有未核對或新風險（'+unresolved.join('、')+'）');
+  const auth=await v0641AuthorityState(trip);
+  if(!auth?.fresh||!auth?.candidates?.includes(actor))refuse('現場確認人尚未證明有有效決策權');
+  const snapshot={checkpoint_id:'ONSITE-'+crypto.randomUUID(),trip_id:trip.id,
+    actor,site,observed_at:isoNow(),observations:obs,
+    known_facts:known,unknown_facts:unknown,
+    evidence_refs:read('p10aEvidence')?read('p10aEvidence').split(',').map(x=>x.trim()).filter(Boolean):[],
+    source_state:'USER_RECORDED',confirmed_by_user:true,
+    time_basis:'DEVICE_CLOCK_NOT_INDEPENDENTLY_VERIFIED',
+    governance_boundary:'FIELD_ENTRY_OBSERVATION_NOT_SAFETY_CERTIFICATE',
+    prestart_decision_record_ref:trip.prestart?.decision_record?.decision_record_id||null};
+  if(!snapshot.prestart_decision_record_ref)refuse('缺少可引用的行前具名決策紀錄');
+  if(status)status.textContent='現場複核已填妥｜按下「開始行程」後，核對結果與啟動事件才會共同提交。';
+  return snapshot;
+}
+const vP10APreviousRenderAll=renderAll;
+renderAll=async function(){
+  await vP10APreviousRenderAll();
+  const el=document.getElementById('p10aFieldSummary');
+  if(!el||!db||!currentTripId)return;
+  try{
+    const active=await v064ActiveSession(currentTripId);
+    const point=active?.onsite_checkpoint;
+    if(!active){el.textContent='尚未啟動 Field Session；行前 GO 不等於現場通行授權。';return;}
+    if(!point||!active.onsite_checkpoint_hash)throw Error('P10A_CHECKPOINT_MISSING');
+    const verifiedHash=await sha256(stable(point));
+    if(verifiedHash!==active.onsite_checkpoint_hash)throw Error('P10A_CHECKPOINT_HASH_MISMATCH');
+    const trip=await currentTrip();
+    if(trip?.field_session?.session_id!==active.session_id)throw Error('P10A_TRIP_SESSION_MISMATCH');
+    const es=await eventsFor(currentTripId);
+    const matches=es.filter(e=>e.event_type==='FIELD_SESSION_STARTED'&&e.structured_payload?.session_id===active.session_id);
+    if(matches.length!==1)throw Error('P10A_SESSION_START_EVENT_MISSING_OR_DUPLICATE');
+    const ev=matches[0];
+    if(ev.structured_payload.onsite_checkpoint_hash!==verifiedHash||stable(ev.structured_payload.onsite_checkpoint)!==stable(point))throw Error('P10A_CHECKPOINT_EVENT_MISMATCH');
+    const {event_hash,...base}=ev;
+    if(await sha256(stable(base))!==event_hash)throw Error('P10A_FIELD_START_EVENT_HASH_FAIL');
+    el.textContent=('啟動事件與現場查核已核對｜具名者 '+point.actor+'｜登山口 '+point.site+'｜觀察時間 '+point.observed_at+'｜Checkpoint '+point.checkpoint_id+'｜當時未知：'+point.unknown_facts+'｜裝置時間尚未獨立校時；查核完成不等於安全保證');
+  }catch(_){el.textContent='無法查證現場啟動紀錄，請停止以 GO 作為有效現場授權。'}
+};
+
 vR2SafeInit();
 </script>
 </body></html>

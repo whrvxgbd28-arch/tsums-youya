@@ -1532,6 +1532,44 @@ body.field .app > footer {color:#463c2d!important}
  .app > footer{font-size:13px!important}
 }
 </style>
+<style id="tsums-p9-pdf-qa003-011">
+/* PDF 22-page QA-003..011: P9-only readability, original state unchanged */
+#p1 .p9pdf-intro{border-left:5px solid var(--gold);padding:12px 15px;background:var(--panel2);border-radius:12px;margin-bottom:18px;overflow-wrap:anywhere}
+#p1 .p9pdf-over{font-size:19px;font-weight:900;color:var(--gold2);line-height:1.5}
+#p1 .p9pdf-trip-name{font-size:clamp(23px,5.8vw,33px)!important;color:var(--text)!important;line-height:1.4!important;margin:8px 0 2px!important;overflow-wrap:anywhere}
+#p1 .v0646MatrixGroup{padding:15px 12px!important}
+#p1 .v0646MatrixGroup h4{font-size:21px!important;line-height:1.4!important}
+#p1 .v0646MatrixRow{grid-template-columns:minmax(0,1fr)!important;gap:7px!important;padding:15px 0!important}
+#p1 .v0646MatrixRow b,#p1 .v0646MatrixRow span,#p1 #recruitFields td,#p1 #recruitFields th{font-size:18px!important;line-height:1.57!important;white-space:normal!important}
+#p1 .v0646Status{font-size:16px!important;padding:5px 8px!important;white-space:normal!important}
+#p1 .v0646Question{font-size:18px!important;padding:14px!important;line-height:1.6!important;margin:12px 0!important}
+#p1 #recruitFlags,#p1 #recruitMissing,#p1 #recruitFields{overflow-wrap:anywhere;max-width:100%}
+#p1 .card,#p2 .card{overflow-wrap:anywhere}
+#p1 label,#p2 label{font-size:18px!important;line-height:1.6!important}
+#p1 .hint,#p2 .hint,#p1 .small,#p2 .small{font-size:17px!important;line-height:1.65!important}
+#p1 button,#p2 button{font-size:18px!important;min-height:58px!important}
+#p2 #recruitType,#p2 #insuranceMode{font-size:19px;min-height:61px}
+#p2 .roleRow [data-r],#p2 .member input{font-size:17px;min-height:54px}
+#p2 #operationalRolesCard .p9qa-classification{border-left:5px solid var(--gold);padding:11px}
+#p2 #operationalRolesCard .p9qaRoleSelect{min-height:58px;font-size:19px}
+#p2 .v0632Grid{gap:14px}
+#p2 .v0632Disclosure>summary,#p2 .v0633Hub>summary{min-height:75px}
+.p9pdf-assist{padding:16px;border:1.5px solid var(--line);background:var(--panel2);border-radius:14px;margin:12px 0;min-width:0;overflow-wrap:anywhere}
+.p9pdf-assist h3{font-size:21px!important;margin:0 0 8px;color:var(--gold2)}
+.p9pdf-note{font-size:16px!important;line-height:1.65!important;color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere;margin:10px 0}
+.p9pdf-assist input,.p9pdf-assist textarea,.p9pdf-assist select{width:100%;min-height:56px;font-size:17px;min-width:0;margin-top:10px}
+.p9pdf-assist textarea{min-height:140px}
+.p9pdf-assist button{display:block;min-height:62px;font-size:17px;white-space:normal;margin:10px 0;width:100%}
+#p9pdfPlanFromBlank{flex:1 1 100%;min-height:62px}
+@media(max-width:620px){#p1 .v0646MatrixRow{grid-template-columns:1fr!important}#p1 .v0646MatrixGroup{padding:14px!important}#p1 .v0646MatrixRow span{display:block;max-width:100%}}
+
+/* Readable native photo-picker controls in mobile WebKit/Chromium */
+#p2 .p9pdf-assist input[type=file]{font-size:17px!important;color:var(--text);padding:12px;line-height:1.5}
+#p2 .p9pdf-assist input[type=file]::file-selector-button{font:inherit;font-weight:850;padding:10px 12px;min-height:48px;border:2px solid var(--gold);border-radius:10px;background:var(--panel);color:var(--gold2);margin-right:10px;cursor:pointer}
+#p2 .p9pdf-assist .p9pdf-role-extras>h3{font-size:20px!important}
+#p1 .v0646MatrixGroup .v0646MatrixRow span{overflow-wrap:anywhere}
+
+</style>
 </head>
 <body>
 <div id="tsums-review-banner" class="p9QaUnifiedNotice" role="status" aria-label="測試版本限制">
@@ -7411,6 +7449,154 @@ document.querySelectorAll('#p6ui [data-p10wear-demo]').forEach(function(button){
   window.TSUMS_P9_QA_PATCH={id:PATCH_ID,status:qaState,scope:'p0-p5 only',mode:'synthetic QA; not production',verify:()=>({basePages:expected.map(id=>!!$('#'+id)),weight:!!$('#p9qaWeight'),guard:!!$('#p9qaGuard'),snow:!!$('#p9qaSnowExposure'),fitness:!!$('#p9qaActivityGPX'),claims:'no third-party integration claimed'})};
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
+})();
+
+</script>
+<script id="tsums-p9-pdf-qa003-011">
+/* TSUMS P9 PDF 22-page QA-003..011 | public-layer, non-destructive. */
+(()=>{'use strict';
+ const $=s=>document.querySelector(s), el=(t,c,tx)=>{const e=document.createElement(t);if(c)e.className=c;if(tx!==undefined)e.textContent=tx;return e};
+ const note=(host,txt)=>{const e=el('p','p9pdf-note',txt);host.append(e);return e};
+ const mkbtn=(host,id,text,callback)=>{const b=el('button','secondary',text);b.type='button';b.id=id;b.addEventListener('click',callback);host.append(b);return b};
+ const rich=(tag,txt,cls)=>{const e=el(tag,cls,txt);return e};
+ const text=(id,v)=>{const e=$(id);if(e)e.textContent=v};
+ const field=(host,label,type='text')=>{const wrap=el('div','p9pdf-field');const l=el('label',null,label),input=el('input');input.type=type;wrap.append(l,input);host.append(wrap);return input};
+ async function onDeviceOCR(file,status){
+  if(!file || !/^image\//.test(file.type)){status.textContent='請選擇圖片檔；未執行辨識。';return null}
+  if(file.size>7*1024*1024){status.textContent='圖片超過 7 MB；請縮小後再選。';return null}
+  if(!('TextDetector' in window)){status.textContent='此瀏覽器沒有本機文字辨識能力（TextDetector）；未執行 OCR，請人工貼入或輸入照片上的文字。';return null}
+  let bmp;
+  try{bmp=await createImageBitmap(file);const detector=new window.TextDetector();const items=await detector.detect(bmp);const words=items.map(x=>String(x.rawValue||'').trim()).filter(Boolean);if(!words.length){status.textContent='本機辨識未找到可用文字；請手動輸入並核對原始照片。';return null}status.textContent='本機 OCR 已擷取候選文字；尚未核對，請先閱讀、修改，再確認帶入。';return words.join('\n')}
+  catch(err){status.textContent='本機文字辨識失敗（未產生摘要）：'+String(err?.message||err);return null}
+  finally{bmp?.close?.()}
+ }
+ const clean=s=>String(s??'').trim();
+ function headingAndTrip(){
+  const p1=$('#p1');if(!p1)return;
+  const card=p1.querySelector(':scope > .card');if(!card)return;
+  const intro=el('div','p9pdf-intro');intro.id='p9pdfRecruitHeading';intro.append(rich('div','風險前移第一步','p9pdf-over'),rich('h2','尚未建立行程','p9pdf-trip-name'));card.prepend(intro);
+  const h2=card.querySelector(':scope > h2');if(h2)h2.textContent='團體招募／自行規劃';
+  const hint=card.querySelector(':scope > .hint');if(hint)hint.textContent='自行輸入規劃或貼上招募文，可產生「風險前移一鍵注意摘要」。內容由使用者核對；未提供的資料維持未確認。';
+  const recruit=p1.querySelector('#recruitment');const nm=p1.querySelector('#tripName');const label=recruit?.previousElementSibling;if(label?.tagName==='LABEL')label.textContent='行程規劃說明／原始招募文（可自行輸入）';
+  const out=intro.querySelector('h2');function update(){out.textContent=clean(nm?.value)||clean($('#journeyTripName')?.textContent)||'尚未建立行程'};
+  nm?.addEventListener('input',update);const tripLabel=$('#journeyTripName');if(tripLabel)new MutationObserver(update).observe(tripLabel,{childList:true,characterData:true,subtree:true});update();
+  const tool=card.querySelector('.toolbar');if(tool){
+   const make=el('button','secondary','建立自行規劃行程（不需招募文）');make.type='button';make.id='p9pdfPlanFromBlank';
+   const feedback=el('div','p9pdf-note');feedback.id='p9pdfPlanStatus';feedback.setAttribute('role','status');
+   tool.after(feedback);tool.append(make);
+   make.addEventListener('click',()=>{
+    const title=clean(nm?.value);if(!title){feedback.textContent='請先填寫行程名稱。';nm?.focus();return}
+    if(clean(recruit.value)) {feedback.textContent='已有規劃／招募文字：將依照目前原文建立行程。';}
+    else{recruit.value=`活動名稱：${title}\n資料來源：使用者自行規劃（尚無完整招募文字）\n路線、時間、體能、保險、申請與留守資訊：尚待逐項輸入及確認。`;
+      feedback.textContent='已建立明確標示「資料未提供」的規劃底稿，正在使用原有行程建立流程。';}
+    $('#analyzeRecruitment')?.click();
+   });
+  }
+  const analyze=$('#analyzeRecruitment');if(analyze)analyze.textContent='建立行程並產生風險前移注意摘要';
+  const sample=$('#loadSample');if(sample)sample.textContent='載入合成測試示例';
+  const rec=$('#recruitResult');if(rec){rec.querySelector('h3').textContent='風險前移注意摘要｜資訊揭露矩陣';rec.querySelectorAll('h3')[1].textContent='已辨識的原文資訊（仍須覆核）';rec.querySelectorAll('h3')[2].textContent='未確認資訊與建議詢問';}
+ }
+ function dialogPortability(){
+  const dialog=$('#pretripEvidenceDialog');if(dialog&&dialog.closest('.page')){document.body.append(dialog);dialog.dataset.p9PdfDetached='true'}const input=$('#pretripEvidenceInput');if(input&&input.closest('.page'))document.body.append(input);
+ }
+ function insuranceReview(){
+  const source=$('#insuranceCoverageDetail');if(!source||$('#p9pdfInsuranceOCR'))return;
+  const block=el('div','p9pdf-assist');block.id='p9pdfInsuranceOCR';
+  block.append(rich('h3','保單影像與保險摘要｜人工覆核',''));
+  note(block,'拍照存證會保留原始影像 SHA-256；文字摘要只供人工核對，不替代承保範圍、除外責任與保額查驗。');
+  mkbtn(block,'p9pdfInsuranceEvidence','📷 拍照／上傳保單原件（既有本機存證）',()=>{if(typeof v0644OpenEvidence==='function')v0644OpenEvidence('INSURANCE_ASSISTANCE','保單與投保文件');else alert('既有影像存證未就緒，請勿誤認為已保存。')});
+  const camera=el('input');camera.id='p9pdfInsuranceImage';camera.type='file';camera.accept='image/*';camera.setAttribute('aria-label','選擇保單圖片供本機 OCR（可用時）');block.append(camera);
+  const state=el('div','p9pdf-note','尚未選取圖片；本機 OCR 僅於瀏覽器支援時可用。');state.setAttribute('role','status');block.append(state);
+  const raw=el('textarea');raw.id='p9pdfInsuranceText';raw.placeholder='可手動輸入或貼上保單資訊（保險公司、商品、有效期間、保障摘要）。不必輸入完整保單號碼。';raw.rows=5;block.append(raw);
+  camera.addEventListener('change',async()=>{const str=await onDeviceOCR(camera.files?.[0],state);if(str)raw.value=str;camera.value=''});
+  const summary=el('div','p9pdf-note','尚無已確認的保單文字摘要。');summary.id='p9pdfInsuranceSummary';block.append(summary);
+  mkbtn(block,'p9pdfInsurancePreview','檢視保險文字摘要（不自動核驗）',()=>{
+   const s=clean(raw.value);if(!s){summary.textContent='沒有可整理的保單原文。';return}
+   const company=s.match(/(?:保險公司|承保公司|保險人)[：:\s]*([^\n，,；;]{2,50})/u)?.[1]||'';
+   const product=s.match(/(?:險種|商品名稱|商品)[：:\s]*([^\n，,；;]{2,50})/u)?.[1]||'';
+   const periods=s.match(/(?:保險期間|有效期間)[：:\s]*([^\n]{2,70})/u)?.[1]||'';
+   summary.textContent='候選資訊：'+[company&&'公司：'+company,product&&'商品：'+product,periods&&'期間：'+periods].filter(Boolean).join('；')+(company||product||periods?'。':'無法以明確標籤拆出公司／商品／期間，僅能保留原文。')+' 請親自覆核原圖；不代表已投保或符合保險條件。';
+  });
+  mkbtn(block,'p9pdfInsuranceApply','人工確認後帶入既有「保障內容」欄位',()=>{
+   const s=clean(raw.value);if(!s){summary.textContent='文字為空，未寫入。';return}
+   if(!confirm('確認已人工核對照片／原文，將文字摘要寫入目前尚未鎖定的保險說明欄？不代表保險效力核驗。'))return;
+   const safe=s.slice(0,1000).replace(/(保單號碼|身份證|身分證|證號)[：:\s]*\S+/gu,'$1：〔已遮蔽，原始附件另存〕');
+   source.value=(clean(source.value)?source.value+'\n':'')+'[使用者覆核保單文字；未作承保驗證]\n'+safe;
+   source.dispatchEvent(new Event('input',{bubbles:true}));
+   summary.textContent='已帶入既有保障內容欄（尚未儲存）。請使用原團隊治理／行前保存機制存檔。';
+  });
+  source.closest('div')?.after(block);
+ }
+ function roles(){
+  const card=$('#p9qaRoleText');if(!card||$('#p9pdfRoleAssistant'))return;
+  const panel=el('div','p9pdf-assist');panel.id='p9pdfRoleAssistant';panel.append(rich('h3','具名角色欄位候選｜先讀原文再確認',''));
+  note(panel,'僅從姓名、電話、期間、單位、工作內容、負重、對價的明確「欄位：內容」提取字串。人工覆核前不寫入；職稱、權限與法律資格不得推定。');
+  const rowSel=el('select');rowSel.id='p9pdfRoleRow';panel.append(rowSel);
+  const photo=el('input');photo.type='file';photo.accept='image/*';photo.id='p9pdfRoleImage';photo.setAttribute('aria-label','角色說明圖片本機文字辨識');panel.append(photo);
+  const ocrState=note(panel,'角色圖片僅作本機候選辨識（有支援時）；原始影像請另用存證功能保存。');
+  const preview=el('div','p9pdf-note','尚未擷取角色欄位。');panel.append(preview);
+  function refresh(){const chosen=rowSel.value;const list=$('#operationalRolesList');const rows=[...(list?.querySelectorAll('.roleRow')||[])];rowSel.replaceChildren();const empty=el('option',null,'請先選擇一筆既有運作角色');empty.value='';rowSel.append(empty);rows.forEach((r,i)=>{const opt=el('option',null,`${i+1}｜${clean(r.querySelector('[data-r="name"]')?.value)||'尚未具名'}`);opt.value=String(i);rowSel.append(opt)});if(chosen!==''&&Number.isInteger(Number(chosen))&&Number(chosen)>=0&&Number(chosen)<rows.length)rowSel.value=chosen}
+  function find(s,labels){for(const label of labels){const m=s.match(new RegExp('(?:^|\\n)\\s*'+label+'\\s*[：:]\\s*([^\\n]{1,90})','iu'));if(m)return clean(m[1])}return''}
+  let extract=null;
+  const read=()=>{const s=clean($('#p9qaRoleTextInput')?.value);if(!s){preview.textContent='請先貼入角色原文。';extract=null;return}
+   extract={name:find(s,['姓名','人員']),phone:find(s,['電話','聯絡電話']),service_period:find(s,['服務期間','期間']),organization:find(s,['所屬單位','單位']),work:find(s,['工作內容','職責','工作']),weight:find(s,['背負重量','負重']),consideration:find(s,['費用對價','服務費用','對價','報酬'])};
+   const present=Object.entries(extract).filter(([,v])=>v);preview.textContent=present.length?`明示欄位候選：${present.map(([k,v])=>k+'：'+v).join('；')}。僅是文字摘錄。`:'沒有辨識到明確「欄位：內容」格式；請自行填寫。';
+  };
+  mkbtn(panel,'p9pdfRolePreview','提取姓名／電話／工作／負重／費用等明示欄位',read);
+  photo.addEventListener('change',async()=>{const v=await onDeviceOCR(photo.files?.[0],ocrState);if(v){const raw=$('#p9qaRoleTextInput');raw.value=(clean(raw.value)?raw.value+'\n':'')+v;raw.dispatchEvent(new Event('input',{bubbles:true}));read()}photo.value=''});
+  mkbtn(panel,'p9pdfRoleApply','人工核對後填入選取的具名運作角色',()=>{
+   const rows=[...document.querySelectorAll('#operationalRolesList .roleRow')];const row=rows[Number(rowSel.value)];if(rowSel.value===''||!row||!extract){preview.textContent='必須先選角色、提取原文；尚未帶入。';return}
+   if(!confirm('確認以使用者提供的原文填入選取角色空白欄位？原始權限、職稱與法律資格仍須人工核對。'))return;
+   let n=0;for(const [key,value] of Object.entries(extract)){const input=row.querySelector(`[data-r="${key}"]`);if(input&&!clean(input.value)&&value){input.value=value;input.dispatchEvent(new Event('input',{bubbles:true}));n++}}
+   if(extract.work&&!clean(roleWork.value))roleWork.value=extract.work;if(extract.weight&&!clean(roleWeight.value))roleWeight.value=extract.weight;if(extract.consideration&&!clean(roleFee.value))roleFee.value=extract.consideration;preview.textContent=`已帶入 ${n} 個既有角色欄位，另將工作／負重／對價候選填入下方待核對欄。須分別保存原角色與補充觀察。`;refresh();
+  });
+
+  const details=el('div','p9pdf-role-extras');details.append(rich('h3','角色補充觀察｜工作、負重與對價',''));
+  note(details,'這三欄與正式指揮權分開記錄，避免把服務內容或報酬誤認為決策授權。數值未經磅秤或交易憑證核實。');
+  const roleWork=field(details,'工作內容／勤務範圍（依原始說明覆核）');
+  const roleWeight=field(details,'背負重量／件數（原文記載；不自動推定公斤）');
+  const roleFee=field(details,'服務費用／對價（依原文；非付款查核）');
+  const extraState=el('div','p9pdf-note','尚未保存補充觀察。');extraState.setAttribute('role','status');details.append(extraState);
+  mkbtn(details,'p9pdfRoleExtraSave','保存指定角色的補充觀察與來源',async()=>{
+   const rows=[...document.querySelectorAll('#operationalRolesList .roleRow')],row=rows[Number(rowSel.value)];
+   if(rowSel.value===''||!row){extraState.textContent='請先選擇既有運作角色，尚未保存。';return}
+   const roleId=clean(row.dataset.roleId),name=clean(row.querySelector('[data-r="name"]')?.value);
+   if(!roleId||!name){extraState.textContent='請先具名角色；不保存匿名權責紀錄。';return}
+   if(![roleWork.value,roleWeight.value,roleFee.value].some(clean)){extraState.textContent='至少填寫一項補充觀察。';return}
+   try{if(typeof currentTrip!=='function'||typeof put!=='function'||typeof TRIPS==='undefined')throw Error('既有行程存檔接口不可用');
+    const t=await currentTrip();if(!t)throw Error('請先建立行程');t.team=t.team||{};
+    t.team.role_support_observations=t.team.role_support_observations||{};
+    t.team.role_support_observations[roleId]={role_id:roleId,actor_name:name,work_description:clean(roleWork.value),declared_load:clean(roleWeight.value),consideration:clean(roleFee.value),source:'USER_ENTERED_OR_TEXT_EXTRACTED_MANUALLY_CONFIRMED',recorded_at:new Date().toISOString(),authority_state:'UNDETERMINED'};
+    await put(TRIPS,t);
+    let eventOK=false;try{if(typeof appendEvent==='function'){await appendEvent('PRE_EVENT_ROLE_SUPPORT_FACT_DECLARED',{lifecycle_stage:2,module_refs:['C1','C3','C4'],source_state:'USER_RECORDED',actor:name,observed_fact:'已登錄具名角色的工作／負重／對價補充觀察，權限與法律分類未判定。'});eventOK=true}}catch(e){console.warn('角色補充觀察事件追加失敗',e)}
+    extraState.textContent=eventOK?'已寫入角色補充觀察與事件紀錄；資格、負重適配及指揮權尚未核驗。':'角色補充觀察已儲存，但事件紀錄未確認；治理證據鏈尚未閉環。';
+   }catch(e){extraState.textContent='未能保存：'+String(e?.message||e)}
+  });
+  async function restoreRoleExtras(){
+   const rows=[...document.querySelectorAll('#operationalRolesList .roleRow')],row=rows[Number(rowSel.value)];
+   roleWork.value='';roleWeight.value='';roleFee.value='';if(rowSel.value===''||!row)return;
+   try{const t=await currentTrip();const x=t?.team?.role_support_observations?.[row.dataset.roleId];
+    if(x){roleWork.value=x.work_description||'';roleWeight.value=x.declared_load||'';roleFee.value=x.consideration||'';extraState.textContent='已讀取既有角色補充觀察（人工作成）。';}
+   }catch{extraState.textContent='目前無法讀取補充觀察；不代表已保存。'}
+  }
+  rowSel.addEventListener('change',restoreRoleExtras);
+  panel.append(details);
+  card.append(panel);$('#addOperationalRole')?.addEventListener('click',refresh);$('#operationalRolesList')?.addEventListener('input',refresh);refresh();
+
+ }
+ function readability(){
+  // Keep existing evidence, risk inputs and real field state; only adjust presentation labels.
+  const l=$('#leaderCredential')?.previousElementSibling;if(l?.tagName==='LABEL')l.textContent='資格／相關證照（可拍照上傳存證）';
+  const team=$('#p2 h2');if(team)team.textContent='隊伍成員設定';
+  const ins=$('#insuranceMode');if(ins){const legal=['未確認','個人自行投保','主揪／單位統一辦理','已確認未投保'];[...ins.options].forEach((opt,i)=>{if(i<4)opt.textContent=legal[i]})}
+  const title=$('#teamGovernanceHub summary .v0633HubSummary b');if(title)title.textContent='隊伍成員設定';
+ }
+ function init(){
+  if(!$('#p1')||!$('#p2'))return;
+  dialogPortability();headingAndTrip();readability();insuranceReview();roles();
+  window.TSUMS_P9_PDF_QA={scope:'P9-P1,P2; presentation and user-controlled imports',version:'20261023-PDF-R1',ocrAvailability:'TextDetector' in window?'BROWSER_NATIVE_OPTIONAL':'NOT_AVAILABLE',protectedCore:'UNCHANGED'};
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 
 </script>

@@ -1307,6 +1307,20 @@ header .kicker{font-size:16px;letter-spacing:.04em;line-height:1.4}
 .p9qa-waypoint-row{padding:10px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) minmax(140px,.7fr);gap:8px;align-items:center;overflow-wrap:anywhere}
 .p9qa-weight-options{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:12px}
 .p9qa-weight-options>div:not(.p9qa-status){min-width:0}
+#p2 .p9qa-business-direct{grid-column:1/-1;min-width:0;max-width:100%;margin:7px 0 13px!important;
+ border:2px solid #a8834d;background:#1c160f;padding:18px;border-radius:15px}
+#p2 .p9qa-business-direct h3{font-size:23px!important;line-height:1.38;color:#f9d388}
+#p2 .p9qa-business-direct p{font-size:17px!important;line-height:1.6;color:#e9d6b6}
+#p2 .p9qa-business-direct label{font-size:18px!important;line-height:1.5;color:#f4dfbf;font-weight:850}
+#p2 .p9qa-business-direct input,#p2 .p9qa-business-direct select{font-size:18px;min-height:61px!important;margin-bottom:9px}
+#p2 .p9qa-business-direct button{min-height:70px!important;width:100%;font-size:19px!important}
+#p2 .p9qa-business-sub{padding:10px 12px;margin:10px 0;border:1px solid #755731;border-radius:13px}
+#p2 #p9qaProfessionalDetails>summary{font-size:18px!important;min-height:47px;padding:12px 0}
+#p2 .p9qa-business-direct .p9qa-status{font-size:17px!important;line-height:1.55}
+body.field #p2 .p9qa-business-direct{background:#fff5dd;color:#111}
+body.field #p2 .p9qa-business-direct h3,body.field #p2 .p9qa-business-direct label{color:#5f430d}
+body.field #p2 .p9qa-business-direct p{color:#222}
+@media(max-width:620px){#p2 .p9qa-business-direct{padding:15px}}
 #p9qaCommercialPanel.p9qa-hidden{display:none!important}
 @media(max-width:620px){.p9qa-waypoint-row{grid-template-columns:1fr}header .logo{width:90px;height:90px}}
 
@@ -7127,35 +7141,106 @@ document.querySelectorAll('#p6ui [data-p10wear-demo]').forEach(function(button){
    if(!$('#p9qaSignature')){const motto=$('header .motto');if(motto)add(motto,'span',{id:'p9qaSignature'},'制度架構師｜Bunun Ismahasan Vlian（歐文杰）｜非外部認證');}
  }
  function commercialBusiness(){
-   const sel=$('#recruitType'),parent=$('#v0646GovernanceExtension')||$('#p2 .card');
-   if(!sel||!parent||$('#p9qaCommercialPanel'))return;
-   const box=section('p9qaCommercialPanel','旅行社／商業團體招募｜登記資訊','供人工核對。團體招募或收費不當然等於旅行業；是否具法定許可及適用法規，由主管機關依事實認定。');
-   const type=add(box,'select',{id:'p9qaAgencyType','aria-label':'業者型態'});
-   for(const [v,name] of [['UNCONFIRMED','業者身分待確認'],['TRAVEL_AGENCY','旅行社／旅行業'],['NON_TRAVEL_PROVIDER','其他商業服務提供者']])add(type,'option',{value:v},name);
-   labelled(box,'p9qaAgencyName','旅行社／服務提供者公司全銜');
-   labelled(box,'p9qaAgencyLicense','旅行業執照／登記字號（未查證請勿視為有效）');
-   labelled(box,'p9qaAgencyBasis','資訊來源／不適用理由（例如：登記資料待查、非旅行業）');
-   const state=add(box,'div',{class:'p9qa-status',role:'status',id:'p9qaAgencyStatus'},'尚未核對商業招募資料。');
-   const save=add(box,'button',{class:'secondary',type:'button',id:'p9qaAgencySave'},'保存業者身分資料（非合規驗證）');
-   parent.appendChild(box);
-   function toggle(){show(box,sel.value==='COMMERCIAL_PROVIDER');}
-   sel.addEventListener('change',toggle);toggle();
-   let last=null;
-   async function restore(){try{if(typeof currentTrip!=='function')return;const t=await currentTrip();if(!t||t.id===last)return;last=t.id;const d=t.team?.governance?.travel_agency_declaration||{};type.value=d.provider_type||'UNCONFIRMED';$('#p9qaAgencyName').value=d.name||'';$('#p9qaAgencyLicense').value=d.license_no||'';$('#p9qaAgencyBasis').value=d.basis||'';}catch{state.textContent='既有業者資料未能讀取。'}}
-   new MutationObserver(()=>{if($('#p2')?.classList.contains('active'))restore()}).observe($('#p2'),{attributes:true,attributeFilter:['class']});restore();
+   const sel=$('#recruitType');
+   if(!sel||$('#p9qaCommercialPanel'))return;
+   const selectionHost=sel.closest('div');
+   if(!selectionHost?.parentElement)return;
+   const box=section('p9qaCommercialPanel','業者登記與旅行業證照','商業服務、旅行業許可及個人專業證照分別記錄。輸入字號不等於已驗證或具合法資格。');
+   box.classList.add('p9qa-business-direct');
+   box.setAttribute('aria-live','off');
+   const type=add(box,'select',{id:'p9qaAgencyType','aria-label':'服務提供者身分（待核對）'});
+   for(const [v,name] of [['UNCONFIRMED','服務提供者身分待確認'],['TRAVEL_AGENCY','旅行社／旅行業'],['NON_TRAVEL_PROVIDER','其他有償協作／商業服務']])add(type,'option',{value:v},name);
+   const typeLabel=add(box,'label',{for:'p9qaAgencyType'},'服務提供者型態（依實際業務核對）');
+   box.insertBefore(typeLabel,type);
+   const name=labelled(box,'p9qaAgencyName','旅行社／服務提供者全銜');
+   name.placeholder='依登記名稱填寫，尚未取得可暫留空';
+   const reg=labelled(box,'p9qaAgencyRegistration','公司／商業登記字號或統一編號（如適用）');
+   reg.placeholder='資料不足可留空，不推定不存在';
+   const agencyOnly=add(box,'div',{id:'p9qaTravelOnly',class:'p9qa-business-sub'});
+   labelled(agencyOnly,'p9qaAgencyLicense','旅行業執照／許可登記字號（如適用）').placeholder='請依實際許可文件填寫；未取得可暫留空';
+   const professional=add(box,'details',{id:'p9qaProfessionalDetails',class:'p9qa-business-sub'});
+   add(professional,'summary',{},'帶隊人員證照／資格（與旅行社執照分開）');
+   const proType=add(professional,'select',{id:'p9qaLeaderLicenseType','aria-label':'帶隊人員資格類型'});
+   for(const [v,t] of [['UNCONFIRMED','未確認／尚未提供'],['TOUR_LEADER','領隊人員'],['TOUR_GUIDE','導遊人員'],['TRAVEL_MANAGER','旅行業經理人'],['OTHER','其他相關資格']])add(proType,'option',{value:v},t);
+   labelled(professional,'p9qaLeaderLicenseNo','帶隊人員資格／證照字號（如有）');
+   labelled(box,'p9qaAgencyEvidence','登記／證照資料來源或查詢紀錄').placeholder='網址、文件名稱、查詢日期或提供者';
+   labelled(box,'p9qaAgencyBasis','其他說明／不適用理由').placeholder='例如：僅提供協作，是否屬旅行業待確認';
+   const state=add(box,'div',{class:'p9qa-status',role:'status',id:'p9qaAgencyStatus'},'尚未登錄；填寫後可隨隊伍治理快照保存。');
+   const save=add(box,'button',{class:'secondary',type:'button',id:'p9qaAgencySave'},'保存登記與證照資料（未驗證）');
+   // Place immediately after activity-type select, before insurance, not at the end of a long collapsed extension.
+   selectionHost.insertAdjacentElement('afterend',box);
+   function currentMode(){return sel.value==='COMMERCIAL_PROVIDER'||sel.value==='PAID_SUPPORT'}
+   function toggle(){
+     const enabled=currentMode(),isAgency=type.value==='TRAVEL_AGENCY';
+     show(box,enabled);show(agencyOnly,enabled&&(sel.value==='COMMERCIAL_PROVIDER'||isAgency));
+     if(enabled){
+       const commercial=sel.value==='COMMERCIAL_PROVIDER';
+       box.querySelector('h3').textContent=commercial?'旅行社／商業團體｜登記與證照資料':'有償協作｜服務與資格資料';
+       box.querySelector(':scope > p').textContent=commercial?'請取得旅行社或商業服務提供者全銜及可核對的登記來源。旅行業許可與帶隊人員證照為不同事實；未提供的欄位保留待補。':'有償協作不當然等於旅行業。先記錄服務提供者、對價與登記來源；如確屬旅行業再填旅行業許可資訊。';
+     }
+   }
+   function snapshot(){
+     const data={
+       activity_type:sel.value,provider_type:type.value,name:clean(name.value),registration_no:clean(reg.value),
+       license_no:clean($('#p9qaAgencyLicense')?.value),professional_type:$('#p9qaLeaderLicenseType')?.value||'UNCONFIRMED',
+       professional_no:clean($('#p9qaLeaderLicenseNo')?.value),evidence_source:clean($('#p9qaAgencyEvidence')?.value),
+       basis:clean($('#p9qaAgencyBasis')?.value),source_state:'USER_DECLARED_NOT_VERIFIED'
+     };
+     data.missing_fields=[
+       !data.name?'服務提供者全銜':null,
+       data.provider_type==='TRAVEL_AGENCY'&&!data.license_no?'旅行業許可／登記字號':null,
+       !data.evidence_source?'資料來源／核對方式':null
+     ].filter(Boolean);
+     return data;
+   }
+   function fill(d){
+     if(!d||typeof d!=='object')return;
+     type.value=d.provider_type||'UNCONFIRMED';name.value=d.name||'';reg.value=d.registration_no||'';
+     $('#p9qaAgencyLicense').value=d.license_no||'';
+     proType.value=d.professional_type||'UNCONFIRMED';$('#p9qaLeaderLicenseNo').value=d.professional_no||'';
+     $('#p9qaAgencyEvidence').value=d.evidence_source||'';$('#p9qaAgencyBasis').value=d.basis||'';
+     toggle();
+   }
+   async function restore(){
+     try{
+       if(typeof currentTrip!=='function')return;
+       const t=await currentTrip();if(!t||t.id===restore.lastId)return;
+       const d=t.team?.governance?.recruit_identity?.business_registration || t.team?.governance?.travel_agency_declaration;
+       restore.lastId=t.id;
+       if(d)fill(d);
+       state.textContent=d?'已載入此行程的業者申報資料；尚未驗證旅行業許可或人員資格。':'尚未登錄業者證照；建議取得資訊並核對。';
+     }catch(e){state.textContent='資料讀取未完成：'+String(e?.message||e)}
+   }
+   // Existing primary team-lock saves recruit_identity. Include this UI without replacing the original button handler.
+   if(typeof v0646CollectRecruitIdentity==='function'){
+     const prevCollect=v0646CollectRecruitIdentity;
+     v0646CollectRecruitIdentity=function(){const d=prevCollect();if(currentMode())d.business_registration=snapshot();return d};
+   }
+   sel.addEventListener('change',()=>{toggle();restore().catch(()=>{})});
+   type.addEventListener('change',toggle);
+   new MutationObserver(()=>{if($('#p2')?.classList.contains('active')){restore().catch(()=>{});toggle()}})
+     .observe($('#p2'),{attributes:true,attributeFilter:['class']});
+   toggle();restore().catch(()=>{});
    save.addEventListener('click',async()=>{
-     if(sel.value!=='COMMERCIAL_PROVIDER'){state.textContent='目前非商業團招募狀態，不會把此欄位當作法律分類。';return;}
-     const name=clean($('#p9qaAgencyName').value),no=clean($('#p9qaAgencyLicense').value),basis=clean($('#p9qaAgencyBasis').value);
-     if(!name){state.textContent='請先填寫服務提供者名稱；尚未保存。';return;}
-     if(type.value==='TRAVEL_AGENCY'&&!no){state.textContent='已選旅行業，請填執照／登記字號，或改選待確認並提供查核理由；尚未保存。';return;}
-     if(type.value!=='TRAVEL_AGENCY'&&!basis){state.textContent='業者身分非旅行社或未確認，請填資訊來源／原因；尚未保存。';return;}
-     try{const t=await currentTrip();if(!t)throw Error('請先建立行程');t.team=t.team||{};t.team.governance=t.team.governance||{};
-       t.team.governance.travel_agency_declaration={provider_type:type.value,name,license_no:no,basis,source_state:'USER_DECLARED_NOT_VERIFIED',recorded_at:new Date().toISOString()};
-       await put(TRIPS,t);if(typeof appendEvent==='function')await appendEvent('PRE_EVENT_TRAVEL_PROVIDER_DECLARED',{lifecycle_stage:2,module_refs:['C1','C3'],actor:t.leader||'未具名',source_state:'USER_RECORDED',observed_fact:'商業服務提供者資訊已登錄；旅行業許可及商業合規未驗證。'});
-       state.textContent='商業服務資料已保存至目前行程；旅行業許可、保險、責任與適用法規仍待人工核對。';
-     }catch(e){state.textContent='未保存：'+String(e?.message||e)}
+     if(!currentMode()){state.textContent='請先選擇旅行社／商業團體招募或有償協作服務。';return}
+     const d=snapshot();
+     try{
+       const t=await currentTrip();if(!t)throw Error('請先建立行程');
+       t.team=t.team||{};t.team.governance=t.team.governance||{};
+       t.team.governance.travel_agency_declaration={...d,recorded_at:new Date().toISOString()};
+       t.team.governance.recruit_identity={...(t.team.governance.recruit_identity||{}),business_registration:t.team.governance.travel_agency_declaration};
+       await put(TRIPS,t);
+       if(typeof appendEvent==='function')await appendEvent('PRE_EVENT_TRAVEL_PROVIDER_DECLARED',{
+         lifecycle_stage:2,module_refs:['C1','C3'],actor:t.leader||'未具名',
+         observed_fact:'業者及資格資訊已由使用者登錄，旅行業許可、個人證照及法律合規均未由系統驗證。',
+         structured_payload:{...d,recorded_at:t.team.governance.travel_agency_declaration.recorded_at}
+       });
+       restore.lastId=t.id;
+       state.textContent='已保存至行程；'+(d.missing_fields.length?'建議取得／補充：'+d.missing_fields.join('、')+'。':'已記錄資料，仍須依來源人工核對。');
+     }catch(e){state.textContent='尚未保存：'+String(e?.message||e)}
    });
  }
+
  function roleOptionsAndCopy(){
    const list=$('#operationalRolesList');if(!list)return;
    const categories=['高山協作','高山廚工','嚮導／隨隊／壓隊','攝影人員','醫療人員','生態人員','保育人員','通訊支援','技術支援','其他'];

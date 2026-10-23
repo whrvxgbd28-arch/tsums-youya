@@ -1128,6 +1128,29 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
 #p7 #p10PrivCard .p10PrivMetric{border:1px solid #8b724c;border-radius:12px;padding:14px;margin:10px 0;background:#0d0b09;font-size:20px}
 #p7 #p10PrivCard .p10PrivStatus{white-space:pre-wrap;overflow-wrap:anywhere}
 </style>
+<style id="tsums-p10-wearable-ui-complete-20261023">
+/* TSUMS 4.0V Field Runtime UI Review – wearable panels. No sensors, storage or actual alerts. */
+#p6ui .p10wearGlobal,#p6ui .p10wearBlock{background:#19150f;border:2px solid #b18a4c;border-radius:16px;padding:17px 14px;margin:19px 0;color:#fff0d1;min-width:0}
+#p6ui .p10wearGlobal{background:linear-gradient(160deg,#2b2113,#14100b)}
+#p6ui .p10wearGlobalHead{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:13px}
+#p6ui .p10wearGlobalHead strong,#p6ui .p10wearBlock h4{font-size:24px;font-weight:900;line-height:1.45;color:#ffd68c}
+#p6ui .p10wearBlock h4{margin:3px 0 15px}
+#p6ui .p10wearFlag{border:1px solid #d7b26d;border-radius:10px;padding:7px 10px;font-size:17px;background:#443222;color:#ffe5b1;font-weight:800}
+#p6ui .p10wearGlobal p,#p6ui .p10wearBlock p{color:#e8d4af;font-size:18px;line-height:1.62;margin:14px 0 0}
+#p6ui .p10wearMiniGrid,#p6ui .p10wearVitalGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#p6ui .p10wearMiniGrid>div,#p6ui .p10wearVitalGrid>div{border:1px solid #84683e;border-radius:12px;padding:13px 9px;background:#100e0b;min-width:0}
+#p6ui .p10wearMiniGrid span,#p6ui .p10wearVitalGrid small{display:block;font-size:16px;color:#d4c09c;line-height:1.4}
+#p6ui .p10wearMiniGrid strong,#p6ui .p10wearVitalGrid strong{font-size:24px;display:block;margin-top:5px;color:#ffe0a1;line-height:1.3;overflow-wrap:anywhere}
+#p6ui .p10wearVitalGrid strong{font-size:34px}
+#p6ui .p10wearRows{display:grid;gap:10px}
+#p6ui .p10wearRows>div{min-height:78px;border:1px solid #775d39;background:#0d0b08;border-radius:12px;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:12px}
+#p6ui .p10wearRows span{font-size:18px;color:#e9d1a7;font-weight:720}
+#p6ui .p10wearRows strong{font-size:21px;color:#ffe2a5;line-height:1.4;overflow-wrap:anywhere}
+#p6ui .p10wearAction{width:100%;min-height:96px;border:2px solid #e0b567;border-radius:13px;background:#3b2b17;color:#ffe3a5;font-size:22px;line-height:1.4;font-weight:850;padding:16px;margin:16px 0 0;text-align:center}
+#p6ui .p10wearResult{font-size:19px;font-weight:750;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;background:#342814;color:#ffe2a8;border:2px solid #c9a15f;border-radius:12px;padding:16px;margin-top:12px}
+#p6ui .p10wearResult[hidden]{display:none}
+@media(min-width:650px){#p6ui .p10wearRows>div{flex-direction:row;align-items:center;justify-content:space-between}#p6ui .p10wearVitalGrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+</style>
 </head>
 <body>
 <div id="tsums-review-banner" role="status" style="position:relative;z-index:99;background:#33220c;color:#ffdf98;border:3px solid #e8b553;text-align:center;padding:15px 12px;font-size:18px;line-height:1.5;font-weight:800">TSUMS 4.0V｜P10 途中示警全功能 UI 審核版（保留 P10-A）（QA）<br><span style="font-size:15px;font-weight:600">僅使用合成資料｜獨立測試資料庫｜不讀取原有行程｜S5-05 真實瀏覽器驗收尚未完成</span></div>
@@ -1575,6 +1598,13 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
     <p class="p10uiIntro">先審整頁資訊架構、盲操尺寸與任務分流，再逐模組接入事實、定位、官方警報、責任及證據鏈。這是一張可操作的介面草圖，不是現場安全系統。</p>
     <div class="p10uiTags"><span>P10 UI MASTER</span><span>14 功能區</span><span>V5 高對比</span><span>僅展示介面</span></div>
     <div class="p10uiDanger">不得用於真實導航、即時預警、遇難求援或 GO 授權。國家級告警／隊伍即時反饋尚未接通，所有狀態均為未連線或 UI 示意。</div>
+    <div class="p10wearGlobal" aria-label="穿戴式裝置未連線狀態">
+      <div class="p10wearGlobalHead"><strong>穿戴式裝置｜現場感測總覽</strong><span class="p10wearFlag">未連線・功能待接通</span></div>
+      <div class="p10wearMiniGrid"><div><span>裝置連線</span><strong>無資料源</strong></div><div><span>HR／HRV</span><strong>未取得</strong></div><div><span>SpO₂</span><strong>未取得</strong></div><div><span>跌倒訊號</span><strong>未監測</strong></div></div>
+      <p>資料必須顯示設備來源、觀測時間、傳輸時間、有效性與是否已人工確認。iPhone Safari 不原生支援 Web Bluetooth；此頁不偵測、配對、讀取或儲存任何穿戴裝置。</p>
+      <button type="button" class="p10wearAction" data-p10wear-demo="compatibility">查看穿戴裝置接入邊界（非配對）</button>
+      <div class="p10wearResult" data-p10wear-output aria-live="polite" hidden></div>
+    </div>
   </div>
   <a class="p10uiEmergency" href="tel:119">緊急情況｜開啟 119 系統撥號</a>
   <button type="button" class="p10uiReturn" data-p10ui-back>← 返回上一頁（不改寫資料）</button>
@@ -1600,22 +1630,53 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
       <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>即時回饋｜待串接</span><span>合成 QA／未連線</span></div><div class="p10uiMetrics"><div><span>隊伍名冊</span><strong>待載入</strong></div><div><span>全員確認</span><strong>未確認</strong></div><div><span>失聯人數</span><strong>未知</strong></div><div><span>遇難訊號</span><strong>無接入</strong></div></div><div class="p10uiChoice"><button type="button" data-p10ui-demo="隊伍遇難">觀看隊伍求援示意</button><span>無隊員即時監測、無遠端同步</span></div></div>
     </details><details class="p10uiModule" id="p10ui-m06" data-p10ui-status="planned" >
       <summary><span class="p10uiNum">06</span><span><span class="p10uiName">定期 CHECK-IN 與逾時升級</span><span class="p10uiBrief">回報期限、留守人、遲到、失聯升級及責任節點</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>逾時事件｜待接線</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>回報間隔 <b>依行前計畫</b></span><span>下一回報 <b>待計算</b></span><span>逾時起點 <b>未觸發</b></span><span>升級責任人 <b>待載入</b></span></div><div class="p10uiChoice"><button type="button" data-p10ui-demo="CHECK-IN 逾時">觀看逾時示意</button><span>不得假裝已自動傳訊給留守人</span></div></div>
+      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>逾時事件｜待接線</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>回報間隔 <b>依行前計畫</b></span><span>下一回報 <b>待計算</b></span><span>逾時起點 <b>未觸發</b></span><span>升級責任人 <b>待載入</b></span></div><div class="p10uiChoice"><button type="button" data-p10ui-demo="CHECK-IN 逾時">觀看逾時示意</button><span>不得假裝已自動傳訊給留守人</span></div>
+      <div class="p10wearBlock" aria-label="穿戴裝置 CHECK-IN 介面">
+        <h4>穿戴式 CHECK-IN｜低負擔回報</h4>
+        <div class="p10wearRows"><div><span>手錶連線</span><strong>未連線</strong></div><div><span>實體按鍵事件</span><strong>未綁定</strong></div><div><span>具名回報識別</span><strong>待授權</strong></div><div><span>遠端送達</span><strong>無回執</strong></div></div>
+        <button type="button" class="p10wearAction" data-p10wear-demo="watch-checkin">查看手錶一鍵 CHECK-IN 流程</button>
+        <div class="p10wearResult" data-p10wear-output role="status" aria-live="polite" hidden></div>
+        <p>實體鍵訊號不等於已回報。未有具名授權、設備身分、事件寫入及收件回執時，不得重置真實逾時計時器。</p>
+      </div>
+      </div>
     </details><details class="p10uiModule" id="p10ui-m07" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">07</span><span><span class="p10uiName">多通道通訊與送達狀態</span><span class="p10uiBrief">行動網路、無線電、衛星電話／追蹤器及回執</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
       <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>多通道紀錄｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>行動網路 <b>未知</b></span><span>無線電 <b>人工紀錄</b></span><span>衛星電話 <b>人工紀錄</b></span><span>衛星追蹤器 <b>尚未接入</b></span></div><div class="p10uiFlow"><span>本機已保存</span><i>→</i><span>交付傳送</span><i>→</i><span>收到回執</span></div><p class="p10uiHint">三種狀態不可自動等同。沒有可靠回執時，送達狀態固定為 UNKNOWN。</p></div>
     </details><details class="p10uiModule" id="p10ui-m08" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">08</span><span><span class="p10uiName">山域醫學與生命徵候</span><span class="p10uiBrief">氧、溫、血、腦、動五結構；分流與撤退支援</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C1 · C2 · C3｜Medical Overlay</span><span>觀察紀錄｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>氧｜氣體交換 <b>未確認</b></span><span>溫｜熱平衡 <b>未確認</b></span><span>血｜循環代謝 <b>未確認</b></span><span>腦｜神經中樞 <b>未確認</b></span><span>動｜組織完整性 <b>未確認</b></span></div><p class="p10uiHint">記錄徵候、意識、移動能力、處置、時間與具名人員；本頁不作診斷或自動下醫療指令。</p></div>
+      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C1 · C2 · C3｜Medical Overlay</span><span>觀察紀錄｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>氧｜氣體交換 <b>未確認</b></span><span>溫｜熱平衡 <b>未確認</b></span><span>血｜循環代謝 <b>未確認</b></span><span>腦｜神經中樞 <b>未確認</b></span><span>動｜組織完整性 <b>未確認</b></span></div><p class="p10uiHint">記錄徵候、意識、移動能力、處置、時間與具名人員；本頁不作診斷或自動下醫療指令。</p>
+      <div class="p10wearBlock" aria-label="穿戴式生命徵候感測器審核">
+        <h4>Wearable｜生理資料與訊號品質</h4>
+        <div class="p10wearVitalGrid"><div><small>HR・心率</small><strong>—</strong><small>bpm｜未取得</small></div><div><small>HRV・心率變異</small><strong>—</strong><small>毫秒｜未取得</small></div><div><small>SpO₂・血氧</small><strong>—</strong><small>%｜未取得</small></div><div><small>海拔關聯</small><strong>未知</strong><small>位置與高度未核對</small></div></div>
+        <div class="p10wearRows"><div><span>感測器來源與識別</span><strong>未連線</strong></div><div><span>最近觀測時間</span><strong>無</strong></div><div><span>資料新鮮度／品質</span><strong>無法評定</strong></div><div><span>生理訊號</span><strong>待人工評估</strong></div></div>
+        <button type="button" class="p10wearAction" data-p10wear-demo="vital">查看合成生理訊號卡（不作診斷）</button>
+        <div class="p10wearResult" data-p10wear-output role="status" aria-live="polite" hidden></div>
+        <p>心率、HRV、血氧不能單獨診斷 AMS／HAPE／HACE，不設定未經正式規格確認的閾值；任何 WAIT／RETREAT 建議需具名評估。</p>
+      </div>
+      </div>
     </details><details class="p10uiModule" id="p10ui-m09" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">09</span><span><span class="p10uiName">事故通報、SOS 與救援交接</span><span class="p10uiBrief">求援意圖、緊急聯絡、位置資料與送達確認</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>人工求援入口｜已存在</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>事故／SOS 事件 <b>尚未建立</b></span><span>救援受理 <b>UNKNOWN</b></span><span>最後有效位置 <b>未取得</b></span><span>通報交接 <b>尚未確認</b></span></div><a class="p10uiEmergency" href="tel:119">緊急情況｜開啟 119 撥號</a><p class="p10uiHint">直接開啟系統撥號，無需 GO；不保證接通、派遣或送達。不可使用此示意介面作真實求援依據。</p></div>
+      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>人工求援入口｜已存在</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>事故／SOS 事件 <b>尚未建立</b></span><span>救援受理 <b>UNKNOWN</b></span><span>最後有效位置 <b>未取得</b></span><span>通報交接 <b>尚未確認</b></span></div><a class="p10uiEmergency" href="tel:119">緊急情況｜開啟 119 撥號</a><p class="p10uiHint">直接開啟系統撥號，無需 GO；不保證接通、派遣或送達。不可使用此示意介面作真實求援依據。</p>
+      <div class="p10wearBlock" aria-label="穿戴式跌倒疑似事件與人工確認">
+        <h4>跌倒／撞擊訊號｜人工確認與救援</h4>
+        <div class="p10wearRows"><div><span>跌倒感測來源</span><strong>未連線</strong></div><div><span>疑似事件</span><strong>無接入</strong></div><div><span>倒數確認</span><strong>尚未啟動</strong></div><div><span>最後有效位置</span><strong>未取得</strong></div><div><span>外部救援回執</span><strong>UNKNOWN</strong></div></div>
+        <button type="button" class="p10wearAction" data-p10wear-demo="fall">查看跌倒偵測後的人工確認流程</button>
+        <div class="p10wearResult" data-p10wear-output role="status" aria-live="polite" hidden></div>
+        <p>跌倒偵測不等於事故成立；不執行真實倒數、不自動呼救。急救撥號仍可直接使用上方 119 入口，不受 GO 與穿戴配對限制。</p>
+      </div>
+      </div>
     </details><details class="p10uiModule" id="p10ui-m10" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">10</span><span><span class="p10uiName">現場 GO／WAIT／RETREAT 與停損</span><span class="p10uiBrief">新的 T0,k、當時已知／未知、人工權限與行動邊界</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
       <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C1 PCAR · C3 UIRF</span><span>具名決策｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiDecision"><div><strong>GO</strong><span>繼續推進</span></div><div><strong>WAIT</strong><span>停止推進／觀察</span></div><div><strong>RETREAT</strong><span>撤退／返程</span></div></div><div class="p10uiMeters"><span>具名決策人 <b>待核驗</b></span><span>本次有效決策 <b>尚無</b></span><span>Stop-Loss 條件 <b>依正式規格</b></span></div><p class="p10uiHint">此處只展示決策按鈕視覺，沒有提交行為；正式 T0,k 仍使用既有決策單，不能由預覽直接啟用 GO。</p></div>
     </details><details class="p10uiModule" id="p10ui-m11" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">11</span><span><span class="p10uiName">語音、影像、位置與事件留痕</span><span class="p10uiBrief">原始檔優先、時間序、雜湊、晚到資料與補記分層</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C3 UIRF</span><span>現場紀錄｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>語音紀錄 <b>待提供</b></span><span>照片／影片 <b>待提供</b></span><span>裝置定位證據 <b>未取得</b></span><span>最近事件雜湊 <b>未形成</b></span></div><p class="p10uiHint">原始檔與轉錄稿分離；事件補記只新增版本，不覆寫事前紀錄。保護個資及受保護座標。</p></div>
+      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C3 UIRF</span><span>現場紀錄｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>語音紀錄 <b>待提供</b></span><span>照片／影片 <b>待提供</b></span><span>裝置定位證據 <b>未取得</b></span><span>最近事件雜湊 <b>未形成</b></span></div><p class="p10uiHint">原始檔與轉錄稿分離；事件補記只新增版本，不覆寫事前紀錄。保護個資及受保護座標。</p>
+      <div class="p10wearBlock" aria-label="穿戴資料來源與遲到證據">
+        <h4>穿戴資料證據接入｜事件與原始資料分離</h4>
+        <div class="p10wearRows"><div><span>裝置事件代碼／序號</span><strong>未建立</strong></div><div><span>裝置觀測時間與接收時間</span><strong>分離保存（待接）</strong></div><div><span>晚到資料</span><strong>新增核補，不重寫舊鏈</strong></div><div><span>外部可信時間</span><strong>未驗證</strong></div></div>
+        <p>裝置識別、檔案雜湊與具名核對須獨立驗證。資料晚到不得改寫既有事件或宣稱已受法律認證；敏感生理原始序列不放入公開層。</p>
+      </div>
+      </div>
     </details><details class="p10uiModule" id="p10ui-m12" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">12</span><span><span class="p10uiName">撤退路線、交通與外部支援</span><span class="p10uiBrief">替代路線、集合點、接駁、保險／援助與外部責任交接</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
       <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C1 · C2 · C4 MFRF</span><span>支援介面｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>撤退／避難位置 <b>待確認</b></span><span>接駁與交通 <b>尚未聯繫</b></span><span>留守人 <b>待載入</b></span><span>保險／外援受理 <b>UNKNOWN</b></span></div><p class="p10uiHint">對外傳送由人明確操作；不得將簡訊範本已開啟宣稱為送達、接單或保險理賠成立。</p></div>
@@ -1624,7 +1685,13 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
       <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>Public Layer · Protected Core</span><span>環境資訊｜待建立</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>場域封閉 <b>未查核</b></span><span>生態／棲地警訊 <b>未接入</b></span><span>敏感座標外送 <b>禁止預設</b></span><span>受保護知識 <b>不可展示</b></span></div><p class="p10uiHint">公開介面只呈現非敏感事實與責任邊界，不輸出 Protected Core 或可逆向重建的核心組合。</p></div>
     </details><details class="p10uiModule" id="p10ui-m14" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">14</span><span><span class="p10uiName">證據時間線與行程後交接</span><span class="p10uiBrief">事件回放、證據完整性、殘餘風險與具名關閉</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C3 UIRF · C4 MFRF · C5 USMP</span><span>第七頁｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>Field Session <b>未啟動</b></span><span>事件連續性 <b>待驗證</b></span><span>外部交接 <b>未確認</b></span><span>治理關閉 <b>尚未完成</b></span></div><p class="p10uiHint">結束行程 ≠ 制度關閉。第 7 頁負責承接證據凍結、事實回放、修正、責任節點與關閉條件。</p></div>
+      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C3 UIRF · C4 MFRF · C5 USMP</span><span>第七頁｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>Field Session <b>未啟動</b></span><span>事件連續性 <b>待驗證</b></span><span>外部交接 <b>未確認</b></span><span>治理關閉 <b>尚未完成</b></span></div><p class="p10uiHint">結束行程 ≠ 制度關閉。第 7 頁負責承接證據凍結、事實回放、修正、責任節點與關閉條件。</p>
+      <div class="p10wearBlock" aria-label="穿戴式資料保護與行程後交接">
+        <h4>穿戴資料生命週期｜P10-PRIV-01</h4>
+        <div class="p10wearRows"><div><span>A 軌・高頻感測快取</span><strong>正常結束後 24 小時檢查</strong></div><div><span>B 軌・必要治理證據</span><strong>依法定目的／期限處理</strong></div><div><span>Preservation Hold</span><strong>有事故時保全優先</strong></div><div><span>iPhone 網頁背景排程</span><strong>不保證準點觸發</strong></div></div>
+        <p>本頁只審核介面，不啟動真正清理。後續設備資料需依最小蒐集、使用者知情、目的限制及到期驗證設計。</p>
+      </div>
+      </div>
     </details></div>
   <div id="p10uiDemoOutput" role="status" aria-live="polite" hidden></div>
   <div class="p10uiBottom">TSUMS Bunun Protocol Authority｜Public Layer Design Review｜資料未串接，不作事故預測、不宣稱收到國家級告警、不宣稱已通知留守人或救援機構。裝置與網路未持續運作時，不能保證背景定位與示警。</div>
@@ -6202,6 +6269,22 @@ vR2SafeInit();
   output.textContent=messages[el.getAttribute('data-p10ui-demo')]||'介面展示，不執行正式操作';
   output.hidden=false;output.scrollIntoView({block:'center',behavior:'smooth'});
  })});
+})();
+</script>
+<script id="tsums-p10-wearable-ui-preview-20261023">
+(function(){'use strict';
+const messages={
+  compatibility:'接入需求（非實際配對）：iOS Safari 沒有原生 Web Bluetooth。未來須使用獲授權的原生橋接／HealthKit 或經驗證的設備通道。裝置名稱、權限、感測能力、資訊品質與連線中斷都須如實呈現。這次沒有讀取任何穿戴資料。',
+  'watch-checkin':'合成 CHECK-IN 流程：1. 手錶實體鍵意圖 → 2. 已綁定裝置與具名責任人核驗 → 3. 本機建立事件並記錄時間 → 4. 實際通訊傳送 → 5. 收到可驗證回執。此次僅顯示流程：沒有讀取按鍵、未建立 CHECK_IN、未重置真實倒數、未通知留守人。',
+  vital:'合成示例（絕非即時監測）：HR 135 bpm、SpO₂ 92%。這些數字只是版面審核樣本，不代表異常判定、安全閾值或高山症診斷。需先確認設備來源、觀測時間、海拔、測量誤差、症狀及具名醫療評估。',
+  fall:'合成跌倒流程：疑似感測訊號 → 裝置與時間核驗 → 現場人工確認／求援意圖 → 保存最小必要事實與最後有效位置 → 人工求援及回執確認。這裡未啟動倒數、未建立事件、未發送 SOS；緊急情況請直接使用 119 撥號。'
+};
+document.querySelectorAll('#p6ui [data-p10wear-demo]').forEach(function(button){
+  button.addEventListener('click',function(){
+    const root=button.closest('.p10wearBlock,.p10wearGlobal');const panel=root&&root.querySelector('[data-p10wear-output]');
+    if(!panel)return;panel.hidden=false;panel.textContent=messages[button.getAttribute('data-p10wear-demo')]||'僅作 UI 審核';
+  });
+});
 })();
 </script>
 </body></html>

@@ -1244,6 +1244,78 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
 .tsumsBridgePre{white-space:pre-wrap;word-wrap:break-word;overflow:auto;max-height:350px;background:#100d08;border:1px solid #937448;border-radius:10px;color:#fff0d4;font-size:17px;line-height:1.55;padding:16px;max-width:100%}
 @media(min-width:820px){.tsumsBridgeGrid,.tsumsBridgeActions{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
+
+<!-- TSUMS-P9-QA-001-019-20261023-R2: stylesheet -->
+<style id="p9qaPatchCSS">
+/* TSUMS P9 QA-001..019 additive mobile-first patch | Public Layer | QA only */
+:root { --p9-touch: 46px }
+#p0 .journeySteps .journeyStep,
+#p1 button,#p2 button,#p3 button,#p4 button,#p5 button {min-height:var(--p9-touch)}
+#p0 .journeyStepBody b{font-size:16px;line-height:1.5}
+#p0 .journeyStepBody small{font-size:14px;line-height:1.48}
+#p1,#p2,#p3,#p4,#p5 {overflow-wrap:anywhere;word-break:normal}
+#p1 h2,#p2 h2,#p3 h2,#p4 h2,#p5 h2 {font-size:clamp(23px,5vw,27px);line-height:1.35;white-space:normal}
+#p1 h3,#p2 h3,#p3 h3,#p4 h3,#p5 h3 {font-size:19px;line-height:1.44;white-space:normal}
+#p1 label,#p2 label,#p3 label,#p4 label,#p5 label {font-size:15px;line-height:1.48;white-space:normal}
+#p1 .hint,#p2 .hint,#p3 .hint,#p4 .hint,#p5 .hint,
+#p1 .small,#p2 .small,#p3 .small,#p4 .small,#p5 .small{font-size:14px;line-height:1.62;white-space:normal}
+#p1 input,#p2 input,#p3 input,#p4 input,#p5 input,
+#p1 textarea,#p2 textarea,#p3 textarea,#p4 textarea,#p5 textarea,
+#p1 select,#p2 select,#p3 select,#p4 select,#p5 select{font-size:16px;min-height:48px}
+#p1 input[type=checkbox],#p2 input[type=checkbox],#p3 input[type=checkbox],#p4 input[type=checkbox],#p5 input[type=checkbox]{width:22px;height:22px;min-height:22px;flex-shrink:0}
+#p1 button,#p2 button,#p3 button,#p4 button,#p5 button {font-size:15px;line-height:1.4;white-space:normal}
+#p1 .card,#p2 .card,#p3 .card,#p4 .card,#p5 .card{min-width:0}
+#p1 .row,#p2 .row,#p3 .row,#p4 .row,#p5 .row,
+#p1 .row3,#p2 .row3,#p3 .row3,#p4 .row3,#p5 .row3 {min-width:0}
+#p1 .row > *,#p2 .row > *,#p3 .row > *,#p4 .row > *,#p5 .row > * {min-width:0}
+#p3 .exposureItem {min-height:48px;align-items:center;line-height:1.5;font-size:15px}
+#p4 .v0646ChipGrid label,#p4 .v0646SupplyGroup label {line-height:1.5}
+.p9qa-card{border:1.25px solid var(--line);border-radius:16px;margin:12px 0;padding:17px;background:var(--panel)}
+.p9qa-card h3{color:var(--gold2);margin:0 0 8px}
+.p9qa-card p{margin:0 0 9px;line-height:1.6}
+.p9qa-card .p9qa-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.p9qa-card .p9qa-wide{grid-column:1/-1}
+.p9qa-card button {min-height:46px;margin-top:8px}
+.p9qa-card output {display:block;margin:10px 0;font-size:16px;font-weight:700;color:var(--gold2)}
+.p9qa-card .p9qa-status{border-left:4px solid var(--amber);padding:10px;background:var(--panel2);font-size:14px;line-height:1.6}
+.p9qa-card .p9qa-checkbox{display:flex;align-items:center;gap:10px;min-height:48px;font-size:15px}
+.p9qa-card .p9qa-checkbox input {width:22px!important;height:22px!important;min-height:22px!important;flex:0 0 auto}
+.p9qa-snow-alert{border-left:4px solid var(--amber);padding:12px;background:var(--panel2);margin:10px 0;font-size:15px;line-height:1.55}
+.p9qa-hidden{display:none!important}
+@media(max-width:580px){.p9qa-card .p9qa-grid{grid-template-columns:1fr}.p9qa-card {padding:14px}#p1 .table,#p2 .table{font-size:14px}}
+/* Defensive sizing even when host stylesheet is delayed or changed. */
+.p9qa-card,.p9qa-card *{box-sizing:border-box;max-width:100%}
+.p9qa-card textarea,.p9qa-card input,.p9qa-card select{width:100%;min-width:0}
+.p9qa-card button{max-width:100%;white-space:normal;overflow-wrap:anywhere}
+
+/* R2: original controls retained, no blanket P10/P11 modifications */
+header .logo{width:104px;height:104px}
+header .kicker{font-size:16px;letter-spacing:.04em;line-height:1.4}
+#journeyPhaseBadge{font-size:15px!important;white-space:normal!important}
+#p0 .journeyStepBody b{font-size:19px!important}
+#p0 .journeyStepBody small{font-size:16px!important}
+#p1 .v0646MatrixRow b,#p1 .v0646MatrixRow span,#p1 .v0646Question,#p1 .v0646Status,#p1 .v0646MatrixGroup h4{font-size:17px!important;line-height:1.55!important}
+#p1 #recruitMissing,#p1 #recruitFields,#p1 #recruitFlags{font-size:17px!important;line-height:1.6!important}
+#p3 .v0646CapabilityOption span,#p3 .v0646CapabilityGroup h4,#p3 .v0646GeoSummaryCard,#p3 #geologyRiskCard p{font-size:18px!important;line-height:1.6!important}
+#p3 .v0646CapabilityOption,#p3 .geoLayerChecks .check{min-height:68px!important}
+#p4 .v0646SupplyGroup h4,#p4 .v0646SupplyGroup label,#p4 .v0646Chip span,#p4 .v0646SupplyGroup .hint{font-size:18px!important;line-height:1.6!important}
+#p4 .v0646Chip{min-height:54px;padding:12px!important}
+#p2 .v0632Disclosure summary b,#p3 .v0632Disclosure summary b,#p4 .v0632Disclosure summary b,
+#p2 .v0632Disclosure summary .small,#p3 .v0632Disclosure summary .small,#p4 .v0632Disclosure summary .small{display:block;white-space:normal;line-height:1.5}
+#p2 .v0632Disclosure summary,#p3 .v0632Disclosure summary,#p4 .v0632Disclosure summary{flex-wrap:wrap}
+.p9qa-classification{margin:9px 0;padding:8px;border-left:3px solid var(--gold)}
+.p9qa-waypoint-row{padding:10px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) minmax(140px,.7fr);gap:8px;align-items:center;overflow-wrap:anywhere}
+.p9qa-weight-options{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:12px}
+.p9qa-weight-options>div:not(.p9qa-status){min-width:0}
+#p9qaCommercialPanel.p9qa-hidden{display:none!important}
+@media(max-width:620px){.p9qa-waypoint-row{grid-template-columns:1fr}header .logo{width:90px;height:90px}}
+
+#p9qaSignature{display:block;color:var(--gold2);font-size:15px!important;line-height:1.6;margin-top:8px}
+#tsums-review-banner{font-size:15px!important;line-height:1.5!important;padding:8px!important;border-width:1px!important}
+#tsums-review-banner span{font-size:13px!important}
+#p0 .journeyNextCard>.small,#p0 .journeyNextCard .small{display:none}
+
+</style>
 </head>
 <body>
 <div id="tsums-review-banner" role="status" style="position:relative;z-index:99;background:#33220c;color:#ffdf98;border:3px solid #e8b553;text-align:center;padding:15px 12px;font-size:18px;line-height:1.5;font-weight:800">TSUMS 4.0V｜P10 途中示警全功能 UI 審核版（保留 P10-A）（QA）<br><span style="font-size:15px;font-weight:600">僅使用合成資料｜獨立測試資料庫｜不讀取原有行程｜S5-05 真實瀏覽器驗收尚未完成</span></div>
@@ -6651,5 +6723,460 @@ document.querySelectorAll('#p6ui [data-p10wear-demo]').forEach(function(button){
  document.querySelectorAll('[data-p10ui-open],[data-p11-open]').forEach(btn=>btn.addEventListener('click',()=>{refresh().catch(()=>{})}));
  window.TSUMS_READONLY_BRIDGE_QA={refresh,build};
 })();
+</script>
+
+<!-- TSUMS-P9-QA-001-019-20261023-R2: behavior -->
+<script id="p9qaPatchJS">
+/* TSUMS P9 QA-001..019 additive patch 2026-10-23
+ * Preserves source HTML, P10/P11, base GPX parser, C1-C5 and Protected Core.
+ * This is a synthetic QA improvement; NOT an operational safety certification.
+ */
+(()=>{
+ 'use strict';
+ const PATCH_ID='TSUMS-P9-QA-001-019-20261023-R2';
+ if(window.TSUMS_P9_QA_PATCH?.id===PATCH_ID)return;
+ const $=s=>document.querySelector(s);
+ const create=(tag,attrs={},text)=>{const e=document.createElement(tag);for(const [k,v] of Object.entries(attrs)){if(k==='class')e.className=v;else e.setAttribute(k,v)}if(text!==undefined)e.textContent=text;return e};
+ const add=(parent,tag,attrs={},text)=>{const e=create(tag,attrs,text);parent.appendChild(e);return e};
+ const qaState={};
+ function status(key,value){qaState[key]=value}
+ function section(id,title,description){const e=create('div',{class:'p9qa-card',id});add(e,'h3',{},title);add(e,'p',{class:'hint'},description);return e}
+ function labelled(parent,id,label,type='text',extra={}){const box=add(parent,'div');add(box,'label',{for:id},label);return add(box,'input',{id,type,...extra})}
+ function insertNear(host,node){if(!host)return false;host.insertAdjacentElement('beforeend',node);return true}
+ function setText(node,text){if(node)node.textContent=text}
+ function show(node,visible){if(node)node.classList.toggle('p9qa-hidden',!visible)}
+ function clean(n){return String(n||'').trim()}
+ function num(id){const raw=clean($('#'+id)?.value);if(raw==='')return null;const n=Number(raw);return Number.isFinite(n)&&n>=0&&n<=999? n:null}
+ function honestUI(){
+  // Do not display unauthorized certification or falsely imply formal external adoption.
+  const h=$('.brand-header .signature-badge');if(h&&/山難救助協會.*官方標準|具名治理認證/.test(h.textContent))setText(h,'TSUMS Bunun Protocol Authority｜Public Layer｜非外部認證');
+  const r=$('#analyzeRecruitment');if(r)r.textContent='分析招募文字並列出資訊缺口';
+  const hint=$('#p1 .card:first-of-type .hint');if(hint)hint.textContent='本機文字規則整理招募資訊與缺口；未提及不等於不存在。內容由隊伍覆核，結果不是法律合規或出發許可判定。';
+  const header=$('.archline');if(header)header.style.whiteSpace='normal';
+  status('QA-001..004','UI_REVIEW_REQUIRED');
+ }
+ function polishP9(){
+   const brand=$('.kicker');if(brand)brand.textContent='TSUMS 4.0V｜公共層';
+   const phase=$('#journeyPhaseBadge');if(phase)phase.textContent='風險前移第一步';
+   const p1h=$('#p1 h2');if(p1h)p1h.textContent='模組一｜招募文案與行程規劃';
+   const p1desc=$('#p1 .card:first-of-type .hint');if(p1desc)p1desc.textContent='自行輸入規劃或貼上招募文，可一鍵產生風險前移注意摘要與待查缺口；僅為文字規則辨識，非事實或法律驗證。';
+   const leader=$('#leader');const title=leader?.closest('div')?.querySelector('label');
+   if(title)title.textContent='主揪／團長／領隊（具名主要角色）';
+   const card=$('#p2 > .card');const cardH=card?.querySelector('h2');if(cardH)cardH.textContent='隊伍成員設定';
+   for(const label of document.querySelectorAll('#p2 summary b,#p2 summary strong')){
+     if(label.textContent.trim()==='隊伍治理設定')label.textContent='隊伍成員設定';
+   }
+   const roles=$('#operationalRolesCard h3');if(roles)roles.textContent='實際運作角色與指揮連續性';
+   const origin=$('#tsums-review-banner');if(origin){origin.dataset.p9qa='preserved';}
+   // Maintains visible synthetic-only warning. No third-party certification claims.
+   const top=$('header .archline');if(top)top.textContent='TSUMS Public-Layer Governance Execution Engine｜山域部署介面';
+   const sign=$('header .motto span');if(sign)sign.textContent='TSUMS Bunun Protocol Authority｜公開層可驗證・核心層受保護｜人保留最後決策權';
+   if(!$('#p9qaSignature')){const motto=$('header .motto');if(motto)add(motto,'span',{id:'p9qaSignature'},'制度架構師｜Bunun Ismahasan Vlian（歐文杰）｜非外部認證');}
+ }
+ function commercialBusiness(){
+   const sel=$('#recruitType'),parent=$('#v0646GovernanceExtension')||$('#p2 .card');
+   if(!sel||!parent||$('#p9qaCommercialPanel'))return;
+   const box=section('p9qaCommercialPanel','旅行社／商業團體招募｜登記資訊','供人工核對。團體招募或收費不當然等於旅行業；是否具法定許可及適用法規，由主管機關依事實認定。');
+   const type=add(box,'select',{id:'p9qaAgencyType','aria-label':'業者型態'});
+   for(const [v,name] of [['UNCONFIRMED','業者身分待確認'],['TRAVEL_AGENCY','旅行社／旅行業'],['NON_TRAVEL_PROVIDER','其他商業服務提供者']])add(type,'option',{value:v},name);
+   labelled(box,'p9qaAgencyName','旅行社／服務提供者公司全銜');
+   labelled(box,'p9qaAgencyLicense','旅行業執照／登記字號（未查證請勿視為有效）');
+   labelled(box,'p9qaAgencyBasis','資訊來源／不適用理由（例如：登記資料待查、非旅行業）');
+   const state=add(box,'div',{class:'p9qa-status',role:'status',id:'p9qaAgencyStatus'},'尚未核對商業招募資料。');
+   const save=add(box,'button',{class:'secondary',type:'button',id:'p9qaAgencySave'},'保存業者身分資料（非合規驗證）');
+   parent.appendChild(box);
+   function toggle(){show(box,sel.value==='COMMERCIAL_PROVIDER');}
+   sel.addEventListener('change',toggle);toggle();
+   let last=null;
+   async function restore(){try{if(typeof currentTrip!=='function')return;const t=await currentTrip();if(!t||t.id===last)return;last=t.id;const d=t.team?.governance?.travel_agency_declaration||{};type.value=d.provider_type||'UNCONFIRMED';$('#p9qaAgencyName').value=d.name||'';$('#p9qaAgencyLicense').value=d.license_no||'';$('#p9qaAgencyBasis').value=d.basis||'';}catch{state.textContent='既有業者資料未能讀取。'}}
+   new MutationObserver(()=>{if($('#p2')?.classList.contains('active'))restore()}).observe($('#p2'),{attributes:true,attributeFilter:['class']});restore();
+   save.addEventListener('click',async()=>{
+     if(sel.value!=='COMMERCIAL_PROVIDER'){state.textContent='目前非商業團招募狀態，不會把此欄位當作法律分類。';return;}
+     const name=clean($('#p9qaAgencyName').value),no=clean($('#p9qaAgencyLicense').value),basis=clean($('#p9qaAgencyBasis').value);
+     if(!name){state.textContent='請先填寫服務提供者名稱；尚未保存。';return;}
+     if(type.value==='TRAVEL_AGENCY'&&!no){state.textContent='已選旅行業，請填執照／登記字號，或改選待確認並提供查核理由；尚未保存。';return;}
+     if(type.value!=='TRAVEL_AGENCY'&&!basis){state.textContent='業者身分非旅行社或未確認，請填資訊來源／原因；尚未保存。';return;}
+     try{const t=await currentTrip();if(!t)throw Error('請先建立行程');t.team=t.team||{};t.team.governance=t.team.governance||{};
+       t.team.governance.travel_agency_declaration={provider_type:type.value,name,license_no:no,basis,source_state:'USER_DECLARED_NOT_VERIFIED',recorded_at:new Date().toISOString()};
+       await put(TRIPS,t);if(typeof appendEvent==='function')await appendEvent('PRE_EVENT_TRAVEL_PROVIDER_DECLARED',{lifecycle_stage:2,module_refs:['C1','C3'],actor:t.leader||'未具名',source_state:'USER_RECORDED',observed_fact:'商業服務提供者資訊已登錄；旅行業許可及商業合規未驗證。'});
+       state.textContent='商業服務資料已保存至目前行程；旅行業許可、保險、責任與適用法規仍待人工核對。';
+     }catch(e){state.textContent='未保存：'+String(e?.message||e)}
+   });
+ }
+ function roleOptionsAndCopy(){
+   const list=$('#operationalRolesList');if(!list)return;
+   const categories=['高山協作','高山廚工','嚮導／隨隊／壓隊','攝影人員','醫療人員','生態人員','保育人員','通訊支援','技術支援','其他'];
+   function enhance(){for(const row of list.querySelectorAll('.roleRow:not([data-p9qa-enhanced])')){
+     row.dataset.p9qaEnhanced='1';const target=row.querySelector('[data-r="observed_role"]');if(!target)continue;
+     const wrap=add(row,'div',{class:'p9qa-classification'});
+     add(wrap,'label',{},'十類運作角色｜使用者選擇後帶入既有欄位');
+     const select=add(wrap,'select',{class:'p9qaRoleSelect','aria-label':'運作角色分類'});
+     add(select,'option',{value:''},'請選擇（不推論權限）');for(const x of categories)add(select,'option',{value:x},x);
+     if(categories.includes(target.value))select.value=target.value;
+     select.addEventListener('change',()=>{if(select.value){target.value=select.value;target.dispatchEvent(new Event('input',{bubbles:true}));}});
+   }}
+   new MutationObserver(enhance).observe(list,{childList:true});enhance();
+   const card=$('#p9qaRoleText');if(!card||$('#p9qaRoleApply'))return;
+   const choose=add(card,'select',{id:'p9qaRoleCandidate','aria-label':'角色線索選擇'});add(choose,'option',{value:''},'先解析文字，再選擇要填入的類別');
+   const which=add(card,'select',{id:'p9qaRoleRow','aria-label':'指派文字線索到哪一筆運作角色'});
+   const btn=add(card,'button',{id:'p9qaRoleApply',type:'button',class:'secondary'},'人工確認後帶入指定角色的現有欄位');
+   const status=$('#p9qaRoleSummary');
+   function refresh(){choose.replaceChildren();add(choose,'option',{value:''},'先提取字詞，再選擇類別');const text=clean($('#p9qaRoleTextInput')?.value);for(const c of categories){const patterns={'高山協作':/高山協作|協作員|背工/u,'高山廚工':/高山廚工|炊事|廚工/u,'嚮導／隨隊／壓隊':/嚮導|隨隊|壓隊/u,'攝影人員':/攝影/u,'醫療人員':/醫療|醫護|急救/u,'生態人員':/生態/u,'保育人員':/保育/u,'通訊支援':/通訊|無線電|衛星電話/u,'技術支援':/技術支援|架繩|確保操作/u,'其他':/其他角色|其他人員/u};if(text&&patterns[c].test(text))add(choose,'option',{value:c},c)}
+     which.replaceChildren();add(which,'option',{value:''},'請選既有具名角色');[...list.querySelectorAll('.roleRow')].forEach((row,i)=>{const who=clean(row.querySelector('[data-r="name"]')?.value)||`第 ${i+1} 筆（未具名）`;add(which,'option',{value:String(i)},who)});
+   }
+   $('#p9qaRoleParse')?.addEventListener('click',refresh);list.addEventListener('input',refresh);
+   btn.addEventListener('click',()=>{const c=choose.value,index=Number(which.value),rows=[...list.querySelectorAll('.roleRow')];if(!c||which.value===''||!rows[index]){status.textContent='請先解析角色原文、選擇分類與具名人員；未帶入。';return}const row=rows[index];if(!clean(row.querySelector('[data-r="name"]')?.value)){status.textContent='請先具名該運作角色；未帶入。';return}row.querySelector('[data-r="observed_role"]').value=c;const sel=row.querySelector('.p9qaRoleSelect');if(sel)sel.value=c;status.textContent='已將「'+c+'」帶入選取的既有角色欄位；仍需人工覆核權限及按「保存角色與指揮連續性」存檔。';});
+   const evidence=add(card,'button',{id:'p9qaRoleImageEvidence',type:'button',class:'secondary'},'📷 角色證據圖片（只存證，不作 OCR）');
+   evidence.addEventListener('click',()=>{if(typeof v0644OpenEvidence==='function')v0644OpenEvidence('OPERATIONAL_ROLE_DOCUMENT','運作角色說明影像');else status.textContent='既有影像存證模組不可用。'});
+   refresh();
+ }
+ function waypointImport(){
+   const gpx=$('#gpxFile');if(!gpx||$('#p9qaWaypoints'))return;
+   const card=section('p9qaWaypoints','主路線 GPX 航點｜人工分類後帶入','解析 GPX 中已有的 <wpt> 航點名稱。原始標記不表示已核實水源、崩壁、通訊或安全撤退；請人工選擇類別後才帶入文字欄位。');
+   const out=add(card,'div',{class:'p9qa-status',id:'p9qaWaypointStatus',role:'status'},'尚未載入主路線航點。');
+   const list=add(card,'div',{id:'p9qaWaypointList'});
+   const btn=add(card,'button',{type:'button',class:'secondary',id:'p9qaWaypointApply'},'人工確認後加入路線與撤退文字摘要');btn.disabled=true;
+   gpx.closest('.card').insertAdjacentElement('afterend',card);
+   let known=[];
+   gpx.addEventListener('change',async()=>{known=[];list.replaceChildren();btn.disabled=true;const f=gpx.files?.[0];if(!f)return;
+     try{if(f.size>5*1024*1024)throw Error('GPX 超過 5 MB');const doc=new DOMParser().parseFromString(await f.text(),'application/xml');if(doc.querySelector('parsererror'))throw Error('XML 格式錯誤');
+       const nodes=[...doc.getElementsByTagNameNS('*','wpt')].slice(0,300);
+       known=nodes.map((n,i)=>({name:clean(n.getElementsByTagNameNS('*','name')[0]?.textContent)||`航點 ${i+1}`,desc:clean(n.getElementsByTagNameNS('*','desc')[0]?.textContent).slice(0,160)}));
+       if(!known.length){out.textContent='GPX 未含 <wpt> 航點；未帶入任何推測航點。';return}
+       known.forEach((w,i)=>{const row=add(list,'div',{class:'p9qa-waypoint-row'});add(row,'span',{},`${i+1}. ${w.name}${w.desc?'｜'+w.desc:''}`);const choose=add(row,'select',{'data-wpt-index':String(i),'aria-label':'航點人工分類'});
+         for(const [val,txt] of [['','不帶入'],['EXPOSURE','地形／暴露點'],['RETREAT','撤退／折返候選'],['WATER','水源（未驗證）'],['COMM','通訊參考（未驗證）']])add(choose,'option',{value:val},txt);
+       });out.textContent=`讀取 ${known.length} 個航點（最多呈現 300 個），請核對名稱與路線最新版本，並人工選擇分類。`;btn.disabled=false;
+     }catch(e){out.textContent='航點解析失敗：'+String(e?.message||e)}
+   });
+   btn.addEventListener('click',()=>{if(!known.length)return;const picked=[...list.querySelectorAll('[data-wpt-index]')].filter(x=>x.value);
+     if(!picked.length){out.textContent='尚未人工選取需帶入的航點。';return}
+     const terr=$('#terrain'),ret=$('#retreatPlan');if(!terr||!ret){out.textContent='原路線摘要欄位不存在；不修改。';return}
+     let n=0;for(const sel of picked){const w=known[Number(sel.dataset.wptIndex)];if(!w)continue;const line=`[GPX 航點｜人工分類 ${sel.selectedOptions[0].textContent}] ${w.name}${w.desc?'｜'+w.desc:''}`;
+       const target=sel.value==='RETREAT'?ret:terr;if(!target.value.includes(line)){target.value=(target.value?target.value+'\n':'')+line;target.dispatchEvent(new Event('input',{bubbles:true}));n++}}
+     out.textContent=`已將 ${n} 個未重複航點放入原路線／撤退輸入欄。內容未自動存檔；請人工核對後按「鎖定路線治理快照」。`;
+   });
+ }
+ function notesAndRoles(){
+  const p2=$('#p2');if(!p2)return;
+  const type=$('#recruitType'), ins=$('#insuranceMode');
+  const insert=$('#teamGovernanceHub')||p2.querySelector('.card');
+  if(insert&&!$('#p9qaGovernanceNote')){
+   const box=section('p9qaGovernanceNote','活動型態、責任與保險之證據邊界','複核實際服務提供者、登記資料、投保證據及權責界面；活動名稱或勾選狀態不自動形成合規結論。');
+   const msg=add(box,'div',{class:'p9qa-status',id:'p9qaBusinessStatus'});
+   const refresh=()=>{const selected=type?.value||'UNCONFIRMED';msg.textContent=selected==='COMMERCIAL_PROVIDER'?'商業服務型態：請使用既有「活動形成、服務與許可關係」欄位保存公司全銜、登記資訊及服務對價，並交由有權機關確認法律分類。':selected==='PAID_SUPPORT'?'有償協作：請記錄提供者、對價與實際業務，不直接推論為旅行業。':'活動型態仍須依實際招募、收費、組織及服務關係認定；勾選自組不排除後續查核。';};
+   insert.appendChild(box);type?.addEventListener('change',refresh);refresh();
+  }
+  const roles=$('#roleSuggestions');
+  if(roles){const options=['高山協作','高山廚工','嚮導／隨隊／壓隊','攝影人員','醫療人員','生態人員','保育人員','通訊支援','技術支援','其他'];const known=new Set([...roles.options].map(x=>x.value));for(const v of options)if(!known.has(v))add(roles,'option',{value:v});}
+  const insuranceEvidence=$('[data-pretrip-evidence="INSURANCE_ASSISTANCE"]');
+  if(insuranceEvidence&&!$('#p9qaInsuranceBoundary')){
+    const txt=create('div',{class:'hint',id:'p9qaInsuranceBoundary'},'保單照片使用既有影像存證功能；此版本不執行 OCR 或自動認定承保範圍、除外責任與理賠效力。');insuranceEvidence.parentNode.appendChild(txt);
+  }
+  status('QA-005..011','PARTIAL_NATIVE_IMPLEMENTATION');
+ }
+ function credentialAndInsurance(){
+  const credential=$('#leaderCredential');
+  if(credential&&!$('#p9qaCredentialEvidence')){
+   const holder=add(credential.parentElement,'div',{id:'p9qaCredentialEvidence',class:'p9qa-inline-evidence'});
+   const btn=add(holder,'button',{type:'button',class:'secondary'},'📷 附加資格／證照照片（僅存證）');
+   add(holder,'div',{class:'hint'},'照片僅供 C3 UIRF 留存來源；不核發、驗證或認證資格。');
+   btn.addEventListener('click',()=>{
+    if(typeof v0644OpenEvidence==='function')v0644OpenEvidence('LEADER_CREDENTIAL','主揪／團長／領隊資格／證照');
+    else alert('既有行前影像證據模組未就緒，請使用原始證據上傳功能；本操作未保存照片。');
+   });
+  }
+  const ext=$('#externalSupportCard');
+  if(ext&&!$('#p9qaInsuranceReview')){
+   const card=section('p9qaInsuranceReview','保險資訊人工核對摘要｜非 OCR','保單照片由既有「拍照／上傳存證」機制管理。此處只能整理使用者已輸入欄位；不代表保險公司承保核驗、OCR 辨識成功或法律效力認定。');
+   const result=add(card,'div',{id:'p9qaInsuranceReviewOutput',class:'p9qa-status',role:'status'},'尚未整理已填寫的保險資訊。');
+   const b=add(card,'button',{type:'button',class:'secondary',id:'p9qaInsuranceReviewRun'},'整理既有保險欄位與缺口');
+   b.addEventListener('click',()=>{
+     const fields=[
+       ['保險安排', $('#insuranceMode')?.selectedOptions?.[0]?.textContent?.trim()],
+       ['保險公司／援助', $('#insuranceProvider')?.value?.trim()],
+       ['保障說明', $('#insuranceCoverageDetail')?.value?.trim()],
+       ['緊急援助聯絡', $('#insuranceAssistancePhone')?.value?.trim()],
+       ['保單識別末四碼', $('#policyLast4')?.value?.trim()]
+     ];
+     const present=fields.filter(x=>x[1]);const missing=fields.filter(x=>!x[1]).map(x=>x[0]);
+     result.textContent='原欄位整理（未核驗）：'+(present.length?present.map(x=>x[0]+'：'+x[1]).join('；'):'沒有可整理的已填資料')+'。缺口：'+(missing.length?missing.join('、'):'無空白欄位；仍未驗證保單效力、承保範圍、期間與除外責任')+'。';
+   });
+   ext.insertAdjacentElement('afterend',card);
+  }
+  status('QA-005,QA-008','EVIDENCE_AND_MANUAL_REVIEW_NO_OCR');
+ }
+ function roleTextAnalysis(){
+  const host=$('#operationalRolesCard');if(!host||$('#p9qaRoleText'))return;
+  const card=section('p9qaRoleText','實際運作角色說明｜文字線索摘錄','貼入角色敘述後，僅標示明確出現的功能字詞，不推定人員身分、指揮權、雇傭關係、職業資格或法律責任。');
+  const textarea=add(card,'textarea',{id:'p9qaRoleTextInput',rows:'4',placeholder:'貼上文字，例如：隊員 A 擔任壓隊，隊員 B 協助通訊；實際權限另查'});
+  const btn=add(card,'button',{type:'button',class:'secondary',id:'p9qaRoleParse'},'從文字提取運作角色線索');
+  const output=add(card,'div',{class:'p9qa-status',id:'p9qaRoleSummary',role:'status'},'尚未提供角色說明文字。');
+  const save=add(card,'button',{type:'button',class:'secondary',id:'p9qaRoleSave'},'保存原文及觀察線索（不指派職權）');
+  let summary=null;
+  const vocabulary=[
+    ['高山協作',/高山協作|協作員|背工/u],['高山廚工',/高山廚工|炊事|廚工/u],
+    ['嚮導／隨隊／壓隊',/嚮導|隨隊|壓隊/u],['攝影人員',/攝影|記錄影像/u],
+    ['醫療人員',/醫療|醫護|急救員/u],['生態人員',/生態|物種調查/u],
+    ['保育人員',/保育|巡護/u],['通訊支援',/通訊|無線電|衛星電話|電台/u],
+    ['技術支援',/技術支援|架繩|確保操作|技術員/u],['其他',/其他角色|其他人員/u]
+  ];
+  const parse=()=>{
+    const text=textarea.value.trim();if(!text){summary=null;output.textContent='請輸入原始角色說明文字。';return}
+    const hits=vocabulary.filter(([,rx])=>rx.test(text)).map(([label])=>label);
+    summary={source_text:text,detected_keywords:hits,method:'LITERAL_KEYWORD_OBSERVATION',status:'UNVERIFIED',recorded_at:new Date().toISOString()};
+    output.textContent='文字線索：'+(hits.length?hits.join('、'):'未辨識到預設的 10 類角色字詞')+'。僅為字詞觀察；請在原有「運作角色」欄位具名填入並由人覆核。';
+  };
+  btn.addEventListener('click',parse);
+  textarea.addEventListener('input',()=>{summary=null;output.textContent='文字已變更，請重新提取角色線索。'});
+  save.addEventListener('click',async()=>{
+   if(!summary||summary.source_text!==textarea.value.trim()){output.textContent='請先對目前文字執行提取，再保存。';return}
+   try{
+    if(typeof currentTrip!=='function'||typeof put!=='function'||typeof TRIPS==='undefined')throw Error('原行程存檔接口不可用');
+    const t=await currentTrip();if(!t)throw Error('請先建立合成測試行程');
+    t.team=t.team||{};t.team.role_text_observation=summary;
+    await put(TRIPS,t);
+    if(typeof appendEvent==='function')await appendEvent('PRE_EVENT_ROLE_TEXT_OBSERVED',{lifecycle_stage:2,module_refs:['C1','C3'],source_state:'USER_RECORDED',observed_fact:'已保存使用者提供的角色原文及明示字詞線索；職權與法律分類未判定。'});
+    output.textContent+=' 原文與觀察線索已送入現有本機行程存檔；仍須重新載入及回放核對。';
+   }catch(e){output.textContent='儲存未完成：'+String(e?.message||e)}
+  });
+  let restored=null;
+  const restore=async()=>{try{if(typeof currentTrip!=='function')return;const t=await currentTrip();if(!t||restored===t.id)return;restored=t.id;textarea.value=t.team?.role_text_observation?.source_text||'';summary=null;output.textContent=textarea.value?'已載入歷史角色說明；請重新提取字詞以核對。':'尚未提供角色說明文字。'}catch(e){output.textContent='角色原文未能讀取；不代表已保存。'}};
+  new MutationObserver(()=>{if($('#p2')?.classList.contains('active'))restore()}).observe($('#p2'),{attributes:true,attributeFilter:['class']});restore();
+  host.insertAdjacentElement('afterend',card);status('QA-011','KEYWORD_OBSERVATION_AND_PERSISTENCE_NEEDS_INTEGRATED_QA');
+ }
+ function addFitness(){
+  const p2=$('#p2');if(!p2||$('#p9qaFitness'))return;
+  const host=$('#operationalRolesCard')||p2.querySelector('.card:last-of-type');
+  const card=section('p9qaFitness','近期活動 GPX｜能力證據（本機解析）','可計算個人提供的軌跡距離、累積爬升、起訖時間；不據此認證體能或產出未授權的「上河腳程係數」。路線難度與實際負重須另行比對。');
+  const f=labelled(card,'p9qaActivityGPX','上傳近期活動 GPX（僅讀取本機檔案，不上傳伺服器）','file',{accept:'.gpx,application/gpx+xml,text/xml'});
+  const output=add(card,'div',{class:'p9qa-status',id:'p9qaFitnessResult',role:'status'},'尚未提供近期活動 GPX。');
+  const fitnessSave=add(card,'button',{type:'button',class:'secondary',id:'p9qaFitnessSave'},'保存 GPX 統計摘要到行程（不儲存軌跡座標）');
+  fitnessSave.disabled=true;
+  let parsedObservation=null;
+  const photo=add(card,'button',{type:'button',class:'secondary',id:'p9qaFitnessEvidence'},'📷 附近期運動紀錄照片（僅存證）');
+  photo.addEventListener('click',()=>{if(typeof v0644OpenEvidence==='function')v0644OpenEvidence('RECENT_ACTIVITY_RECORD','近期運動紀錄照片');else output.textContent='原始影像存證流程不可用，照片未保存。'});
+  add(card,'div',{class:'hint'},'上河圖表／腳程係數：未接正式授權資料與校準規格，維持「未驗證」。');
+  f.addEventListener('change',async()=>{
+   const file=f.files?.[0];if(!file)return;
+   parsedObservation=null;fitnessSave.disabled=true;
+   try{
+    if(file.size>5*1024*1024)throw Error('檔案超過 5 MB');
+    const xml=new DOMParser().parseFromString(await file.text(),'application/xml');
+    if(xml.querySelector('parsererror'))throw Error('GPX XML 格式錯誤');
+    const nodes=[...xml.getElementsByTagNameNS('*','trkpt'),...xml.getElementsByTagNameNS('*','rtept')];
+    const pts=nodes.map(n=>({lat:Number(n.getAttribute('lat')),lon:Number(n.getAttribute('lon')),ele:(n.getElementsByTagNameNS('*','ele')[0]?.textContent||'').trim(),time:(n.getElementsByTagNameNS('*','time')[0]?.textContent||'').trim()})).filter(x=>Number.isFinite(x.lat)&&Math.abs(x.lat)<=90&&Number.isFinite(x.lon)&&Math.abs(x.lon)<=180);
+    if(pts.length<2)throw Error('GPX 至少需要兩個有效軌跡點');
+    const toRad=x=>x*Math.PI/180;
+    let km=0,up=0;
+    for(let i=1;i<pts.length;i++){
+     const a=pts[i-1],b=pts[i],dlat=toRad(b.lat-a.lat),dlon=toRad(b.lon-a.lon);
+     const q=Math.sin(dlat/2)**2+Math.cos(toRad(a.lat))*Math.cos(toRad(b.lat))*Math.sin(dlon/2)**2;
+     km+=6371*2*Math.asin(Math.min(1,Math.sqrt(q)));
+     const ea=a.ele!==''?Number(a.ele):NaN,eb=b.ele!==''?Number(b.ele):NaN;
+     if(Number.isFinite(ea)&&Number.isFinite(eb))up+=Math.max(0,eb-ea);
+    }
+    const times=pts.map(p=>Date.parse(p.time)).filter(Number.isFinite);
+    const hours=times.length>1&&Math.max(...times)>Math.min(...times)?(Math.max(...times)-Math.min(...times))/3600000:null;
+    // Only record derived statistics; never persist private track geometry in this observation.
+    let sha256=null;
+    if(crypto?.subtle){
+      const bytes=new TextEncoder().encode(await file.text());
+      const digest=await crypto.subtle.digest('SHA-256',bytes);
+      sha256=[...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,'0')).join('');
+    }
+    parsedObservation={source_kind:'USER_PROVIDED_GPX',source_name:file.name,source_bytes:file.size,
+      source_sha256:sha256,local_distance_km:Number(km.toFixed(3)),local_ascent_m:Math.round(up),
+      trackpoint_count:pts.length,elapsed_hours:hours?Number(hours.toFixed(3)):null,
+      identity_verified:false,shanghe_coefficient:null,processing:'LOCAL_STATISTICS_ONLY',recorded_at:new Date().toISOString()};
+    fitnessSave.disabled=false;
+    output.textContent=`本機初算：${km.toFixed(2)} km、累積上升 ${Math.round(up)} m、${pts.length} 點${hours?`、紀錄時差 ${hours.toFixed(1)} 小時`:''}。可選擇保存本次統計；未驗證感測器、採樣間距、休息時間與個人身份；不推算上河係數。`;
+    status('QA-009','LOCAL_GPX_PARSED_NOT_FITNESS_VALIDATED');
+   }catch(e){output.textContent='GPX 未完成解析：'+String(e.message||e);status('QA-009','FAILED_INPUT')}
+  });
+  fitnessSave.addEventListener('click',async()=>{
+    if(!parsedObservation){output.textContent='尚無成功解析且可保存的 GPX 統計。';return}
+    try{
+      if(typeof currentTrip!=='function'||typeof put!=='function'||typeof TRIPS==='undefined')throw Error('原行程資料庫接口不可用');
+      const t=await currentTrip();if(!t)throw Error('請先建立合成測試行程');
+      t.team=t.team||{};t.team.recent_activity_observation=parsedObservation;
+      await put(TRIPS,t);
+      if(typeof appendEvent==='function')await appendEvent('PRE_EVENT_RECENT_ACTIVITY_GPX_OBSERVED',{
+        lifecycle_stage:2,module_refs:['C1','C3'],source_state:'USER_RECORDED',
+        observed_fact:'使用者提供近期 GPX：僅保存檔案來源及本機距離、爬升、時間統計；身分、能力與上河係數未經驗證。'
+      });
+      output.textContent+=' 已寫入既有行程摘要；仍須重新載入驗證。';
+    }catch(e){output.textContent='統計保存尚未完成：'+String(e?.message||e)}
+  });
+  host?.insertAdjacentElement('afterend',card);
+ }
+ function snowUI(){
+  const grid=$('#exposureProfileCard .exposureGrid');if(!grid)return;
+  if(!grid.querySelector('[data-exposure="snow_ice"]')){
+   const label=add(grid,'label',{class:'exposureItem'});add(label,'input',{type:'checkbox','data-exposure':'snow_ice',id:'p9qaSnowExposure'});label.append('雪冰／結霜暴露');
+  }
+  const field=grid.querySelector('[data-exposure="snow_ice"]');
+  if(!$('#p9qaSnowExposureNotice')){
+    const note=create('div',{class:'p9qa-snow-alert p9qa-hidden',id:'p9qaSnowExposureNotice',role:'status'},
+      '已勾選雪冰／結霜暴露：請於第四步人工確認冰爪、冰斧、雪鏡／眼部防護、岩盔、操作能力與撤退條件；裝備清單不能取代現場風險判定。');
+    grid.insertAdjacentElement('afterend',note);
+    const syncNote=()=>show(note,field.checked);
+    field.addEventListener('change',syncNote);syncNote();
+  }
+  const card=$('#technicalGearCard')||$('#p4');
+  if(card&&!$('#p9qaSnowAdvice')){
+   const warning=create('div',{class:'p9qa-snow-alert p9qa-hidden',id:'p9qaSnowAdvice',role:'status'},'雪冰暴露已標示：逐項確認冰爪、冰斧、雪鏡／適用眼部防護、岩盔，以及訓練、製造商限制、雪況、替代路線與撤退條件。攜帶不代表可安全通過。請在既有「技術與專用裝備」欄位個別保存檢查狀態。');
+   // Keep <summary> as the first child of <details> to preserve disclosure interaction.
+   const summary=card.tagName==='DETAILS'?card.querySelector(':scope > summary'):null;
+   if(summary)summary.insertAdjacentElement('afterend',warning);
+   else card.insertAdjacentElement('afterbegin',warning);
+   const sync=()=>show(warning,field.checked);
+   field.addEventListener('change',sync);sync();
+   // Original app may re-render checkbox state on p3 entry.
+   new MutationObserver(sync).observe($('#p3'),{attributes:true,attributeFilter:['class']});
+  }
+  if(typeof V06333_EXPOSURE_LABELS==='object'&&V06333_EXPOSURE_LABELS)V06333_EXPOSURE_LABELS.snow_ice='雪冰／結霜暴露';
+  const gearHost=$('#technicalGearCard');
+  if(gearHost&&!$('#p9qaSnowGear')){
+    const shell=section('p9qaSnowGear','冰雪裝備逐項核對｜自述攜帶與人工查核','下列核選僅表示使用者自述攜帶，並非功能、適配、技術或安全核驗；仍須於原有技術裝備欄填寫規格、檢查與負責人。');
+    const labels=[['crampons','冰爪'],['axe','冰斧'],['eye','雪鏡／適用眼部防護'],['helmet','岩盔／適用頭盔']];
+    for(const [key,text] of labels){const row=add(shell,'label',{class:'p9qa-checkbox'});add(row,'input',{type:'checkbox','data-snow-gear':key});add(row,'span',{},text+'（自述已攜帶）')}
+    const st=add(shell,'div',{class:'p9qa-status',role:'status',id:'p9qaSnowGearState'},'冰雪裝備尚未確認。');
+    const save=add(shell,'button',{type:'button',class:'secondary',id:'p9qaSnowGearSave'},'保存冰雪裝備自述狀態（非合格認證）');
+    const update=()=>{const selected=[...shell.querySelectorAll('[data-snow-gear]')].filter(x=>x.checked).map(x=>x.nextElementSibling?.textContent?.split('（')[0]);st.textContent='目前自述：'+(selected.length?selected.join('、'):'尚未勾選')+'；適配、檢查、使用能力與雪況尚待人工查核。'};
+    shell.addEventListener('change',update);
+    save.addEventListener('click',async()=>{
+      try{
+        if(typeof currentTrip!=='function'||typeof put!=='function'||typeof TRIPS==='undefined')throw Error('原行程存檔接口不可用');
+        const t=await currentTrip();if(!t)throw Error('請先建立合成測試行程');
+        t.preparation=t.preparation||{};
+        const values={};shell.querySelectorAll('[data-snow-gear]').forEach(x=>values[x.dataset.snowGear]=x.checked);
+        t.preparation.snow_gear_observation={values,source_state:'USER_DECLARED',verified_fit:false,verified_inspection:false,recorded_at:new Date().toISOString()};
+        await put(TRIPS,t);
+        if(typeof appendEvent==='function')await appendEvent('PRE_EVENT_SNOW_GEAR_OBSERVED',{lifecycle_stage:2,module_refs:['C1','C3'],source_state:'USER_RECORDED',observed_fact:'使用者逐項登錄冰雪裝備自述攜帶狀態；未認定適用性、功能或風險可接受性。'});
+        st.textContent+=' 已向現有本機行程送出紀錄；仍須重新載入驗證。';
+      }catch(e){st.textContent='保存未完成：'+String(e?.message||e)}
+    });
+    const body=gearHost.querySelector(':scope > .v0632DisclosureBody');
+    (body||gearHost).insertAdjacentElement('afterbegin',shell);
+    const restore=async()=>{try{if(typeof currentTrip!=='function')return;const t=await currentTrip();const v=t?.preparation?.snow_gear_observation?.values||{};shell.querySelectorAll('[data-snow-gear]').forEach(x=>x.checked=!!v[x.dataset.snowGear]);update()}catch{st.textContent='既有冰雪裝備紀錄尚無法讀取。'}};
+    new MutationObserver(()=>{if($('#p4')?.classList.contains('active'))restore()}).observe($('#p4'),{attributes:true,attributeFilter:['class']});restore();
+  }
+  const gearList=$('#gearSuggestions');
+  if(gearList){const known=new Set([...gearList.options].map(o=>o.value));for(const v of ['冰爪（型式、鞋靴相容與檢查）','冰斧（規格、用途與操作能力）','雪鏡／防護眼鏡','防滑與雪冰地形專用器材'])if(!known.has(v))add(gearList,'option',{value:v});}
+  status('QA-013..015','CHECKBOX_AND_REVIEW_PROMPT_READY');
+ }
+ function weightUI(){
+  const p4=$('#p4');if(!p4||$('#p9qaWeight'))return;
+  const card=section('p9qaWeight','裝備實測負重｜加總與人工複核','請輸入實際秤重數字（kg）。此工具只提供算術加總；不使用 18 kg 或 0.85 等未授權閾值，不據此判定是否適合出發。');
+  const weightAnchor=p4.querySelector(':scope > .toolbar:last-of-type');if(weightAnchor)p4.insertBefore(card,weightAnchor);else p4.appendChild(card);
+  const grid=add(card,'div',{class:'p9qa-grid'});
+  labelled(grid,'p9qaBaseWeight','個人基礎裝備 (kg)','number',{min:'0',max:'999',step:'0.1',placeholder:'未填'});
+  labelled(grid,'p9qaFoodWeight','飲水與糧食合計實測重 kg（僅純人工模式使用）','number',{min:'0',max:'999',step:'0.1',placeholder:'未填'});
+  labelled(grid,'p9qaGearWeight','公裝與器材分攤 (kg)','number',{min:'0',max:'999',step:'0.1',placeholder:'未填'});
+  const x=add(card,'div',{class:'p9qa-weight-options'});
+  add(x,'div',{class:'p9qa-status'},'快選計算｜僅從使用者提供的真實數量換算；水質量以 1 mL ≈ 1 g 近似，不含水壺重量。糧食按自行輸入之每天實際重量計算，不預設標準菜單。');
+  const useWater=add(x,'label',{class:'p9qa-checkbox'});add(useWater,'input',{id:'p9qaWaterAuto',type:'checkbox'});add(useWater,'span',{},'由「補給與燃料」攜水容量換算水重量（不含容器）');
+  labelled(x,'p9qaWaterManualKg','未勾自動攜水時：單獨輸入飲水重量 kg','number',{min:'0',step:'0.01',placeholder:'部分自算模式必填'});
+  labelled(x,'p9qaFoodManualKg','未勾自動糧食時：單獨輸入糧食重量 kg','number',{min:'0',step:'0.01',placeholder:'部分自算模式必填'});
+  labelled(x,'p9qaWaterContainerKg','水壺／水袋容器實際重量 kg（選用）','number',{min:'0',step:'0.01',placeholder:'未填＝不計入'});
+  const useFood=add(x,'label',{class:'p9qa-checkbox'});add(useFood,'input',{id:'p9qaFoodAuto',type:'checkbox'});add(useFood,'span',{},'由「每日糧食量 × 天數」換算糧食重量');
+  labelled(x,'p9qaFoodDayKg','每日實際糧食重量（kg）','number',{min:'0',step:'0.01',placeholder:'自行輸入'});
+  labelled(x,'p9qaDaysCount','攜帶糧食天數（天）','number',{min:'0',step:'1',placeholder:'自行輸入'});
+  labelled(x,'p9qaMedicalKg','個人藥物與急救包實重（kg）','number',{min:'0',step:'0.01',placeholder:'未填＝不計入'});
+  labelled(x,'p9qaRecentPackKg','近期已完成活動背負重量 kg（自行填報，選填）','number',{min:'0',step:'0.01',placeholder:'不由 GPX 自動推算'});
+  labelled(x,'p9qaMeasuredWeight','整包磅秤實測總重量（kg，可供對帳）','number',{min:'0',step:'0.01',placeholder:'選填，需本人核對'});
+  const output=add(card,'output',{id:'p9qaWeightResult',role:'status'},'尚未輸入完整重量，總和未計算。');
+  const reconcile=add(card,'div',{id:'p9qaWeightReconcile',class:'p9qa-status',role:'status'},'目前尚無磅秤實測值可對帳。');
+  const match=add(card,'div',{id:'p9qaLoadFitness',class:'p9qa-status',role:'status'},'近期 GPX 能力證據與本次負重適配需人工判讀；上河腳程係數尚未接線。');
+  const info=add(card,'div',{class:'hint'},'填寫重量不等於裝備已檢查、重心與負載適配已驗證，亦不等於風險評估完成。');
+  const photo=add(card,'button',{type:'button',class:'secondary',id:'p9qaWeightEvidence'},'📷 附磅秤／打包照片（僅存證，不辨識重量）');
+  photo.addEventListener('click',()=>{if(typeof v0644OpenEvidence==='function')v0644OpenEvidence('PACK_WEIGHT_EVIDENCE','背包重量／磅秤影像');else info.textContent='原始影像存證流程不可用，照片未保存。'});
+  const save=add(card,'button',{type:'button',class:'secondary',id:'p9qaWeightSave'},'保存量測紀錄至現有行程');
+  function update(){
+    const base=num('p9qaBaseWeight'),foodManual=num('p9qaFoodWeight'),gear=num('p9qaGearWeight');
+    const waterAuto=$('#p9qaWaterAuto').checked,foodAuto=$('#p9qaFoodAuto').checked,partial=waterAuto||foodAuto;
+    const rawWater=clean($('#v0646WaterCapacity')?.value),ml=rawWater!==''?Number(rawWater):NaN;
+    const separateWater=num('p9qaWaterManualKg'),separateFood=num('p9qaFoodManualKg');
+    let waterKg=null,foodKg=null,container=num('p9qaWaterContainerKg')??0,medicine=num('p9qaMedicalKg')??0;
+    $('#p9qaFoodWeight').disabled=partial;
+    if(!partial){waterKg=0;foodKg=foodManual}
+    else {
+      if(waterAuto){if(!Number.isFinite(ml)||ml<0||ml>100000){output.textContent='補給欄位攜水容量無效／未填；無法換算。';save.disabled=true;return null}waterKg=ml/1000}
+      else waterKg=separateWater;
+      if(foodAuto){const perDay=num('p9qaFoodDayKg'),days=num('p9qaDaysCount');if(perDay===null||days===null||!Number.isInteger(days)||days>60){output.textContent='請輸入有效的每日糧食重量與攜帶天數。';save.disabled=true;return null}foodKg=perDay*days}
+      else foodKg=separateFood;
+    }
+    const v=[base,waterKg,foodKg,gear,container,medicine];
+    const ok=v.every(x=>x!==null && x>=0 && Number.isFinite(x));
+    const total=ok?v.reduce((a,b)=>a+b,0):null;
+    output.textContent=ok?`背負重量拆項加總：${total.toFixed(2)} kg（基裝＋飲水／糧食＋公裝＋容器＋藥物；僅算術加總，非安全判定）`:'請補齊基礎裝備、飲水／糧食、公裝欄位；部分自算時，未勾自動的項目必須各自提供重量。';
+    const measured=num('p9qaMeasuredWeight');reconcile.textContent=ok&&measured!==null?`實測磅秤 ${measured.toFixed(2)} kg；與拆項加總差額 ${(measured-total).toFixed(2)} kg。請核查未納入物品與重複計入。`:'尚未輸入磅秤實測值；此處僅是人填資料的拆項加總。';
+    const prior=num('p9qaRecentPackKg');match.textContent=ok&&prior!==null?`本次背負拆項 ${total.toFixed(2)} kg，相對使用者填報之近期完成活動負重 ${prior.toFixed(2)} kg，差額 ${(total-prior).toFixed(2)} kg。近期 GPX 與本次路線、負重、天候及能力不可直接等同；尚無可驗證上河係數，無法判定安全適配。`:'如有近期完成活動，可填該次實際背負重量供人工比較；不自動判定風險高低。';
+    save.disabled=!ok;return ok?{recent_pack_kg:prior,base_kg:base,food_kg:foodKg,gear_kg:gear,water_kg:waterKg,manual_combined_kg:partial?null:foodManual,water_manual_kg:partial&&!waterAuto?separateWater:null,food_manual_kg:partial&&!foodAuto?separateFood:null,container_kg:container,medicine_kg:medicine,measured_kg:measured,total_kg:total,water_from_capacity:waterAuto,food_from_days:foodAuto,food_per_day_kg:foodAuto?num('p9qaFoodDayKg'):null,food_days:foodAuto?num('p9qaDaysCount'):null}:null
+  }
+  grid.addEventListener('input',update);x.addEventListener('input',update);x.addEventListener('change',update);$('#v0646WaterCapacity')?.addEventListener('input',update);update();
+  let loadedTrip=null;
+  const restore=async()=>{try{
+    if(typeof currentTrip!=='function')return;
+    const t=await currentTrip();if(!t||t.id===loadedTrip)return;
+    loadedTrip=t.id;const w=t.preparation?.pack_weight_observation||{};
+    for(const [id,key] of [['p9qaBaseWeight','base_kg'],['p9qaFoodWeight','manual_combined_kg'],['p9qaGearWeight','gear_kg']])$('#'+id).value=Number.isFinite(w[key])?String(w[key]):(key==='manual_combined_kg'&&Number.isFinite(w.food_kg)&&!w.water_from_capacity&&!w.food_from_days?String(w.food_kg):'');
+    $('#p9qaWaterAuto').checked=!!w.water_from_capacity;$('#p9qaFoodAuto').checked=!!w.food_from_days;
+    for(const [id,key] of [['p9qaWaterContainerKg','container_kg'],['p9qaMedicalKg','medicine_kg'],['p9qaMeasuredWeight','measured_kg'],['p9qaFoodDayKg','food_per_day_kg'],['p9qaDaysCount','food_days'],['p9qaWaterManualKg','water_manual_kg'],['p9qaFoodManualKg','food_manual_kg'],['p9qaRecentPackKg','recent_pack_kg']])$('#'+id).value=Number.isFinite(w[key])?String(w[key]):'';
+    update();
+   }catch(e){info.textContent='歷史負重資料尚無法讀取；本次可先填寫，但不得視為已保存。'}};
+  const p4Obs=new MutationObserver(()=>{if(p4.classList.contains('active'))restore()});p4Obs.observe(p4,{attributes:true,attributeFilter:['class']});restore();
+  save.addEventListener('click',async()=>{
+   const v=update();if(!v)return;
+   try{
+    if(typeof currentTrip!=='function'||typeof put!=='function'||typeof TRIPS==='undefined')throw Error('既有行程儲存接口未就緒');
+    const t=await currentTrip();if(!t)throw Error('請先在第一步建立合成測試行程');
+    const obs={...v,source_state:'USER_DECLARED',recorded_at:new Date().toISOString(),method:'USER_BREAKDOWN_ARITHMETIC_ONLY',fitness_compatibility:'NOT_DETERMINED'};
+    t.preparation=t.preparation||{};t.preparation.pack_weight_observation=obs;
+    await put(TRIPS,t);
+    if(typeof appendEvent==='function')await appendEvent('PRE_EVENT_PACK_WEIGHT_OBSERVED',{lifecycle_stage:2,module_refs:['C1','C3'],determination_layer:'UNCLASSIFIED',source_state:'USER_RECORDED',observed_fact:`使用者登錄背負拆項加總 ${obs.total_kg.toFixed(2)} kg；僅算術加總，未作安全適配判定。`});
+    const f=t.team?.recent_activity_observation;
+    match.textContent+=f?` 近期 GPX 觀察：${f.local_distance_km ?? '—'} km、爬升 ${f.local_ascent_m ?? '—'} m；路線差異仍須人工核查。`:' 尚未提供近期 GPX 統計。';
+    info.textContent='重量拆項已保存；內容屬人工申報或容量換算，不代表真實秤重或安全合格。';
+   }catch(e){info.textContent='儲存失敗：'+String(e.message||e)}
+  });
+  status('QA-018','CALCULATOR_READY_PERSISTENCE_NEEDS_BROWSER_QA');
+ }
+ function watchUI(){
+  const p4=$('#p4');if(!p4||$('#p9qaGuard'))return;
+  const card=section('p9qaGuard','智慧留守／衛星裝置｜人工參考資訊','Hiking Guard 與 Garmin inReach 尚無驗證過的即時介接；不得顯示「連線成功」、「已開始追蹤」或「自動通報已啟用」。此欄僅記錄由使用者提供的留守參考網址。');
+  const ref=labelled(card,'p9qaGuardRef','Garmin inReach MapShare／留守平台參考網址','url',{placeholder:'https://…',inputmode:'url'});
+  const statusBox=add(card,'div',{class:'p9qa-status',id:'p9qaGuardState',role:'status'},'外部即時追蹤：未介接／未驗證。正式失聯升級仍依現有 C2 MSLS 與人工留守流程。');
+  const btn=add(card,'button',{type:'button',class:'secondary',id:'p9qaGuardSave'},'保存參考網址（不代表綁定）');
+  let loadedTrip=null;
+  const restore=async()=>{try{if(typeof currentTrip!=='function')return;const t=await currentTrip();if(!t||t.id===loadedTrip)return;loadedTrip=t.id;ref.value=t.preparation?.communication?.external_guard_reference?.url||''}catch(e){statusBox.textContent='參考資訊讀取失敗；外部即時追蹤仍未介接。'}};
+  new MutationObserver(()=>{if(p4.classList.contains('active'))restore()}).observe(p4,{attributes:true,attributeFilter:['class']});restore();
+  btn.addEventListener('click',async()=>{
+   const v=clean(ref.value);
+   if(v){let u;try{u=new URL(v)}catch(e){statusBox.textContent='參考網址格式錯誤';return}if(u.protocol!=='https:'||u.username||u.password||[...u.searchParams.keys()].some(k=>/token|key|secret|password|auth|session|bearer/i.test(k))){statusBox.textContent='僅接受不含帳密或明示存取金鑰參數的 HTTPS 參考網址；敏感分享連結應交由授權留守人直接管理。';return}}
+   try{
+    if(typeof currentTrip!=='function'||typeof put!=='function'||typeof TRIPS==='undefined')throw Error('既有行程儲存接口未就緒');
+    const t=await currentTrip();if(!t)throw Error('請先建立合成測試行程');
+    t.preparation=t.preparation||{};t.preparation.communication=t.preparation.communication||{};
+    t.preparation.communication.external_guard_reference={url:v,source_state:'USER_DECLARED',verified_connection:false,recorded_at:new Date().toISOString()};
+    await put(TRIPS,t);
+    statusBox.textContent='參考網址已記錄於本機行程；外部連線、授權、LINE 推播與失聯通知仍未驗證。';
+   }catch(e){statusBox.textContent='保存未完成：'+String(e.message||e)}
+  });
+  const ext=$('#externalSupportCard');if(ext)ext.insertAdjacentElement('afterend',card);else p4.appendChild(card);
+  status('QA-019','REFERENCE_ONLY_NO_LIVE_INTEGRATION');
+ }
+ function setup(){
+  const expected=['p0','p1','p2','p3','p4','p5','p6','p7','p8'];
+  const absent=expected.filter(x=>!$('#'+x));
+  if(absent.length){console.warn('P9 QA patch skipped: missing base pages',absent);return}
+  honestUI();polishP9();notesAndRoles();credentialAndInsurance();roleTextAnalysis();addFitness();snowUI();weightUI();watchUI();commercialBusiness();roleOptionsAndCopy();waypointImport();
+  const footer=document.createElement('div');footer.id='p9qaControl';footer.className='hint';footer.textContent='P9 QA-001～019｜差異式修補候選｜未完成實機驗收｜P10/P11 維持既有基準｜Protected Core 未載入';
+  $('#p5')?.appendChild(footer);
+  window.TSUMS_P9_QA_PATCH={id:PATCH_ID,status:qaState,scope:'p0-p5 only',mode:'synthetic QA; not production',verify:()=>({basePages:expected.map(id=>!!$('#'+id)),weight:!!$('#p9qaWeight'),guard:!!$('#p9qaGuard'),snow:!!$('#p9qaSnowExposure'),fitness:!!$('#p9qaActivityGPX'),claims:'no third-party integration claimed'})};
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
+})();
+
 </script>
 </body></html>

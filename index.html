@@ -6703,9 +6703,36 @@ const V0646_SUPPLY_OPTIONS={
 function v0646RenderSupplyChips(t){const s=t.preparation?.supplies||{};for(const [g,items] of Object.entries(V0646_SUPPLY_OPTIONS)){const box=document.querySelector(`[data-supply-group="${g}"]`);if(!box)continue;box.innerHTML=items.map(x=>`<label class="v0646Chip"><input type="checkbox" data-supply="${g}" value="${esc(x)}" ${(s[g]||[]).includes(x)?'checked':''}><span>${esc(x)}</span></label>`).join('')}const set=(id,v)=>{if($(id))$(id).value=v||''};set('#v0646WaterCapacity',s.water_capacity_ml);set('#v0646WaterNote',s.water_note);set('#v0646WaterSourceNote',s.water_source_note);set('#v0646MealNote',s.meal_note);set('#v0646TrailFoodNote',s.trail_food_note);set('#v0646EmergencyFoodNote',s.emergency_food_note);set('#v0646StoveNote',s.stove_note);set('#v0646FuelNote',s.fuel_note)}
 function v0646CollectSupplies(){const s={};for(const g of Object.keys(V0646_SUPPLY_OPTIONS))s[g]=$$(`[data-supply="${g}"]:checked`).map(x=>x.value);return{...s,water_capacity_ml:$('#v0646WaterCapacity')?.value.trim()||'',water_note:$('#v0646WaterNote')?.value.trim()||'',water_source_note:$('#v0646WaterSourceNote')?.value.trim()||'',meal_note:$('#v0646MealNote')?.value.trim()||'',trail_food_note:$('#v0646TrailFoodNote')?.value.trim()||'',emergency_food_note:$('#v0646EmergencyFoodNote')?.value.trim()||'',stove_note:$('#v0646StoveNote')?.value.trim()||'',fuel_note:$('#v0646FuelNote')?.value.trim()||'',boundary:'NO_UNIVERSAL_WATER_CALORIE_FUEL_THRESHOLD'}}
 
-// Gear: add whistle and conditional helmet without automatic checking.
-const V0646_BASE_GEAR=['頭燈＋備用電池','雨具','防風雨衣','岩盔／攀登頭盔（依路線暴露）','保暖層','離線地圖／導航備援','行動電源','急救用品','求救哨／哨子','個人藥物','登山杖','睡眠／住宿裝備','淨水／飲水方案','緊急保暖'];
-renderPreparation=function(t){const items=[...V0646_BASE_GEAR];$('#gearList').innerHTML=items.map(x=>`<label class="check"><span>${esc(x)}</span><input class="gearChk" data-k="${esc(x)}" type="checkbox" ${t.preparation?.gear?.[x]?'checked':''}></label>`).join('');$$('.gearChk').forEach(x=>x.onchange=async e=>{const tt=await currentTrip();tt.preparation.gear[e.target.dataset.k]=e.target.checked;await put(TRIPS,tt)})}
+// QA-035 | P9 gear copy: keep historical identifiers for helmet/whistle
+// and use a NEW key for emergency bivouac/forced overnight equipment.
+// Do not silently map '緊急保暖' (warmth) to '迫降裝備' (a broader equipment set).
+const V0646_BASE_GEAR=[
+ ['頭燈＋備用電池','頭燈＋備用電池'],['雨具','雨具'],['防風雨衣','防風雨衣'],
+ ['岩盔／攀登頭盔（依路線暴露）','岩盔／攀登頭盔'],
+ ['保暖層','保暖層'],['離線地圖／導航備援','離線地圖／導航備援'],
+ ['行動電源','行動電源'],['急救用品','急救用品'],
+ ['求救哨／哨子','求生哨'],
+ ['個人藥物','個人藥物'],['登山杖','登山杖'],['睡眠／住宿裝備','睡眠／住宿裝備'],
+ ['淨水／飲水方案','淨水／飲水方案'],['迫降裝備','迫降裝備']
+];
+renderPreparation=function(t){
+ const gear=t.preparation?.gear||{};
+ const list=$('#gearList');if(!list)return;
+ list.innerHTML=V0646_BASE_GEAR.map(([key,label])=>`<label class="check"><span>${esc(label)}</span><input class="gearChk" data-k="${esc(key)}" type="checkbox" ${gear[key]?'checked':''}></label>`).join('');
+ // Preserve the earlier '緊急保暖' fact without asserting that forced-overnight gear exists.
+ if(gear['緊急保暖']&&!gear['迫降裝備']){
+  const note=document.createElement('div');note.className='hint';note.id='qa035LegacyWarmthNotice';
+  note.textContent='舊版「緊急保暖」曾勾選；「迫降裝備」尚待人工確認，原有紀錄保留。';
+  list.appendChild(note);
+ }
+ $$('.gearChk').forEach(x=>x.onchange=async e=>{
+  const tt=await currentTrip();if(!tt)return;
+  tt.preparation=tt.preparation||{};tt.preparation.gear=tt.preparation.gear||{};
+  tt.preparation.gear[e.target.dataset.k]=e.target.checked;
+  await put(TRIPS,tt);
+  if(e.target.dataset.k==='迫降裝備')renderPreparation(tt);
+ });
+}
 
 // Compact timestamp controls to avoid iOS datetime-local overflow.
 let V0646_TIME_TARGET=null;

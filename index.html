@@ -7851,4 +7851,174 @@ body .journeyModebar .tsumsTopTab:focus-visible{outline:3px solid #fff2ca!import
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
 })();
 </script>
+
+<style id="tsums-qa029-permit-css">
+/* QA-029 | P9 permit attachment lanes. Public-Layer, no legal-validity inference. */
+.tsumsPermitEvidence{margin:10px 0 18px;padding:14px;border:1px solid #8e7048;border-radius:14px;background:rgba(35,27,18,.88);min-width:0}
+.tsumsPermitEvidence h4{font-size:18px!important;font-weight:900;color:#f1ce87;margin:0 0 8px;line-height:1.48}
+.tsumsPermitEvidence .permitHelp{font-size:15px!important;line-height:1.6;color:#e0d0af;margin:0 0 12px}
+.tsumsPermitEvidence label{display:block;font-size:16px!important;line-height:1.5!important;margin:8px 0 4px;font-weight:800}
+.tsumsPermitEvidence input:not([type=file]){font-size:17px!important;min-height:52px;max-width:100%;box-sizing:border-box}
+.tsumsPermitEvidence .permitButtons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0}
+.tsumsPermitEvidence .permitButtons button,.tsumsPermitEvidence .permitFileItem button{min-height:52px;touch-action:manipulation;-webkit-tap-highlight-color:rgba(240,196,126,.2);padding:10px 8px;border-radius:10px;font-size:15px!important;font-weight:800;cursor:pointer}
+.tsumsPermitEvidence button:active{background:#d8b060!important;color:#18120a!important}
+.tsumsPermitEvidence .permitEvidenceStatus{font-size:15px;line-height:1.6;min-height:24px;color:#e9d7b5;overflow-wrap:anywhere}
+.tsumsPermitEvidence .permitFileItem{margin:8px 0;padding:11px 10px;border:1px solid rgba(214,174,91,.4);border-radius:10px;font-size:15px;line-height:1.6;overflow-wrap:anywhere}
+.tsumsPermitEvidence .permitFileItem b{font-weight:850;color:#f6daa4}
+.tsumsPermitEvidence .permitFileItem small{display:block;font-size:13px;line-height:1.5;color:#d4c29f;overflow-wrap:anywhere}
+.tsumsPermitEvidence .permitFileItem button{margin-top:8px}
+.tsumsPermitEvidence .permitActions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tsumsPermitEvidence .permitBoundary{border-left:3px solid #d3aa5e;padding:7px 10px;font-size:14px;color:#dbc9a7;line-height:1.55;margin-top:9px}
+@media(max-width:360px){.tsumsPermitEvidence .permitButtons{grid-template-columns:1fr}}
+body.field .tsumsPermitEvidence{background:#fff4d9;color:#18120a;border-color:#956a29}
+body.field .tsumsPermitEvidence h4,body.field .tsumsPermitEvidence .permitHelp,body.field .tsumsPermitEvidence .permitBoundary,body.field .tsumsPermitEvidence .permitEvidenceStatus{color:#201a0c}
+
+</style>
+<script id="tsums-qa029-permit-js">
+/* QA-029: Two independent permit-proof attachment lanes. No OCR claim or auto approval.
+   IndexedDB MEDIA saves raw bytes; trip governance references preserve provenance;
+   appendEvent records file hash/reference in the existing pretrip event chain.
+   Raw media remain local and are NOT embedded in the default JSON replay export. */
+(function(){
+  'use strict';
+  const SPEC={PARK:{key:'park',select:'#parkPermitMode',name:'入園',target:'PERMIT_PARK'},MOUNTAIN:{key:'mountain',select:'#mountainPermitMode',name:'入山',target:'PERMIT_MOUNTAIN'}};
+  const $=(s,root=document)=>root.querySelector(s);
+  const escText=(v)=>String(v==null?'':v);
+  const now=()=>new Date().toISOString();
+  function records(trip){
+    trip.team=trip.team||{};trip.team.governance=trip.team.governance||{};
+    const g=trip.team.governance;
+    g.permit_evidence=Array.isArray(g.permit_evidence)?g.permit_evidence:[];
+    return g.permit_evidence;
+  }
+  function status(lane,message,kind='info'){
+    const el=$('#tsumsPermit'+lane+'Status');if(!el)return;
+    el.textContent=message;el.dataset.status=kind;
+  }
+  function make(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+  function button(label,action){const b=make('button','secondary',label);b.type='button';b.addEventListener('click',action);return b}
+  function labeledInput(root,id,label,placeholder){const l=make('label','',label),e=make('input');l.htmlFor=id;e.id=id;e.type='text';e.placeholder=placeholder;root.append(l,e);return e}
+  function laneUI(lane){const spec=SPEC[lane],select=$(spec.select);if(!select||$('#tsumsPermit'+lane))return false;
+    const wrapper=make('section','tsumsPermitEvidence');wrapper.id='tsumsPermit'+lane;
+    wrapper.setAttribute('aria-label',spec.name+'憑證附件');
+    wrapper.append(make('h4','',spec.name+'證明｜PDF／照片／快照'));
+    wrapper.append(make('p','permitHelp','可附加核准文件、申請回執或相關截圖；檔案存在不代表已核准。'));
+    const fields=make('div','permitFields');
+    labeledInput(fields,'tsumsPermit'+lane+'Ref','申請編號／文件字號（人工核對）','有文件才填寫；不作自動辨識');
+    labeledInput(fields,'tsumsPermit'+lane+'Issuer','核發／受理機關（人工核對）','請依憑證填寫；尚未核對可留白');
+    const dateWrap=make('div');const dateLabel=make('label','','文件所載日期（人工核對，可留白）');const dateInput=make('input');dateInput.type='date';dateInput.id='tsumsPermit'+lane+'Date';dateLabel.htmlFor=dateInput.id;dateWrap.append(dateLabel,dateInput);fields.append(dateWrap);
+    labeledInput(fields,'tsumsPermit'+lane+'Actor','具名附註人','例如：主揪、團長或本人');
+    wrapper.append(fields);
+    const file=make('input'),camera=make('input');
+    file.type='file';file.id='tsumsPermit'+lane+'File';file.accept='.pdf,application/pdf,image/jpeg,image/png,image/webp';file.hidden=true;
+    camera.type='file';camera.id='tsumsPermit'+lane+'Camera';camera.accept='image/*';camera.setAttribute('capture','environment');camera.hidden=true;
+    const btns=make('div','permitButtons');btns.append(button('＋ 選取 PDF／圖片',()=>file.click()),button('拍照／快照',()=>camera.click()));
+    wrapper.append(btns,file,camera);
+    const st=make('div','permitEvidenceStatus','尚未附加憑證；申請狀態以原下拉選單與人工查核為準。');
+    st.id='tsumsPermit'+lane+'Status';st.setAttribute('role','status');st.setAttribute('aria-live','polite');wrapper.append(st);
+    const list=make('div','permitEvidenceList');list.id='tsumsPermit'+lane+'List';wrapper.append(list);
+    wrapper.append(make('div','permitBoundary','不自動變更「入'+spec.name.slice(1)+'申請方式」、不自動標示已核准。PDF 與照片原件保存在本裝置 IndexedDB；一般回放 JSON 僅含附件參照與雜湊，原件須另行備份。'));
+    wrapper.style.gridColumn='1 / -1';
+    select.parentElement.insertAdjacentElement('afterend',wrapper);
+    const onPick=async(e)=>{const f=e.target.files&&e.target.files[0];e.target.value='';if(f)await save(lane,f)};
+    file.addEventListener('change',e=>{onPick(e).catch(err=>status(lane,'保存失敗：'+escText(err.message||err),'error'))});
+    camera.addEventListener('change',e=>{onPick(e).catch(err=>status(lane,'保存失敗：'+escText(err.message||err),'error'))});
+    return true;
+  }
+  function validFile(file){
+    if(!file||!file.size)throw Error('未取得有效檔案');
+    if(file.size>15*1024*1024)throw Error('檔案超過本機單檔 15 MB 技術限制；請將 PDF 壓縮或分頁後重新附加');
+    const ext=(file.name||'').toLowerCase();
+    const mime=(file.type||'').toLowerCase();
+    if(!(mime==='application/pdf'||mime==='image/jpeg'||mime==='image/png'||mime==='image/webp'||(!mime&&/\.(pdf|jpe?g|png|webp)$/.test(ext))))throw Error('僅支援 PDF、JPG、PNG、WebP');
+  }
+  async function fileHash(file){
+    if(!globalThis.crypto||!crypto.subtle)throw Error('此來源無法建立 SHA-256 雜湊，未保存檔案');
+    const d=await crypto.subtle.digest('SHA-256',await file.arrayBuffer());
+    return [...new Uint8Array(d)].map(x=>x.toString(16).padStart(2,'0')).join('');
+  }
+  async function save(lane,file){
+    const spec=SPEC[lane];validFile(file);
+    if(typeof currentTrip!=='function'||typeof put!=='function'||typeof MEDIA==='undefined')throw Error('尚未連接既有存檔模組');
+    const t=await currentTrip();if(!t)throw Error('請先建立行程，再上傳'+spec.name+'憑證');
+    const actor=$('#tsumsPermit'+lane+'Actor')?.value.trim()||t.leader?.trim()||'未具名（待補）';
+    const docNum=$('#tsumsPermit'+lane+'Ref')?.value.trim()||'';
+    const issuer=$('#tsumsPermit'+lane+'Issuer')?.value.trim()||'';
+    const dateClaim=$('#tsumsPermit'+lane+'Date')?.value||'';
+    const sha=await fileHash(file),media_id=crypto.randomUUID(),created_at=now();
+    status(lane,'正在保存本機檔案與 SHA-256…');
+    const media={media_id,trip_id:t.id,kind:'PERMIT_DOCUMENT',scope:'PRE_TRIP_EVIDENCE',mime:file.type||'',name:file.name||'',size:file.size,sha256:sha,created_at,blob:file};
+    await put(MEDIA,media);
+    const binding={binding_id:crypto.randomUUID(),target:spec.target,media_ref:media_id,media_sha256:sha,media_mime:media.mime,media_name:media.name,media_size:media.size,actor,recorded_at:created_at,document_number_claim:docNum,issuer_claim:issuer,document_date_claim:dateClaim,review_state:'USER_UPLOADED_UNVERIFIED',approval_state:'NOT_DETERMINED',source:'USER_SELECTED_FILE_OR_CAMERA',event_ref:null};
+    const latest=await currentTrip();records(latest).push(binding);latest.updated_at=created_at;await put(TRIPS,latest);
+    let eventSaved=false;
+    try{
+      const eventHash=await appendEvent('PRETRIP_PERMIT_DOCUMENT_ATTACHED',{
+        lifecycle_stage:2,module_refs:['C1','C3'],actor,
+        observed_fact:'使用者附加'+spec.name+'文件，僅記錄檔案存在與雜湊，不表示申請核准或許可有效。',
+        evidence_refs:[media_id],evidence_object_type:'PRETRIP_PERMIT_DOCUMENT',source_state:'USER_PROVIDED',input_source:'DOCUMENT_UPLOAD',
+        structured_payload:{target:spec.target,binding_id:binding.binding_id,media_ref:media_id,sha256:sha,mime:media.mime,size:media.size,approval_state:'NOT_DETERMINED',review_state:'USER_UPLOADED_UNVERIFIED'}
+      });
+      const recent=(await eventsFor(t.id)).find(x=>x.event_hash===eventHash&&x.evidence_refs?.includes(media_id));
+      const updated=await currentTrip(),b=records(updated).find(x=>x.binding_id===binding.binding_id);
+      if(b&&recent){b.event_ref=recent.event_id;await put(TRIPS,updated)}
+      eventSaved=!!recent;
+    }catch(e){console.warn('permit event pending',e)}
+    await refresh(lane);
+    status(lane,eventSaved?'憑證已保存於本機並建立 SHA-256／事件參照；內容及核准狀態仍待人工核對。':'憑證已保存，但事件紀錄未確認，請先檢查或備份原件；不可視為證據鏈已閉環。',eventSaved?'ok':'warning');
+  }
+  async function download(ref,lane){
+    if(typeof get!=='function'||typeof MEDIA==='undefined')throw Error('檔案讀取接口不可用');
+    const t=await currentTrip();if(!t)throw Error('未找到目前行程');
+    const rec=records(t).find(x=>x.media_ref===ref&&x.target===SPEC[lane].target);
+    if(!rec)throw Error('行程不存在這份附件的參照');
+    const media=await get(MEDIA,ref);if(!media||media.trip_id!==t.id||!media.blob)throw Error('原件未在本機找到；只有參照紀錄');
+    const actual=await fileHash(media.blob);if(actual!==rec.media_sha256)throw Error('檔案 SHA-256 與原紀錄不符；不提供未核對原件');
+    const a=make('a');a.href=URL.createObjectURL(media.blob);a.download=media.name||'TSUMS_permit_document';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),60000);
+  }
+  async function refresh(lane){
+    const list=$('#tsumsPermit'+lane+'List');if(!list)return;
+    list.replaceChildren();
+    const t=typeof currentTrip==='function'?await currentTrip():null;
+    if(!t){status(lane,'請先建立行程，再附加入園／入山申請文件。');return}
+    const arr=records(t).filter(x=>x.target===SPEC[lane].target);
+    if(!arr.length){status(lane,'尚未附加'+SPEC[lane].name+'憑證；不推定未申請或尚未準備。');return}
+    const mediaList=typeof getAll==='function'?await getAll(MEDIA):[];
+    const known=new Set(mediaList.filter(x=>x.trip_id===t.id&&x.blob).map(x=>x.media_id));
+    arr.slice().reverse().forEach(r=>{
+      const item=make('div','permitFileItem');item.append(make('b','',r.media_name||'憑證檔案'));
+      item.append(make('small','',`${r.recorded_at?.slice(0,16).replace('T',' ')||'未記錄時間'} ｜ 附註：${r.actor||'未具名'} ｜ ${known.has(r.media_ref)?'原件本機可用':'原件未找到'} ｜ ${r.event_ref?'事件已記錄':'事件未確認'}`));
+      if(r.document_number_claim||r.issuer_claim||r.document_date_claim)item.append(make('small','',`人工填寫：${r.document_number_claim||'未提供字號'}｜${r.issuer_claim||'未提供機關'}｜${r.document_date_claim||'未提供日期'}（均尚待核對）`));
+      item.append(make('small','',`SHA-256：${r.media_sha256||'未取得'}`));
+      const b=button('檢視／下載原件',()=>{download(r.media_ref,lane).catch(err=>status(lane,'無法取得附件：'+escText(err.message||err),'error'))});
+      item.append(b);list.append(item);
+    });
+    status(lane,`已附加 ${arr.length} 份${SPEC[lane].name}憑證；文件真實性、核准與有效性尚待人工核對。`);
+  }
+  let installed=false;
+  function mount(){
+    if($('#tsumsPermitPARK')&&$('#tsumsPermitMOUNTAIN'))return;
+    const one=laneUI('PARK'),two=laneUI('MOUNTAIN');
+    if(one||two){refresh('PARK').catch(()=>{});refresh('MOUNTAIN').catch(()=>{})}
+  }
+  function init(){
+    mount();
+    const team=$('#p2');if(team){const obs=new MutationObserver(()=>mount());obs.observe(team,{subtree:true,childList:true})}
+    const refreshOnOpen=()=>{refresh('PARK').catch(()=>{});refresh('MOUNTAIN').catch(()=>{})};
+    $('#tsumsTabP9')?.addEventListener('click',refreshOnOpen);
+    $('#journeyStep2')?.addEventListener('click',refreshOnOpen);
+    document.querySelectorAll('[data-go="p2"],[data-next="p2"]').forEach(el=>el.addEventListener('click',refreshOnOpen));
+    // All existing P9 navigation paths share the same go() entry point.
+    // Refresh only after the original navigation finishes; never replace its behavior.
+    if(typeof go==='function'&&!window.__tsumsPermitNavigationHook){
+      const previousGo=go;
+      go=async function(id,...args){const result=await previousGo.call(this,id,...args);if(id==='p2')await Promise.all(['PARK','MOUNTAIN'].map(l=>refresh(l).catch(()=>{})));return result};
+      window.__tsumsPermitNavigationHook=true;
+    }
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+  window.TSUMS_PERMIT_QA={version:'QA-029',scope:'P9 only',preservesOriginalPermitState:true,blobStorage:'IndexedDB media_blobs',ocr:'NOT_ENABLED',externalApproval:'NOT_CHECKED'};
+})();
+
+</script>
 </body></html>

@@ -1229,6 +1229,21 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
 @media(min-width:700px){#p11ui .p11Actions{grid-template-columns:repeat(2,1fr)}#p11ui .p11Nav{grid-template-columns:repeat(4,1fr)}#p11ui .p11Hero,#p11ui .p11Boundary,#p11ui details.p11Module{max-width:940px;margin-left:auto;margin-right:auto}}
 @media(max-width:360px){#p11ui .p11Hero h2{font-size:30px}#p11ui details.p11Module summary .p11Name{font-size:20px}#p11ui .p11Nav button{font-size:17px}}
 </style>
+<style id="tsums-4v-three-page-readonly-bridge-20261023">
+/* Public-Layer QA: live read-only trip & evidence statuses; NOT a new authority or write path. */
+.tsumsBridge{margin:18px 0;padding:20px 15px;background:#171109;border:2px solid #c49a56;border-radius:18px;color:#fff1d0;min-width:0}
+.tsumsBridge *{box-sizing:border-box}
+.tsumsBridge h3{color:#ffdb8a;font-size:27px;line-height:1.35;margin:2px 0 14px;font-weight:900}
+.tsumsBridge h4{color:#ffe5ad;font-size:22px;margin:18px 0 10px;line-height:1.4}
+.tsumsBridge .tsumsBridgeCaution{font-size:17px;line-height:1.5;color:#e8ceb1;margin:10px 0}
+.tsumsBridgeLine{border:1px solid #9b7644;border-left:5px solid #d7ae5b;background:#221a0f;border-radius:11px;padding:14px;margin:11px 0;font-size:20px;font-weight:770;line-height:1.45;overflow-wrap:anywhere}
+.tsumsBridgeEvents{border:1px solid #806742;background:#100d09;padding:14px;border-radius:12px;font-size:19px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
+.tsumsBridgeGrid,.tsumsBridgeActions{display:grid;grid-template-columns:1fr;gap:12px;margin:16px 0}
+.tsumsBridge button{display:block;width:100%;min-height:96px!important;font-size:22px!important;line-height:1.35!important;font-weight:880!important;text-align:left!important;background:#362711!important;color:#ffe5a6!important;border:2px solid #d7ae5b!important;border-radius:14px!important;padding:18px 16px!important;white-space:normal!important;overflow-wrap:anywhere}
+.tsumsBridge button:focus-visible{outline:4px solid #ffdf79;outline-offset:3px}
+.tsumsBridgePre{white-space:pre-wrap;word-wrap:break-word;overflow:auto;max-height:350px;background:#100d08;border:1px solid #937448;border-radius:10px;color:#fff0d4;font-size:17px;line-height:1.55;padding:16px;max-width:100%}
+@media(min-width:820px){.tsumsBridgeGrid,.tsumsBridgeActions{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
 </head>
 <body>
 <div id="tsums-review-banner" role="status" style="position:relative;z-index:99;background:#33220c;color:#ffdf98;border:3px solid #e8b553;text-align:center;padding:15px 12px;font-size:18px;line-height:1.5;font-weight:800">TSUMS 4.0V｜P10 途中示警全功能 UI 審核版（保留 P10-A）（QA）<br><span style="font-size:15px;font-weight:600">僅使用合成資料｜獨立測試資料庫｜不讀取原有行程｜S5-05 真實瀏覽器驗收尚未完成</span></div>
@@ -1683,7 +1698,15 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
  <p class="p10auditBoundary">四個快速入口僅展開對應介面；不判定失聯、未發送通知，也不代為作成 GO／WAIT／RETREAT。系統自動警報與感測資料尚未接通。</p>
  <div id="p10auditActionStatus" role="status" aria-live="polite" hidden></div>
 </div>
-  <div class="p10uiHero">
+  <section class="tsumsBridge" id="tsumsP10Handover" aria-label="行前授權與現場會話交接狀態">
+<h3>跨頁交接｜P9 → P10</h3>
+<p class="tsumsBridgeCaution">本區僅讀取本機合成 QA 行程；綠燈不等於現場啟動已獲准，仍須完成登山口核驗。</p>
+<div class="tsumsBridgeLine" id="tsumsP10Passport" role="status">行前授權：待讀取</div>
+<div class="tsumsBridgeLine" id="tsumsP10Session">現場會話：待讀取</div>
+<div class="tsumsBridgeGrid"><button type="button" data-tsums-bridge-to="p5">查看行前 GO 原始紀錄</button><button type="button" data-tsums-bridge-to="p6">進入既有現場運作／具名結束</button></div>
+<p class="tsumsBridgeCaution">既有程式才會實際核對行前決策與現場查核、執行開始／結束交易。此展示頁不建立會話、不變更權限。</p>
+</section>
+<div class="p10uiHero">
     <div class="p10uiOver">TSUMS 4.0V · FIELD RUNTIME</div>
     <h2>途中示警<br>全功能介面總覽</h2>
     <p class="p10uiIntro">完整 14 區的公開層功能介面；先總審現場操作路徑，後續逐項驗證。所有未接通的功能都不得推定為已監測、已送達或已授權。</p>
@@ -2090,11 +2113,32 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
  <div class="p11Hero">
   <span class="p11Badge">TSUMS 4.0V · PUBLIC LAYER · 第三頁</span>
   <h2>行程後證據鏈<br>與治理回放</h2>
-  <div class="p11Notice">合成 UI 審核｜不讀取真實行程、不執行封存、不刪除個資、不代替司法認定。</div>
+  <div class="p11Notice">合成 QA 審核｜下方跨頁面板唯讀本機 QA 行程；原 12 區仍屬 UI 展示，不執行封存、不刪除個資、不代替司法認定。</div>
   <p>行程結束是治理交接的開始，不是證據處理或責任修復的自動完成。</p>
  </div>
+  <section class="tsumsBridge" id="tsumsP11Handover" aria-label="三頁唯讀治理狀態彙整">
+    <h3>跨頁事實｜P9 → P10 → P11</h3>
+    <p class="tsumsBridgeCaution">讀取本機合成 QA 的實際既存紀錄；僅彙整可驗證的欄位，不寫入、改寫、封存或刪除原始資料。</p>
+    <div class="tsumsBridgeLine" id="tsumsP11Pretrip">行前授權：待讀取</div>
+    <div class="tsumsBridgeLine" id="tsumsP11Session">現場結束：待讀取</div>
+    <div class="tsumsBridgeLine" id="tsumsP11Integrity">證據鏈：待核驗</div>
+    <div class="tsumsBridgeLine" id="tsumsP11Privacy">證據保全／個資清理：待核驗</div>
+    <div class="tsumsBridgeLine" id="tsumsP11Closure">治理關閉：待核驗</div>
+    <h4>途中異常及決策｜既存事件投射</h4>
+    <div class="tsumsBridgeEvents" id="tsumsP11Events" role="status">尚未讀取；不以空白視為沒有事故。</div>
+    <h4>下一次行程｜待人工複核事項</h4>
+    <div class="tsumsBridgeEvents" id="tsumsP11Loopback">待讀取；不自行計算風險權重。</div>
+    <div class="tsumsBridgeActions">
+     <button type="button" id="tsumsP11OneSummary">一鍵產生唯讀治理摘要</button>
+     <button type="button" id="tsumsP11OneExport">一鍵輸出公共層摘要 JSON</button>
+     <button type="button" id="tsumsP11ViewRawExports">查看原有完整回放匯出</button>
+     <button type="button" id="tsumsP11ReviewPrivacy">查看具名保全／刪除控制</button>
+    </div>
+    <pre class="tsumsBridgePre" id="tsumsP11Summary" aria-live="polite">僅顯示最小必要狀態；不包含姓名、電話、精確座標、健康內容或原始影音。</pre>
+    <p class="tsumsBridgeCaution">公共層 QA 摘要仍可能包含可間接識別的事件時間；對外分享前須人工覆核。公共層摘要 ≠ 原始鑑識封存包；SHA-256 ≠ 身分認證／司法認定；匯出 ≠ 對外送達。此處不自動套用修復項目的風險加權。</p>
+  </section>
  <div class="p11Boundary">
-  <h3 class="p11SectionTitle">治理狀態｜起點固定</h3>
+  <h3 class="p11SectionTitle">原設計基準｜靜態審核說明</h3>
   <div class="p11Row"><span>行程結束事件</span><strong>尚未讀取／未核驗</strong></div>
   <div class="p11Row"><span>事件與媒體完整性</span><strong>待驗證</strong></div>
   <div class="p11Row"><span>事故／SOS／保全狀態</span><strong>尚未確認</strong></div>
@@ -6515,6 +6559,97 @@ document.querySelectorAll('#p6ui [data-p10wear-demo]').forEach(function(button){
   section.querySelectorAll('details.p11Module').forEach(d=>{d.hidden=choice!=='all'&&d.dataset.p11Cat!==choice});
   section.querySelector('#p11uiReviewStatus').textContent=choice==='all'?'已顯示完整 12 區；本頁沒有實際個資操作。':`已篩選 ${choice==='evidence'?'證據回放':choice==='duty'?'責任關閉':'個資保全'} 相關 UI；沒有執行資料變更。`;
  }));
+})();
+</script>
+<script id="tsums-4v-three-page-readonly-bridge-20261023">
+/* Read-only integration: reuses existing IndexedDB trip/event helpers; no separate state store or weights. */
+(function(){'use strict';
+ const $bridge=(id)=>document.getElementById(id);
+ const set=(id,value)=>{const n=$bridge(id);if(n)n.textContent=String(value)};
+ let latest=null;
+ const emitTime=(value)=>value&&Number.isFinite(Date.parse(value))?new Date(value).toLocaleString('zh-TW'):'未提供／未確認';
+ const bridgeEvents=new Set(['SOS','SOS_TRIGGERED','LOST_CONTACT','CHECK_IN_MISSED','CHECKIN_OVERDUE','CHECK_IN_OVERDUE','RETREAT','WAIT','MEDICAL','MEDICAL_MT1','MEDICAL_MT2','WARNING','RISK','TRACK_LOCATION_UNAVAILABLE','ROUTE_DEVIATION','WEATHER_CHANGE','TEAM_SEPARATION','SCHEDULE_DELAY','EQUIPMENT_ISSUE','FIELD_SESSION_ENDED','TRACK_SESSION_ENDED','EMERGENCY_FANOUT_CONFIRMED','INCIDENT']);
+ const allCount=(events)=>events.reduce((obj,e)=>{const k=String(e.event_type||'UNKNOWN');obj[k]=(obj[k]||0)+1;return obj},{});
+ function redactedScope(status){return status?.ok?'已通過既有授權核對':'未通過／待核驗：請回 Step 5 核對行前條件、決策權、時效及證據'}
+ function safeNext(t,es){let a=[];if(String(t?.outcome?.residualRisk||'').trim())a.push('前次行程存在殘餘風險，需重新查核');
+ if(t?.repair?.owner||t?.repair?.action||t?.repair?.corrective_action)a.push('前次行程已有修復紀錄，需查核關閉條件');
+ if(!(t?.closure?.verified&&es.some(e=>e.event_type==='CLOSURE_VERIFIED'))&&es.some(e=>['RISK','WARNING','WAIT','RETREAT','LOST_CONTACT','SOS','SOS_TRIGGERED','MEDICAL'].includes(e.event_type)))a.push('前次有重要風險事件，需人工複核');
+ if(t?.privacy_control?.hold?.active)a.push('證據保全仍有效，禁止將原行程資料帶入新案');
+ if(!a.length)a.push('沒有自動加權項目；新行程仍須重新完成 Step 1–5');return a;
+ }
+ async function build(){
+  if(typeof db==='undefined'||!db||typeof currentTrip!=='function'||typeof eventsFor!=='function')return{status:'NOT_READY',generated_at:new Date().toISOString(),warnings:['本機 QA 資料庫尚未就緒'],scope:'PUBLIC_LAYER_SUMMARY_ONLY'};
+  const t=await currentTrip();if(!t)return{status:'NO_TRIP',generated_at:new Date().toISOString(),warnings:['目前無合成行程；沒有任何完成或安全認證'],scope:'PUBLIC_LAYER_SUMMARY_ONLY'};
+  const es=await eventsFor(t.id),gate=await v064ActivationCheck(t,es);
+  const sessions=await v064SessionsForTrip(t.id),active=sessions.some(s=>s.status==='ACTIVE'),last=sessions.at(-1)||null;
+  const endMatch=last?es.filter(e=>e.event_type==='FIELD_SESSION_ENDED'&&e.structured_payload?.session_id===last.session_id):[];
+  let endProof={ok:false,reason:'NO_CONFIRMED_END_EVENT'};
+  if(last?.status==='ENDED'&&last.ended_at&&endMatch.length===1){const event=endMatch[0],{event_hash,...base}=event;endProof={ok:await sha256(stable(base))===event_hash,reason:'END_EVENT_HASH_CHECK',ended_at:last.ended_at}}
+  const chain=await verifyChain();
+  const danger=es.some(e=>typeof P10_PRIV_RISK_EVENTS!=='undefined'&&P10_PRIV_RISK_EVENTS.has(e.event_type));
+  const hold=!!t.privacy_control?.hold?.active;
+  const pr=typeof vP10PrivInspect==='function'?await vP10PrivInspect(t):{ok:false,why:'PRIVACY_INSPECTION_NOT_AVAILABLE'};
+  const important=es.filter(e=>bridgeEvents.has(e.event_type)).map(e=>({event_type:e.event_type,sequence:e.sequence,observed_at:e.observed_at,recorded_at:e.recorded_at}));
+  const next=safeNext(t,es);
+  const closure=!!t.closure?.verified && es.some(e=>e.event_type==='CLOSURE_VERIFIED');
+  return{
+    status:'QA_DATA_READ_ONLY',generated_at:new Date().toISOString(),scope:'PUBLIC_LAYER_SUMMARY_ONLY',
+    trip_scope:'CURRENT_LOCAL_QA_ONLY',
+    pretrip:{state:t.prestart?.decision||'NOT_RECORDED',gate_passed:!!gate.ok,gate_note:redactedScope(gate),record_id_present:!!t.prestart?.decision_record?.decision_record_id},
+    field:{session_state:active?'ACTIVE':last?.status||'NOT_STARTED',ended_at:last?.ended_at||null,end_event_valid:!!endProof.ok,end_event_reason:endProof.reason,session_count:sessions.length},
+    evidence:{chain_verified:!!chain.ok,chain_message:chain.message,event_count:es.length,type_counts:allCount(es),important_events:important},
+    privacy:{preservation_hold:hold,critical_event_review:danger,purged_at:t.privacy_control?.purged_at||null,purge_eligible:!!pr?.ok,purge_due_at:pr?.dueAt||null,privacy_check:pr?.ok?'ELIGIBLE_SUBJECT_TO_DEADLINE':pr?.why||'NOT_VERIFIED',external_copies_not_controlled:true},
+    closeout:{stage14_verified:closure?'CLOSURE_RECORD_PRESENT_REQUIRES_AUDIT':'NOT_ESTABLISHED',note:'結束現場會話不等於完成治理關閉'},
+    next_trip_review:next,
+    limits:['僅本機 QA 資料；不是官方即時告警或事故已接收證明','摘要不包含姓名、電話、座標、醫療文字、原始影音','不替代完整鑑識資料包及具名人工覆核','不會在新行程自動套用任何風險加權','事件類型與時間亦可能形成間接個資，外部傳送前必須人工覆核']
+  };
+ }
+ function display(d){
+  latest=d;
+  if(d.status!=='QA_DATA_READ_ONLY'){
+   const m=d.status==='NO_TRIP'?'未建立合成行程｜全部尚待核驗':'資料庫尚未就緒｜禁止推定完成';
+   for(const id of ['tsumsP10Passport','tsumsP10Session','tsumsP11Pretrip','tsumsP11Session','tsumsP11Integrity','tsumsP11Privacy','tsumsP11Closure'])set(id,m);
+   set('tsumsP11Events','無可核驗事件；不代表沒有事故');set('tsumsP11Loopback','無可核驗歷史；新行程仍需獨立評估');return;
+  }
+  set('tsumsP10Passport',`行前憑證：${d.pretrip.state}｜${d.pretrip.gate_note}｜具名紀錄 ${d.pretrip.record_id_present?'存在':'未證實'}`);
+  set('tsumsP10Session',`現場會話：${d.field.session_state}｜結束事件 ${d.field.end_event_valid?'雜湊核對成功':'未完成／待驗證'}`);
+  set('tsumsP11Pretrip',`P9 行前授權：${d.pretrip.state}｜${d.pretrip.gate_note}`);
+  set('tsumsP11Session',`P10 現場會話：${d.field.session_state}｜結束 ${emitTime(d.field.ended_at)}｜事件 ${d.field.end_event_valid?'雜湊核對成功':'尚未核驗'}`);
+  set('tsumsP11Integrity',`本機事件鏈：${d.evidence.chain_verified?'本機雜湊核對 PASS':'未通過／不可驗證'}｜${d.evidence.event_count} 筆｜不等於原始影音完整`);
+  set('tsumsP11Privacy',`Preservation Hold：${d.privacy.preservation_hold?'啟動中｜禁止刪除':'未啟動'}｜重大事件 ${d.privacy.critical_event_review?'須人工保全覆核':'未見既定風險標記'}｜24h ${d.privacy.privacy_check}`);
+  set('tsumsP11Closure',`Stage 14：${d.closeout.stage14_verified}｜需原有治理關閉表單具名確認`);
+  const rows=d.evidence.important_events.slice(-25).map(e=>`#${e.sequence||'?'}｜${e.event_type}｜觀察 ${emitTime(e.observed_at)}｜錄入 ${emitTime(e.recorded_at)}`);
+  set('tsumsP11Events',rows.length?rows.join('\n'):'目前本機事件沒有符合投射清單的類別；不代表沒有其他風險或證據');
+  set('tsumsP11Loopback',d.next_trip_review.map((x,i)=>`${i+1}. ${x}`).join('\n'));
+  const del=$bridge('v0641DeleteLocalTrip');if(del){const blocked=d.privacy.preservation_hold||d.privacy.critical_event_review;del.disabled=!!blocked;del.title=blocked?'保全或重大風險仍須覆核，禁止刪除':''}
+ }
+ async function refresh(){try{const d=await build();display(d);return d}catch(e){latest=null;set('tsumsP11Summary','唯讀核查失敗：'+String(e?.message||e)+'。不代表資料安全或治理完成。');throw e}}
+ function summary(d){if(d.status!=='QA_DATA_READ_ONLY')return '資料狀態：'+d.status+'\n不能產生有效行程摘要。';
+  return[
+   'TSUMS 4.0V｜三頁治理摘要（本機合成 QA｜公共層）',
+   '產出：'+emitTime(d.generated_at),'行前：'+d.pretrip.state+'｜授權核對 '+(d.pretrip.gate_passed?'通過':'未通過'),
+   '途中：'+d.field.session_state+'｜結束事件 '+(d.field.end_event_valid?'雜湊核對通過':'未完成'),
+   '事件鏈：'+(d.evidence.chain_verified?'本機雜湊 PASS':'未通過')+'｜事件 '+d.evidence.event_count+' 筆',
+   '保全：'+(d.privacy.preservation_hold?'有效':'未確認啟用')+'｜清理 '+d.privacy.privacy_check,
+   'Stage 14：'+d.closeout.stage14_verified,
+   '下一行程待複核：\n'+d.next_trip_review.map(x=>'• '+x).join('\n'),
+   '邊界：未證明送達、不代表法律認定；原始影音／醫療／位置細節未包含。'
+  ].join('\n');
+ }
+ function bind(id,func){const btn=$bridge(id);if(btn)btn.addEventListener('click',async()=>{btn.disabled=true;try{await func()}catch(e){set('tsumsP11Summary','操作未完成：'+String(e?.message||e))}finally{btn.disabled=false}})}
+ bind('tsumsP11OneSummary',async()=>{const d=await refresh();set('tsumsP11Summary',summary(d))});
+ bind('tsumsP11OneExport',async()=>{const d=await refresh();if(d.status!=='QA_DATA_READ_ONLY')throw Error('沒有可輸出的合成行程');
+  const data={...d,evidence:{...d.evidence,important_events:d.evidence.important_events.map(e=>({event_type:e.event_type,sequence:e.sequence,observed_at:e.observed_at,recorded_at:e.recorded_at}))}};
+  if(typeof downloadUtf8!=='function')throw Error('內建下載功能不存在');
+  downloadUtf8('TSUMS_4V_Public_ThreePage_Summary_QA.json',JSON.stringify(data,null,2),'application/json',true);
+  set('tsumsP11Summary','已要求瀏覽器下載公共層 QA 摘要；檔案是否保存及外部是否收到，須另行核對。完整回放包請用既有 p8 匯出。')
+ });
+ bind('tsumsP11ViewRawExports',async()=>{if(typeof go==='function')go('p8');else throw Error('回放頁導覽不可用')});
+ bind('tsumsP11ReviewPrivacy',async()=>{if(typeof go==='function')go('p7');else throw Error('保全頁導覽不可用')});
+ document.querySelectorAll('[data-tsums-bridge-to]').forEach(btn=>btn.addEventListener('click',()=>{if(typeof go==='function')go(btn.getAttribute('data-tsums-bridge-to'))}));
+ // UI navigation only; no simulated workflow state. Recheck when opening each read-only dashboard.
+ document.querySelectorAll('[data-p10ui-open],[data-p11-open]').forEach(btn=>btn.addEventListener('click',()=>{refresh().catch(()=>{})}));
+ window.TSUMS_READONLY_BRIDGE_QA={refresh,build};
 })();
 </script>
 </body></html>

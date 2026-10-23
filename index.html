@@ -1151,6 +1151,84 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
 #p6ui .p10wearResult[hidden]{display:none}
 @media(min-width:650px){#p6ui .p10wearRows>div{flex-direction:row;align-items:center;justify-content:space-between}#p6ui .p10wearVitalGrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style>
+<style id="tsums-p10-outdoor-audit-q2-20261023">
+/* Public-Layer QA UI only. Preserves 4.0V execution logic, IndexedDB and Protected Core boundary. */
+#p6ui{padding-bottom:135px!important}
+#p6ui .p10auditCritical{background:#1a100c;border:3px solid #ffd28c;border-radius:20px;padding:18px 14px;margin:10px 0 20px;box-shadow:0 0 0 3px #452511}
+#p6ui .p10auditTopline{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:space-between;margin-bottom:12px}
+#p6ui .p10auditTopline strong{font-size:25px;font-weight:900;color:#ffdfa3}
+#p6ui .p10auditTopline span{font-size:14px;font-weight:850;color:#ffc1a4}
+#p6ui .p10auditEmergency{display:flex!important;align-items:center;justify-content:center;flex-direction:column;gap:5px;text-align:center;background:#842e25!important;color:#fff!important;border:3px solid #ffb299!important;border-radius:16px;min-height:108px;padding:14px!important;text-decoration:none}
+#p6ui .p10auditEmergency strong{font-size:27px;line-height:1.2;font-weight:950}
+#p6ui .p10auditEmergency small{font-size:15px;line-height:1.35;color:#fff0df;font-weight:750}
+#p6ui .p10auditQuickGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:13px}
+#p6ui .p10auditQuickGrid button{min-width:0;min-height:100px;display:flex;flex-direction:column;justify-content:center;gap:5px;border:2px solid #b9975c;border-radius:14px;background:#2d2013;color:#fff2d2;padding:13px 7px;line-height:1.3;touch-action:manipulation}
+#p6ui .p10auditQuickGrid strong{font-size:clamp(19px,4.6vw,24px);font-weight:900;overflow-wrap:anywhere}
+#p6ui .p10auditQuickGrid small{font-size:15px;color:#f2d8a9;font-weight:750;overflow-wrap:anywhere}
+#p6ui .p10auditBoundary{font-size:16px;line-height:1.6;color:#ffe5c4;margin:15px 1px 0}
+#p6ui #p10auditActionStatus{border:1px solid #d9a261;border-radius:10px;background:#302218;color:#ffe2b3;padding:12px;font-size:18px;margin:14px 0}
+#p6ui .p10auditFixed{position:fixed;z-index:100;bottom:0;left:0;right:0;display:flex;align-items:stretch;gap:10px;background:#090807f7;border-top:2px solid #9c733c;padding:11px max(12px,env(safe-area-inset-right)) calc(11px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));box-shadow:0 -8px 26px #0009}
+#p6ui .p10auditFixed a,#p6ui .p10auditFixed button{flex:1;min-width:0;min-height:96px;display:flex;justify-content:center;align-items:center;font-size:21px;font-weight:900;text-align:center;text-decoration:none;border-radius:13px;border:2px solid #d2a965;padding:10px;color:#ffebc5;background:#392817;touch-action:manipulation}
+#p6ui .p10auditFixed a{background:#842e25;border-color:#ffb199;color:white}
+#p6ui .p10uiStrip a{min-height:70px!important;font-size:19px!important;min-width:58px!important;justify-content:center}
+#p6ui .p10uiName{font-size:24px!important}
+#p6ui .p10uiBrief{font-size:18px!important;color:#efddba!important}
+#p6ui .p10uiMeters span{min-height:96px!important;font-size:20px!important}
+#p6ui .p10uiMeters b{font-size:20px!important;color:#ffde97!important}
+#p6ui .p10uiModuleMeta span{font-size:16px!important}
+#p6ui .p10uiHint,#p6ui .p10uiChoice span{font-size:18px!important}
+#p6ui .p10auditOwner{color:#ffdf9a;background:#312313;border:1px solid #ad8448;border-radius:10px;margin-top:14px;padding:11px;font-size:17px;line-height:1.5;font-weight:800}
+#p6ui details.p10uiModule summary{min-height:110px!important;scroll-margin-top:120px}
+#p6ui details.p10uiModule{scroll-margin-top:125px!important}
+#p6ui .p10uiFilter button{min-height:72px!important;font-size:18px!important}
+#p6ui .p10wearAction,#p6ui .p10uiExternal,#p6ui .p10uiChoice button{min-height:96px!important;font-size:22px!important}
+#p6ui .p10uiSticky{top:0}
+#p6ui :is(button,a,summary):focus-visible{outline:4px solid #fff1ad!important;outline-offset:3px}
+@media(max-width:360px){#p6ui .p10auditQuickGrid{grid-template-columns:1fr}#p6ui .p10auditFixed a,#p6ui .p10auditFixed button{font-size:19px}}
+@media(prefers-reduced-motion:reduce){#p6ui *{scroll-behavior:auto!important;transition:none!important}}
+</style>
+<style id="tsums-p11-third-page-ui-public-review-20261023">
+/* P11 UI ONLY. No app data reads, biometric/health input, decision commits or external delivery. */
+#p11ui{--p11gold:#eac676;--p11line:#8d6d3d;--p11bg:#17130c;color:#fdf1d7}
+#p11ui *{box-sizing:border-box}
+#p11ui .p11Hero,#p11ui .p11Boundary,#p11ui .p11Module,#p11ui .p11Footer{border:2px solid var(--p11line);border-radius:18px;background:var(--p11bg);margin:16px 0;padding:19px 16px}
+#p11ui .p11Hero h2{font-size:34px;line-height:1.2;margin:4px 0 12px;color:#f8d18a}
+#p11ui .p11Hero p,#p11ui .p11Boundary p,#p11ui .p11Module p{font-size:19px;line-height:1.55;color:#f2dfbc;margin:8px 0 12px}
+#p11ui .p11Badge{display:inline-block;color:#ffdeb1;border:1px solid #cfa85a;border-radius:8px;padding:8px;font-size:16px;font-weight:800}
+#p11ui .p11Notice{border:2px solid #de9e62;border-radius:12px;background:#382216;padding:15px 13px;font-weight:780;font-size:19px;line-height:1.5;color:#fff3d3}
+#p11ui .p11Row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;padding:15px 0;border-bottom:1px solid #735730}
+#p11ui .p11Row:last-child{border:0}
+#p11ui .p11Row span{font-size:19px;line-height:1.35;font-weight:750}
+#p11ui .p11Row strong{font-size:18px;color:#ffe0a4;text-align:right}
+#p11ui .p11Actions{display:grid;grid-template-columns:1fr;gap:12px;margin:17px 0}
+#p11ui button.p11Action,#p11ui .p11Action{min-height:96px;width:100%;background:#2c2111!important;border:2px solid #caa25e!important;border-radius:14px;color:#ffdf99!important;padding:17px 14px;font-size:23px;line-height:1.25;font-weight:880;cursor:pointer;text-align:left}
+#p11ui button.p11Action small,#p11ui .p11Action small{font-size:16px;display:block;color:#e7cda5;margin-top:5px;line-height:1.4}
+#p11ui .p11Actions .p11Priority{border-color:#f3a18c!important;background:#43251d!important;color:#fff1e7!important}
+#p11ui .p11Nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#p11ui .p11Nav button{min-height:96px;background:#241a0f;border:2px solid #9d7d4a;color:#ffdf9c;border-radius:12px;font-size:19px;font-weight:830;padding:10px;line-height:1.3;white-space:normal}
+#p11ui .p11Nav button[aria-pressed="true"]{background:#4b3519;border-color:#ffce7a;color:#fff}
+#p11ui .p11SectionTitle{font-size:25px;color:#ffd98a;margin:22px 0 12px;line-height:1.3}
+#p11ui details.p11Module{padding:0;overflow:hidden}
+#p11ui details.p11Module[hidden]{display:none!important}
+#p11ui details.p11Module summary{display:flex;align-items:flex-start;gap:13px;cursor:pointer;list-style:none;min-height:96px;padding:21px 14px;line-height:1.35}
+#p11ui details.p11Module summary::-webkit-details-marker{display:none}
+#p11ui details.p11Module summary .p11Num{display:flex;align-items:center;justify-content:center;flex:0 0 47px;width:47px;height:47px;background:#513819;color:#ffe2a1;border:2px solid #d1a85d;border-radius:11px;font-size:22px;font-weight:900}
+#p11ui details.p11Module summary .p11Name{flex:1;min-width:0;font-size:22px;font-weight:900;color:#fff1d2;line-height:1.35}
+#p11ui details.p11Module summary .p11Name small{display:block;margin-top:5px;color:#d2b887;font-size:16px;font-weight:700;line-height:1.4}
+#p11ui details.p11Module summary .p11Chevron{font-size:24px;color:#e7b960}
+#p11ui details.p11Module[open] summary .p11Chevron{transform:rotate(90deg)}
+#p11ui .p11Body{padding:0 16px 20px;border-top:1px solid #745b37}
+#p11ui .p11Scope{font-size:17px;color:#e9d5b4;line-height:1.6;padding:10px 0}
+#p11ui .p11Signal{border-radius:12px;border:1px solid #8c7043;background:#251b10;color:#f7e6ca;padding:13px 12px;font-size:17px;line-height:1.55;margin-top:10px}
+#p11ui .p11State{display:block;color:#ffbd9b;font-size:16px;font-weight:830;margin-top:6px}
+#p11ui .p11Alert{color:#fff0da;background:#4d251e;border:2px solid #ed9485;padding:16px;border-radius:12px;font-size:20px;font-weight:790;line-height:1.5}
+#p11ui .p11Output{font-size:18px;line-height:1.5;border:2px solid #cda25c;border-radius:14px;padding:15px;background:#261e10;color:#fff1d4;white-space:pre-line}
+#p11ui .p11EndNote{font-size:17px;line-height:1.6;color:#e3d4b6}
+.p11Launcher{display:block;width:100%;min-height:96px;margin:14px 0;border:2px solid #bca16c!important;border-radius:16px;background:#1f271e!important;color:#e9eac0!important;font-size:23px!important;font-weight:900;text-align:center;line-height:1.35;padding:16px}
+.p11Launcher small{display:block;font-size:16px!important;margin-top:6px;color:#dde4c9}
+@media(min-width:700px){#p11ui .p11Actions{grid-template-columns:repeat(2,1fr)}#p11ui .p11Nav{grid-template-columns:repeat(4,1fr)}#p11ui .p11Hero,#p11ui .p11Boundary,#p11ui details.p11Module{max-width:940px;margin-left:auto;margin-right:auto}}
+@media(max-width:360px){#p11ui .p11Hero h2{font-size:30px}#p11ui details.p11Module summary .p11Name{font-size:20px}#p11ui .p11Nav button{font-size:17px}}
+</style>
 </head>
 <body>
 <div id="tsums-review-banner" role="status" style="position:relative;z-index:99;background:#33220c;color:#ffdf98;border:3px solid #e8b553;text-align:center;padding:15px 12px;font-size:18px;line-height:1.5;font-weight:800">TSUMS 4.0V｜P10 途中示警全功能 UI 審核版（保留 P10-A）（QA）<br><span style="font-size:15px;font-weight:600">僅使用合成資料｜獨立測試資料庫｜不讀取原有行程｜S5-05 真實瀏覽器驗收尚未完成</span></div>
@@ -1179,6 +1257,7 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
 
 
 <section id="p0" class="page active">
+<button type="button" class="p11Launcher" data-p11-open>第三頁｜行程後證據鏈與治理回放<small>12 個功能區 · 合成 QA · 無須真實行程 · 不刪除資料</small></button>
 <button type="button" class="p10uiLauncher" data-p10ui-open>第二頁｜途中示警全功能介面預覽<small>14 個公開層功能區 · 無須 GO · 不讀取真實 GPS · 不寫入治理資料</small></button>
   <div class="journeyTripContext"><span>行程</span><b id="journeyTripName">尚未建立行程</b></div>
 
@@ -1592,10 +1671,22 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
 </section>
 
 <section id="p6ui" class="page" aria-label="TSUMS 途中示警全功能介面 QA 審核">
+<div class="p10auditCritical" role="region" aria-label="優先求援與現場安全入口">
+ <div class="p10auditTopline"><strong>現場安全｜最短操作入口</strong><span>PUBLIC UI REVIEW · 非自動示警</span></div>
+ <a class="p10auditEmergency" href="tel:119" aria-label="開啟系統電話撥號 119，不代表已撥通或通知救援單位"><strong>119｜立即開啟系統撥號</strong><small>無須行前 GO · 撥號與接通須由手機確認</small></a>
+ <div class="p10auditQuickGrid" role="group" aria-label="現場事件操作區導覽">
+   <button type="button" data-p10audit-jump="05"><strong>隊伍異常</strong><small>開啟人員與失聯區</small></button>
+   <button type="button" data-p10audit-jump="06"><strong>CHECK-IN 逾時</strong><small>開啟回報與升級區</small></button>
+   <button type="button" data-p10audit-jump="09"><strong>疑似跌倒</strong><small>開啟事故確認區</small></button>
+   <button type="button" data-p10audit-jump="10"><strong>WAIT／RETREAT</strong><small>開啟人工決策區</small></button>
+ </div>
+ <p class="p10auditBoundary">四個快速入口僅展開對應介面；不判定失聯、未發送通知，也不代為作成 GO／WAIT／RETREAT。系統自動警報與感測資料尚未接通。</p>
+ <div id="p10auditActionStatus" role="status" aria-live="polite" hidden></div>
+</div>
   <div class="p10uiHero">
     <div class="p10uiOver">TSUMS 4.0V · FIELD RUNTIME</div>
     <h2>途中示警<br>全功能介面總覽</h2>
-    <p class="p10uiIntro">先審整頁資訊架構、盲操尺寸與任務分流，再逐模組接入事實、定位、官方警報、責任及證據鏈。這是一張可操作的介面草圖，不是現場安全系統。</p>
+    <p class="p10uiIntro">完整 14 區的公開層功能介面；先總審現場操作路徑，後續逐項驗證。所有未接通的功能都不得推定為已監測、已送達或已授權。</p>
     <div class="p10uiTags"><span>P10 UI MASTER</span><span>14 功能區</span><span>V5 高對比</span><span>僅展示介面</span></div>
     <div class="p10uiDanger">不得用於真實導航、即時預警、遇難求援或 GO 授權。國家級告警／隊伍即時反饋尚未接通，所有狀態均為未連線或 UI 示意。</div>
     <div class="p10wearGlobal" aria-label="穿戴式裝置未連線狀態">
@@ -1606,7 +1697,7 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
       <div class="p10wearResult" data-p10wear-output aria-live="polite" hidden></div>
     </div>
   </div>
-  <a class="p10uiEmergency" href="tel:119">緊急情況｜開啟 119 系統撥號</a>
+  
   <button type="button" class="p10uiReturn" data-p10ui-back>← 返回上一頁（不改寫資料）</button>
   <div class="p10uiSticky"><div class="p10uiStrip"><a href="#p10ui-m01">01</a><a href="#p10ui-m02">02</a><a href="#p10ui-m03">03</a><a href="#p10ui-m04">04</a><a href="#p10ui-m05">05</a><a href="#p10ui-m06">06</a><a href="#p10ui-m07">07</a><a href="#p10ui-m08">08</a><a href="#p10ui-m09">09</a><a href="#p10ui-m10">10</a><a href="#p10ui-m11">11</a><a href="#p10ui-m12">12</a><a href="#p10ui-m13">13</a><a href="#p10ui-m14">14</a></div></div>
   <h3 class="p10uiHeading">功能清單與操作層級</h3>
@@ -1615,22 +1706,22 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
   <div class="p10uiSummary"><strong>4.0V 治理主軸：</strong>C1 PCAR × C2 MSLS × C3 UIRF 主承接；C4 MFRF／C5 USMP 依外部責任、成本與程序修復介入。五大核心模組不增減，七大結構與核心參數不公開。<br><strong>當前顯示：</strong>功能呈現清單，不是正式 14-Stage Lifecycle。</div>
   <div class="p10uiGrid"><details class="p10uiModule" id="p10ui-m01" data-p10ui-status="planned" open>
       <summary><span class="p10uiNum">01</span><span><span class="p10uiName">總控與風險狀態</span><span class="p10uiBrief">總覽 RiskState、T0,k、責任、下一決策與位置新鮮度</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C1 · C2 · C3</span><span>既有介面｜待驗收</span><span>合成 QA／未連線</span></div><div class="p10uiMetrics"><div><span>RiskState</span><strong>未取得</strong></div><div><span>最近 T0,k</span><strong>尚無</strong></div><div><span>具名指揮</span><strong>待核驗</strong></div><div><span>最後回報</span><strong>尚無</strong></div></div><p class="p10uiHint">本區為 UI 尺寸與資訊階層示範；實際狀態只從已啟動的 Field Session 及證據事件取得。</p></div>
+      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜風險與責任總控 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C1 · C2 · C3</span><span>既有介面｜待驗收</span><span>合成 QA／未連線</span></div><div class="p10uiMetrics"><div><span>RiskState</span><strong>未取得</strong></div><div><span>最近 T0,k</span><strong>尚無</strong></div><div><span>具名指揮</span><strong>待核驗</strong></div><div><span>最後回報</span><strong>尚無</strong></div></div><p class="p10uiHint">本區為 UI 尺寸與資訊階層示範；實際狀態只從已啟動的 Field Session 及證據事件取得。</p></div>
     </details><details class="p10uiModule" id="p10ui-m02" data-p10ui-status="planned" open>
       <summary><span class="p10uiNum">02</span><span><span class="p10uiName">位置、軌跡與偏離路線</span><span class="p10uiBrief">計畫 GPX 與裝置軌跡分離；精度、時間、偏離證據</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C1 PCAR · C2 MSLS · C3 UIRF</span><span>偏離判定｜待串接</span><span>合成 QA／未連線</span></div><div class="p10uiMetrics"><div><span>計畫路線</span><strong>待載入</strong></div><div><span>裝置位置</span><strong>未取得</strong></div><div><span>位置精度</span><strong>未知</strong></div><div><span>偏離判定</span><strong>未計算</strong></div></div><div class="p10uiMap" role="img" aria-label="空白路線與定位檢視佔位；尚未載入地圖或軌跡"><span>GPX｜預定路線</span><strong>地圖／偏離對照區</strong><small>無真實座標 · 無導航 · 不進行偏航推算</small></div><div class="p10uiChoice"><button type="button" data-p10ui-demo="偏離路線">觀看偏航示意狀態</button><span>不自動計算、不觸發實際警報</span></div></div>
+      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜位置證據／偏航 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C1 PCAR · C2 MSLS · C3 UIRF</span><span>偏離判定｜待串接</span><span>合成 QA／未連線</span></div><div class="p10uiMetrics"><div><span>計畫路線</span><strong>待載入</strong></div><div><span>裝置位置</span><strong>未取得</strong></div><div><span>位置精度</span><strong>未知</strong></div><div><span>偏離判定</span><strong>未計算</strong></div></div><div class="p10uiMap" role="img" aria-label="空白路線與定位檢視佔位；尚未載入地圖或軌跡"><span>GPX｜預定路線</span><strong>地圖／偏離對照區</strong><small>無真實座標 · 無導航 · 不進行偏航推算</small></div><div class="p10uiChoice"><button type="button" data-p10ui-demo="偏離路線">觀看偏航示意狀態</button><span>不自動計算、不觸發實際警報</span></div></div>
     </details><details class="p10uiModule" id="p10ui-m03" data-p10ui-status="planned" open>
       <summary><span class="p10uiNum">03</span><span><span class="p10uiName">氣象、天氣窗口與國家級警報</span><span class="p10uiBrief">官方警特報、降雨、雷電、強風、颱風與時效</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C1 PCAR · C2 MSLS</span><span>官方警報串接｜待建置</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>中央氣象署警特報 <b>未連接</b></span><span>國家級災防告警 <b>未連接</b></span><span>目前場域天候 <b>待人工查核</b></span><span>訊息新鮮度 <b>未知</b></span></div><a class="p10uiExternal" href="https://www.cwa.gov.tw/V8/C/" target="_blank" rel="noopener noreferrer">手動查閱中央氣象署 ↗</a><div class="p10uiChoice"><button type="button" data-p10ui-demo="國家級警特報">觀看警報卡片示意</button><span>示意不代表已收到官方警報</span></div></div>
+      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜官方天氣來源 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C1 PCAR · C2 MSLS</span><span>官方警報串接｜待建置</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>中央氣象署警特報 <b>未連接</b></span><span>國家級災防告警 <b>未連接</b></span><span>目前場域天候 <b>待人工查核</b></span><span>訊息新鮮度 <b>未知</b></span></div><a class="p10uiExternal" href="https://www.cwa.gov.tw/V8/C/" target="_blank" rel="noopener noreferrer">手動查閱中央氣象署 ↗</a><div class="p10uiChoice"><button type="button" data-p10ui-demo="國家級警特報">觀看警報卡片示意</button><span>示意不代表已收到官方警報</span></div></div>
     </details><details class="p10uiModule" id="p10ui-m04" data-p10ui-status="planned" >
       <summary><span class="p10uiNum">04</span><span><span class="p10uiName">地質、水文與地表事件</span><span class="p10uiBrief">落石、坍方、溪水暴漲、坡地、地震與封閉通行</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C1 PCAR · C2 MSLS</span><span>風險來源｜待串接</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>落石／崩塌 <b>未查核</b></span><span>溪流水位／暴漲 <b>未查核</b></span><span>地震／坡地警示 <b>未查核</b></span><span>道路／步道封閉 <b>未查核</b></span></div><p class="p10uiHint">顯示來源、有效時間、觀測地點與是否適用本路線；不補造觸發閾值。</p></div>
+      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜地質水文來源 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C1 PCAR · C2 MSLS</span><span>風險來源｜待串接</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>落石／崩塌 <b>未查核</b></span><span>溪流水位／暴漲 <b>未查核</b></span><span>地震／坡地警示 <b>未查核</b></span><span>道路／步道封閉 <b>未查核</b></span></div><p class="p10uiHint">顯示來源、有效時間、觀測地點與是否適用本路線；不補造觸發閾值。</p></div>
     </details><details class="p10uiModule" id="p10ui-m05" data-p10ui-status="planned" >
       <summary><span class="p10uiNum">05</span><span><span class="p10uiName">隊伍動態、遇難與失聯</span><span class="p10uiBrief">全員確認、隊伍分離、傷病、遇難回報與求援協調</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>即時回饋｜待串接</span><span>合成 QA／未連線</span></div><div class="p10uiMetrics"><div><span>隊伍名冊</span><strong>待載入</strong></div><div><span>全員確認</span><strong>未確認</strong></div><div><span>失聯人數</span><strong>未知</strong></div><div><span>遇難訊號</span><strong>無接入</strong></div></div><div class="p10uiChoice"><button type="button" data-p10ui-demo="隊伍遇難">觀看隊伍求援示意</button><span>無隊員即時監測、無遠端同步</span></div></div>
+      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜隊伍現況與異常 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>即時回饋｜待串接</span><span>合成 QA／未連線</span></div><div class="p10uiMetrics"><div><span>隊伍名冊</span><strong>待載入</strong></div><div><span>全員確認</span><strong>未確認</strong></div><div><span>失聯人數</span><strong>未知</strong></div><div><span>遇難訊號</span><strong>無接入</strong></div></div><div class="p10uiChoice"><button type="button" data-p10ui-demo="隊伍遇難">觀看隊伍求援示意</button><span>無隊員即時監測、無遠端同步</span></div></div>
     </details><details class="p10uiModule" id="p10ui-m06" data-p10ui-status="planned" >
       <summary><span class="p10uiNum">06</span><span><span class="p10uiName">定期 CHECK-IN 與逾時升級</span><span class="p10uiBrief">回報期限、留守人、遲到、失聯升級及責任節點</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>逾時事件｜待接線</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>回報間隔 <b>依行前計畫</b></span><span>下一回報 <b>待計算</b></span><span>逾時起點 <b>未觸發</b></span><span>升級責任人 <b>待載入</b></span></div><div class="p10uiChoice"><button type="button" data-p10ui-demo="CHECK-IN 逾時">觀看逾時示意</button><span>不得假裝已自動傳訊給留守人</span></div>
+      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜回報／逾時責任 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>逾時事件｜待接線</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>回報間隔 <b>依行前計畫</b></span><span>下一回報 <b>待計算</b></span><span>逾時起點 <b>未觸發</b></span><span>升級責任人 <b>待載入</b></span></div><div class="p10uiChoice"><button type="button" data-p10ui-demo="CHECK-IN 逾時">觀看逾時示意</button><span>不得假裝已自動傳訊給留守人</span></div>
       <div class="p10wearBlock" aria-label="穿戴裝置 CHECK-IN 介面">
         <h4>穿戴式 CHECK-IN｜低負擔回報</h4>
         <div class="p10wearRows"><div><span>手錶連線</span><strong>未連線</strong></div><div><span>實體按鍵事件</span><strong>未綁定</strong></div><div><span>具名回報識別</span><strong>待授權</strong></div><div><span>遠端送達</span><strong>無回執</strong></div></div>
@@ -1641,10 +1732,10 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
       </div>
     </details><details class="p10uiModule" id="p10ui-m07" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">07</span><span><span class="p10uiName">多通道通訊與送達狀態</span><span class="p10uiBrief">行動網路、無線電、衛星電話／追蹤器及回執</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>多通道紀錄｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>行動網路 <b>未知</b></span><span>無線電 <b>人工紀錄</b></span><span>衛星電話 <b>人工紀錄</b></span><span>衛星追蹤器 <b>尚未接入</b></span></div><div class="p10uiFlow"><span>本機已保存</span><i>→</i><span>交付傳送</span><i>→</i><span>收到回執</span></div><p class="p10uiHint">三種狀態不可自動等同。沒有可靠回執時，送達狀態固定為 UNKNOWN。</p></div>
+      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜通訊與送達回執 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>多通道紀錄｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>行動網路 <b>未知</b></span><span>無線電 <b>人工紀錄</b></span><span>衛星電話 <b>人工紀錄</b></span><span>衛星追蹤器 <b>尚未接入</b></span></div><div class="p10uiFlow"><span>本機已保存</span><i>→</i><span>交付傳送</span><i>→</i><span>收到回執</span></div><p class="p10uiHint">三種狀態不可自動等同。沒有可靠回執時，送達狀態固定為 UNKNOWN。</p></div>
     </details><details class="p10uiModule" id="p10ui-m08" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">08</span><span><span class="p10uiName">山域醫學與生命徵候</span><span class="p10uiBrief">氧、溫、血、腦、動五結構；分流與撤退支援</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C1 · C2 · C3｜Medical Overlay</span><span>觀察紀錄｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>氧｜氣體交換 <b>未確認</b></span><span>溫｜熱平衡 <b>未確認</b></span><span>血｜循環代謝 <b>未確認</b></span><span>腦｜神經中樞 <b>未確認</b></span><span>動｜組織完整性 <b>未確認</b></span></div><p class="p10uiHint">記錄徵候、意識、移動能力、處置、時間與具名人員；本頁不作診斷或自動下醫療指令。</p>
+      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜生命徵候與醫學 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C1 · C2 · C3｜Medical Overlay</span><span>觀察紀錄｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>氧｜氣體交換 <b>未確認</b></span><span>溫｜熱平衡 <b>未確認</b></span><span>血｜循環代謝 <b>未確認</b></span><span>腦｜神經中樞 <b>未確認</b></span><span>動｜組織完整性 <b>未確認</b></span></div><p class="p10uiHint">記錄徵候、意識、移動能力、處置、時間與具名人員；本頁不作診斷或自動下醫療指令。</p>
       <div class="p10wearBlock" aria-label="穿戴式生命徵候感測器審核">
         <h4>Wearable｜生理資料與訊號品質</h4>
         <div class="p10wearVitalGrid"><div><small>HR・心率</small><strong>—</strong><small>bpm｜未取得</small></div><div><small>HRV・心率變異</small><strong>—</strong><small>毫秒｜未取得</small></div><div><small>SpO₂・血氧</small><strong>—</strong><small>%｜未取得</small></div><div><small>海拔關聯</small><strong>未知</strong><small>位置與高度未核對</small></div></div>
@@ -1656,7 +1747,7 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
       </div>
     </details><details class="p10uiModule" id="p10ui-m09" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">09</span><span><span class="p10uiName">事故通報、SOS 與救援交接</span><span class="p10uiBrief">求援意圖、緊急聯絡、位置資料與送達確認</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>人工求援入口｜已存在</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>事故／SOS 事件 <b>尚未建立</b></span><span>救援受理 <b>UNKNOWN</b></span><span>最後有效位置 <b>未取得</b></span><span>通報交接 <b>尚未確認</b></span></div><a class="p10uiEmergency" href="tel:119">緊急情況｜開啟 119 撥號</a><p class="p10uiHint">直接開啟系統撥號，無需 GO；不保證接通、派遣或送達。不可使用此示意介面作真實求援依據。</p>
+      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜事故求援交付 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>人工求援入口｜已存在</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>事故／SOS 事件 <b>尚未建立</b></span><span>救援受理 <b>UNKNOWN</b></span><span>最後有效位置 <b>未取得</b></span><span>通報交接 <b>尚未確認</b></span></div><a class="p10uiEmergency" href="tel:119">緊急情況｜開啟 119 撥號</a><p class="p10uiHint">直接開啟系統撥號，無需 GO；不保證接通、派遣或送達。不可使用此示意介面作真實求援依據。</p>
       <div class="p10wearBlock" aria-label="穿戴式跌倒疑似事件與人工確認">
         <h4>跌倒／撞擊訊號｜人工確認與救援</h4>
         <div class="p10wearRows"><div><span>跌倒感測來源</span><strong>未連線</strong></div><div><span>疑似事件</span><strong>無接入</strong></div><div><span>倒數確認</span><strong>尚未啟動</strong></div><div><span>最後有效位置</span><strong>未取得</strong></div><div><span>外部救援回執</span><strong>UNKNOWN</strong></div></div>
@@ -1667,10 +1758,10 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
       </div>
     </details><details class="p10uiModule" id="p10ui-m10" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">10</span><span><span class="p10uiName">現場 GO／WAIT／RETREAT 與停損</span><span class="p10uiBrief">新的 T0,k、當時已知／未知、人工權限與行動邊界</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C1 PCAR · C3 UIRF</span><span>具名決策｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiDecision"><div><strong>GO</strong><span>繼續推進</span></div><div><strong>WAIT</strong><span>停止推進／觀察</span></div><div><strong>RETREAT</strong><span>撤退／返程</span></div></div><div class="p10uiMeters"><span>具名決策人 <b>待核驗</b></span><span>本次有效決策 <b>尚無</b></span><span>Stop-Loss 條件 <b>依正式規格</b></span></div><p class="p10uiHint">此處只展示決策按鈕視覺，沒有提交行為；正式 T0,k 仍使用既有決策單，不能由預覽直接啟用 GO。</p></div>
+      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜人工決策 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C1 PCAR · C3 UIRF</span><span>具名決策｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiDecision"><div><strong>GO</strong><span>繼續推進</span></div><div><strong>WAIT</strong><span>停止推進／觀察</span></div><div><strong>RETREAT</strong><span>撤退／返程</span></div></div><div class="p10uiMeters"><span>具名決策人 <b>待核驗</b></span><span>本次有效決策 <b>尚無</b></span><span>Stop-Loss 條件 <b>依正式規格</b></span></div><p class="p10uiHint">此處只展示決策按鈕視覺，沒有提交行為；正式 T0,k 仍使用既有決策單，不能由預覽直接啟用 GO。</p></div>
     </details><details class="p10uiModule" id="p10ui-m11" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">11</span><span><span class="p10uiName">語音、影像、位置與事件留痕</span><span class="p10uiBrief">原始檔優先、時間序、雜湊、晚到資料與補記分層</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C3 UIRF</span><span>現場紀錄｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>語音紀錄 <b>待提供</b></span><span>照片／影片 <b>待提供</b></span><span>裝置定位證據 <b>未取得</b></span><span>最近事件雜湊 <b>未形成</b></span></div><p class="p10uiHint">原始檔與轉錄稿分離；事件補記只新增版本，不覆寫事前紀錄。保護個資及受保護座標。</p>
+      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜原始事件與核補 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C3 UIRF</span><span>現場紀錄｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>語音紀錄 <b>待提供</b></span><span>照片／影片 <b>待提供</b></span><span>裝置定位證據 <b>未取得</b></span><span>最近事件雜湊 <b>未形成</b></span></div><p class="p10uiHint">原始檔與轉錄稿分離；事件補記只新增版本，不覆寫事前紀錄。保護個資及受保護座標。</p>
       <div class="p10wearBlock" aria-label="穿戴資料來源與遲到證據">
         <h4>穿戴資料證據接入｜事件與原始資料分離</h4>
         <div class="p10wearRows"><div><span>裝置事件代碼／序號</span><strong>未建立</strong></div><div><span>裝置觀測時間與接收時間</span><strong>分離保存（待接）</strong></div><div><span>晚到資料</span><strong>新增核補，不重寫舊鏈</strong></div><div><span>外部可信時間</span><strong>未驗證</strong></div></div>
@@ -1679,13 +1770,13 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
       </div>
     </details><details class="p10uiModule" id="p10ui-m12" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">12</span><span><span class="p10uiName">撤退路線、交通與外部支援</span><span class="p10uiBrief">替代路線、集合點、接駁、保險／援助與外部責任交接</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C1 · C2 · C4 MFRF</span><span>支援介面｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>撤退／避難位置 <b>待確認</b></span><span>接駁與交通 <b>尚未聯繫</b></span><span>留守人 <b>待載入</b></span><span>保險／外援受理 <b>UNKNOWN</b></span></div><p class="p10uiHint">對外傳送由人明確操作；不得將簡訊範本已開啟宣稱為送達、接單或保險理賠成立。</p></div>
+      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜撤退路線與外援 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C1 · C2 · C4 MFRF</span><span>支援介面｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>撤退／避難位置 <b>待確認</b></span><span>接駁與交通 <b>尚未聯繫</b></span><span>留守人 <b>待載入</b></span><span>保險／外援受理 <b>UNKNOWN</b></span></div><p class="p10uiHint">對外傳送由人明確操作；不得將簡訊範本已開啟宣稱為送達、接單或保險理賠成立。</p></div>
     </details><details class="p10uiModule" id="p10ui-m13" data-p10ui-status="planned" >
       <summary><span class="p10uiNum">13</span><span><span class="p10uiName">生態與原住民族權利邊界</span><span class="p10uiBrief">脆弱環境、封閉區域、敏感座標及受保護知識</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>Public Layer · Protected Core</span><span>環境資訊｜待建立</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>場域封閉 <b>未查核</b></span><span>生態／棲地警訊 <b>未接入</b></span><span>敏感座標外送 <b>禁止預設</b></span><span>受保護知識 <b>不可展示</b></span></div><p class="p10uiHint">公開介面只呈現非敏感事實與責任邊界，不輸出 Protected Core 或可逆向重建的核心組合。</p></div>
+      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜生態／權利邊界 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>Public Layer · Protected Core</span><span>環境資訊｜待建立</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>場域封閉 <b>未查核</b></span><span>生態／棲地警訊 <b>未接入</b></span><span>敏感座標外送 <b>禁止預設</b></span><span>受保護知識 <b>不可展示</b></span></div><p class="p10uiHint">公開介面只呈現非敏感事實與責任邊界，不輸出 Protected Core 或可逆向重建的核心組合。</p></div>
     </details><details class="p10uiModule" id="p10ui-m14" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">14</span><span><span class="p10uiName">證據時間線與行程後交接</span><span class="p10uiBrief">事件回放、證據完整性、殘餘風險與具名關閉</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10uiModuleMeta"><span>C3 UIRF · C4 MFRF · C5 USMP</span><span>第七頁｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>Field Session <b>未啟動</b></span><span>事件連續性 <b>待驗證</b></span><span>外部交接 <b>未確認</b></span><span>治理關閉 <b>尚未完成</b></span></div><p class="p10uiHint">結束行程 ≠ 制度關閉。第 7 頁負責承接證據凍結、事實回放、修正、責任節點與關閉條件。</p>
+      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜會話交接與隱私 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C3 UIRF · C4 MFRF · C5 USMP</span><span>第七頁｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>Field Session <b>未啟動</b></span><span>事件連續性 <b>待驗證</b></span><span>外部交接 <b>未確認</b></span><span>治理關閉 <b>尚未完成</b></span></div><p class="p10uiHint">結束行程 ≠ 制度關閉。第 7 頁負責承接證據凍結、事實回放、修正、責任節點與關閉條件。</p>
       <div class="p10wearBlock" aria-label="穿戴式資料保護與行程後交接">
         <h4>穿戴資料生命週期｜P10-PRIV-01</h4>
         <div class="p10wearRows"><div><span>A 軌・高頻感測快取</span><strong>正常結束後 24 小時檢查</strong></div><div><span>B 軌・必要治理證據</span><strong>依法定目的／期限處理</strong></div><div><span>Preservation Hold</span><strong>有事故時保全優先</strong></div><div><span>iPhone 網頁背景排程</span><strong>不保證準點觸發</strong></div></div>
@@ -1694,7 +1785,11 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
       </div>
     </details></div>
   <div id="p10uiDemoOutput" role="status" aria-live="polite" hidden></div>
-  <div class="p10uiBottom">TSUMS Bunun Protocol Authority｜Public Layer Design Review｜資料未串接，不作事故預測、不宣稱收到國家級告警、不宣稱已通知留守人或救援機構。裝置與網路未持續運作時，不能保證背景定位與示警。</div>
+  <nav class="p10auditFixed" aria-label="途中操作快捷列">
+ <a href="tel:119" aria-label="開啟系統 119 撥號，不代表已接通">119｜撥號</a>
+ <button type="button" data-p10audit-jump="10">撤退決策介面</button>
+</nav>
+<div class="p10uiBottom">TSUMS Bunun Protocol Authority｜Public Layer Design Review｜資料未串接，不作事故預測、不宣稱收到國家級告警、不宣稱已通知留守人或救援機構。裝置與網路未持續運作時，不能保證背景定位與示警。</div>
   <button type="button" class="p10uiReturn" data-p10ui-back>← 返回上一頁（仍為合成 QA）</button>
 </section>
 <section id="p6" class="page">
@@ -1991,6 +2086,107 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
 <button class="danger" id="activateEmergencyFanout" style="width:100%;min-height:62px;margin-top:10px">確認並啟動 SOS / Fan-out 授權</button><div class="small" style="margin-top:8px">建立 SOS_TRIGGERED 與 EMERGENCY_FANOUT_CONFIRMED；不宣稱派遣、保險受理或送達。</div>
 </div></dialog>
 
+<section id="p11ui" class="page" aria-label="TSUMS 4.0V 第三頁行程後證據與治理回放完整介面 QA">
+ <div class="p11Hero">
+  <span class="p11Badge">TSUMS 4.0V · PUBLIC LAYER · 第三頁</span>
+  <h2>行程後證據鏈<br>與治理回放</h2>
+  <div class="p11Notice">合成 UI 審核｜不讀取真實行程、不執行封存、不刪除個資、不代替司法認定。</div>
+  <p>行程結束是治理交接的開始，不是證據處理或責任修復的自動完成。</p>
+ </div>
+ <div class="p11Boundary">
+  <h3 class="p11SectionTitle">治理狀態｜起點固定</h3>
+  <div class="p11Row"><span>行程結束事件</span><strong>尚未讀取／未核驗</strong></div>
+  <div class="p11Row"><span>事件與媒體完整性</span><strong>待驗證</strong></div>
+  <div class="p11Row"><span>事故／SOS／保全狀態</span><strong>尚未確認</strong></div>
+  <div class="p11Row"><span>24 小時個資處理</span><strong>功能待實機驗收</strong></div>
+  <div class="p11Row"><span>Stage 14 治理關閉</span><strong>不得自動成立</strong></div>
+  <div class="p11Actions">
+   <button type="button" class="p11Action" data-p11-view="closeout">查看原有結束治理頁<small>現行 p7 執行表單；需具名及證據</small></button>
+   <button type="button" class="p11Action" data-p11-view="replay">查看原有證據回放頁<small>現行 p8 事件帳本及匯出功能</small></button>
+  </div>
+  <div class="p11Alert">事故、搜救、失聯、死亡傷害或保全爭議：必要證據先依法保全；不能為符合 24 小時清理而刪除事故原件。</div>
+ </div>
+ <div class="p11Boundary">
+   <h3 class="p11SectionTitle">12 區完整審核清單</h3>
+   <p>這是第三頁的 12 個 UI 功能區，<strong>不是</strong> TSUMS 4.0V 正式的 14-Stage Lifecycle。</p>
+   <div class="p11Nav" role="group" aria-label="第三頁篩選">
+ <button type="button" data-p11-filter="all" aria-pressed="true">完整 12 區</button>
+ <button type="button" data-p11-filter="evidence" aria-pressed="false">證據回放</button>
+ <button type="button" data-p11-filter="duty" aria-pressed="false">責任關閉</button>
+ <button type="button" data-p11-filter="privacy" aria-pressed="false">個資保全</button>
+ </div>
+ </div>
+ <details id="p11ui-m01" class="p11Module" data-p11-cat="duty" open>
+ <summary><span class="p11Num">01</span><span class="p11Name">結束狀態與隊伍清點<small>事件結束 ≠ 治理關閉</small></span><span class="p11Chevron" aria-hidden="true">›</span></summary>
+ <div class="p11Body"><div class="p11Scope"><strong>治理承接：</strong>C1 · C2 · C3</div>
+ <p>確認所有成員與裝置位置、行程結束事實、剩餘風險及尚未確認人員。</p><div class="p11Signal"><strong>驗收邊界</strong>：不得因使用者點選完成就推定全隊安全。</div>
+ <span class="p11State">審核狀態｜UI 已配置；實際事件、資料完整性及權限尚未完成本頁驗收</span></div></details>
+<details id="p11ui-m02" class="p11Module" data-p11-cat="evidence" >
+ <summary><span class="p11Num">02</span><span class="p11Name">現場紀錄完整性<small>保留事件原始時間序</small></span><span class="p11Chevron" aria-hidden="true">›</span></summary>
+ <div class="p11Body"><div class="p11Scope"><strong>治理承接：</strong>C3 UIRF</div>
+ <p>保全 FIELD_SESSION_STARTED／ENDED 與 T0,k，核對 sequence、previous_hash、event_hash 及遺漏事件。</p><div class="p11Signal"><strong>驗收邊界</strong>：雜湊可偵測不一致，不能單憑 SHA-256 宣稱真實或法律不可否認。</div>
+ <span class="p11State">審核狀態｜UI 已配置；實際事件、資料完整性及權限尚未完成本頁驗收</span></div></details>
+<details id="p11ui-m03" class="p11Module" data-p11-cat="evidence" >
+ <summary><span class="p11Num">03</span><span class="p11Name">晚到資料與離線補正<small>新增補充，不改寫原件</small></span><span class="p11Chevron" aria-hidden="true">›</span></summary>
+ <div class="p11Body"><div class="p11Scope"><strong>治理承接：</strong>C3 UIRF</div>
+ <p>以 observed_at、recorded_at、received_at／synced_at（若有）分開展示晚到資料、來源與衝突。</p><div class="p11Signal"><strong>驗收邊界</strong>：目前遠端同步與跨裝置核補未驗收，不提供假的同步成功狀態。</div>
+ <span class="p11State">審核狀態｜UI 已配置；實際事件、資料完整性及權限尚未完成本頁驗收</span></div></details>
+<details id="p11ui-m04" class="p11Module" data-p11-cat="evidence" >
+ <summary><span class="p11Num">04</span><span class="p11Name">語音影像與原始媒體<small>原件引用與雜湊驗證</small></span><span class="p11Chevron" aria-hidden="true">›</span></summary>
+ <div class="p11Body"><div class="p11Scope"><strong>治理承接：</strong>C3 UIRF</div>
+ <p>照片／錄音／影片原檔引用、格式、大小、來源、取得時間、雜湊、保全狀態。</p><div class="p11Signal"><strong>驗收邊界</strong>：媒體與事件同筆交易修補、簽章和 EXIF 可信性仍待正式測試。</div>
+ <span class="p11State">審核狀態｜UI 已配置；實際事件、資料完整性及權限尚未完成本頁驗收</span></div></details>
+<details id="p11ui-m05" class="p11Module" data-p11-cat="evidence" >
+ <summary><span class="p11Num">05</span><span class="p11Name">預定路線與實際軌跡<small>空間證據與資料缺口</small></span><span class="p11Chevron" aria-hidden="true">›</span></summary>
+ <div class="p11Body"><div class="p11Scope"><strong>治理承接：</strong>C1 · C2 · C3</div>
+ <p>對照計畫路線、裝置軌跡、定位新鮮度、精度與中斷區間，明示未知。</p><div class="p11Signal"><strong>驗收邊界</strong>：軌跡缺口不等於人員沒有移動，也不自動構成違規。</div>
+ <span class="p11State">審核狀態｜UI 已配置；實際事件、資料完整性及權限尚未完成本頁驗收</span></div></details>
+<details id="p11ui-m06" class="p11Module" data-p11-cat="duty" >
+ <summary><span class="p11Num">06</span><span class="p11Name">人員、通訊與外援交接<small>到達 ≠ 送達 ≠ 收悉</small></span><span class="p11Chevron" aria-hidden="true">›</span></summary>
+ <div class="p11Body"><div class="p11Scope"><strong>治理承接：</strong>C2 MSLS</div>
+ <p>整理回報、失聯升級、留守人、交通接駁、119 與外援的發出、接收、回執狀態。</p><div class="p11Signal"><strong>驗收邊界</strong>：使用分享功能、生成訊息或點擊求援不等於對方已收到。</div>
+ <span class="p11State">審核狀態｜UI 已配置；實際事件、資料完整性及權限尚未完成本頁驗收</span></div></details>
+<details id="p11ui-m07" class="p11Module" data-p11-cat="evidence" >
+ <summary><span class="p11Num">07</span><span class="p11Name">山域醫學事件回放<small>觀察與決策分離</small></span><span class="p11Chevron" aria-hidden="true">›</span></summary>
+ <div class="p11Body"><div class="p11Scope"><strong>治理承接：</strong>C1 · C2 · C3</div>
+ <p>整理 MT0／MT1／MT2 對應的觀察、時間、處置、撤退或後送決策及未知事實。</p><div class="p11Signal"><strong>驗收邊界</strong>：醫學應用層不是第六模組，不依單一手錶數值診斷。</div>
+ <span class="p11State">審核狀態｜UI 已配置；實際事件、資料完整性及權限尚未完成本頁驗收</span></div></details>
+<details id="p11ui-m08" class="p11Module" data-p11-cat="evidence" >
+ <summary><span class="p11Num">08</span><span class="p11Name">證據 A–E 分層與責任<small>制度判定不能冒充裁判</small></span><span class="p11Chevron" aria-hidden="true">›</span></summary>
+ <div class="p11Body"><div class="p11Scope"><strong>治理承接：</strong>C3 · C5 USMP</div>
+ <p>依 A 已確認事實、B 合理推論、C 制度判定、D 法律爭點、E 修正行動組織回放。</p><div class="p11Signal"><strong>驗收邊界</strong>：不得將制度缺口推定為刑事有罪或官方失職認定。</div>
+ <span class="p11State">審核狀態｜UI 已配置；實際事件、資料完整性及權限尚未完成本頁驗收</span></div></details>
+<details id="p11ui-m09" class="p11Module" data-p11-cat="duty" >
+ <summary><span class="p11Num">09</span><span class="p11Name">風險成本與責任延續<small>必要成本與公共層交接</small></span><span class="p11Chevron" aria-hidden="true">›</span></summary>
+ <div class="p11Body"><div class="p11Scope"><strong>治理承接：</strong>C4 MFRF</div>
+ <p>承接可證實的救援、運送、損失及治理成本狀態；數值未確認不補造。</p><div class="p11Signal"><strong>驗收邊界</strong>：不展示未公開成本權重、公式及 Protected Core 計算。</div>
+ <span class="p11State">審核狀態｜UI 已配置；實際事件、資料完整性及權限尚未完成本頁驗收</span></div></details>
+<details id="p11ui-m10" class="p11Module" data-p11-cat="duty" >
+ <summary><span class="p11Num">10</span><span class="p11Name">修復、申訴與關閉<small>具名責任與期限</small></span><span class="p11Chevron" aria-hidden="true">›</span></summary>
+ <div class="p11Body"><div class="p11Scope"><strong>治理承接：</strong>C5 USMP</div>
+ <p>指定責任人、決行層級、修正期限、驗證方法、關閉條件與未結爭點。</p><div class="p11Signal"><strong>驗收邊界</strong>：Stage 14 關閉必須可驗證，不因結束登山活動自動關閉。</div>
+ <span class="p11State">審核狀態｜UI 已配置；實際事件、資料完整性及權限尚未完成本頁驗收</span></div></details>
+<details id="p11ui-m11" class="p11Module" data-p11-cat="privacy" >
+ <summary><span class="p11Num">11</span><span class="p11Name">個資 24h 清理與保全<small>Preservation Hold 優先</small></span><span class="p11Chevron" aria-hidden="true">›</span></summary>
+ <div class="p11Body"><div class="p11Scope"><strong>治理承接：</strong>P10-PRIV-01 · C3</div>
+ <p>正常活動結束後 24 小時的敏感快取到期檢查；事故、失聯、法定保全另列必要留存。</p><div class="p11Signal"><strong>驗收邊界</strong>：iPhone 網頁關閉時無法保證精確背景清理，治理事件仍可能含個資。</div>
+ <span class="p11State">審核狀態｜UI 已配置；實際事件、資料完整性及權限尚未完成本頁驗收</span></div></details>
+<details id="p11ui-m12" class="p11Module" data-p11-cat="evidence" >
+ <summary><span class="p11Num">12</span><span class="p11Name">回放包、遮罩與封存<small>匯出不等於送達</small></span><span class="p11Chevron" aria-hidden="true">›</span></summary>
+ <div class="p11Body"><div class="p11Scope"><strong>治理承接：</strong>C3 UIRF · Public Layer</div>
+ <p>整理遮罩包、JSON、UTF-8、HTML、附件索引及完整性識別。輸出前須人工覆核個資。</p><div class="p11Signal"><strong>驗收邊界</strong>：正式封存、外部收件、第三方副本刪除與權限管理均非此 UI 預覽完成事項。</div>
+ <span class="p11State">審核狀態｜UI 已配置；實際事件、資料完整性及權限尚未完成本頁驗收</span></div></details>
+ <div class="p11Footer">
+  <h3 class="p11SectionTitle">本頁交付狀態</h3>
+  <p>12 區操作與資訊架構完成；原有 p7、p8 保留，證據、個資、保全與回放尚須依 4.0V 正式規格逐項實機驗收。</p>
+  <div id="p11uiReviewStatus" class="p11Output" role="status" aria-live="polite">已載入第三頁完整介面｜目前未執行資料操作。</div>
+  <div class="p11Actions">
+   <button class="p11Action" type="button" data-p11-back>← 返回前頁<small>不刪除也不改寫資料</small></button>
+   <button class="p11Action" type="button" data-p11-to-second>查看第二頁途中示警<small>UI 審核視圖，不觸發救援或定位</small></button>
+  </div>
+  <p class="p11EndNote">UI Baseline · Synthetic QA · Non-Canonical product interface · Protected Core excluded. 封閉測試邀請、TestFlight、學生測試及發行權限另案處理，三頁完成前不啟動。</p>
+ </div>
+</section>
 <section id="p7" class="page">
 <div class="card v0641CloseoutGate" id="v0641CloseoutGate">
   <div class="sectionEyebrow">結束治理閘門</div>
@@ -6285,6 +6481,40 @@ document.querySelectorAll('#p6ui [data-p10wear-demo]').forEach(function(button){
     if(!panel)return;panel.hidden=false;panel.textContent=messages[button.getAttribute('data-p10wear-demo')]||'僅作 UI 審核';
   });
 });
+})();
+</script>
+<script id="tsums-p10-outdoor-audit-interactions-20261023">
+/* QA navigation only. No IndexedDB writes, background monitoring, network requests or emergency sends. */
+(function(){'use strict';
+ const scope=document.getElementById('p6ui');if(!scope)return;
+ function goToModule(k){
+  const card=document.getElementById('p10ui-m'+k);if(!card)return;
+  const reset=scope.querySelector('[data-p10ui-filter="all"]');if(card.hidden&&reset)reset.click();
+  card.open=true;
+  const output=document.getElementById('p10auditActionStatus');
+  const name=card.querySelector('.p10uiName')?.textContent||k;
+  if(output){output.hidden=false;output.textContent='已開啟 '+name+' 的介面；本次僅檢視 UI。未建立緊急事件、未通知留守人、未執行正式決策。'}
+  card.scrollIntoView({behavior:'auto',block:'start'});
+  const summary=card.querySelector('summary');summary?.focus({preventScroll:true});
+ }
+ scope.querySelectorAll('[data-p10audit-jump]').forEach(function(el){el.addEventListener('click',function(){goToModule(el.getAttribute('data-p10audit-jump'))})});
+})();
+</script>
+<script id="tsums-p11-third-page-ui-interactions-20261023">
+/* UI review only: no database, GPS, health data, timer, deletion, biometric authentication or network actions. */
+(function(){'use strict';
+ const section=document.getElementById('p11ui');if(!section)return;
+ let back='p0';
+ function jump(id){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('[data-go]').forEach(x=>x.classList.toggle('active',x.dataset.go===id));window.scrollTo(0,0)}
+ document.querySelectorAll('[data-p11-open]').forEach(b=>b.addEventListener('click',()=>{back=document.querySelector('.page.active')?.id||'p0';jump('p11ui')}));
+ section.querySelectorAll('[data-p11-back]').forEach(b=>b.addEventListener('click',()=>jump(back)));
+ section.querySelectorAll('[data-p11-to-second]').forEach(b=>b.addEventListener('click',()=>jump('p6ui')));
+ section.querySelectorAll('[data-p11-view]').forEach(b=>b.addEventListener('click',()=>{const dest=b.dataset.p11View==='closeout'?'p7':'p8';if(typeof go==='function')go(dest);else jump(dest)}));
+ const buttons=section.querySelectorAll('[data-p11-filter]');
+ buttons.forEach(b=>b.addEventListener('click',()=>{const choice=b.dataset.p11Filter;buttons.forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+  section.querySelectorAll('details.p11Module').forEach(d=>{d.hidden=choice!=='all'&&d.dataset.p11Cat!==choice});
+  section.querySelector('#p11uiReviewStatus').textContent=choice==='all'?'已顯示完整 12 區；本頁沒有實際個資操作。':`已篩選 ${choice==='evidence'?'證據回放':choice==='duty'?'責任關閉':'個資保全'} 相關 UI；沒有執行資料變更。`;
+ }));
 })();
 </script>
 </body></html>

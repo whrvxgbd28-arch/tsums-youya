@@ -1111,6 +1111,23 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
 .p10uiLauncher small{display:block;font-size:15px;color:#dbbf8d;font-weight:700;margin-top:5px}
 @media(min-width:720px){#p6ui .p10uiGrid{grid-template-columns:repeat(2,minmax(0,1fr))}#p6ui .p10uiMetrics{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style>
+<style id="tsums-p10-priv-01-ui">
+/* Public Layer QA: privacy gate does not implement background deletion or device biometrics. */
+#p7 #p10PrivCard{border:2px solid #b99457;background:#18130d;padding:20px;border-radius:18px;margin:18px 0}
+#p7 #p10PrivCard h2{color:#f6ca78;font-size:28px;line-height:1.35}
+#p7 #p10PrivCard h3{font-size:23px;color:#ffd98c}
+#p7 #p10PrivCard p,#p7 #p10PrivCard .p10PrivStatus{font-size:18px;line-height:1.55;color:#f7e8ca}
+#p7 #p10PrivCard label{font-size:21px;color:#fbe0aa;font-weight:750;line-height:1.5;display:block;margin:16px 0 8px}
+#p7 #p10PrivCard input,#p7 #p10PrivCard textarea{box-sizing:border-box;width:100%;font-size:21px;min-height:64px;background:#0e0b07;border:2px solid #ad8f60;border-radius:12px;color:#fff4df;padding:12px}
+#p7 #p10PrivCard .p10PrivCheck{display:flex;align-items:flex-start;gap:15px;font-size:20px;color:#fff0d2;margin:18px 0}
+#p7 #p10PrivCard .p10PrivCheck input{width:34px;height:34px;min-width:34px;accent-color:#eac677}
+#p7 #p10PrivCard button{min-height:90px;padding:16px;font-size:21px;border-radius:14px;width:100%;margin:9px 0;font-weight:800}
+#p7 #p10PrivCard button[disabled]{opacity:.5}
+#p7 #p10PrivCard .p10PrivWarn{border-left:5px solid #d59453;background:#35220f;padding:14px;color:#ffe3a7}
+#p7 #p10PrivCard .p10PrivHold{border-color:#e46c68;background:#3c201b;color:#fff}
+#p7 #p10PrivCard .p10PrivMetric{border:1px solid #8b724c;border-radius:12px;padding:14px;margin:10px 0;background:#0d0b09;font-size:20px}
+#p7 #p10PrivCard .p10PrivStatus{white-space:pre-wrap;overflow-wrap:anywhere}
+</style>
 </head>
 <body>
 <div id="tsums-review-banner" role="status" style="position:relative;z-index:99;background:#33220c;color:#ffdf98;border:3px solid #e8b553;text-align:center;padding:15px 12px;font-size:18px;line-height:1.5;font-weight:800">TSUMS 4.0V｜P10 途中示警全功能 UI 審核版（保留 P10-A）（QA）<br><span style="font-size:15px;font-weight:600">僅使用合成資料｜獨立測試資料庫｜不讀取原有行程｜S5-05 真實瀏覽器驗收尚未完成</span></div>
@@ -1936,6 +1953,27 @@ body.field #p5 #p10aCheckpointCard p,body.field #p6 #p10aFieldStatus p{color:#29
 </div>
 <div class="card"><h3>責任與修復</h3><div class="row"><div><label>責任人</label><input id="repairOwner"></div><div><label>期限</label><input id="repairDeadline" type="date"></div></div><label>修正行動</label><textarea id="repairAction"></textarea><label>證據／驗證方式</label><textarea id="repairEvidence"></textarea><label>關閉條件</label><textarea id="closureCondition"></textarea><button class="secondary" id="lockRepair">寫入 Stage 13 Repair</button></div>
 <div class="card"><h3>治理關閉</h3><div class="check"><span>具名責任節點已驗證關閉條件</span><input id="closureVerified" type="checkbox"></div><label>驗證人 / 角色</label><input id="closureActor"><label>治理關閉 註記</label><textarea id="closureNote"></textarea><button class="primary" id="closeGovernance">Stage 14｜確認 治理關閉</button></div>
+<div class="card" id="p10PrivCard" data-public-layer-qa="true">
+  <div class="sectionEyebrow">TSUMS 4.0V｜P10-PRIV-01 · QA</div>
+  <h2>活動結束後 24 小時｜個資清理與證據保全</h2>
+  <p class="p10PrivWarn">只有「正常結束、全員已確認、無重大事件或未結交接」且完成具名清理確認的合成行程，才會於期限屆滿後，在下次開啟／返回此網頁時清理本機原始媒體與詳細軌跡。</p>
+  <div class="p10PrivMetric"><strong>目前清理狀態</strong><div id="p10PrivStatus" class="p10PrivStatus" role="status">等待資料庫及行程載入</div></div>
+  <p><strong>清除範圍：</strong>本機 audio_blobs、media_blobs、track_points 及 Track 上的最後精細座標快取。已存在的 Event、具名決策及路線基準不在本階段清除範圍，仍可能含個資；不得宣稱已全面匿名化。</p>
+  <h3>正常結束｜具名個資處理確認</h3>
+  <label for="p10PrivActor">具名確認人（必須與行程責任人相符）</label><input id="p10PrivActor" autocomplete="off" placeholder="QA 合成責任人">
+  <label class="p10PrivCheck"><input id="p10PrivNormalConfirm" type="checkbox"><span>確認本行程屬正常結束、全員清點完成，無未結事故、搜救、保全或司法調查，理解原始媒體與詳細軌跡到期後無法再完整回放。</span></label>
+  <button type="button" id="p10PrivDeclareNormal" class="secondary">具名確認正常清理（不立即刪除）</button>
+  <h3>事故、搜救或證據保全</h3>
+  <label for="p10PrivHoldActor">保全責任人</label><input id="p10PrivHoldActor" autocomplete="off" placeholder="QA 合成保全責任人">
+  <label for="p10PrivHoldReason">保全原因／依據</label><textarea id="p10PrivHoldReason" placeholder="例：事故調查、失聯、醫療重大事件，或法定保全要求"></textarea>
+  <label for="p10PrivHoldReview">保全複核期限</label><input id="p10PrivHoldReview" type="datetime-local">
+  <label class="p10PrivCheck"><input id="p10PrivHoldConfirm" type="checkbox"><span>本人確認須保全必要證據，保全期間不得進行 24 小時原始資料清理。</span></label>
+  <button type="button" id="p10PrivStartHold" class="stop p10PrivHold">啟動 Preservation Hold（保留證據）</button>
+  <div class="p10PrivWarn">本版不提供「一鍵解除事故保全」。保全解除、期限屆滿後的處理須另經具名程序審核；不允許自動清除保全卷證。</div>
+  <h3>快速解鎖 ≠ 具名授權</h3>
+  <p>Face ID／指紋可在未來作為裝置操作的輔助驗證，但本網頁尚未串接 WebAuthn 或身分註冊。重要決策仍須檢查具名權限、顯示決策內容及本人明確確認；生物辨識本身不構成法律簽章或責任認定。</p>
+  <div id="p10PrivActionStatus" role="status" class="p10PrivStatus" aria-live="polite">此頁使用合成 QA 資料；不要輸入真實個資。</div>
+</div>
 <div class="toolbar"><button class="primary next" data-next="p8">建立完整 回放</button></div>
 </section>
 
@@ -4611,7 +4649,12 @@ $("#v0641ExportMasked").onclick=async()=>{
  const t=await currentTrip();if(!t)return alert("尚無行程");const pkg=await packageData(),masked=v0641MaskObject(pkg,v0641KnownNames(t));masked.manifest=masked.manifest||{};masked.manifest.export_profile="PUBLIC_LAYER_STRUCTURAL_MASKING";masked.manifest.human_review_required=true;delete masked.package_hash;masked.package_hash=await sha256(stable(masked));downloadUtf8(`TSUMS_${(t.name||"trip").replace(/[\\/:*?"<>|]/g,"_")}_Public_Layer_Masked.json`,JSON.stringify(masked,null,2),"application/json",true)
 };
 async function v0641DeleteTripCascade(){
- const t=await currentTrip();if(!t)return;const typed=prompt(`此動作會刪除本機本行程與其 Event / Audio / Media / Track。輸入 DELETE 確認：\n${t.name||t.id}`);if(typed!=="DELETE")return;
+ const t=await currentTrip();if(!t)return;
+ // P10-PRIV-01: block the older manual cascade when a preservation obligation is present.
+ if(t.privacy_control?.hold?.active)throw new Error('PRESERVATION_HOLD_ACTIVE：證據保全中，不得從舊版刪除入口清除');
+ const riskEvents=await eventsFor(t.id);
+ if(riskEvents.some(e=>P10_PRIV_RISK_EVENTS.has(e.event_type)))throw new Error('PRIVACY_REVIEW_REQUIRED：有事故／失聯／醫療或重大風險事件，先走具名保全覆核');
+ const typed=prompt(`此動作會刪除本機本行程與其 Event / Audio / Media / Track。輸入 DELETE 確認：\n${t.name||t.id}`);if(typed!=="DELETE")return;
  const stores=[EVENTS,AUDIO,MEDIA,FIELD_SESSIONS,TRACKS,TRACK_POINTS,PLANNED_ROUTES,TRIPS],tx=db.transaction(stores,"readwrite"),tripId=t.id;
  const removeMatching=async(name)=>{const os=tx.objectStore(name);if(name===TRIPS){os.delete(tripId);return}const all=await new Promise((res,rej)=>{const r=os.getAll();r.onsuccess=()=>res(r.result||[]);r.onerror=()=>rej(r.error)});for(const x of all)if(x.trip_id===tripId)os.delete(x[os.keyPath])};
  try{for(const name of stores)await removeMatching(name)}catch(e){tx.abort();throw e}
@@ -5922,6 +5965,7 @@ async function vR2SafeInit(){
   console.error("R2_QA_DB_READ",e);return;
  }
  try{
+  await vP10PrivSweep();
   if(trips.length){
    currentTripId=trips.sort((a,b)=>String(b.updated_at||"").localeCompare(String(a.updated_at||"")))[0].id;
    await hydrate();
@@ -5984,6 +6028,154 @@ renderAll=async function(){
     el.textContent=('啟動事件與現場查核已核對｜具名者 '+point.actor+'｜登山口 '+point.site+'｜觀察時間 '+point.observed_at+'｜Checkpoint '+point.checkpoint_id+'｜當時未知：'+point.unknown_facts+'｜裝置時間尚未獨立校時；查核完成不等於安全保證');
   }catch(_){el.textContent='無法查證現場啟動紀錄，請停止以 GO 作為有效現場授權。'}
 };
+
+/* P10-PRIV-01 | Public Layer QA | 24h post-end locally checked on app open / resume.
+   No biometric capability, no background scheduling, no server sync, no Protected Core. */
+const P10_PRIV_HOURS=24;
+const P10_PRIV_MS=P10_PRIV_HOURS*60*60*1000;
+const P10_PRIV_RISK_EVENTS=new Set([
+ 'SOS','SOS_TRIGGERED','EMERGENCY_FANOUT_CONFIRMED','LOST_CONTACT','TEAM_SEPARATION',
+ 'MEDICAL','MEDICAL_MT2','MEDICAL_MT1','ROUTE_DEVIATION','INCIDENT','NEAR_MISS',
+ 'ACCIDENT','RESCUE_REQUIRED','MISSING_PERSON','MOBILITY_DECLINE','FALL',
+ 'PRESERVATION_HOLD_STARTED','PRIVACY_REVIEW_REQUIRED'
+]);
+const vP10PrivCssStatus=id=>document.getElementById(id);
+function vP10PrivFail(code){throw Error('P10_PRIV_BLOCKED:'+code)}
+async function vP10PrivInspect(trip){
+ if(!trip?.id)return{ok:false,why:'NO_TRIP'};
+ const ses=await v064SessionsForTrip(trip.id),active=ses.some(x=>x.status==='ACTIVE'),last=ses.at(-1);
+ if(active)return{ok:false,why:'ACTIVE_FIELD_SESSION'};
+ if(!last||last.status!=='ENDED'||!last.ended_at)return{ok:false,why:'NO_CONFIRMED_FIELD_END'};
+ const endedMs=Date.parse(last.ended_at);
+ if(!Number.isFinite(endedMs)||endedMs>Date.now()+60000)return{ok:false,why:'UNTRUSTED_OR_FUTURE_END_TIME'};
+ const es=await eventsFor(trip.id),endEvents=es.filter(e=>e.event_type==='FIELD_SESSION_ENDED'&&e.structured_payload?.session_id===last.session_id);
+ if(endEvents.length!==1)return{ok:false,why:'END_EVENT_MISSING_OR_DUPLICATE'};
+ const {event_hash,...endBase}=endEvents[0];
+ if(await sha256(stable(endBase))!==event_hash)return{ok:false,why:'END_EVENT_HASH_INVALID'};
+ if(!es.some(e=>e.event_type==='EVENT_CLOSEOUT'))return{ok:false,why:'CLOSEOUT_NOT_RECORDED'};
+ const r=trip.privacy_control||{};
+ if(r.hold?.active)return{ok:false,why:'PRESERVATION_HOLD_ACTIVE',dueAt:new Date(endedMs+P10_PRIV_MS).toISOString()};
+ if(es.some(e=>P10_PRIV_RISK_EVENTS.has(e.event_type)))return{ok:false,why:'CRITICAL_EVENT_REQUIRES_REVIEW'};
+ if(trip.outcome?.state!=='Normal Completion'||trip.outcome?.accounted!=='全員已確認')return{ok:false,why:'NOT_CONFIRMED_NORMAL_COMPLETION'};
+ if(trip.closeout_control?.handoff_status!=='NOT_REQUIRED')return{ok:false,why:'EXTERNAL_HANDOFF_NOT_CLOSED'};
+ if(!String(trip.closeout_control?.handoff_note||'').trim())return{ok:false,why:'MISSING_HANDOFF_REASON'};
+ if(String(trip.outcome?.residualRisk||'').trim())return{ok:false,why:'UNRESOLVED_RESIDUAL_RISK'};
+ if(!r.normal_clearance?.actor||!r.normal_clearance?.acknowledged_at||r.normal_clearance?.session_id!==last.session_id)return{ok:false,why:'NAMED_PRIVACY_CLEARANCE_REQUIRED'};
+ const dueAt=new Date(endedMs+P10_PRIV_MS).toISOString();
+ return{ok:true,trip,last,es,dueAt,expired:Date.now()>=Date.parse(dueAt)};
+}
+async function vP10PrivEvent(type,trip,es,payload,actor){
+ const last=es.at(-1);
+ const base=v064EventBase(type,{lifecycle_stage:9,module_refs:['C3','C5'],source_state:'USER_RECORDED',actor,observed_fact:type,structured_payload:payload,determination_layer:'E'},last,(last?.sequence||0)+1);
+ base.trip_id=trip.id;
+ return{...base,event_hash:await sha256(stable(base))};
+}
+async function vP10PrivSaveWithEvent(trip,type,mutator,payload,actor){
+ const operation=v06WriteLock.catch(()=>{}).then(async()=>{
+  const fresh=await get(TRIPS,trip.id);if(!fresh)vP10PrivFail('TRIP_CHANGED');
+  const es=await eventsFor(trip.id),next={...fresh,privacy_control:mutator(fresh.privacy_control||{}),updated_at:isoNow()};
+  const ev=await vP10PrivEvent(type,fresh,es,payload,actor);
+  await v064TxPut([TRIPS,EVENTS],{[TRIPS]:next,[EVENTS]:ev});
+  return next;
+ });
+ v06WriteLock=operation.catch(()=>{});
+ return operation;
+}
+async function vP10PrivDeclareNormal(){
+ const trip=await currentTrip();if(!trip)vP10PrivFail('NO_TRIP');
+ const name=vP10PrivCssStatus('p10PrivActor').value.trim();
+ if(!name||!vP10PrivCssStatus('p10PrivNormalConfirm').checked)vP10PrivFail('ACTOR_OR_EXPLICIT_INTENT_MISSING');
+ if(name!==String(trip.leader||'').trim()&&name!==String(trip.closure?.actor||'').trim())vP10PrivFail('UNBOUND_ACTOR');
+ // Eligibility without pre-existing clearance: only omit this requirement for declaration itself.
+ const ses=await v064SessionsForTrip(trip.id),last=ses.at(-1),es=await eventsFor(trip.id);
+ if(!last||last.status!=='ENDED'||!last.ended_at||ses.some(x=>x.status==='ACTIVE'))vP10PrivFail('SESSION_NOT_ENDED');
+ if(trip.privacy_control?.hold?.active||es.some(e=>P10_PRIV_RISK_EVENTS.has(e.event_type)))vP10PrivFail('INCIDENT_OR_HOLD_REQUIRES_PRESERVATION');
+ if(trip.outcome?.state!=='Normal Completion'||trip.outcome?.accounted!=='全員已確認'||trip.closeout_control?.handoff_status!=='NOT_REQUIRED'||!String(trip.closeout_control?.handoff_note||'').trim()||String(trip.outcome?.residualRisk||'').trim())vP10PrivFail('NORMAL_CLOSEOUT_UNVERIFIED');
+ if(!es.some(e=>e.event_type==='EVENT_CLOSEOUT')||!es.some(e=>e.event_type==='FIELD_SESSION_ENDED'&&e.structured_payload?.session_id===last.session_id))vP10PrivFail('REQUIRED_EVENTS_MISSING');
+ const data={actor:name,acknowledged_at:isoNow(),session_id:last.session_id,policy_id:'P10-PRIV-01',intent:'NORMAL_DATA_DISPOSAL_REQUESTED_NOT_YET_PURGED'};
+ await vP10PrivSaveWithEvent(trip,'PRIVACY_NORMAL_CLEARANCE_CONFIRMED',old=>({...old,normal_clearance:data}),{session_id:last.session_id,scope:'RAW_MEDIA_AND_DETAILED_TRACK_ONLY',reference_time:last.ended_at},name);
+ return '正常清理意圖已具名記錄；24 小時從現場會話 ended_at 起算。';
+}
+async function vP10PrivStartHold(){
+ const trip=await currentTrip();if(!trip)vP10PrivFail('NO_TRIP');
+ const actor=vP10PrivCssStatus('p10PrivHoldActor').value.trim(),reason=vP10PrivCssStatus('p10PrivHoldReason').value.trim(),review=vP10PrivCssStatus('p10PrivHoldReview').value;
+ if(!actor||!reason||!review||!vP10PrivCssStatus('p10PrivHoldConfirm').checked)vP10PrivFail('MISSING_HOLD_ACTOR_REASON_REVIEW_OR_INTENT');
+ if(!Number.isFinite(Date.parse(review))||Date.parse(review)<=Date.now())vP10PrivFail('INVALID_REVIEW_DEADLINE');
+ if(trip.privacy_control?.purged_at)vP10PrivFail('CANNOT_RESTORE_ALREADY_PURGED_DATA');
+ const hold={active:true,hold_id:crypto.randomUUID(),actor,reason,review_due_at:new Date(review).toISOString(),held_at:isoNow(),release_state:'REQUIRES_SEPARATE_HUMAN_AUTHORIZATION'};
+ await vP10PrivSaveWithEvent(trip,'PRESERVATION_HOLD_STARTED',old=>({...old,hold}),{hold_id:hold.hold_id,reason,review_due_at:hold.review_due_at},actor);
+ return '已建立具名 Preservation Hold；不得自動清理。到期只需複核，不自動解除。';
+}
+function vP10PrivTxCleanup(trip,event,counts,trackUpdate){
+ return new Promise((resolve,reject)=>{
+  const tx=db.transaction([TRIPS,EVENTS,AUDIO,MEDIA,TRACK_POINTS,TRACKS],'readwrite');
+  tx.oncomplete=()=>resolve(counts);
+  tx.onabort=()=>reject(tx.error||Error('PRIVACY_PURGE_ABORTED'));
+  tx.onerror=()=>{};
+  try{
+   for(const [name,list] of [[AUDIO,counts.audio_objects],[MEDIA,counts.media_objects],[TRACK_POINTS,counts.point_objects]]){
+    const os=tx.objectStore(name);
+    for(const x of list)os.delete(x[os.keyPath]);
+   }
+   for(const tr of trackUpdate)tx.objectStore(TRACKS).put(tr);
+   tx.objectStore(EVENTS).put(event);
+   tx.objectStore(TRIPS).put(trip);
+  }catch(error){try{tx.abort()}catch(_){ }reject(error)}
+ });
+}
+async function vP10PrivPurgeTrip(tripId){
+ // All read/write operations serialized inside this tab; concurrent-tabs still require isolated QA verification.
+ const operation=v06WriteLock.catch(()=>{}).then(async()=>{
+  const t=await get(TRIPS,tripId);if(!t||t.privacy_control?.purged_at)return 'ALREADY_PURGED_OR_NO_TRIP';
+  const check=await vP10PrivInspect(t);
+  if(!check.ok||!check.expired)return 'NOT_ELIGIBLE:'+(!check.ok?check.why:'NOT_DUE');
+  const [audio,media,points,tracks]=await Promise.all([getAll(AUDIO),getAll(MEDIA),getAll(TRACK_POINTS),getAll(TRACKS)]);
+  const counts={audio_objects:audio.filter(x=>x.trip_id===t.id),media_objects:media.filter(x=>x.trip_id===t.id),point_objects:points.filter(x=>x.trip_id===t.id)};
+  const purgeAt=isoNow(),cleanTracks=tracks.filter(x=>x.trip_id===t.id).map(x=>({...x,last_point:null,last_point_location:null,privacy_purged_at:purgeAt,integrity_state:'RAW_TRACK_UNAVAILABLE_AFTER_PRIVACY_PURGE'}));
+  const deleted={audio:counts.audio_objects.length,media:counts.media_objects.length,track_points:counts.point_objects.length,track_headers_updated:cleanTracks.length};
+  const next={...t,privacy_control:{...(t.privacy_control||{}),purged_at:purgeAt,purge_counts:deleted,purge_scope:'LOCAL_RAW_MEDIA_AND_TRACK_POINTS_ONLY',irreversible:true},updated_at:purgeAt};
+  const event=await vP10PrivEvent('PRIVACY_PURGE_EXECUTED',t,check.es,{policy_id:'P10-PRIV-01',ended_at:check.last.ended_at,due_at:check.dueAt,purged_at:purgeAt,removed:deleted,scope_exclusions:['EVENT_LEDGER','TRIP_PII','PRETRIP_BASELINE','EXPORTED_FILES','THIRD_PARTY_COPIES'],background_execution:false},t.privacy_control.normal_clearance.actor);
+  await vP10PrivTxCleanup(next,event,counts,cleanTracks);
+  return 'PURGED:'+JSON.stringify(deleted);
+ });
+ v06WriteLock=operation.catch(()=>{});
+ return operation;
+}
+const vP10PrivOriginalTrackVerify=v064VerifyTrackChain;
+v064VerifyTrackChain=async function(sessionId){
+ const tr=await v064TrackForSession(sessionId);
+ if(tr?.privacy_purged_at)return{ok:false,message:'NOT_VERIFIABLE：詳細軌跡已依 P10-PRIV-01 清理，原始點位不能再鑑識回放',count:0,privacy_purged:true};
+ return vP10PrivOriginalTrackVerify(sessionId);
+};
+async function vP10PrivSweep(){
+ if(!db)return;
+ const trips=await getAll(TRIPS),results=[];
+ for(const t of trips){
+  try{const check=await vP10PrivInspect(t);
+    if(check.ok&&check.expired&&!t.privacy_control?.purged_at)results.push({trip_id:t.id,result:await vP10PrivPurgeTrip(t.id)});
+  }catch(e){results.push({trip_id:t.id,result:'ERROR:'+String(e.message||e)})}
+ }
+ window.TSUMS_P10_PRIV_QA_LAST_SWEEP=results;return results;
+}
+async function vP10PrivRender(){
+ const node=vP10PrivCssStatus('p10PrivStatus');if(!node||!db)return;
+ const t=await currentTrip();if(!t){node.textContent='沒有已建立的合成行程；無資料可清理。';return}
+ if(t.privacy_control?.purged_at){node.textContent='已於 '+t.privacy_control.purged_at+' 清理本機原始媒體與詳細軌跡。事件與其他個資仍可能保留。';return}
+ const test=await vP10PrivInspect(t);
+ node.textContent=test.ok?('Field Session 已結束｜24 小時到期 '+test.dueAt+'｜'+(test.expired?'已到期，會在開啟／恢復檢查中清理':'尚未到期')):('暫不清理｜'+test.why+(test.dueAt?'｜期限 '+test.dueAt:''));
+}
+const vP10PrivRenderBase=renderAll;
+renderAll=async function(){await vP10PrivRenderBase();await vP10PrivRender().catch(e=>console.error('P10_PRIV_RENDER',e))};
+function vP10PrivAction(id,op){const el=vP10PrivCssStatus(id);if(!el)return;el.addEventListener('click',async()=>{
+ const st=vP10PrivCssStatus('p10PrivActionStatus');el.disabled=true;
+ try{st.textContent=await op();await vP10PrivSweep();await renderAll()}catch(e){st.textContent='拒絕操作｜'+String(e.message||e)}finally{el.disabled=false}
+ })}
+vP10PrivAction('p10PrivDeclareNormal',vP10PrivDeclareNormal);
+vP10PrivAction('p10PrivStartHold',vP10PrivStartHold);
+let vP10PrivSweepBusy=false;
+async function vP10PrivResume(){if(vP10PrivSweepBusy||!db)return;vP10PrivSweepBusy=true;try{await vP10PrivSweep();await vP10PrivRender()}finally{vP10PrivSweepBusy=false}}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')vP10PrivResume().catch(e=>console.error('P10_PRIV_RESUME',e))});
+window.addEventListener('pageshow',()=>{vP10PrivResume().catch(e=>console.error('P10_PRIV_PAGESHOW',e))});
 
 vR2SafeInit();
 </script>

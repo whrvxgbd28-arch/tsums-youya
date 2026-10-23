@@ -1613,6 +1613,44 @@ header .tsumsP9Manifesto > button.tsumsP9ManifestRow:focus-visible {
 body.field header .tsumsP9ManifestRow .tsumsP9ManifestText{color:#18140e!important}
 body.field header .tsumsP9ManifestRow .tsumsP9ManifestArrow{color:#674100!important}
 </style>
+
+<style id="tsums-qa022-centered-pretrip-navigation">
+/* QA-022: P9 visual clarification. The existing #journeyHomeBtn event remains connected to go('p0'). */
+.journeyTopNav{
+  display:flex!important;grid-template-columns:none!important;
+  justify-content:center!important;align-items:stretch!important;
+  width:100%!important;gap:0!important;
+}
+body .journeyTopNav #journeyHomeBtn,
+body:has(#p0.active) .journeyTopNav #journeyHomeBtn{
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  flex:1 1 100%!important;grid-column:auto!important;grid-row:auto!important;
+  width:100%!important;max-width:none!important;min-width:0!important;
+  min-height:82px!important;padding:16px 20px!important;margin:0 auto!important;
+  border:2px solid #ebc477!important;border-radius:16px!important;
+  background:#432e10!important;color:#ffe3a1!important;
+  font-size:clamp(23px,5.5vw,30px)!important;line-height:1.4!important;
+  font-weight:900!important;text-align:center!important;
+  white-space:normal!important;letter-spacing:.04em!important;
+}
+body .journeyTopNav #journeyHomeBtn::before,
+body:has(#p0.active) .journeyTopNav #journeyHomeBtn::before{
+  content:none!important;display:none!important;
+}
+#journeyPhaseBadge{display:none!important}
+body.field .journeyTopNav #journeyHomeBtn{
+  background:#fff1b8!important;color:#1c1609!important;border-color:#775516!important;
+}
+.journeyTopNav #journeyHomeBtn:focus-visible{
+  outline:3px solid #ffffff!important;outline-offset:3px!important;
+}
+@media(max-width:420px){
+ body .journeyTopNav #journeyHomeBtn,
+ body:has(#p0.active) .journeyTopNav #journeyHomeBtn{
+  min-height:76px!important;padding:14px 16px!important;font-size:25px!important;
+ }
+}
+</style>
 </head>
 <body>
 <div id="tsums-review-banner" class="p9QaUnifiedNotice" role="status" aria-label="測試版本限制">
@@ -1645,8 +1683,8 @@ body.field header .tsumsP9ManifestRow .tsumsP9ManifestArrow{color:#674100!import
 
 <div class="modebar journeyModebar">
 <nav class="journeyTopNav" aria-label="行程狀態導覽">
-<button class="secondary active" id="journeyHomeBtn" aria-label="返回行動總覽">行動總覽</button>
-<span class="journeyPhaseBadge" id="journeyPhaseBadge">風險前移</span>
+<button class="secondary active" id="journeyHomeBtn" aria-label="返回風險前移總覽">風險前移</button>
+<span class="journeyPhaseBadge" id="journeyPhaseBadge" aria-hidden="true" hidden>風險前移</span>
 <button class="secondary" id="journeyRuntimeBtn" style="display:none">行程中</button>
 <button class="secondary" id="journeyReplayBtn" style="display:none">回放與紀錄</button>
 </nav>
@@ -1654,12 +1692,7 @@ body.field header .tsumsP9ManifestRow .tsumsP9ManifestArrow{color:#674100!import
 
 
 <section id="p0" class="page active">
-<div class="p9HomeIntro" aria-labelledby="p9HomeTitle">
-<div class="p9Eyebrow">第一頁：風險前移 <small>C1 PCAR</small></div>
-<h2 id="p9HomeTitle">風險前移第一步</h2>
-<p>先建立招募、隊伍、路線、裝備與行前確認事實；缺失保持可見，<strong>系統不代替人作 GO／WAIT／RETREAT 決定。</strong></p>
-</div>
-  <div class="journeyTripContext"><span>行程</span><b id="journeyTripName">尚未建立行程</b></div>
+<div class="journeyTripContext"><span>行程</span><b id="journeyTripName">尚未建立行程</b></div>
 
   <div class="journeySteps" id="journeySteps">
     <button class="journeyStep" data-step-target="p1" id="journeyStep1">
@@ -6294,7 +6327,7 @@ function v0646SetupStaticUI(){
  const sub=document.querySelector('.sub');if(sub)sub.textContent=`山域風險前移部署版 · v${V0646_VERSION}`;
  const bm=$('#buildMarker');if(bm)bm.textContent=`版本：v${V0646_VERSION}｜台灣繁中介面｜風險前移｜現場運作`;
  const motto=document.querySelector('.motto span');if(motto)motto.textContent='從行前至賦歸；系統不替人作最終 GO / WAIT / RETREAT 決定。';
- if($('#journeyHomeBtn'))$('#journeyHomeBtn').textContent='行動總覽';if($('#journeyPhaseBadge'))$('#journeyPhaseBadge').textContent='風險前移';
+ if($('#journeyHomeBtn'))$('#journeyHomeBtn').textContent='風險前移';if($('#journeyPhaseBadge'))$('#journeyPhaseBadge').textContent='風險前移';
  const footer=document.querySelector('footer');if(footer)footer.textContent='TSUMS Bunun Governance Technologies Co., Ltd. ·\nTSUMS 4.0V 山域風險前移\n部署版・公共層｜作者：Ismahasan Vlian';
  if($('#dbText')&&$('#dbText').textContent.trim()==='本機資料庫初始化')$('#dbText').textContent='本機存檔初始化';
 
@@ -6562,7 +6595,7 @@ function v0646P2MigrateLegacyState(t){let changed=false;t.prestart=t.prestart||{
 // Render / hydrate v0.6.4.6 additions.
 // P1: apply the Taiwan Profile UI synchronously to prevent legacy UI flicker / stale-looking fields.
 try{v0646SetupStaticUI();v0646BindCompactTime('weatherAt','#v0646WeatherTimeMount');v0646BindCompactTime('geoReviewedAt');v0646BindCompactTime('officialVerifyCheckedAt');}catch(e){console.error('v0.6.4.6-P2 immediate UI setup',e)}
-async function v0646Hydrate(){if(!db)return;v0646SetupStaticUI();v0646BindCompactTime('weatherAt','#v0646WeatherTimeMount');v0646BindCompactTime('geoReviewedAt');v0646BindCompactTime('officialVerifyCheckedAt');let t=await currentTrip();if(!t){v0646UpdateVerifyButton();return}const migrated=v0646P2MigrateLegacyState(t);t=migrated.t;if(migrated.changed)await put(TRIPS,t);const g=t.team.governance;const rt=v0646MapLegacyRecruit(g.recruitType||'UNCONFIRMED');if($('#recruitType')){$('#recruitType').value=[...$('#recruitType').options].some(o=>o.value===rt)?rt:'UNCONFIRMED'};if($('#insuranceMode')){const iv=v0646MapLegacyInsurance(g.insuranceMode||'UNCONFIRMED');$('#insuranceMode').value=[...$('#insuranceMode').options].some(o=>o.value===iv)?iv:'UNCONFIRMED'};if($('#leaderRole'))$('#leaderRole').value=g.leaderRole||t.team.members?.[0]?.role||'LEADER';if($('#insuranceCoverageDetail'))$('#insuranceCoverageDetail').value=g.insuranceCoverageDetail||'';if($('#leaderRoleNote'))$('#leaderRoleNote').value=g.leaderRoleNote||'';if($('#parkPermitMode'))$('#parkPermitMode').value=g.parkPermitMode||'UNCONFIRMED';if($('#mountainPermitMode'))$('#mountainPermitMode').value=g.mountainPermitMode||'UNCONFIRMED';v0646RenderRecruitIdentity(t);if(t.recruitment)v0646RenderRecruitMatrix(t);v0646RenderRoutePackage(t);v0646RenderRouteSummary(t);renderDays(t);v0646RenderCapabilities(t);v0646RenderGeoSummary(t.route?.geology?.auto_summary||v0646BuildGeoSummary());v0646RenderSupplyChips(t);v0646HydrateWeather(t);v0646RefreshTime('geoReviewedAt');v0646RefreshTime('officialVerifyCheckedAt');v0646UpdateVerifyButton();if($('#v0641CompactPhase')){const page=$$('.page').find(x=>x.classList.contains('active'))?.id;if(!['p6','p7','p8'].includes(page))$('#v0641CompactPhase').textContent='｜風險前移'}if($('#journeyPhaseBadge')&&v062Phase(t)==='PRE')$('#journeyPhaseBadge').textContent='風險前移';if($('#journeyHomeBtn'))$('#journeyHomeBtn').textContent='行動總覽'}
+async function v0646Hydrate(){if(!db)return;v0646SetupStaticUI();v0646BindCompactTime('weatherAt','#v0646WeatherTimeMount');v0646BindCompactTime('geoReviewedAt');v0646BindCompactTime('officialVerifyCheckedAt');let t=await currentTrip();if(!t){v0646UpdateVerifyButton();return}const migrated=v0646P2MigrateLegacyState(t);t=migrated.t;if(migrated.changed)await put(TRIPS,t);const g=t.team.governance;const rt=v0646MapLegacyRecruit(g.recruitType||'UNCONFIRMED');if($('#recruitType')){$('#recruitType').value=[...$('#recruitType').options].some(o=>o.value===rt)?rt:'UNCONFIRMED'};if($('#insuranceMode')){const iv=v0646MapLegacyInsurance(g.insuranceMode||'UNCONFIRMED');$('#insuranceMode').value=[...$('#insuranceMode').options].some(o=>o.value===iv)?iv:'UNCONFIRMED'};if($('#leaderRole'))$('#leaderRole').value=g.leaderRole||t.team.members?.[0]?.role||'LEADER';if($('#insuranceCoverageDetail'))$('#insuranceCoverageDetail').value=g.insuranceCoverageDetail||'';if($('#leaderRoleNote'))$('#leaderRoleNote').value=g.leaderRoleNote||'';if($('#parkPermitMode'))$('#parkPermitMode').value=g.parkPermitMode||'UNCONFIRMED';if($('#mountainPermitMode'))$('#mountainPermitMode').value=g.mountainPermitMode||'UNCONFIRMED';v0646RenderRecruitIdentity(t);if(t.recruitment)v0646RenderRecruitMatrix(t);v0646RenderRoutePackage(t);v0646RenderRouteSummary(t);renderDays(t);v0646RenderCapabilities(t);v0646RenderGeoSummary(t.route?.geology?.auto_summary||v0646BuildGeoSummary());v0646RenderSupplyChips(t);v0646HydrateWeather(t);v0646RefreshTime('geoReviewedAt');v0646RefreshTime('officialVerifyCheckedAt');v0646UpdateVerifyButton();if($('#v0641CompactPhase')){const page=$$('.page').find(x=>x.classList.contains('active'))?.id;if(!['p6','p7','p8'].includes(page))$('#v0641CompactPhase').textContent='｜風險前移'}if($('#journeyPhaseBadge')&&v062Phase(t)==='PRE')$('#journeyPhaseBadge').textContent='風險前移';if($('#journeyHomeBtn'))$('#journeyHomeBtn').textContent='風險前移'}
 $('#recruitType')?.addEventListener('change',()=>v0646RenderRecruitIdentity({team:{governance:{recruit_identity:{}}}}));
 $('#copyRecruitQuestions')?.addEventListener('click',async()=>{const t=await currentTrip();const qs=t?.recruitment?.suggested_questions||[];if(!qs.length)return alert('目前沒有可複製的待確認問題。');const text=qs.map((q,i)=>`${i+1}. ${q}`).join('\n');try{await navigator.clipboard.writeText(text);alert('已複製詢問清單')}catch{prompt('複製以下詢問清單：',text)}});
 

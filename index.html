@@ -1834,7 +1834,8 @@ body.field .journeyTopNav #journeyHomeBtn{
 <div class="card"><h3>困難地形 / 通訊 / 水源 / 撤退</h3><textarea id="terrain" placeholder="涉溪、崩壁、拉繩、暴露稜線、落石區、通訊死角、水源間距…"></textarea><textarea id="retreatPlan" placeholder="撤退點、替代方案、最後折返時間、不可通過條件…"></textarea><button class="secondary" id="lockRoute">鎖定路線治理快照</button></div>
 
 <div class="card v0632Card" id="exposureProfileCard">
-<div class="sectionEyebrow">暴露驅動｜不預設運動類型</div><h3>依自身能力、裝備條件、地形暴露、支援條件展開能力剖面</h3>
+<div class="qa034RouteOwnerNote">此處只記錄<strong>路線已知／預期暴露</strong>與隊伍共同避險措施；每位成員的經驗、限制與支援需求，請到「隊伍成員 → 個人選項」按對應路線填寫。不會把全隊路線當作個人能力。</div>
+<div class="sectionEyebrow">暴露驅動｜不預設運動類型</div><h3>路線已知暴露與實務細項</h3>
 <p class="hint">行前先選擇路線已知或預期會遇到的暴露類型與實務細項，再安排應對、避險及撤退措施。勾選屬行前規劃，並非現場已發生或已完成查核。</p>
 <div class="exposureGrid tsumsExposureTaxonomy" aria-label="山域風險暴露主分類與實務細節">
  <div class="tsumsExposureGroup" data-exp-group="terrain">
@@ -6732,11 +6733,11 @@ $('#v0646GenerateRouteSummary')?.addEventListener('click',async()=>{const t=awai
 $('#v0646GenerateGeoSummary')?.addEventListener('click',async()=>{const t=await currentTrip();if(!t)return;const s=v0646BuildGeoSummary();t.route=t.route||{};t.route.geology=t.route.geology||{};t.route.geology.auto_summary=s;if(!$('#geoKnown').value.trim())$('#geoKnown').value=s.known.join('；');if(!$('#geoUnknown').value.trim())$('#geoUnknown').value=s.unknown.join('；');if(!$('#geoStopLoss').value.trim())$('#geoStopLoss').value=s.stop_loss;await put(TRIPS,t);v0646RenderGeoSummary(s)});
 
 // Override route lock to include route package, summaries and personal capability.
-$('#lockRoute').onclick=async function(){const t=await currentTrip();if(!t)return alert('請先建立行程');const rp=v0646EnsureRoutePackage(t);rp.primary={...(rp.primary||{}),source:$('#primaryRouteSource')?.value.trim()||'',version:$('#primaryRouteVersion')?.value.trim()||'',alignment:$('#primaryRouteAlignment')?.value||'UNCONFIRMED'};rp.alternatives=v0646CollectAltRoutes();t.route.gpxUrl=$('#gpxUrl').value.trim();t.route.terrain=$('#terrain').value.trim();t.route.retreatPlan=$('#retreatPlan').value.trim();t.route.auto_summary=v0646BuildRouteSummary(t);t.route.personal_capability_profile=v0646CapabilityProfileFromUI();await put(TRIPS,t);const sig=await v062Signature({gpxUrl:t.route.gpxUrl,gpx:t.route.gpx||null,route_package:rp,days:t.route.days,terrain:t.route.terrain,retreatPlan:t.route.retreatPlan,capability:t.route.personal_capability_profile});await appendEvent('PRE_EVENT_ROUTE_GOVERNANCE_LOCKED',{lifecycle_stage:2,module_refs:['C1','C3'],actor:t.leader||'未具名',observed_fact:'路線封包、每日摘要、路線風險與個人能力剖面已保存於行前風險存檔',structured_payload:{route_package:rp,auto_summary:t.route.auto_summary,personal_capability_profile:t.route.personal_capability_profile},idempotency_key:`ROUTE_LOCK:${sig}`});await renderAll();alert('路線風險前移存檔已保存')};
+$('#lockRoute').onclick=async function(){const t=await currentTrip();if(!t)return alert('請先建立行程');const rp=v0646EnsureRoutePackage(t);rp.primary={...(rp.primary||{}),source:$('#primaryRouteSource')?.value.trim()||'',version:$('#primaryRouteVersion')?.value.trim()||'',alignment:$('#primaryRouteAlignment')?.value||'UNCONFIRMED'};rp.alternatives=v0646CollectAltRoutes();t.route.gpxUrl=$('#gpxUrl').value.trim();t.route.terrain=$('#terrain').value.trim();t.route.retreatPlan=$('#retreatPlan').value.trim();t.route.auto_summary=v0646BuildRouteSummary(t);/* QA034: 個人能力由具名隊員的個人資料另行保存，歷史行程欄位不覆寫。 */await put(TRIPS,t);const sig=await v062Signature({gpxUrl:t.route.gpxUrl,gpx:t.route.gpx||null,route_package:rp,days:t.route.days,terrain:t.route.terrain,retreatPlan:t.route.retreatPlan,capability:t.route.personal_capability_profile});await appendEvent('PRE_EVENT_ROUTE_GOVERNANCE_LOCKED',{lifecycle_stage:2,module_refs:['C1','C3'],actor:t.leader||'未具名',observed_fact:'路線封包、每日摘要與路線風險已保存於行前存檔；個人能力另由具名隊員自評',structured_payload:{route_package:rp,auto_summary:t.route.auto_summary,personal_capability_profile:t.route.personal_capability_profile},idempotency_key:`ROUTE_LOCK:${sig}`});await renderAll();alert('路線風險前移存檔已保存')};
 
 // Exposure lock also persists personal capability, but does not create automatic stop-loss.
 const v0646OldExposureLock=$('#lockExposureProfile')?.onclick;
-if(v0646OldExposureLock)$('#lockExposureProfile').onclick=async function(){const t=await currentTrip();if(!t)return; t.route.personal_capability_profile=v0646CapabilityProfileFromUI();await put(TRIPS,t);await v0646OldExposureLock.call(this);const fresh=await currentTrip();v0646RenderCapabilities(fresh)};
+if(v0646OldExposureLock)$('#lockExposureProfile').onclick=async function(){const t=await currentTrip();if(!t)return; /* QA034: 此處僅存路線暴露與應對，個人能力不寫入 route */ await v0646OldExposureLock.call(this);};
 
 // Structured supplies save.
 $('#lockPreparation').onclick=async function(){const t=await currentTrip();if(!t)return alert('請先建立行程');t.preparation=t.preparation||{};t.preparation.supplies=v0646CollectSupplies();t.preparation.water=`${t.preparation.supplies.water_container.join('、')}｜${t.preparation.supplies.water_capacity_ml||'容量未填'} ml`;t.preparation.food=`正餐：${t.preparation.supplies.meal.join('、')}｜行動糧：${t.preparation.supplies.trail_food.join('、')}`;t.preparation.emergencyFood=`${t.preparation.supplies.emergency_food.join('、')}｜${t.preparation.supplies.emergency_food_note}`;t.preparation.fuel=`${t.preparation.supplies.fuel.join('、')}｜${t.preparation.supplies.fuel_note}`;await put(TRIPS,t);const sig=await v062Signature(t.preparation.supplies);await appendEvent('PREPARATION_SUPPLIES_ARCHIVED',{lifecycle_stage:2,module_refs:['C1','C3'],actor:t.leader||'未具名',observed_fact:'裝備與補給結構化資料已保存於行前風險存檔',structured_payload:t.preparation.supplies,idempotency_key:`SUPPLIES:${sig}`});await renderAll();alert('裝備與補給快照已保存')};
@@ -8508,6 +8509,150 @@ body.field #p3 .qa033LiveSummary{background:#f1deb0;color:#3b2814}
  panel.addEventListener('change',updateSummary);
  document.getElementById('qa033MitigationNote')?.addEventListener('input',updateSummary);
  window.TSUMS_QA033={updateSummary};updateSummary();
+})();
+</script>
+
+<style id="tsums-p9-qa034-personal-match-style">
+/* QA034: legacy capability questionnaire and its unchanged historical data remain invisible. */
+#p3 #v0646CapabilityCard{display:none!important}
+#p3 .qa034RouteOwnerNote{color:#e9d5b0;background:#22190f;border-left:4px solid #dab66f;padding:12px 14px;border-radius:9px;font-size:16px;line-height:1.65;margin:0 0 18px}
+#p2 .qa034PersonOpen{width:100%;margin:12px 0 4px;min-height:56px;text-align:left;line-height:1.5;font-size:17px!important;white-space:normal;touch-action:manipulation}
+#p2 .qa034PersonOpen[aria-expanded="true"]{border-color:#e3b766!important;background:#4d3616!important;color:#fff6dc!important}
+#p2 #qa034PersonalMatch{margin:14px 0 0;padding:15px;background:#17120c;border:1px solid #98713f;border-radius:15px;min-width:0;overflow-wrap:anywhere}
+#p2 #qa034PersonalMatch[hidden]{display:none!important}
+#p2 .qa034Title{font-size:21px;font-weight:900;line-height:1.5;color:#ffdc96}
+#p2 .qa034Intro,#p2 .qa034RouteHint,#p2 .qa034Outcome{font-size:16px;line-height:1.7;color:#e7d4b4;margin:9px 0}
+#p2 .qa034RouteHint{background:#2c210f;padding:12px;border-radius:10px}
+#p2 .qa034Group{border:1px solid #785b37;border-radius:13px;margin:12px 0;background:#1c160e;overflow:hidden}
+#p2 .qa034Group summary{min-height:60px;padding:14px;cursor:pointer;list-style-position:inside;touch-action:manipulation;line-height:1.5;font-size:17px;font-weight:850;color:#ffe3af}
+#p2 .qa034GroupBody{padding:0 14px 16px}
+#p2 .qa034Details{font-size:15px;line-height:1.6;color:#d8c3a1;margin:5px 0 12px}
+#p2 .qa034Group label{font-size:16px;line-height:1.55;font-weight:750;display:block;margin-top:11px}
+#p2 .qa034Group select,#p2 .qa034Group textarea{box-sizing:border-box;width:100%;font-size:17px!important;min-height:52px;line-height:1.55}
+#p2 .qa034Group textarea{min-height:80px}
+#p2 .qa034Save{width:100%;min-height:58px;margin-top:14px;font-size:18px!important;touch-action:manipulation}
+#p2 .qa034PersonOpen:focus-visible,#p2 .qa034Group summary:focus-visible,#p2 .qa034Save:focus-visible{outline:3px solid #ffda86;outline-offset:2px}
+#p2 .qa034PersonOpen:active,#p2 .qa034Save:active{filter:brightness(1.25)}
+body.field #p2 #qa034PersonalMatch{background:#fff5dc;color:#33240f}
+body.field #p2 .qa034Intro,body.field #p2 .qa034Outcome,body.field #p2 .qa034Details{color:#48321b}
+@media(max-width:390px){#p2 #qa034PersonalMatch{padding:12px}#p2 .qa034Title{font-size:19px}}
+</style>
+<script id="tsums-p9-qa034-personal-match-script">
+(function(){
+ 'use strict';
+ const q=(selector,root=document)=>root?.querySelector(selector)||null;
+ const qa=(selector,root=document)=>Array.from(root.querySelectorAll(selector));
+ const STATUS=[['UNREVIEWED','尚未評估'],['EXPERIENCE_SELF_REPORTED','具備相關經驗（待本人確認）'],['EXPERIENCE_GAP','經驗不足／能力短板（待本人確認）'],['SUPPORT_REQUESTED','需要隊伍支援或安排'],['UNCONFIRMED','尚無法確認']];
+ let ownerId=null,ownerTripId=null,dirty=false;
+ function panel(){return q('#qa034PersonalMatch')}
+ function park(){const node=panel();const parking=q('#qa034Parking');if(parking&&node) {parking.appendChild(node);node.hidden=true;}ownerId=null;ownerTripId=null;dirty=false; qa('.qa034PersonOpen').forEach(b=>b.setAttribute('aria-expanded','false'));}
+ function riskSnapshot(trip){
+  const p=trip?.route?.exposure_profile||{},selected=p.exposures||{};
+  const categories=Object.keys(selected).filter(k=>selected[k]);
+  return categories.map(category=>{
+   const parent=q('#exposureProfileCard [data-exposure="'+category+'"]');
+   const group=parent?.closest('[data-exp-group]');
+   const title=q('.tsumsExposureParent span',group)?.textContent?.trim()||category;
+   const detailIds=p.detail_tags?.[category]||[];
+   const labels=detailIds.map(id=>qa('[data-exp-detail]',group).find(x=>x.dataset.expDetail===category+':'+id)?.closest('label')?.querySelector('span')?.textContent?.trim()||id);
+   return{category,title,detail_ids:[...detailIds],detail_labels:labels};
+  });
+ }
+ function tag(name,cls,text){const e=document.createElement(name);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+ function drawMember(trip,member){
+  const target=panel();if(!target)return;
+  target.replaceChildren();target.hidden=false;
+  target.appendChild(tag('div','qa034Title','個人選項｜路線暴露對應自評'));
+  target.appendChild(tag('p','qa034Intro','隊員：'+member.name+'。只回應本行程已保存的路線暴露，不重複勾選整套地形。由填報人登錄，須由當事隊員確認；不代替資格查核或現場決策。'));
+  const risks=riskSnapshot(trip),old=member.personal_evidence?.route_exposure_response||{},history=trip.route?.personal_capability_profile;
+  if(old.route_exposure_snapshot){
+   const fingerprint=arr=>JSON.stringify((arr||[]).map(x=>[x.category,[...(x.detail_ids||[])].sort()]).sort((a,b)=>a[0].localeCompare(b[0])));
+   const prior=fingerprint(old.route_exposure_snapshot),now=fingerprint(risks);
+   if(prior!==now)target.appendChild(tag('p','qa034RouteHint','提醒：路線已知暴露或細項已變動；既有個人自評保留，但需要重新核對並保存本版對應資料。'));
+  }
+  if(history)target.appendChild(tag('p','qa034RouteHint','歷史版本另有未具名的行程層級能力自評，已保留，但不會自動移給本隊員。'));
+  if(!risks.length){target.appendChild(tag('p','qa034RouteHint','目前沒有已保存的路線暴露項目。請先到「路線風險」選擇並保存已知／預期風險，再回來填寫個人回應。'));return}
+  target.appendChild(tag('p','qa034RouteHint','已保存路線暴露：'+risks.length+' 類。下方僅列出這些項目；尚未回應不代表沒有相關能力。'));
+  risks.forEach(r=>{
+   const group=tag('details','qa034Group');group.dataset.qa034Category=r.category;
+   const entry=old.by_category?.[r.category]||{};
+   const summary=tag('summary',null,r.title+'｜'+(STATUS.find(x=>x[0]===entry.status)?.[1]||'待個人評估'));group.appendChild(summary);
+   const body=tag('div','qa034GroupBody');
+   if(r.detail_labels.length)body.appendChild(tag('p','qa034Details','路線所選細項：'+r.detail_labels.join('、')));
+   const lbl=tag('label',null,'我的相關經驗與能力狀態');
+   const select=document.createElement('select');select.dataset.qa034Status=r.category;
+   STATUS.forEach(([value,label])=>{const opt=document.createElement('option');opt.value=value;opt.textContent=label;select.appendChild(opt)});
+   select.value=STATUS.some(x=>x[0]===entry.status)?entry.status:'UNREVIEWED';lbl.appendChild(select);body.appendChild(lbl);
+   const noteLabel=tag('label',null,'已知應對／需要的支援（選填）');
+   const note=document.createElement('textarea');note.dataset.qa034Note=r.category;note.rows=2;note.placeholder='例：本人缺乏渡溪經驗；請安排事前評估過溪條件，溪水上漲不渡。';note.value=entry.note||'';noteLabel.appendChild(note);body.appendChild(noteLabel);
+   group.appendChild(body);target.appendChild(group);
+   select.addEventListener('change',()=>{dirty=true;summary.textContent=r.title+'｜'+(STATUS.find(x=>x[0]===select.value)?.[1]||'待個人評估')});
+   note.addEventListener('input',()=>dirty=true);
+  });
+  const save=tag('button','secondary qa034Save','保存本隊員的暴露對應自評');save.type='button';save.id='qa034Save';target.appendChild(save);
+  target.appendChild(tag('p','qa034Outcome','路線暴露仍屬隊伍資料；個人經驗與應對僅歸屬此隊員。申報「具備經驗」不等於該隊員已確認或經驗已驗證；保存不會觸發 GO／WAIT／RETREAT。'));
+  save.addEventListener('click',saveMember);
+ }
+ async function openMember(index,button){
+  const trip=await currentTrip(),m=trip?.team?.members?.[index];
+  if(!m||!m.name?.trim()){alert('請先保存此隊員姓名，再填寫個人回應。');return}
+  if(ownerId&&dirty&&!confirm('目前有尚未保存的個人自評，確定放棄並切換隊員？'))return;
+  if(!m.p9_person_id){m.p9_person_id=crypto.randomUUID();await put(TRIPS,trip)}
+  if(ownerId===m.p9_person_id){park();return}
+  park();ownerId=m.p9_person_id;ownerTripId=trip.id;
+  button.closest('.member').appendChild(panel());
+  qa('.qa034PersonOpen').forEach(b=>b.setAttribute('aria-expanded',String(b===button)));
+  drawMember(trip,m);
+ }
+ async function saveMember(){
+  const trip=await currentTrip();if(!trip||trip.id!==ownerTripId||!ownerId){alert('行程或隊員識別已變更，請重新開啟個人選項。');return}
+  const member=trip.team?.members?.find(m=>m.p9_person_id===ownerId);if(!member){alert('找不到對應隊員，資料未寫入。');return}
+  const risks=riskSnapshot(trip);if(!risks.length){alert('請先保存路線暴露後再評估。');return}
+  const byCategory={...(member.personal_evidence?.route_exposure_response?.by_category||{})};let any=false;
+  risks.forEach(r=>{
+   const select=q('[data-qa034-status="'+r.category+'"]',panel());const textarea=q('[data-qa034-note="'+r.category+'"]',panel());
+   const status=select?.value||'UNREVIEWED',note=textarea?.value.trim()||'';
+   if(status!=='UNREVIEWED'||note)any=true;
+   byCategory[r.category]={status,note,review_state:'USER_ENTERED_AWAITING_MEMBER_CONFIRMATION',updated_at:new Date().toISOString()};
+  });
+  if(!any){alert('尚未填寫任何路線對應自評；請先選擇狀態或補充文字。');return}
+  const snapshot=risks.map(r=>({category:r.category,detail_ids:r.detail_ids}));
+  const record={version:'P9_QA034',by_category:byCategory,route_exposure_snapshot:snapshot,recorded_at:new Date().toISOString(),member_id:ownerId,source_state:'USER_ENTERED_AWAITING_MEMBER_CONFIRMATION',boundary:'MEMBER_RESPONSE_NOT_ROUTE_FACT;SELF_REPORT_NOT_QUALIFICATION;NO_AUTO_DECISION'};
+  member.personal_evidence=member.personal_evidence||{};
+  member.personal_evidence.route_exposure_response=record;
+  await put(TRIPS,trip);
+  const signature=await v062Signature({member_id:ownerId,record});
+  await appendEvent('PERSONAL_ROUTE_EXPOSURE_RESPONSE_SAVED',{lifecycle_stage:2,module_refs:['C1','C3'],actor:trip.leader||'未具名填報人',observed_fact:'已登錄 '+member.name+' 的路線暴露對應能力資料；待該隊員本人確認，不代表全隊能力或現場結果',structured_payload:{subject_member_id:ownerId,subject_member_name:member.name,record},idempotency_key:'PERSON_ROUTE_MATCH:'+ownerId+':'+signature});
+  dirty=false;drawMember(trip,member);
+  const msg=tag('p','qa034RouteHint','本隊員資料已保存。重新開啟仍可檢視或修改。');panel().insertBefore(msg,panel().firstChild.nextSibling);
+ }
+ function decorate(){const host=q('#members');if(!host)return;
+  qa(':scope > .member',host).forEach((row,i)=>{
+   if(q('.qa034PersonOpen',row))return;
+   // QA-030 already installs a per-member personal options launcher. Reuse it
+   // instead of placing a second adjacent button with duplicate meaning.
+   let button=q('.tsumsPersonOpen',row);
+   if(!button){
+    button=tag('button','secondary tsumsPersonOpen','個人選項 ›');
+    button.type='button';row.appendChild(button);
+   }
+   button.classList.add('qa034PersonOpen');
+   button.textContent='個人選項｜活動證據與路線自評 ›';
+   button.dataset.memberIndex=String(i);
+   button.setAttribute('aria-expanded','false');
+   button.addEventListener('click',()=>openMember(i,button).catch(err=>alert('個人自評未完成：'+(err?.message||String(err)))));
+  });
+ }
+ function install(){
+  if(typeof renderMembers!=='function'||!q('#members'))return;
+  const parking=tag('div');parking.id='qa034Parking';parking.hidden=true;q('#p2').appendChild(parking);
+  const ui=tag('section');ui.id='qa034PersonalMatch';ui.hidden=true;parking.appendChild(ui);
+  const prior=renderMembers;
+  renderMembers=function(t){park();const result=prior.apply(this,arguments);decorate();return result};
+  decorate();
+  window.TSUMS_PERSON_MATCH_QA034={riskSnapshot,scope:'MEMBER_ONLY',legacy:'PRESERVED_UNASSIGNED'};
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
 })();
 </script>
 </body></html>

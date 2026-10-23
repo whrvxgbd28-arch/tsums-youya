@@ -1570,6 +1570,49 @@ body.field .app > footer {color:#463c2d!important}
 #p1 .v0646MatrixGroup .v0646MatrixRow span{overflow-wrap:anywhere}
 
 </style>
+
+<style id="tsums-p9-manifest-arrow-navigation-20261023">
+/* QA-021 | Header page navigation only; no alteration to risk/storage/decision logic. */
+header .tsumsP9Manifesto > button.tsumsP9ManifestRow {
+  appearance:none!important;-webkit-appearance:none!important;
+  display:grid!important;grid-template-columns:48px minmax(0,1fr) 30px!important;
+  width:100%!important;max-width:100%;min-height:72px!important;
+  gap:12px!important;align-items:center!important;box-sizing:border-box!important;
+  padding:13px 9px!important;margin:0!important;
+  border:0!important;border-radius:9px!important;background:transparent!important;
+  color:#f5e8cc!important;cursor:pointer!important;text-align:left!important;
+  box-shadow:none!important;font-family:inherit!important;white-space:normal!important;
+  touch-action:manipulation;
+}
+header .tsumsP9Manifesto > button.tsumsP9ManifestRow + button.tsumsP9ManifestRow {
+  border-top:1px solid rgba(214,170,89,.3)!important;border-radius:0!important;
+}
+header .tsumsP9ManifestRow .tsumsP9ManifestText{
+  min-width:0;font-size:clamp(15px,3.8vw,18px)!important;
+  color:#f5e8cc!important;font-weight:650!important;line-height:1.55!important;
+  overflow-wrap:anywhere;word-break:normal;
+}
+header .tsumsP9ManifestRow .tsumsP9ManifestArrow{
+  display:flex!important;align-items:center;justify-content:center;
+  width:30px;height:30px;color:#f6d48d;font-size:31px!important;
+  font-weight:900!important;line-height:1!important;justify-self:end;
+}
+header .tsumsP9Manifesto > button.tsumsP9ManifestRow:focus-visible {
+  outline:3px solid #f5ca74!important;outline-offset:-3px!important;
+  background:rgba(215,174,91,.12)!important;
+}
+@media(hover:hover){header .tsumsP9Manifesto > button.tsumsP9ManifestRow:hover{background:rgba(215,174,91,.08)!important}}
+@media(max-width:420px){
+ header .tsumsP9Manifesto > button.tsumsP9ManifestRow{
+   grid-template-columns:43px minmax(0,1fr) 25px!important;
+   gap:9px!important;min-height:74px!important;padding:11px 4px!important;
+ }
+ header .tsumsP9ManifestRow .tsumsP9ManifestText{font-size:15px!important}
+ header .tsumsP9ManifestRow .tsumsP9ManifestArrow{font-size:28px!important;width:25px}
+}
+body.field header .tsumsP9ManifestRow .tsumsP9ManifestText{color:#18140e!important}
+body.field header .tsumsP9ManifestRow .tsumsP9ManifestArrow{color:#674100!important}
+</style>
 </head>
 <body>
 <div id="tsums-review-banner" class="p9QaUnifiedNotice" role="status" aria-label="測試版本限制">
@@ -1584,9 +1627,15 @@ body.field .app > footer {color:#463c2d!important}
     <h1>山上優雅</h1>
   </div>
   <div class="tsumsP9Manifesto" aria-label="行前、進行、行後的治理原則">
-    <div class="tsumsP9ManifestRow"><strong>行前</strong><p>把行程風險、決策與責任說清楚。</p></div>
-    <div class="tsumsP9ManifestRow"><strong>進行</strong><p>將自然風險、提示與示警理清楚。</p></div>
-    <div class="tsumsP9ManifestRow"><strong>行後</strong><p>讓行程回放、過程中所有證據鏈。</p></div>
+    <button type="button" class="tsumsP9ManifestRow" data-journey-nav="pretrip" aria-label="第一頁：風險前移，進入行前團體招募">
+      <strong>行前</strong><span class="tsumsP9ManifestText">把行程風險、決策與責任說清楚。</span><span class="tsumsP9ManifestArrow" aria-hidden="true">›</span>
+    </button>
+    <button type="button" class="tsumsP9ManifestRow" data-journey-nav="runtime" aria-label="第二頁：途中示警">
+      <strong>進行</strong><span class="tsumsP9ManifestText">將自然風險、提示與示警理清楚。</span><span class="tsumsP9ManifestArrow" aria-hidden="true">›</span>
+    </button>
+    <button type="button" class="tsumsP9ManifestRow" data-journey-nav="replay" aria-label="第三頁：行程後回放證據鏈">
+      <strong>行後</strong><span class="tsumsP9ManifestText">讓行程回放、過程中所有證據鏈。</span><span class="tsumsP9ManifestArrow" aria-hidden="true">›</span>
+    </button>
     <div class="tsumsP9Vow">自保助人、山石永固</div>
   </div>
   <div class="small" id="buildMarker" hidden>版本：v0.6.4.6-P2｜台灣繁中介面｜風險前移｜現場運作</div>
@@ -7599,5 +7648,25 @@ document.querySelectorAll('#p6ui [data-p10wear-demo]').forEach(function(button){
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 
+</script>
+
+<script id="tsums-p9-manifest-arrow-actions-20261023">
+/* Reuse original navigation click routes; no route state, governance record, or data write. */
+(function(){
+  'use strict';
+  function openPage(kind){
+    const selector = kind==='pretrip' ? '#journeyStep1' :
+      kind==='runtime' ? '#p0 [data-p10ui-open]' :
+      kind==='replay' ? '#p0 [data-p11-open]' : null;
+    const destination=selector&&document.querySelector(selector);
+    if(destination){ destination.click(); return; }
+    // Visible failure, never imply a successful switch if a target is missing.
+    const note=document.getElementById('tsumsP9JourneyNavStatus');
+    if(note) note.textContent='導覽入口暫不可用，請使用下方原有的頁面入口。';
+  }
+  document.querySelectorAll('header .tsumsP9ManifestRow[data-journey-nav]').forEach(row=>{
+    row.addEventListener('click',()=>openPage(row.dataset.journeyNav));
+  });
+})();
 </script>
 </body></html>

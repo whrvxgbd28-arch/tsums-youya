@@ -1722,11 +1722,11 @@ body.field .journeyTopNav #journeyHomeBtn{
     </button>
   </div>
 
-  <div class="journeyNextCard">
-    <div>
-      <b id="journeyNextText">建立團體招募</b>
-    </div>
-    <button class="primary" id="journeyNextBtn">開始</button>
+  <!-- QA-023: redundant next-step panel removed from P9.  Hidden runtime
+       hooks retained for older journey renderers; no duplicate visible CTA. -->
+  <div id="p9LegacyJourneyHooks" hidden aria-hidden="true" style="display:none!important">
+    <span id="journeyNextText"></span>
+    <button type="button" id="journeyNextBtn" tabindex="-1" hidden></button>
   </div>
 
   <div class="alert blue">

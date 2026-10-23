@@ -1665,6 +1665,14 @@ body.field .journeyTopNav #journeyHomeBtn{
  }
 }
 </style>
+
+<style id="tsums-p9-qa036-external-links-style">
+#p5 .p9ExternalPortalGroup{margin:10px 10px 16px;padding:14px 0 0;border-top:1px solid rgba(215,174,91,.35)}
+#p5 .p9ExternalPortalGroup h3{margin:0 4px 12px;font-size:20px;line-height:1.4;color:#f5d48f}
+#p5 .p9ExternalPortalMatrix{padding:0!important;margin:0}
+#p5 .p9ExternalPortalMatrix .tsumsPortalEntry{min-width:0}
+#p5 .p9ExternalPortalMatrix .tsumsPortalAction{touch-action:manipulation;min-height:52px}
+</style>
 </head>
 <body>
 <div id="tsums-review-banner" class="p9QaUnifiedNotice" role="status" aria-label="測試版本限制">
@@ -2131,8 +2139,23 @@ body.field .journeyTopNav #journeyHomeBtn{
   <div class="tsumsPortalEntry"><b>內政部警政署｜入山案件申辦系統</b><span>入山申請、管制地點與相關公告</span><a class="tsumsPortalAction" href="https://nv2.npa.gov.tw/NM107-604Client/" target="_blank" rel="noopener noreferrer" data-portal-id="NPA" aria-label="開啟內政部警政署｜入山案件申辦系統官方來源">查詢入山資訊 ↗</a></div>
   <div class="tsumsPortalEntry"><b>交通部公路局｜省道即時路況</b><span>山區聯外道路、施工、災害與交通管制</span><a class="tsumsPortalAction" href="https://168.thb.gov.tw/" target="_blank" rel="noopener noreferrer" data-portal-id="HIGHWAY" aria-label="開啟交通部公路局｜省道即時路況官方來源">查詢即時路況 ↗</a></div>
   <div class="tsumsPortalEntry"><b>自然保護區域進入申請系統</b><span>自然保留區、自然保護區、野生動物保護區公告與申請</span><a class="tsumsPortalAction" href="https://pa.forest.gov.tw/" target="_blank" rel="noopener noreferrer" data-portal-id="PROTECTED_AREA" aria-label="開啟自然保護區域進入申請系統官方來源">查詢保護區狀態 ↗</a></div>
-</div>
 
+</div>
+<section class="p9ExternalPortalGroup" aria-labelledby="p9ExternalPortalTitle">
+  <h3 id="p9ExternalPortalTitle">外部留守與衛星追蹤</h3>
+  <div class="officialPortalMatrix p9ExternalPortalMatrix">
+    <div class="tsumsPortalEntry">
+      <b>Hiking Guard｜登山留守平台</b>
+      <span>第三方協同留守服務</span>
+      <a class="tsumsPortalAction" href="https://hiking-guard.org/" target="_blank" rel="noopener noreferrer" aria-label="開啟 Hiking Guard 留守平台網站">開啟留守平台 ↗</a>
+    </div>
+    <div class="tsumsPortalEntry">
+      <b>Garmin Explore｜inReach MapShare</b>
+      <span>登入 Garmin Explore 後自行設定與分享 MapShare</span>
+      <a class="tsumsPortalAction" href="https://explore.garmin.com/zh-TW/" target="_blank" rel="noopener noreferrer" aria-label="開啟 Garmin Explore MapShare 網站">開啟 Garmin Explore ↗</a>
+    </div>
+  </div>
+</section>
 </details>
 
 <div class="officialVerificationCard" id="officialVerificationCard">
@@ -7809,28 +7832,10 @@ document.querySelectorAll('#p6ui [data-p10wear-demo]').forEach(function(button){
   status('QA-018','CALCULATOR_READY_PERSISTENCE_NEEDS_BROWSER_QA');
  }
  function watchUI(){
-  const p4=$('#p4');if(!p4||$('#p9qaGuard'))return;
-  const card=section('p9qaGuard','智慧留守／衛星裝置｜人工參考資訊','Hiking Guard 與 Garmin inReach 尚無驗證過的即時介接；不得顯示「連線成功」、「已開始追蹤」或「自動通報已啟用」。此欄僅記錄由使用者提供的留守參考網址。');
-  const ref=labelled(card,'p9qaGuardRef','Garmin inReach MapShare／留守平台參考網址','url',{placeholder:'https://…',inputmode:'url'});
-  const statusBox=add(card,'div',{class:'p9qa-status',id:'p9qaGuardState',role:'status'},'外部即時追蹤：未介接／未驗證。正式失聯升級仍依現有 C2 MSLS 與人工留守流程。');
-  const btn=add(card,'button',{type:'button',class:'secondary',id:'p9qaGuardSave'},'保存參考網址（不代表綁定）');
-  let loadedTrip=null;
-  const restore=async()=>{try{if(typeof currentTrip!=='function')return;const t=await currentTrip();if(!t||t.id===loadedTrip)return;loadedTrip=t.id;ref.value=t.preparation?.communication?.external_guard_reference?.url||''}catch(e){statusBox.textContent='參考資訊讀取失敗；外部即時追蹤仍未介接。'}};
-  new MutationObserver(()=>{if(p4.classList.contains('active'))restore()}).observe(p4,{attributes:true,attributeFilter:['class']});restore();
-  btn.addEventListener('click',async()=>{
-   const v=clean(ref.value);
-   if(v){let u;try{u=new URL(v)}catch(e){statusBox.textContent='參考網址格式錯誤';return}if(u.protocol!=='https:'||u.username||u.password||[...u.searchParams.keys()].some(k=>/token|key|secret|password|auth|session|bearer/i.test(k))){statusBox.textContent='僅接受不含帳密或明示存取金鑰參數的 HTTPS 參考網址；敏感分享連結應交由授權留守人直接管理。';return}}
-   try{
-    if(typeof currentTrip!=='function'||typeof put!=='function'||typeof TRIPS==='undefined')throw Error('既有行程儲存接口未就緒');
-    const t=await currentTrip();if(!t)throw Error('請先建立合成測試行程');
-    t.preparation=t.preparation||{};t.preparation.communication=t.preparation.communication||{};
-    t.preparation.communication.external_guard_reference={url:v,source_state:'USER_DECLARED',verified_connection:false,recorded_at:new Date().toISOString()};
-    await put(TRIPS,t);
-    statusBox.textContent='參考網址已記錄於本機行程；外部連線、授權、LINE 推播與失聯通知仍未驗證。';
-   }catch(e){statusBox.textContent='保存未完成：'+String(e.message||e)}
-  });
-  const ext=$('#externalSupportCard');if(ext)ext.insertAdjacentElement('afterend',card);else p4.appendChild(card);
-  status('QA-019','REFERENCE_ONLY_NO_LIVE_INTEGRATION');
+  // QA-036: Third-party navigation is now located inside P5's portal directory.
+  // Do not re-create the P4 URL-input card. Any legacy saved
+  // preparation.communication.external_guard_reference is left unchanged.
+  status('QA-019','EXTERNAL_PORTAL_LINKS_P5_NO_LIVE_INTEGRATION');
  }
  function setup(){
   const expected=['p0','p1','p2','p3','p4','p5','p6','p7','p8'];
@@ -7839,7 +7844,7 @@ document.querySelectorAll('#p6ui [data-p10wear-demo]').forEach(function(button){
   honestUI();polishP9();notesAndRoles();credentialAndInsurance();roleTextAnalysis();addFitness();snowUI();weightUI();watchUI();commercialBusiness();roleOptionsAndCopy();waypointImport();
   const footer=document.createElement('div');footer.id='p9qaControl';footer.className='hint';footer.textContent='P9 QA-001～019｜差異式修補候選｜未完成實機驗收｜P10/P11 維持既有基準｜Protected Core 未載入';
   $('#p5')?.appendChild(footer);
-  window.TSUMS_P9_QA_PATCH={id:PATCH_ID,status:qaState,scope:'p0-p5 only',mode:'synthetic QA; not production',verify:()=>({basePages:expected.map(id=>!!$('#'+id)),weight:!!$('#p9qaWeight'),guard:!!$('#p9qaGuard'),snow:!!$('#p9qaSnowExposure'),fitness:!!$('#p9qaActivityGPX'),claims:'no third-party integration claimed'})};
+  window.TSUMS_P9_QA_PATCH={id:PATCH_ID,status:qaState,scope:'p0-p5 only',mode:'synthetic QA; not production',verify:()=>({basePages:expected.map(id=>!!$('#'+id)),weight:!!$('#p9qaWeight'),guard:!!document.querySelector('.p9ExternalPortalGroup'),snow:!!$('#p9qaSnowExposure'),fitness:!!$('#p9qaActivityGPX'),claims:'no third-party integration claimed'})};
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
 })();

@@ -1684,6 +1684,11 @@ body.field .journeyTopNav #journeyHomeBtn{
 <div class="modebar journeyModebar">
 <nav class="journeyTopNav" aria-label="行程狀態導覽">
 <button class="secondary active" id="journeyHomeBtn" aria-label="返回風險前移總覽">風險前移</button>
+<div class="tsumsTopTabs" role="tablist" aria-label="三頁切換">
+  <button type="button" class="tsumsTopTab is-active" id="tsumsTabP9" aria-current="page">🛡️ P9 行前風險</button>
+  <button type="button" class="tsumsTopTab" id="tsumsTabP10">⚠️ P10 途中示警</button>
+  <button type="button" class="tsumsTopTab" id="tsumsTabP11">📊 P11 行程回放</button>
+</div>
 <span class="journeyPhaseBadge" id="journeyPhaseBadge" aria-hidden="true" hidden>風險前移</span>
 <button class="secondary" id="journeyRuntimeBtn" style="display:none">行程中</button>
 <button class="secondary" id="journeyReplayBtn" style="display:none">回放與紀錄</button>
@@ -1729,18 +1734,10 @@ body.field .journeyTopNav #journeyHomeBtn{
     <button type="button" id="journeyNextBtn" tabindex="-1" hidden></button>
   </div>
 
-  <div class="alert blue">
-    使用者介面只呈現五步與三階段；底層仍保留 C1–C5、T0,k、證據鏈、干預邊界與 14 階段生命週期。
-    <div class="small" id="v0633RegressionStatus" style="margin-top:5px">狀態完整性測試：尚未執行</div><div class="small" id="v06333PatchRegressionStatus" style="margin-top:3px">修補版測試：尚未執行</div>
+  <div id="p9HiddenPageLaunchers" hidden aria-hidden="true" style="display:none!important">
+    <button type="button" class="p10uiLauncher" data-p10ui-open>第二頁：途中示警</button>
+    <button type="button" class="p11Launcher" data-p11-open>第三頁：行程後回放證據鏈</button>
   </div>
-
-<details class="p9OtherPages" id="p9OtherPages">
-    <summary>第二／第三頁功能預覽 <span>獨立 QA · 不影響行前資料</span></summary>
-    <div class="p9OtherPagesBody">
-      <button type="button" class="p10uiLauncher" data-p10ui-open>第二頁：途中示警<small>14 個公開層功能區 · 無須 GO · 不讀取真實 GPS · 不寫入治理資料</small></button>
-      <button type="button" class="p11Launcher" data-p11-open>第三頁：行程後回放證據鏈<small>12 個功能區 · 合成 QA · 無須真實行程 · 不刪除資料</small></button>
-    </div>
-  </details>
 </section>
 
 <section id="p1" class="page">
@@ -2993,6 +2990,44 @@ $("#exportJson").onclick=async()=>{const p=await packageData();downloadUtf8(`TSU
 $("#exportTxt").onclick=async()=>{const p=await packageData();let s=`TSUMS 山上優雅 v0.6.4.6｜TSUMS 4.0V 回放\nTrip: ${p.trip?.name||"未建立"}\nEvents: ${p.manifest.record_count}\nChain verified: ${p.hash_manifest.verified}\nPackage hash: ${p.package_hash}\nEncoding: UTF-8\n\n`;s+=p.event_ledger.map(e=>`#${e.sequence} Stage ${e.lifecycle_stage} | ${e.observed_at} | ${e.event_type} | ${e.actor} | ${e.observed_fact}`).join("\n");downloadUtf8("TSUMS_山上優雅_4V_回放_UTF8.txt",s,"text/plain",true)}
 $("#exportHtml").onclick=async()=>{const p=await packageData();const rows=p.event_ledger.map(e=>`<tr><td>${esc(e.sequence)}</td><td>${esc(e.observed_at)}</td><td>${esc(e.event_type)}</td><td>${esc(e.actor)}</td><td>${esc(e.observed_fact||"")}</td><td>${esc(e.human_decision||"")}</td></tr>`).join("");const report=`<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>TSUMS 山上優雅 回放</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif;margin:28px;color:#111}h1{font-size:24px}table{width:100%;border-collapse:collapse;font-size:12px}th,td{border:1px solid #bbb;padding:7px;vertical-align:top}th{text-align:left;background:#eee}.meta{line-height:1.7;margin-bottom:18px}@media print{body{margin:12mm}}</style></head><body><h1>TSUMS 山上優雅｜回放</h1><div class="meta">行程：${esc(p.trip?.name||"未建立")}<br>Event：${p.manifest.record_count}<br>Chain verified：${p.hash_manifest.verified}<br>Package hash：${esc(p.package_hash)}</div><table><thead><tr><th>#</th><th>Observed</th><th>Event</th><th>Actor</th><th>Fact</th><th>Decision</th></tr></thead><tbody>${rows}</tbody></table>
 
+
+<style id="tsums-p9-qa024-style">
+.journeyTopNav{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:12px!important}
+.journeyTopNav #journeyHomeBtn{width:100%!important;max-width:none!important;justify-content:center!important;font-size:25px!important;min-height:76px!important;padding:18px 20px!important}
+.tsumsTopTabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%}
+.tsumsTopTab{appearance:none;border:1px solid rgba(214,170,89,.7);background:rgba(73,43,8,.34);color:#f4dfb4;border-radius:18px;padding:14px 10px;font-size:16px;font-weight:900;line-height:1.28;min-height:68px;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer}
+.tsumsTopTab.is-active,.tsumsTopTab[aria-current="page"]{background:#d8b060;color:#18120a;border-color:#f0d191;box-shadow:0 0 0 1px rgba(0,0,0,.22) inset}
+#p9OtherPages,.alert.blue{display:none!important}
+#p9HiddenPageLaunchers{display:none!important}
+@media (max-width:520px){.tsumsTopTabs{grid-template-columns:1fr}.tsumsTopTab{min-height:56px;font-size:16px;padding:12px 12px}.journeyTopNav #journeyHomeBtn{font-size:24px!important;min-height:72px!important}}
+</style>
+<script id="tsums-p9-qa024-tabs">
+(function(){
+  'use strict';
+  const q=(s,r=document)=>r.querySelector(s);
+  const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  function hiddenLauncher(sel, fallbackId){
+    const el=q(sel) || q('#'+fallbackId);
+    if(el) el.click();
+  }
+  function updateTabs(){
+    const active=q('.page.active')?.id || 'p0';
+    const group=active==='p11ui' || active==='p8' ? 'p11' : (['p6','p6ui','p7'].includes(active) ? 'p10' : 'p9');
+    const mapping={p9:q('#tsumsTabP9'),p10:q('#tsumsTabP10'),p11:q('#tsumsTabP11')};
+    Object.entries(mapping).forEach(([k,el])=>{ if(!el)return; const on=k===group; el.classList.toggle('is-active',on); if(on) el.setAttribute('aria-current','page'); else el.removeAttribute('aria-current'); });
+  }
+  function bind(){
+    const p9=q('#tsumsTabP9'), p10=q('#tsumsTabP10'), p11=q('#tsumsTabP11');
+    if(p9&&!p9.dataset.bound){ p9.dataset.bound='1'; p9.addEventListener('click',()=>{ const home=q('#journeyHomeBtn'); if(home) home.click(); }); }
+    if(p10&&!p10.dataset.bound){ p10.dataset.bound='1'; p10.addEventListener('click',()=>hiddenLauncher('[data-p10ui-open]','journeyRuntimeBtn')); }
+    if(p11&&!p11.dataset.bound){ p11.dataset.bound='1'; p11.addEventListener('click',()=>hiddenLauncher('[data-p11-open]','journeyReplayBtn')); }
+    updateTabs();
+    const observer=new MutationObserver(updateTabs);
+    qa('.page').forEach(p=>observer.observe(p,{attributes:true,attributeFilter:['class']}));
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
+})();
+</script>
 </body></html>`;downloadUtf8("TSUMS_山上優雅_4V_回放_UTF8.html",report,"text/html",false)}
 
 $("#fieldModeBtn").onclick=()=>{document.body.classList.toggle("field");$("#fieldModeBtn").textContent=document.body.classList.contains("field")?"切回黑金模式":"戶外高對比模式"};
@@ -7700,6 +7735,44 @@ document.querySelectorAll('#p6ui [data-p10wear-demo]').forEach(function(button){
   document.querySelectorAll('header .tsumsP9ManifestRow[data-journey-nav]').forEach(row=>{
     row.addEventListener('click',()=>openPage(row.dataset.journeyNav));
   });
+})();
+</script>
+
+<style id="tsums-p9-qa024-style">
+.journeyTopNav{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:12px!important}
+.journeyTopNav #journeyHomeBtn{width:100%!important;max-width:none!important;justify-content:center!important;font-size:25px!important;min-height:76px!important;padding:18px 20px!important}
+.tsumsTopTabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%}
+.tsumsTopTab{appearance:none;border:1px solid rgba(214,170,89,.7);background:rgba(73,43,8,.34);color:#f4dfb4;border-radius:18px;padding:14px 10px;font-size:16px;font-weight:900;line-height:1.28;min-height:68px;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer}
+.tsumsTopTab.is-active,.tsumsTopTab[aria-current="page"]{background:#d8b060;color:#18120a;border-color:#f0d191;box-shadow:0 0 0 1px rgba(0,0,0,.22) inset}
+#p9OtherPages,.alert.blue{display:none!important}
+#p9HiddenPageLaunchers{display:none!important}
+@media (max-width:520px){.tsumsTopTabs{grid-template-columns:1fr}.tsumsTopTab{min-height:56px;font-size:16px;padding:12px 12px}.journeyTopNav #journeyHomeBtn{font-size:24px!important;min-height:72px!important}}
+</style>
+<script id="tsums-p9-qa024-tabs">
+(function(){
+  'use strict';
+  const q=(s,r=document)=>r.querySelector(s);
+  const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  function hiddenLauncher(sel, fallbackId){
+    const el=q(sel) || q('#'+fallbackId);
+    if(el) el.click();
+  }
+  function updateTabs(){
+    const active=q('.page.active')?.id || 'p0';
+    const group=active==='p11ui' || active==='p8' ? 'p11' : (['p6','p6ui','p7'].includes(active) ? 'p10' : 'p9');
+    const mapping={p9:q('#tsumsTabP9'),p10:q('#tsumsTabP10'),p11:q('#tsumsTabP11')};
+    Object.entries(mapping).forEach(([k,el])=>{ if(!el)return; const on=k===group; el.classList.toggle('is-active',on); if(on) el.setAttribute('aria-current','page'); else el.removeAttribute('aria-current'); });
+  }
+  function bind(){
+    const p9=q('#tsumsTabP9'), p10=q('#tsumsTabP10'), p11=q('#tsumsTabP11');
+    if(p9&&!p9.dataset.bound){ p9.dataset.bound='1'; p9.addEventListener('click',()=>{ const home=q('#journeyHomeBtn'); if(home) home.click(); }); }
+    if(p10&&!p10.dataset.bound){ p10.dataset.bound='1'; p10.addEventListener('click',()=>hiddenLauncher('[data-p10ui-open]','journeyRuntimeBtn')); }
+    if(p11&&!p11.dataset.bound){ p11.dataset.bound='1'; p11.addEventListener('click',()=>hiddenLauncher('[data-p11-open]','journeyReplayBtn')); }
+    updateTabs();
+    const observer=new MutationObserver(updateTabs);
+    qa('.page').forEach(p=>observer.observe(p,{attributes:true,attributeFilter:['class']}));
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
 })();
 </script>
 </body></html>

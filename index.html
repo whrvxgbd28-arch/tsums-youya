@@ -1673,6 +1673,30 @@ body.field .journeyTopNav #journeyHomeBtn{
 #p5 .p9ExternalPortalMatrix .tsumsPortalEntry{min-width:0}
 #p5 .p9ExternalPortalMatrix .tsumsPortalAction{touch-action:manipulation;min-height:52px}
 </style>
+<style id="tsums-qa037-style">
+#p9qaWeight .qa037-auto{border:1.5px solid #937443;border-radius:17px;padding:14px;background:rgba(215,174,91,.035)}
+#p9qaWeight .qa037-auto h3{font-size:23px;color:#f0c96d;margin:0 0 10px;line-height:1.4}
+#p9qaWeight .qa037-intro{font-size:15px;color:#d3be99;line-height:1.7;margin:10px 0}
+#p9qaWeight .qa037-auto label{font-size:16px;line-height:1.5}
+#p9qaWeight .qa037-auto button{font-size:16px;line-height:1.45;min-height:56px;touch-action:manipulation;margin:8px 0;width:100%}
+#p9qaWeight .qa037-auto button:active{transform:scale(.99);filter:brightness(1.15)}
+#p9qaWeight .qa037-details{border:1px solid #766042;padding:12px;border-radius:14px;margin:12px 0}
+#p9qaWeight .qa037-details summary,#p9qaWeight .qa037-legacy summary{font-size:17px}
+#p9qaWeight .qa037-item{border-top:1px solid rgba(215,174,91,.28);padding:12px 0;display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+#p9qaWeight .qa037-itemname{font-size:17px;font-weight:800;line-height:1.4;overflow-wrap:anywhere}
+#p9qaWeight .qa037-itemname small{font-size:13px;color:#bdb09a;display:block;font-weight:500}
+#p9qaWeight .qa037-fields{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:10px}
+#p9qaWeight .qa037-fields label{font-size:14px;margin:0}
+#p9qaWeight .qa037-fields input{font-size:16px;min-width:0;margin-top:5px}
+#p9qaWeight .qa037-result{border:1px solid #937443;border-radius:12px;padding:12px;margin:14px 0;color:#f8dfae;font-size:16px;line-height:1.65;overflow-wrap:anywhere}
+#p9qaWeight .qa037-big{display:block;font-size:21px;margin-bottom:8px}
+#p9qaWeight .qa037-groups{font-size:15px;color:#e4d1ac}
+#p9qaWeight .qa037-missing{color:#ffd77c;font-size:15px}
+#p9qaWeight .qa037-error{color:#ffb2a5;font-size:15px}
+#p9qaWeight .qa037-disclaimer{color:#b5ac97;font-size:14px}
+#p9qaWeight .qa037-legacy{margin:16px 0 0}
+
+</style>
 </head>
 <body>
 <div id="tsums-review-banner" class="p9QaUnifiedNotice" role="status" aria-label="測試版本限制">
@@ -8686,5 +8710,167 @@ body.field #p2 .qa034Intro,body.field #p2 .qa034Outcome,body.field #p2 .qa034Det
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
 })();
+</script>
+<script id="tsums-qa037-auto-pack-mass">
+/* TSUMS QA-037 | Public-layer, user-supplied weight arithmetic.
+   Never infer food/fuel/equipment mass from the presence of a checkbox. */
+(function(){
+ 'use strict';
+ const $=(s,scope=document)=>scope.querySelector(s);
+ const $$=(s,scope=document)=>Array.from(scope.querySelectorAll(s));
+ const fmt=n=>Number(n).toFixed(2);
+ const text=(node,value)=>{if(node)node.textContent=value;};
+ const el=(tag,cls,content)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(content!==undefined)n.textContent=content;return n};
+ const excluded=new Set(['山屋補水','沿線水源','自備全程用水','山屋供餐','協作供餐','免炊事','淨水 / 飲水方案']);
+ const groupTitle={gear:'個人裝備',water_container:'飲水容器（容器重量）',water_treatment:'淨水器材',meal:'正餐',trail_food:'行動糧',emergency_food:'緊急糧',fuel:'燃料（包含容器）',additional:'其他實物／公裝分攤'};
+ const permanent=[['背包本體及未列個裝','additional'],['公裝分攤（未列於上方者）','additional'],['其他未列出的背負物','additional']];
+ let activeIndex='',cached=new Map(),hydrating=false,pending=false,unreconciled=[];
+ function num(value){const s=String(value??'').trim();if(!s)return null;const n=Number(s);return Number.isFinite(n)&&n>=0?n:null}
+ function qNumber(id){return num($('#'+id)?.value)}
+ function selectedItems(){
+   const entries=[],seen=new Set();
+   function push(group,name){if(!name||excluded.has(name))return;const key=group+'|'+name;if(seen.has(key))return;seen.add(key);entries.push({key,group,name})}
+   $$('#gearList .gearChk:checked').forEach(e=>push('gear',e.dataset.k));
+   $$('#v0646SupplyProfile [data-supply]:checked').forEach(e=>push(e.dataset.supply,e.value));
+   permanent.forEach(([name,group])=>push(group,name));
+   return entries;
+ }
+ function readState(){
+  $$('#qa037Items .qa037-item').forEach(row=>{
+   const key=row.dataset.key;
+   if(!key)return;
+   cached.set(key,{qty:row.querySelector('[data-part="qty"]')?.value??'1',grams:row.querySelector('[data-part="grams"]')?.value??''});
+  });
+ }
+ function rowOf(item){
+   const row=el('div','qa037-item');row.dataset.key=item.key;row.dataset.group=item.group;
+   const name=el('div','qa037-itemname',item.name);const sub=el('small','',groupTitle[item.group]||'裝備');name.appendChild(sub);
+   const controls=el('div','qa037-fields');
+   const qtyWrap=el('label','', '數量'); const qty=el('input');qty.type='number';qty.inputMode='decimal';qty.min='0';qty.max='9999';qty.step='1';qty.setAttribute('data-part','qty');qty.setAttribute('aria-label',item.name+' 數量');qtyWrap.append(qty);
+   const gramWrap=el('label','', '每件／每份重量 g');const grams=el('input');grams.type='number';grams.inputMode='decimal';grams.min='0';grams.max='1000000';grams.step='any';grams.placeholder='秤重填入';grams.setAttribute('data-part','grams');grams.setAttribute('aria-label',item.name+' 單件實際重量（公克）');gramWrap.append(grams);
+   controls.append(qtyWrap,gramWrap);row.append(name,controls);
+   const previous=cached.get(item.key);qty.value=previous?.qty??'1';grams.value=previous?.grams??'';
+   return row;
+ }
+ function refreshItems(){
+  readState();const host=$('#qa037Items');if(!host)return;
+  const list=selectedItems();host.replaceChildren(...list.map(rowOf));
+  const physical=list.filter(i=>i.group!=='additional').length;
+  text($('#qa037Count'),`讀取 ${physical} 個已勾選的裝備／補給種類；下方另有 3 個未列品項與公裝欄。種類與數量不等於重量，請填實際 g 數。`);
+  return list;
+ }
+ function assess(){
+   const items=selectedItems();readState();let subtotal=0;let groupMass={};let absent=[];let invalid=[];let breakdown=[];
+   if(unreconciled.length)invalid.push('上次紀錄與目前清單不同：'+unreconciled.join('、')+'（請按「讀取上方已選裝備與補給」重新核對）');
+   if(!items.some(item=>item.group!=='additional'))absent.push('上方尚無已勾選的實物裝備／補給，請先核對選項');
+   for(const i of items){
+     const v=cached.get(i.key)||{};const qty=num(v.qty),grams=num(v.grams);
+     if(qty===null||!Number.isInteger(qty)||qty>9999){invalid.push(i.name+'（數量不正確）');continue}
+     if(grams===null){absent.push(i.name);continue}
+     if(grams>1000000){invalid.push(i.name+'（重量超出輸入範圍）');continue}
+     const mass=qty*grams/1000;groupMass[i.group]=(groupMass[i.group]||0)+mass;subtotal+=mass;
+     breakdown.push({item:i.name,group:i.group,quantity:qty,grams_each:grams,mass_kg:mass,source:'USER_ENTERED'});
+   }
+   const water=qNumber('qa037ActualWaterMl');
+   const capacity=num($('#v0646WaterCapacity')?.value);
+   if(water===null){absent.push('出發實際攜水量（ml）')}
+   else if(water>100000){invalid.push('出發攜水量（超過輸入範圍）')}
+   else{const kg=water/1000;subtotal+=kg;groupMass.drinking_water=kg;breakdown.push({item:'實際攜帶飲水',group:'drinking_water',volume_ml:water,mass_kg:kg,method:'WATER_DENSITY_APPROX_1g_per_ml',source:'USER_DECLARED_FILLED_VOLUME'});
+     if(capacity!==null && water>capacity)invalid.push('實際攜水量大於上方總容器容量（請核對）');
+   }
+   // Current list is a time-specific snapshot, not necessarily saved supply state.
+   const complete=absent.length===0&&invalid.length===0&&breakdown.length>0;
+   return {complete,known_subtotal_kg:subtotal,missing:absent,invalid,breakdown,groups_kg:groupMass,water_capacity_ml:capacity,actual_water_ml:water,source_state:'USER_DECLARED_UNVERIFIED',measurement_type:'ITEMIZED_USER_ENTRY_OR_VOLUME_APPROXIMATION',scope:'ONE_PERSON_BACKPACK',fitness_status:'NOT_DETERMINED',fixed_item_weight_defaults_used:false};
+ }
+ function showResult(v){
+   const host=$('#qa037Result');if(!host)return;
+   const rows=Object.entries(v.groups_kg).map(([k,m])=>`${groupTitle[k]||'飲水'}：${fmt(m)} kg`);
+   const main=v.complete?`背負重量算術總計：${fmt(v.known_subtotal_kg)} kg`:`已知重量小計：${fmt(v.known_subtotal_kg)} kg（資料未齊，不能作為總重）`;
+   host.replaceChildren(el('strong','qa037-big',main),el('div','qa037-groups',rows.join('｜')||'尚未取得任何已知重量'));
+   if(v.missing.length)host.appendChild(el('p','qa037-missing',`待補重量：${v.missing.join('、')}。`));
+   if(v.invalid.length)host.appendChild(el('p','qa037-error',`數值需修正：${v.invalid.join('、')}。`));
+   host.appendChild(el('p','qa037-disclaimer','本工具只作已填資料的算術匯算；未確認的燃料、食品與裝備重量不使用通用預設值。此結果不是體能或安全判定。'));
+   const b=$('#qa037Save');if(b)b.disabled=!v.complete||activeIndex==='';
+ }
+ async function loadMembers(){
+  const select=$('#qa037Person');if(!select)return;
+  try{
+   if(typeof currentTrip!=='function')return;
+   const t=await currentTrip(), members=t?.team?.members||[];const old=select.value;
+   const options=members.map((m,i)=>({id:String(i),name:String(m.name||'').trim()})).filter(m=>m.name);
+   select.replaceChildren(new Option('選擇既有名冊中的背包主人（保存前必選）',''),...options.map(m=>new Option(`隊員 ${Number(m.id)+1}｜${m.name}`,m.id)));
+   if(options.some(o=>o.id===old))select.value=old;
+  }catch(e){text($('#qa037SaveStatus'),'目前無法讀取隊員名冊，尚不能保存個人紀錄。')}
+ }
+ async function hydratePerson(){
+   if(hydrating)return;hydrating=true;
+   try{
+     const index=$('#qa037Person').value;activeIndex=index;
+     cached.clear();unreconciled=[];$('#qa037ActualWaterMl').value='';
+     const t=typeof currentTrip==='function'?await currentTrip():null;
+     const saved=index!==''?t?.team?.members?.[Number(index)]?.personal_evidence?.pack_weight_autosum_v1:null;
+     if(saved){for(const item of saved.item_inputs||[])cached.set(item.key,{qty:String(item.quantity),grams:String(item.grams_each)});$('#qa037ActualWaterMl').value=saved.actual_water_ml??'';
+      const currentKeys=new Set(selectedItems().map(item=>item.key));
+      unreconciled=(saved.item_inputs||[]).filter(item=>!currentKeys.has(item.key)).map(item=>item.key.split('|').slice(1).join('|'));
+     }
+     refreshItems();showResult(assess());
+     text($('#qa037SaveStatus'),saved?'已載入此隊員上次保存的重量紀錄；路線裝備如有更動請重新匯算。':'尚未保存這位隊員的重量紀錄。');
+   }catch(e){text($('#qa037SaveStatus'),'個人重量紀錄尚無法讀取，請勿視為已保存。')}
+   finally{hydrating=false}
+ }
+ async function save(){
+   const result=assess();showResult(result);
+   if(!result.complete)return;
+   const selected=$('#qa037Person');const idx=Number(selected.value);
+   if(selected.value===''||!Number.isInteger(idx)){text($('#qa037SaveStatus'),'請先選取名冊中已具名的隊員。');return}
+   try{
+     if(typeof currentTrip!=='function'||typeof put!=='function'||typeof TRIPS==='undefined')throw Error('原有行程資料庫尚未就緒');
+     const t=await currentTrip();if(!t?.team?.members?.[idx])throw Error('找不到該隊員資料');
+     const person=t.team.members[idx];if(!person.name?.trim())throw Error('隊員尚未具名');
+     const savePayload={...result,calculated_total_kg:result.known_subtotal_kg,
+       recorded_at:new Date().toISOString(),member_name_snapshot:person.name.trim(),member_index_at_save:idx,
+       item_inputs:$$('#qa037Items .qa037-item').map(row=>({key:row.dataset.key,quantity:num(row.querySelector('[data-part="qty"]').value),grams_each:num(row.querySelector('[data-part="grams"]').value)})),
+       calculation_policy:'NO_ASSUMED_EQUIPMENT_FOOD_FUEL_WEIGHT'};
+     person.personal_evidence=person.personal_evidence||{};
+     person.personal_evidence.pack_weight_autosum_v1=savePayload;
+     t.updated_at=new Date().toISOString();await put(TRIPS,t);
+     try{if(typeof appendEvent!=='function')throw Error('既有事件接口不可用');await appendEvent('PRE_EVENT_PERSONAL_PACK_WEIGHT_CALCULATED',{lifecycle_stage:2,module_refs:['C1','C3'],actor:person.name.trim(),source_state:'USER_RECORDED',determination_layer:'A_USER_DECLARATION_UNVERIFIED',observed_fact:`隊員自述背負拆項算術總量 ${fmt(result.known_subtotal_kg)} kg，非磅秤驗證或安全適配結論`,structured_payload:{member_index:idx,member_name:person.name.trim(),calculation:savePayload}});
+     }catch(eventError){text($('#qa037SaveStatus'),'重量資料已寫入隊員紀錄，但事件鏈未完成：'+String(eventError?.message||eventError)+'。請勿視為治理存證閉環。');return}
+     text($('#qa037SaveStatus'),`已保存至「${person.name}」個人選項，時間：${new Date().toLocaleString('zh-TW')}。資料來源為使用者填寫，並未經專業驗證。`);
+   }catch(e){text($('#qa037SaveStatus'),'尚未完成保存：'+String(e?.message||e))}
+ }
+ function install(){
+  const host=$('#p9qaWeight');if(!host||$('#qa037AutoCalc'))return;
+  const card=el('section','qa037-auto');card.id='qa037AutoCalc';
+  card.appendChild(el('h3','', '背包重量｜一鍵匯算'));
+  card.appendChild(el('p','qa037-intro','先勾選上方個裝、補給與燃料，再點「讀取已選項目」。每件實際重量可補一次；系統自動乘數量加總。'));
+  const personLabel=el('label','','這是誰的背包？');const person=el('select');person.id='qa037Person';personLabel.appendChild(person);card.appendChild(personLabel);
+  const bscan=el('button','primary','讀取上方已選裝備與補給');bscan.id='qa037Scan';bscan.type='button';card.appendChild(bscan);
+  const count=el('p','qa037-intro','尚未讀取裝備種類。');count.id='qa037Count';card.appendChild(count);
+  const more=el('details','qa037-details');more.open=false;const sum=el('summary','','逐項填寫數量與重量（g）');more.appendChild(sum);
+  const list=el('div');list.id='qa037Items';more.appendChild(list);card.appendChild(more);
+  const actualWrap=el('label','','出發時實際攜水量（ml；非水壺最大容量）');const actual=el('input');actual.id='qa037ActualWaterMl';actual.type='number';actual.min='0';actual.max='100000';actual.step='1';actual.placeholder='請輸入實際裝水量';actual.inputMode='numeric';actualWrap.appendChild(actual);card.appendChild(actualWrap);
+  const fromCapacity=el('button','secondary','已確認全部裝滿：帶入上方容器容量');fromCapacity.type='button';fromCapacity.id='qa037FullWater';card.appendChild(fromCapacity);
+  const compute=el('button','primary','一鍵匯算背包重量');compute.type='button';compute.id='qa037Compute';card.appendChild(compute);
+  const result=el('div','qa037-result','尚未計算。');result.id='qa037Result';result.setAttribute('aria-live','polite');card.appendChild(result);
+  const saveButton=el('button','secondary','保存至選定隊員的個人紀錄');saveButton.type='button';saveButton.id='qa037Save';saveButton.disabled=true;card.appendChild(saveButton);
+  const st=el('p','qa037-intro','結果尚未存檔。');st.id='qa037SaveStatus';st.setAttribute('role','status');card.appendChild(st);
+  const disclosure=el('details','qa037-legacy');disclosure.appendChild(el('summary','','原版人工總重核對（歷史資料保留）'));
+  const movable=[];for(let n=host.firstElementChild;n;n=n.nextElementSibling){if(n.id==='qa037AutoCalc')continue;if(n.tagName==='H2'||n.tagName==='H3')continue;movable.push(n)}
+  movable.forEach(n=>disclosure.appendChild(n));host.appendChild(card);host.appendChild(disclosure);
+  bscan.addEventListener('click',()=>{unreconciled=[];refreshItems();more.open=true;showResult(assess());text(st,'已重新讀取目前選項；請核對所有重量與數量後再保存。');});
+  compute.addEventListener('click',()=>{refreshItems();const v=assess();showResult(v);if(v.missing.length||v.invalid.length)more.open=true;});
+  fromCapacity.addEventListener('click',()=>{const n=num($('#v0646WaterCapacity')?.value);if(n===null){text(st,'請先在「補給與燃料」填寫攜水容器容量，再由本人確認是否裝滿。');return}actual.value=n;showResult(assess());});
+  person.addEventListener('change',hydratePerson);
+  card.addEventListener('input',e=>{if(e.target.matches('[data-part],#qa037ActualWaterMl')){text(st,'重量輸入已變更，請重新匯算並保存。');showResult(assess())}});
+  saveButton.addEventListener('click',save);
+  const observer=new MutationObserver(()=>{if($('#p4')?.classList.contains('active')&&!pending){pending=true;Promise.resolve().then(()=>loadMembers()).finally(()=>pending=false)}});
+  observer.observe($('#p4'),{attributes:true,attributeFilter:['class']});
+  loadMembers().then(()=>refreshItems());
+  window.TSUMS_QA037={scope:'P9_PERSONAL_PACK_MASS_ONLY',calculate:assess,refresh:refreshItems,usesPresetMass:false,weightSource:'USER_ENTERED_OR_CONFIRMED_WATER_VOLUME'};
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
+})();
+
 </script>
 </body></html>

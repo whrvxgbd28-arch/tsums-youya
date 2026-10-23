@@ -6503,7 +6503,7 @@ function v0646RenderRoutePackage(t){const p=v0646EnsureRoutePackage(t);if($('#pr
 
 function v0646ExtractWaypointSummary(t){const w=t.route?.gpx?.waypoints||[],src=t.recruitment?.source||'',all=w.map(x=>`${x.name} ${x.desc}`.trim());const find=(re)=>all.filter(x=>re.test(x));return{terrain:v0646Unique([...find(/溪|崩|壁|稜|落石|拉繩|斷崖|碎石|岩/i),...(src.match(/[^\n]*(?:涉溪|崩壁|拉繩|暴露稜線|落石|碎石坡)[^\n]*/gi)||[])]),water:v0646Unique([...find(/水源|取水|補水|溪/i),...(src.match(/[^\n]*(?:水源|補水|取水)[^\n]*/gi)||[])]),comm:v0646Unique([...find(/通訊|訊號|死角|對講|衛星/i),...(src.match(/[^\n]*(?:通訊|訊號|死角|對講機|衛星)[^\n]*/gi)||[])]),lodging:v0646Unique([...find(/山屋|營地|住宿/i),...(src.match(/[^\n]*(?:山屋|營地|住宿)[^\n]*/gi)||[])]),retreat:v0646Unique(src.match(/[^\n]*(?:撤退|折返|替代路線|高繞|緊急出口)[^\n]*/gi)||[])}}
 function v0646BuildRouteSummary(t){const x=v0646ExtractWaypointSummary(t),alts=t.route?.route_package?.alternatives||[],ret=t.route?.retreatPlan?.trim()||'';return{terrain:x.terrain,water:x.water,communication:x.comm,lodging:x.lodging,alternatives:alts.map(a=>`${v0646RouteTypeLabel(a.route_type)}：${a.purpose||a.name||'已建立'}`),retreat:x.retreat,stop_loss:ret,unknown:[x.terrain.length?'':'困難地形未由現有資料明確提供',x.water.length?'':'水源／補水狀態未由現有資料明確提供',x.comm.length?'':'通訊死角／訊號狀態未由現有資料明確提供',ret?'':'最晚折返／停損條件尚未由隊伍設定'].filter(Boolean),derivation_method:'GPX_WAYPOINTS + RECRUITMENT_TEXT + USER_ROUTE_PACKAGE; NO_GEOMETRY_ONLY_HAZARD_INFERENCE'} }
-function v0646RenderRouteSummary(t){const s=t.route?.auto_summary||v0646BuildRouteSummary(t),lines=[];const add=(k,a)=>lines.push(`<div class="v0646SummaryLine"><b>${k}</b><br>${a.length?a.map(esc).join('；'):'未提供／尚未確認'}</div>`);add('困難地形',s.terrain||[]);add('水源／補水',s.water||[]);add('通訊',s.communication||[]);add('住宿／支援',s.lodging||[]);add('備援路線',s.alternatives||[]);add('撤退／折返',s.retreat||[]);add('未知／待補',s.unknown||[]);if($('#v0646RouteSummaryBody'))$('#v0646RouteSummaryBody').innerHTML=lines.join('')+'<div class="hint">系統只整理已有來源，不由純 GPX 線形自動創造涉溪、崩壁、水源、通訊死角或折返閾值。</div>'}
+function v0646RenderRouteSummary(t){const s=t.route?.auto_summary||v0646BuildRouteSummary(t),lines=[];const add=(k,a)=>{const missing=!a.length;lines.push(`<div class="v0646SummaryLine"><b>${k}</b><span class="v0646SummaryValue ${missing?'is-missing':'is-present'}">${missing?'未提供／尚未確認':a.map(esc).join('；')}</span></div>`)};add('困難地形',s.terrain||[]);add('水源／補水',s.water||[]);add('通訊',s.communication||[]);add('住宿／支援',s.lodging||[]);add('備援路線',s.alternatives||[]);add('撤退／折返',s.retreat||[]);add('未知／待補',s.unknown||[]);if($('#v0646RouteSummaryBody'))$('#v0646RouteSummaryBody').innerHTML=lines.join('')+'<div class="hint">系統只整理已有來源，不由純 GPX 線形自動創造涉溪、崩壁、水源、通訊死角或折返閾值。</div>'}
 
 function v0646DaysFromGPX(t){const pts=t.route?.gpx?.points||[],valid=pts.filter(p=>p.time);if(valid.length<2)return null;const groups={};valid.forEach(p=>{const d=String(p.time).slice(0,10);(groups[d]??=[]).push(p)});const keys=Object.keys(groups);if(keys.length<2)return null;return keys.map((date,i)=>{const ps=groups[date];let dist=0,up=0,down=0;for(let j=1;j<ps.length;j++){dist+=hav(ps[j-1].lat,ps[j-1].lon,ps[j].lat,ps[j].lon);if(ps[j].ele!=null&&ps[j-1].ele!=null){const de=ps[j].ele-ps[j-1].ele;if(de>0)up+=de;else down+=-de}}const es=ps.map(x=>x.ele).filter(Number.isFinite);return{km:(dist/1000).toFixed(1),up:Math.round(up),down:Math.round(down),high:es.length?Math.round(Math.max(...es)):'',low:es.length?Math.round(Math.min(...es)):'',note:`GPX 時間戳分段 ${date}`,date,derivation_state:'SYSTEM_DERIVED',source:'GPX_TRACK_TIME'}})}
 function v0646DeriveDaily(t){const byTime=v0646DaysFromGPX(t);if(byTime)return{days:byTime,note:'依 GPX 軌跡時間戳分日；待人工確認。'};const src=t.recruitment?.source||'',dayLines=src.split(/\n/).filter(l=>/(?:Day|D)\s*\d+|第\s*[一二三四五六七八九十\d]+\s*天/i.test(l));if(dayLines.length)return{days:dayLines.map((l,i)=>({km:'',up:'',down:'',high:'',low:'',note:l.trim(),derivation_state:'SYSTEM_DERIVED',source:'RECRUITMENT_TEXT'})),note:'招募文辨識到分日文字，但公里／爬升需由人或路線切點補足。'};const g=t.route?.gpx;if(g)return{days:t.route?.days?.some(d=>Object.values(d||{}).some(Boolean))?t.route.days:[{km:'',up:'',down:'',high:'',low:'',note:'已取得全程 GPX，但目前沒有足夠依據可靠切分每日行程。',derivation_state:'HUMAN_REVIEW_REQUIRED',source:'FULL_ROUTE_ONLY'}],note:`已計算全程 ${Number(g.km||0).toFixed(1)} km｜+${Math.round(g.up||0)} m｜-${Math.round(g.down||0)} m；系統不以平均分配方式冒充每日計畫。`};return{days:t.route?.days||[],note:'尚無足夠 GPX／分日文字可產生摘要。'}}
@@ -8118,4 +8118,108 @@ function install(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
 })();
 </script>
+
+<style id="tsums-p9-qa031-route-readability">
+/* QA-031: Route environment / retreat summary readability only. Data/state logic unchanged. */
+#p3 #v0646RouteAutoSummary {
+  padding:clamp(16px,4vw,22px)!important;
+  border-radius:18px!important;
+  overflow-wrap:anywhere;
+  min-width:0;
+}
+#p3 #v0646RouteAutoSummary > .v0646SectionTitle {
+  font-size:clamp(19px,4.7vw,22px)!important;
+  font-weight:900!important;
+  line-height:1.48!important;
+  letter-spacing:0!important;
+  margin:0 0 16px!important;
+  color:#f4ce80!important;
+}
+#p3 #v0646RouteSummaryBody,
+#p3 #v0646RouteSummaryBody.hint {
+  font-size:17px!important;
+  line-height:1.66!important;
+  color:#eaddc8!important;
+  margin:0!important;
+  padding:0!important;
+  overflow-wrap:anywhere!important;
+}
+#p3 #v0646RouteSummaryBody > .v0646SummaryLine {
+  padding:14px 0 16px!important;
+  margin:0!important;
+  font-size:17px!important;
+  line-height:1.65!important;
+  border-bottom:1px solid rgba(215,174,91,.28)!important;
+}
+#p3 #v0646RouteSummaryBody > .v0646SummaryLine b {
+  display:block!important;
+  color:#f7dfb0!important;
+  font-size:18px!important;
+  font-weight:850!important;
+  line-height:1.45!important;
+  margin:0 0 7px!important;
+}
+#p3 #v0646RouteSummaryBody .v0646SummaryValue {
+  display:block!important;
+  min-width:0;
+  color:#e6d4b6!important;
+  font-size:17px!important;
+  font-weight:500!important;
+  line-height:1.68!important;
+  overflow-wrap:anywhere!important;
+}
+#p3 #v0646RouteSummaryBody .v0646SummaryValue.is-missing {
+  display:inline-block!important;
+  max-width:100%;
+  padding:6px 12px!important;
+  border:1px solid #9b7441!important;
+  border-radius:10px!important;
+  background:rgba(128,87,36,.13)!important;
+  color:#ffdd9e!important;
+  font-weight:700!important;
+  font-size:16px!important;
+  line-height:1.55!important;
+}
+#p3 #v0646RouteSummaryBody > .v0646SummaryLine:last-of-type {
+  border-bottom:0!important;
+}
+#p3 #v0646RouteSummaryBody > .hint {
+  color:#dbc7a5!important;
+  font-size:16px!important;
+  line-height:1.75!important;
+  margin:12px 0 6px!important;
+  padding:12px 13px!important;
+  border-radius:10px!important;
+  border-left:3px solid #c69c5b!important;
+  background:rgba(215,174,91,.055)!important;
+  overflow-wrap:anywhere!important;
+}
+#p3 #v0646GenerateRouteSummary {
+  min-height:52px!important;
+  font-size:17px!important;
+  line-height:1.45!important;
+  padding:12px 16px!important;
+  touch-action:manipulation;
+}
+#p3 #v0646GenerateRouteSummary:focus-visible {
+  outline:3px solid #f3d18f!important;
+  outline-offset:3px!important;
+}
+@media (max-width:380px) {
+  #p3 #v0646RouteAutoSummary {padding:14px!important;}
+  #p3 #v0646RouteSummaryBody > .v0646SummaryLine b {font-size:17px!important;}
+  #p3 #v0646RouteSummaryBody .v0646SummaryValue {font-size:16px!important;}
+  #p3 #v0646RouteSummaryBody > .hint {font-size:15px!important;}
+}
+body.field #p3 #v0646RouteSummaryBody,
+body.field #p3 #v0646RouteSummaryBody .v0646SummaryValue {
+  color:#282016!important;
+}
+body.field #p3 #v0646RouteSummaryBody > .v0646SummaryLine b,
+body.field #p3 #v0646RouteAutoSummary > .v0646SectionTitle { color:#684312!important; }
+body.field #p3 #v0646RouteSummaryBody .v0646SummaryValue.is-missing {
+  color:#523300!important; background:#ffe9bc!important; border-color:#88622c!important;
+}
+body.field #p3 #v0646RouteSummaryBody > .hint {color:#45351d!important;background:#f5e3bb!important;}
+</style>
 </body></html>

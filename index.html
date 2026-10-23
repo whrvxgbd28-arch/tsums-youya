@@ -6276,7 +6276,7 @@ setTimeout(()=>{v0645HydrateOfficialVerification();v0644RefreshEvidenceStates().
    Pre-Trip = Risk-Forward Archive; Field Evidence Chain genesis = FIELD_SESSION_STARTED. */
 
 const V0646_VERSION="0.6.4.6-P2";
-const V0646_RECRUIT_STATUS={EXPLICIT:"文案已載明",PARTIAL:"部分載明",NOT_SEEN:"未見",AMBIGUOUS:"語意不明",USER_CONFIRMED:"已向主揪確認"};
+const V0646_RECRUIT_STATUS={EXPLICIT:"文案已載明",PARTIAL:"部分載明",NOT_SEEN:"資料未見",AMBIGUOUS:"語意不明",USER_CONFIRMED:"已向主揪確認"};
 const V0646_RECRUIT_ITEMS=[
  {cat:"行程與路線",key:"date",label:"活動日期",patterns:[/活動日期|日期|出發日/i],q:"請問活動日期與預計天數為何？"},
  {cat:"行程與路線",key:"meet",label:"集合地點／時間",patterns:[/集合地點|集合時間|集合/i],q:"集合地點與時間為何？"},
@@ -6331,7 +6331,7 @@ function v0646SetupStaticUI(){
 
  // Recruitment disclosure matrix + questions.
  if($('#recruitFlags')&&!$('#v0646RecruitIntro')){
-  $('#recruitFlags').insertAdjacentHTML('beforebegin','<div id="v0646RecruitIntro" class="hint">讓參與者在報名前知道：哪些事情已說清楚、哪些還需要問清楚。未見只代表目前貼入文字沒有辨識到，不代表主揪實際沒有準備。</div>');
+  $('#recruitFlags').insertAdjacentHTML('beforebegin','<div id="v0646RecruitIntro" class="hint">本表整理目前提供的招募資料：已載明的內容待人工核對；未見或僅部分載明的項目，建議取得或補充相關資料。本表不判定隊伍實際準備情形。</div>');
  }
  if($('#recruitMissing')&&!$('#copyRecruitQuestions'))$('#recruitMissing').insertAdjacentHTML('afterend','<div class="toolbar"><button type="button" class="secondary" id="copyRecruitQuestions">複製詢問清單</button></div>');
 
@@ -6429,9 +6429,9 @@ function v0646RecruitMatrix(src){
 function v0646RenderRecruitMatrix(t){
  const src=t?.recruitment?.source||'',matrix=t?.recruitment?.transparency_matrix||v0646RecruitMatrix(src),groups={};matrix.forEach(x=>(groups[x.cat]??=[]).push(x));
  const cls=s=>s==='EXPLICIT'?'explicit':s==='PARTIAL'?'partial':s==='AMBIGUOUS'?'ambiguous':'missing';
- if($('#recruitFlags'))$('#recruitFlags').innerHTML=Object.entries(groups).map(([cat,items])=>`<div class="v0646MatrixGroup"><h4>${esc(cat)}</h4>${items.map(x=>`<div class="v0646MatrixRow"><b>${esc(x.label)} <span class="v0646Status ${cls(x.status)}">${esc(V0646_RECRUIT_STATUS[x.status]||x.status)}</span></b><span>${x.status==='EXPLICIT'?'目前招募文字已辨識到相關資訊；內容真實性與完整性仍由人確認。':x.status==='PARTIAL'?'文字有相關線索，但不足以形成完整資訊。':'目前貼入文字中沒有辨識到；不等於主揪實際沒有準備。'}</span></div>`).join('')}</div>`).join('');
+ if($('#recruitFlags'))$('#recruitFlags').innerHTML=Object.entries(groups).map(([cat,items])=>`<div class="v0646MatrixGroup"><h4>${esc(cat)}</h4>${items.map(x=>`<div class="v0646MatrixRow"><b>${esc(x.label)} <span class="v0646Status ${cls(x.status)}">${esc(V0646_RECRUIT_STATUS[x.status]||x.status)}</span></b><span>${x.status==='EXPLICIT'?'目前資料已見相關文字；建議核對內容與來源。':x.status==='PARTIAL'?'目前資料僅有部分線索；建議取得完整資料並核對。':'目前提供的資料未見此項資訊；建議向隊伍取得或補充相關資料。'}</span></div>`).join('')}</div>`).join('');
  const gaps=matrix.filter(x=>x.status!=='EXPLICIT');
- if($('#recruitMissing'))$('#recruitMissing').innerHTML=gaps.length?gaps.map(x=>`<div class="v0646Question"><b>${esc(x.label)}｜${esc(V0646_RECRUIT_STATUS[x.status])}</b><br>${esc(x.q)}</div>`).join(''):'<div class="alert green">目前各項皆可在招募文字中辨識到相關資訊；仍需人工覆核內容是否正確與有效。</div>';
+ if($('#recruitMissing'))$('#recruitMissing').innerHTML=gaps.length?gaps.map(x=>`<div class="v0646Question"><b>${esc(x.label)}｜${esc(V0646_RECRUIT_STATUS[x.status])}</b><br>建議取得／確認：${esc(x.q)}</div>`).join(''):'<div class="alert green">目前各項皆可在招募文字中辨識到相關資訊；仍需人工覆核內容是否正確與有效。</div>';
  t.recruitment=t.recruitment||{};t.recruitment.transparency_matrix=matrix;t.recruitment.suggested_questions=gaps.map(x=>x.q);
 }
 

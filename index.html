@@ -1697,6 +1697,23 @@ body.field .journeyTopNav #journeyHomeBtn{
 #p9qaWeight .qa037-legacy{margin:16px 0 0}
 
 </style>
+
+<style id="tsums-p9-qa038-fix-jump-style">
+/* Navigation-only QA-038. Does not modify C1 gates or their severity codes. */
+#prestartIssues .v0641Issue button[data-v0641-fix]{min-height:55px;font-size:16px;touch-action:manipulation;cursor:pointer}
+#prestartIssues .v0641Issue button[data-v0641-fix]:focus-visible{outline:3px solid var(--gold2);outline-offset:2px}
+#p1 .qa038-jump-highlight,#p2 .qa038-jump-highlight,#p3 .qa038-jump-highlight,#p4 .qa038-jump-highlight,#p5 .qa038-jump-highlight{
+ outline:3px solid #f5cf77!important;outline-offset:4px!important;
+ border-radius:9px;animation:qa038-jump-pulse 1.5s ease-out 1 both;
+ scroll-margin-top:120px
+}
+@keyframes qa038-jump-pulse{
+ 0%,45%{box-shadow:0 0 0 8px rgba(245,207,119,.32)}
+ 100%{box-shadow:0 0 0 0 rgba(245,207,119,0)}
+}
+#p1 [id],#p2 [id],#p3 [id],#p4 [id],#p5 [id]{scroll-margin-top:110px}
+@media (prefers-reduced-motion:reduce){.qa038-jump-highlight{animation:none!important}}
+</style>
 </head>
 <body>
 <div id="tsums-review-banner" class="p9QaUnifiedNotice" role="status" aria-label="測試版本限制">
@@ -5381,8 +5398,8 @@ async function v0641RenderPrestartGate(){
  const t=await currentTrip(),a=await v0641GateAssessment(),changes=await v0641ChangesSinceReview(t);
  $("#v0641GateCounts").innerHTML=`<span class="v0641GateChip hard">× 必要補正 ${a.hard.length}</span><span class="v0641GateChip override">! 需覆決 ${a.override.length}</span><span class="v0641GateChip warning">! 警示 ${a.warning.length}</span><span class="v0641GateChip unknown">○ 未確認 ${a.unknown.length}</span>`;
  const groups=[["hard","必要補正",a.hard],["override","需覆決",a.override],["warning","警示",a.warning],["unknown","未確認",a.unknown]];
- $("#prestartIssues").innerHTML=groups.flatMap(([cls,label,items])=>items.map(x=>`<div class="v0641Issue ${cls}"><span class="sev">${label}</span><span class="msg">${esc(x.message)}</span><button class="secondary" data-v0641-fix="${esc(x.target||"p5")}">前往補正</button></div>`)).join("")||`<div class="alert">目前未見 Gate 未決項目；仍須由具權限的人作成決策。</div>`;
- $$("[data-v0641-fix]").forEach(b=>b.onclick=()=>go(b.dataset.v0641Fix));
+ $("#prestartIssues").innerHTML=groups.flatMap(([cls,label,items])=>items.map(x=>`<div class="v0641Issue ${cls}"><span class="sev">${label}</span><span class="msg">${esc(x.message)}</span><button type="button" class="secondary" data-v0641-code="${esc(x.code||"")}" data-v0641-fix="${esc(x.target||"p5")}">前往補正</button></div>`)).join("")||`<div class="alert">目前未見 Gate 未決項目；仍須由具權限的人作成決策。</div>`;
+ $$("[data-v0641-fix]").forEach(b=>b.onclick=()=>qa038GotoFix(b.dataset.v0641Code,b.closest(".v0641Issue")?.querySelector(".msg")?.textContent||"",b.dataset.v0641Fix));
  $("#v0641ChangedList").innerHTML=changes.map(x=>`<div class="v0641ChangedItem ${x.kind==="none"?"none":""}">${x.kind==="none"?"✓":"!"} ${esc(x.label)}</div>`).join("");
  const auth=a.authority;$("#v0641AuthorityState").textContent=auth.fresh?`✓ 已確認｜主要決策人 ${auth.primary}`:`! ${v0642AuthorityLabel(auth.state)}`;$("#v0641AuthorityDetail").textContent=auth.fresh?`可用決策人：${auth.candidates.join(" / ")}`:"請回第 2 步保存決策權與備援順序，再完成行前操作確認。";
  await v0641PopulateAuthoritySelect($("#preActor"),t.prestart?.actor||auth.primary||"");
@@ -8872,5 +8889,90 @@ body.field #p2 .qa034Intro,body.field #p2 .qa034Outcome,body.field #p2 .qa034Det
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
 })();
 
+</script>
+
+<script id="tsums-p9-qa038-fix-jump">
+/** QA-038 navigation only: source issues retain their untouched codes, severity,
+ * signoffs and risk gates. Never mark an issue resolved merely by navigating. */
+async function qa038GotoFix(code, message, fallbackPage){
+  'use strict';
+  const c=String(code||'').toUpperCase();
+  const msg=String(message||'');
+  const pages=new Set(['p1','p2','p3','p4','p5']);
+  const selected={page:pages.has(fallbackPage)?fallbackPage:'p5',selector:'',label:'該步驟'};
+  function set(page,selector,label){selected.page=page;selected.selector=selector;selected.label=label;}
+  // Keyed by actual governance issue code; avoid English-label guesswork.
+  const fixed={
+    'STEP_1_INCOMPLETE':['p1','#recruitment','原始招募文'],
+    'STEP_2_INCOMPLETE':['p2','#members','隊員名冊與保險／申請關係'],
+    'STEP_3_INCOMPLETE':['p3','#exposureProfileCard','路線已知暴露與應對'],
+    'STEP_4_INCOMPLETE':['p4','#gearList','行前裝備與補給'],
+    'AUTHORITY_BINDING_REQUIRED':['p2','#commandPrimary','主要決策人與指揮連續性'],
+    'LEADER_SOURCE_UNVERIFIED':['p2','#leader','主揪／團長／領隊'],
+    'ROLES_CONFIRMATION_STALE':['p5','#opCheckRoles','指揮鏈與決策備援確認'],
+    'COMMUNICATION_CONFIRMATION_STALE':['p5','#commOperationalCard','通訊設備實測及確認'],
+    'TRANSPORT_CONFIRMATION_STALE':['p5','#opCheckTransport','交通及通行許可確認'],
+    'SUPPORT_CONFIRMATION_STALE':['p5','#opCheckSupport','留守／家屬／援助確認'],
+    'TECHNICAL_CONFIRMATION_STALE':['p5','#opCheckTechnical','技術裝備確認'],
+    'SOLO_GUARDIAN_REQUIRED':['p4','#guardianName','正式留守人'],
+    'SOLO_CHECKIN_REQUIRED':['p4','#commCheckinInterval','定期回報間隔'],
+    'SOLO_CONTACT_WINDOW_REQUIRED':['p4','#commContactAfter','未回報後聯絡時間窗'],
+    'SOLO_ESCALATION_REQUIRED':['p4','#commEscalateAfter','失聯升級時間'],
+    'OFFICIAL_CLOSURE_REVIEW':['p5','#officialVerificationCard','官方查核與警報／管制'],
+    'HEAVY_RAIN_REVIEW':['p5','#officialVerificationCard','官方雨量警特報查核']
+  };
+  if(fixed[c])set(...fixed[c]);
+  else if(c.startsWith('COMM_'))set('p5','#commOperationalCard','通訊設備實測與失聯升級確認');
+  else if(/隊員|名冊|保險|入園|入山|申請關係/.test(msg))set('p2','#members','隊員名冊與申請／保險');
+  else if(/決策權|指揮鏈|主要帶隊|Decision Authority/.test(msg))set('p2','#commandPrimary','主要決策人');
+  else if(/路線|地質|岩|坡面|暴露|Exposure|GPX/.test(msg))set('p3','#exposureProfileCard','路線暴露與地形');
+  else if(/撤退|折返|Stop-Loss|停損/.test(msg))set('p3','#retreatPlan','撤退及停損方案');
+  else if(/留守|家屬|援助/.test(msg))set('p4','#externalSupportCard','留守與外部支援');
+  else if(/通訊|失聯|回報|衛星/.test(msg))set('p4','#communicationPrepCard','通訊與失聯升級準備');
+  else if(/交通|接駁|通行/.test(msg))set('p4','#transportAccessCard','交通進出與通行');
+  else if(/技術裝備/.test(msg))set('p4','#technicalGearCard','技術與專用裝備');
+  else if(/裝備|飲水|糧食|燃料/.test(msg))set('p4','#v0646SupplyHost','補給與燃料');
+  else if(/天候|警報|雨量|官方|封閉/.test(msg))set('p5','#officialVerificationCard','官方查核與公告');
+  // An incomplete team step may specifically lack a decision authority.
+  if(c==='STEP_2_INCOMPLETE' && /主決策權|決策人|指揮/.test(msg))set('p2','#commandPrimary','主要決策人');
+  try{
+    // go() is the existing navigation pipeline; await its async data render.
+    if(typeof go==='function')await go(selected.page);
+    else throw new Error('原有步驟導覽函式無法使用');
+    const active=document.querySelector('.page.active');
+    if(!active||active.id!==selected.page)throw new Error('未能切換至對應步驟');
+    let target=selected.selector?active.querySelector(selected.selector):null;
+    if(!target)target=active.querySelector('h2')||active;
+    // Expose native accordions; never change saved checkboxes or decisions.
+    for(let parent=target;parent&&parent!==active;parent=parent.parentElement){
+      if(parent.tagName==='DETAILS')parent.open=true;
+      if(parent.classList?.contains('v0633Collapsed')){
+        const toggle=parent.querySelector('.v0633MiniToggle');
+        if(toggle)toggle.click();else parent.classList.remove('v0633Collapsed');
+      }
+    }
+    await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+    target.classList.remove('qa038-jump-highlight');
+    void target.offsetWidth;
+    target.classList.add('qa038-jump-highlight');
+    const lessMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    target.scrollIntoView({behavior:lessMotion?'auto':'smooth',block:'center',inline:'nearest'});
+    // Focus without re-scrolling; browsers may withhold software keyboard
+    // activation after async navigation, but keyboard is never forced.
+    const focusable=target.matches('input,select,textarea,button,summary')?target:null;
+    if(focusable){try{focusable.focus({preventScroll:true});}catch(_){focusable.focus();}}
+    else if(target.matches('[id]')){
+      if(!target.hasAttribute('tabindex'))target.setAttribute('tabindex','-1');
+      try{target.focus({preventScroll:true});}catch(_){target.focus();}
+    }
+    window.setTimeout(()=>target.classList.remove('qa038-jump-highlight'),1600);
+    return{page:selected.page,selector:selected.selector,label:selected.label,found:!!selected.selector && !!active.querySelector(selected.selector)};
+  }catch(err){
+    console.error('QA-038 前往補正定位失敗',err);
+    alert('目前無法直達「'+selected.label+'」，請改由步驟選單前往；原有資料未受影響。');
+    return{error:String(err)};
+  }
+}
+window.TSUMS_QA038={navigate:qa038GotoFix,scope:'P9_GATE_NAVIGATION_ONLY'};
 </script>
 </body></html>

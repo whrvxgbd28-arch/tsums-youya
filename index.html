@@ -1473,6 +1473,65 @@ body.field header .tsumsP9ManifestRow strong,body.field header .tsumsP9Vow{color
 body.field header .tsumsP9ManifestRow+.tsumsP9ManifestRow{border-color:#c6a76d}
 body.field header .tsumsP9Vow{border-color:#c6a76d}
 </style>
+
+<style id="tsums-p9-qa002-readable-summary-20261023">
+/* QA-002 visual follow-up: scoped homepage labels and persistent footer. */
+#p0 .journeyTripContext {
+  display:flex!important; align-items:baseline!important; flex-wrap:wrap!important;
+  column-gap:12px!important;row-gap:4px!important;
+  margin:16px 3px 17px!important;
+}
+#p0 .journeyTripContext > span {
+  font-size:20px!important;line-height:1.45!important;font-weight:900!important;
+  color:#ffe0a0!important;letter-spacing:.03em;
+}
+#p0 .journeyTripContext > b {
+  font-size:19px!important;line-height:1.5!important;font-weight:850!important;
+  color:#fff3da!important;overflow-wrap:anywhere;
+}
+#p0 .journeyStepBody b .v0633StateLabel {
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  vertical-align:middle!important;min-height:30px!important;
+  margin:2px 0 2px 9px!important;padding:4px 9px!important;
+  font-size:15px!important;line-height:1.35!important;font-weight:900!important;
+  letter-spacing:0!important;white-space:nowrap!important;
+  border-width:1.5px!important;color:#fce7bf!important;
+}
+#p0 .journeyStepBody b .v0633StateLabel.notstarted {color:#fbe2ad!important;border-color:#927b54!important}
+#p0 .journeyStepBody b .v0633StateLabel.pending {color:#ffdf9b!important;border-color:#b47a2b!important}
+#p0 .journeyStepBody b .v0633StateLabel.complete {color:#f6d283!important;border-color:var(--gold)!important}
+#p0 .journeyNextCard {
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;
+  gap:13px!important;margin:20px 0 16px!important;padding:17px!important;
+  background:var(--panel2)!important;border:1.5px solid #806038!important;border-radius:17px!important;
+}
+#p0 .journeyNextCard > div {min-width:0!important}
+#p0 .journeyNextCard .small {display:none!important}
+#p0 .journeyNextCard #journeyNextText {
+  display:block!important;font-size:19px!important;line-height:1.55!important;
+  font-weight:900!important;color:#ffe5b2!important;overflow-wrap:anywhere;
+}
+#p0 .journeyNextCard #journeyNextBtn {
+  width:100%!important;min-height:66px!important;flex:0 0 auto!important;
+  font-size:19px!important;line-height:1.4!important;font-weight:900!important;
+}
+.app > footer {
+  font-size:14px!important;line-height:1.75!important;font-weight:600!important;
+  color:#d6c5aa!important;white-space:pre-line!important;
+  overflow-wrap:anywhere!important;max-width:100%;
+  margin-top:30px!important;padding:6px 4px 16px!important;
+}
+body.field #p0 .journeyTripContext > span,body.field #p0 .journeyTripContext > b,
+body.field #p0 .journeyNextCard #journeyNextText {color:#402b08!important}
+body.field #p0 .journeyNextCard {background:#fff1c4!important}
+body.field .app > footer {color:#463c2d!important}
+@media(max-width:370px){
+ #p0 .journeyTripContext > span{font-size:19px!important}
+ #p0 .journeyStepBody b .v0633StateLabel{font-size:14px!important;padding:4px 7px!important}
+ #p0 .journeyNextCard #journeyNextText{font-size:18px!important}
+ .app > footer{font-size:13px!important}
+}
+</style>
 </head>
 <body>
 <div id="tsums-review-banner" class="p9QaUnifiedNotice" role="status" aria-label="測試版本限制">
@@ -1543,17 +1602,8 @@ body.field header .tsumsP9Vow{border-color:#c6a76d}
     </button>
   </div>
 
-  <details class="p9OtherPages" id="p9OtherPages">
-    <summary>第二／第三頁功能預覽 <span>獨立 QA · 不影響行前資料</span></summary>
-    <div class="p9OtherPagesBody">
-      <button type="button" class="p10uiLauncher" data-p10ui-open>第二頁：途中示警<small>14 個公開層功能區 · 無須 GO · 不讀取真實 GPS · 不寫入治理資料</small></button>
-      <button type="button" class="p11Launcher" data-p11-open>第三頁：行程後回放證據鏈<small>12 個功能區 · 合成 QA · 無須真實行程 · 不刪除資料</small></button>
-    </div>
-  </details>
-
   <div class="journeyNextCard">
     <div>
-      <span class="small">下一步</span>
       <b id="journeyNextText">建立團體招募</b>
     </div>
     <button class="primary" id="journeyNextBtn">開始</button>
@@ -1563,6 +1613,14 @@ body.field header .tsumsP9Vow{border-color:#c6a76d}
     使用者介面只呈現五步與三階段；底層仍保留 C1–C5、T0,k、證據鏈、干預邊界與 14 階段生命週期。
     <div class="small" id="v0633RegressionStatus" style="margin-top:5px">狀態完整性測試：尚未執行</div><div class="small" id="v06333PatchRegressionStatus" style="margin-top:3px">修補版測試：尚未執行</div>
   </div>
+
+<details class="p9OtherPages" id="p9OtherPages">
+    <summary>第二／第三頁功能預覽 <span>獨立 QA · 不影響行前資料</span></summary>
+    <div class="p9OtherPagesBody">
+      <button type="button" class="p10uiLauncher" data-p10ui-open>第二頁：途中示警<small>14 個公開層功能區 · 無須 GO · 不讀取真實 GPS · 不寫入治理資料</small></button>
+      <button type="button" class="p11Launcher" data-p11-open>第三頁：行程後回放證據鏈<small>12 個功能區 · 合成 QA · 無須真實行程 · 不刪除資料</small></button>
+    </div>
+  </details>
 </section>
 
 <section id="p1" class="page">
@@ -2590,7 +2648,9 @@ body.field header .tsumsP9Vow{border-color:#c6a76d}
 <div class="card"><h3>回放證據包</h3><div id="verifyStatus"></div><div class="toolbar"><button class="primary" id="exportJson">匯出 回放 Package JSON</button><button class="secondary" id="exportTxt">匯出 UTF-8 摘要</button><button class="secondary" id="exportHtml">匯出可列印 HTML</button></div></div>
 </section>
 
-<footer>TSUMS Bunun Governance Technologies Co., Ltd. · TSUMS 4.0V 山域風險前移部署版 · 公共層｜受保護核心未載入</footer>
+<footer>TSUMS Bunun Governance Technologies Co., Ltd. ·
+TSUMS 4.0V 山域風險前移
+部署版・公共層｜作者：Ismahasan Vlian</footer>
 </div>
 
 <script>
@@ -6148,7 +6208,7 @@ function v0646SetupStaticUI(){
  const bm=$('#buildMarker');if(bm)bm.textContent=`版本：v${V0646_VERSION}｜台灣繁中介面｜風險前移｜現場運作`;
  const motto=document.querySelector('.motto span');if(motto)motto.textContent='從行前至賦歸；系統不替人作最終 GO / WAIT / RETREAT 決定。';
  if($('#journeyHomeBtn'))$('#journeyHomeBtn').textContent='行動總覽';if($('#journeyPhaseBadge'))$('#journeyPhaseBadge').textContent='風險前移';
- const footer=document.querySelector('footer');if(footer)footer.textContent='TSUMS Bunun Governance Technologies Co., Ltd. · TSUMS 4.0V 山域風險前移部署版 · 公共層｜受保護核心未載入';
+ const footer=document.querySelector('footer');if(footer)footer.textContent='TSUMS Bunun Governance Technologies Co., Ltd. ·\nTSUMS 4.0V 山域風險前移\n部署版・公共層｜作者：Ismahasan Vlian';
  if($('#dbText')&&$('#dbText').textContent.trim()==='本機資料庫初始化')$('#dbText').textContent='本機存檔初始化';
 
  // Recruitment disclosure matrix + questions.

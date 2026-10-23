@@ -1835,7 +1835,7 @@ body.field .journeyTopNav #journeyHomeBtn{
 
 <div class="card v0632Card" id="exposureProfileCard">
 <div class="sectionEyebrow">暴露驅動｜不預設運動類型</div><h3>依自身能力、裝備條件、地形暴露、支援條件展開能力剖面</h3>
-<p class="hint">不預設運動類型。請勾選實質暴露點，並在下方填寫對應的個人能力短板、裝備補償與支援需求，落實行前風險前移。</p>
+<p class="hint">行前先選擇路線已知或預期會遇到的暴露類型與實務細項，再安排應對、避險及撤退措施。勾選屬行前規劃，並非現場已發生或已完成查核。</p>
 <div class="exposureGrid tsumsExposureTaxonomy" aria-label="山域風險暴露主分類與實務細節">
  <div class="tsumsExposureGroup" data-exp-group="terrain">
   <label class="exposureItem tsumsExposureParent"><input type="checkbox" data-exposure="terrain"><span>碎石坡／稜線／溪谷地形</span></label>
@@ -1980,9 +1980,30 @@ body.field .journeyTopNav #journeyHomeBtn{
    <label class="tsumsExposureChip"><input type="checkbox" data-exp-detail="other:unknown"><span>不明暴露／待現勘</span></label>
   </div></div>
 </div>
-<div class="v0632Grid"><div><label>實際暴露描述</label><textarea id="exposureDescription"></textarea></div><div><label>能力 / 支援需求</label><textarea id="capabilityRequirement"></textarea></div></div>
-<label>依暴露設定停損／撤退條件</label><textarea id="exposureStopLoss" placeholder="由隊伍自行設定；TSUMS 不補造統一閾值。"></textarea>
-<button class="secondary" id="lockExposureProfile">保存暴露剖面</button></div>
+<!-- QA-033: older text is retained invisibly for historical compatibility and replay; not a P9 prompt -->
+<div id="qa033LegacyFields" hidden aria-hidden="true" style="display:none!important"><textarea id="exposureDescription" tabindex="-1"></textarea><textarea id="capabilityRequirement" tabindex="-1"></textarea></div>
+<section id="qa033PretripMitigation" class="qa033Mitigation" aria-labelledby="qa033MitigationTitle">
+<h4 id="qa033MitigationTitle">已知風險應對與避險措施</h4>
+<p class="qa033Lead">依照已選風險，先快選預計採取的措施，再補充路段、執行人或替代方案。這是行前計畫，不代表裝備已備齊、措施已執行或路段安全。</p>
+<div class="qa033Actions" role="group" aria-label="行前應對與避險措施，可複選">
+<label class="qa033Action"><input type="checkbox" data-qa033-action="scree_spacing"><span>碎石坡間距與落石警戒</span></label>
+<label class="qa033Action"><input type="checkbox" data-qa033-action="protective_equipment"><span>評估頭盔與防護裝備</span></label>
+<label class="qa033Action"><input type="checkbox" data-qa033-action="technical_protection"><span>確認技術路段所需能力／確保裝備</span></label>
+<label class="qa033Action"><input type="checkbox" data-qa033-action="weather_window"><span>調整出發時間／避開不利天候</span></label>
+<label class="qa033Action"><input type="checkbox" data-qa033-action="turnback_cutoff"><span>設定具體折返時間／停損條件</span></label>
+<label class="qa033Action"><input type="checkbox" data-qa033-action="alternative_route"><span>確認替代路線／原路折返方案</span></label>
+<label class="qa033Action"><input type="checkbox" data-qa033-action="stream_no_cross"><span>溪水暴漲不渡溪／啟動改道</span></label>
+<label class="qa033Action"><input type="checkbox" data-qa033-action="snow_ice_preparation"><span>查核雪冰路段、技術及裝備需求</span></label>
+<label class="qa033Action"><input type="checkbox" data-qa033-action="comms_backup"><span>設定通訊窗口與失聯升級方式</span></label>
+<label class="qa033Action"><input type="checkbox" data-qa033-action="capacity_pacing"><span>依隊員能力調整行程與負重分配</span></label>
+</div>
+<label for="qa033MitigationNote">路段／責任人／具體避險方式（選填）</label>
+<textarea id="qa033MitigationNote" rows="3" placeholder="例：預計通過碎石坡時重新確認路況與落石風險；若無法安全通行，依隊伍確認的替代路線折返。"></textarea>
+<div class="qa033LiveSummary" id="qa033LiveSummary" role="status" aria-live="polite">尚未設定應對措施；可先選擇上方適用項目。</div>
+<p class="qa033Boundary">未選擇不等於未準備；已選擇不等於完成準備或解除風險。措施是否足夠，仍應由具名人員依路線、裝備及現場條件核對。</p>
+</section>
+<label for="exposureStopLoss">已知風險的停損／撤退條件（由隊伍訂定）</label><textarea id="exposureStopLoss" placeholder="請填寫具體路段、確認方式與人工決策條件；TSUMS 不補造統一閾值。"></textarea>
+<button class="secondary" id="lockExposureProfile">保存行前暴露與應對措施</button></div>
 
 <div class="card" id="geologyRiskCard">
   <div class="sectionEyebrow">地質風險證據</div>
@@ -3861,9 +3882,26 @@ if(!$("#roleSuggestions")){const d=document.createElement("datalist");d.id="role
 $("#addOperationalRole").onclick=()=>{$("#operationalRolesList .hint")?.remove();$("#operationalRolesList").insertAdjacentHTML("beforeend",v0632RoleTemplate());$("#operationalRolesList .roleRow:last-child [data-remove-role]").onclick=e=>e.currentTarget.closest(".roleRow").remove()};
 $("#lockOperationalRoles").onclick=async()=>{const t=v0632EnsureSchema(await currentTrip());if(!t)return alert("請先建立行程");const roles=v0632CollectRoles(),continuity={primary_decision_authority:$("#commandPrimary").value.trim(),successor_1:$("#commandSuccessor1").value.trim(),successor_2:$("#commandSuccessor2").value.trim(),medical_lead:$("#commandMedicalLead").value.trim(),communications_lead:$("#commandCommsLead").value.trim(),technical_lead:$("#commandTechnicalLead").value.trim(),authority_basis:$("#commandAuthorityBasis").value.trim()};t.team.operational_roles=roles;t.team.command_continuity=continuity;await put(TRIPS,t);const payload={roles,continuity,boundary:"DECLARED_ROLE_NOT_EQUAL_OBSERVED_ROLE;LEGAL_CLASSIFICATION_RESERVED;NO_AUTOMATIC_COMMAND_HANDOFF"},sig=await v062Signature(payload);await appendEvent("TEAM_OPERATIONAL_ROLES_LOCKED",{lifecycle_stage:2,module_refs:["C1","C3"],actor:t.leader||"未具名",observed_fact:`運作角色 ${roles.length} 人；Primary ${continuity.primary_decision_authority||"未設定"}`,structured_payload:payload,idempotency_key:`TEAM_ROLES:${sig}`});alert("角色與指揮連續性已保存")};
 
-function v0632ExposurePayload(){const exposures={};$$("[data-exposure]").forEach(i=>exposures[i.dataset.exposure]=!!i.checked);return{exposures,detail_tags:window.TSUMS_EXPOSURE_QA032?.collect()||{},detail_taxonomy_version:"PUBLIC_TERMS_20261023_QA032",detail_source_state:"USER_SELECTED_UNVERIFIED",description:$("#exposureDescription").value.trim(),capability_requirement:$("#capabilityRequirement").value.trim(),stop_loss:$("#exposureStopLoss").value.trim(),boundary:"EXPOSURE_DRIVEN_ACTIVITY_AGNOSTIC"}}
-function v0632HydrateExposure(t){const x=t.route.exposure_profile||{};$$("[data-exposure]").forEach(i=>i.checked=!!x.exposures?.[i.dataset.exposure]);$("#exposureDescription").value=x.description||"";$("#capabilityRequirement").value=x.capability_requirement||"";$("#exposureStopLoss").value=x.stop_loss||"";window.TSUMS_EXPOSURE_QA032?.hydrate(x)}
-$("#lockExposureProfile").onclick=async()=>{const t=v0632EnsureSchema(await currentTrip());if(!t)return alert("請先建立行程");const p=v0632ExposurePayload();t.route.exposure_profile=p;await put(TRIPS,t);const sig=await v062Signature(p);await appendEvent("MOUNTAIN_EXPOSURE_PROFILE_LOCKED",{lifecycle_stage:2,module_refs:["C1","C3"],actor:t.leader||"未具名",observed_fact:`Exposure Profile｜${Object.entries(p.exposures).filter(([,v])=>v).map(([k])=>k).join(" / ")||"未勾選"}`,structured_payload:p,idempotency_key:`EXPOSURE:${sig}`});alert("山域暴露與能力剖面已保存")};
+function v0632ExposurePayload(){
+ const exposures={};$$('[data-exposure]').forEach(i=>exposures[i.dataset.exposure]=!!i.checked);
+ const chosen=$$('[data-qa033-action]:checked').map(i=>i.dataset.qa033Action);
+ return{exposures,detail_tags:window.TSUMS_EXPOSURE_QA032?.collect()||{},detail_taxonomy_version:"PUBLIC_TERMS_20261023_QA032",detail_source_state:"USER_SELECTED_UNVERIFIED",
+ description:$("#exposureDescription").value.trim(),capability_requirement:$("#capabilityRequirement").value.trim(),
+ pretrip_mitigation:{action_ids:chosen,additional_note:$("#qa033MitigationNote").value.trim(),source_state:"USER_DECLARED_UNVERIFIED",scope:"PRETRIP_PLANNED_MEASURES_NOT_FIELD_EXECUTION",taxonomy_version:"QA033_20261023"},
+ stop_loss:$("#exposureStopLoss").value.trim(),boundary:"EXPOSURE_DRIVEN_ACTIVITY_AGNOSTIC"};
+}
+function v0632HydrateExposure(t){
+ const x=t.route?.exposure_profile||{};
+ $$('[data-exposure]').forEach(i=>i.checked=!!x.exposures?.[i.dataset.exposure]);
+ $("#exposureDescription").value=x.description||"";$("#capabilityRequirement").value=x.capability_requirement||"";
+ $("#exposureStopLoss").value=x.stop_loss||"";
+ const a=x.pretrip_mitigation||{};
+ $$('[data-qa033-action]').forEach(i=>i.checked=Array.isArray(a.action_ids)&&a.action_ids.includes(i.dataset.qa033Action));
+ $("#qa033MitigationNote").value=a.additional_note||"";
+ window.TSUMS_EXPOSURE_QA032?.hydrate(x);
+ window.TSUMS_QA033?.updateSummary();
+}
+$("#lockExposureProfile").onclick=async()=>{const t=v0632EnsureSchema(await currentTrip());if(!t)return alert("請先建立行程");const p=v0632ExposurePayload();t.route.exposure_profile=p;await put(TRIPS,t);const sig=await v062Signature(p);await appendEvent("MOUNTAIN_EXPOSURE_PROFILE_LOCKED",{lifecycle_stage:2,module_refs:["C1","C3"],actor:t.leader||"未具名",observed_fact:`行前已知暴露與預計應對｜暴露 ${Object.entries(p.exposures).filter(([,v])=>v).map(([k])=>k).join(" / ")||"未勾選"}｜使用者所選措施 ${p.pretrip_mitigation.action_ids.length} 項（尚待核對、非現場執行）`,structured_payload:p,idempotency_key:`EXPOSURE:${sig}`});alert("行前暴露與預計應對措施已保存；不代表措施已執行或安全已查證")};
 
 function v0632TransportTemplate(l={}){
  const id=l.leg_id||crypto.randomUUID(),mode=l.mode||"";
@@ -8432,6 +8470,44 @@ body.field #p3 #exposureProfileCard .tsumsExposureSubHint,body.field #p3 #exposu
  detailNodes.forEach(el=>el.addEventListener('change',()=>{if(el.checked){const group=el.closest('[data-exp-group]');const main=group?.querySelector('[data-exposure]');if(main)main.checked=true;}syncPanels();}));
  window.TSUMS_EXPOSURE_QA032={collect,hydrate,syncPanels,taxonomy:'PUBLIC_TERMS_20261023_QA032'};
  syncPanels();
+})();
+</script>
+
+<style id="tsums-qa033-mitigation-style">
+#p3 #qa033PretripMitigation{margin:20px 0 18px;padding:17px;border:1px solid #a77e47;border-radius:16px;background:#18130d}
+#p3 .qa033Mitigation h4{font-size:21px;line-height:1.4;color:#ffdb92;margin:0 0 9px}
+#p3 .qa033Lead,#p3 .qa033Boundary{font-size:16px;line-height:1.7;color:#e6d2af;margin:6px 0 15px}
+#p3 .qa033Actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0 18px}
+#p3 .qa033Action{display:flex;align-items:center;gap:10px;min-height:65px;padding:12px;border:1px solid #81623b;border-radius:13px;background:#241a10;color:#f5e2bf;font-size:16px;font-weight:750;line-height:1.45;cursor:pointer;touch-action:manipulation;overflow-wrap:anywhere}
+#p3 .qa033Action:has(input:checked){background:#65471d;border-color:#f2c779;color:#fff6db}
+#p3 .qa033Action input{accent-color:#e3b764;width:22px;height:22px;flex-shrink:0;margin:0}
+#p3 .qa033Action:focus-within{outline:3px solid #f5d28b;outline-offset:2px}
+#p3 .qa033Action:active{filter:brightness(1.2)}
+#p3 #qa033MitigationNote{font-size:17px;min-height:102px;line-height:1.6;box-sizing:border-box;width:100%}
+#p3 #qa033PretripMitigation label[for="qa033MitigationNote"]{font-size:17px;margin:14px 0 9px}
+#p3 .qa033LiveSummary{font-size:16px;line-height:1.65;margin-top:12px;padding:12px 13px;border-left:3px solid #d6ab5d;border-radius:9px;background:#29200f;color:#f2dbac;overflow-wrap:anywhere}
+#p3 .qa033Boundary{font-size:15px;margin:13px 0 0;color:#c8b69a}
+@media(max-width:620px){#p3 .qa033Actions{grid-template-columns:1fr}#p3 .qa033Action{min-height:59px}}
+body.field #p3 .qa033Mitigation{background:#fff5dd;border-color:#956a2d}
+body.field #p3 .qa033Mitigation h4,body.field #p3 .qa033Mitigation .qa033Lead,body.field #p3 .qa033Mitigation .qa033Boundary{color:#3b2814}
+body.field #p3 .qa033Action{background:#f3e4c4;color:#291e12}
+body.field #p3 .qa033Action:has(input:checked){background:#d9ae60;color:#19120b}
+body.field #p3 .qa033LiveSummary{background:#f1deb0;color:#3b2814}
+</style>
+<script id="tsums-qa033-mitigation-script">
+(function(){
+ 'use strict';
+ const panel=document.getElementById('qa033PretripMitigation');if(!panel)return;
+ function updateSummary(){
+  const selected=Array.from(panel.querySelectorAll('[data-qa033-action]:checked')).map(x=>x.closest('label')?.querySelector('span')?.textContent?.trim()).filter(Boolean);
+  const note=document.getElementById('qa033MitigationNote')?.value.trim();
+  const box=document.getElementById('qa033LiveSummary');if(!box)return;
+  if(!selected.length&&!note){box.textContent='目前尚未提供行前應對措施；建議依已知風險補充，非認定隊伍沒有準備。';return;}
+  box.textContent='預計應對：'+(selected.join('、')||'由隊伍另行補充')+(note?'｜補充：'+note:'')+'。待具名人員確認，勾選不代表已執行。';
+ }
+ panel.addEventListener('change',updateSummary);
+ document.getElementById('qa033MitigationNote')?.addEventListener('input',updateSummary);
+ window.TSUMS_QA033={updateSummary};updateSummary();
 })();
 </script>
 </body></html>

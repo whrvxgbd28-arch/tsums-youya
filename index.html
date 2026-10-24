@@ -1994,6 +1994,24 @@ body.field #p6ui .p10uiModuleBody .p10uiMetrics>div{background:#fff2d4!important
 body.field #p6ui .p10uiModuleBody .p10uiMetrics>div>span{color:#59401b!important}
 body.field #p6ui .p10uiModuleBody .p10uiMetrics>div>strong{color:#20140a!important}
 </style>
+
+<style id="qa049-manual-vital-ui">
+#p6ui .p10manualVital{border-color:#d9b46d;background:linear-gradient(160deg,#241b12,#100f0d)}
+#p6ui .p10manualIntro,#p6ui .p10manualBoundary{font-size:17px;line-height:1.62;color:#f0dfbf}
+#p6ui .p10manualBoundary{padding:12px;border-left:4px solid #d9a74e;background:#17110a}
+#p6ui .p10manualActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0}
+#p6ui .p10manualActions button,#p6ui .p10manualFields>button{min-height:62px;padding:11px;border:2px solid #dab46f;border-radius:13px;background:#3c2b17;color:#ffe5b3;font-size:18px;font-weight:800;line-height:1.35;white-space:normal}
+#p6ui .p10manualActions .p10manualPrimary,#p6ui .p10manualFields>.p10manualPrimary{background:#d9ae61;color:#18110a}
+#p6ui .p10manualFields{display:grid;gap:9px}
+#p6ui .p10manualFields>label{font-size:17px;font-weight:750;color:#ffe0a4;line-height:1.4;margin-top:9px}
+#p6ui .p10manualFields>input,#p6ui .p10manualFields>select,#p6ui .p10manualFields>textarea{width:100%;min-width:0;box-sizing:border-box;border:1.7px solid #947546;border-radius:11px;background:#0e0d0b;color:#fff2d5;font-size:18px;line-height:1.55;padding:12px;min-height:52px}
+#p6ui .p10manualFields>textarea{min-height:102px;resize:vertical}
+#p6ui .p10manualFields input::placeholder,#p6ui .p10manualFields textarea::placeholder{color:#bcae93}
+#p6ui .p10manualConfirm{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid #aa8550;border-radius:10px;font-size:17px}
+#p6ui .p10manualConfirm input{width:23px;height:23px;flex-shrink:0;margin:2px 0 0;accent-color:#d9ae61}
+#p6ui #p10ManualStatus{border:1px solid #8e744d;border-radius:10px;padding:12px;color:#efdab4;background:#211a12;font-size:16px;line-height:1.5}
+@media(max-width:365px){#p6ui .p10manualActions{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <script id="tsums-p0-039-source-of-truth">
@@ -2665,12 +2683,25 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
     <p class="p10uiIntro">14 區公開層功能介面；「一鍵定位」可在使用者主動授權後讀取單次裝置位置，其餘未接通功能不得推定為已監測、已送達或已授權。</p>
     <div class="p10uiTags"><span>P10 UI MASTER</span><span>14 功能區</span><span>V5 高對比</span><span>定位可實測／其餘為 UI 示意</span></div>
     <div class="p10uiDanger">單次定位與線上地圖不等於正式導航、偏航判定或持續定位；此介面不能替代 119 求援或 GO 授權。國家級告警與隊伍動態回報仍未介接。</div>
-    <div class="p10wearGlobal" aria-label="穿戴式裝置未連線狀態">
-      <div class="p10wearGlobalHead"><strong>穿戴式裝置｜現場感測總覽</strong><span class="p10wearFlag">未連線・功能待接通</span></div>
-      <div class="p10wearMiniGrid"><div><span>裝置連線</span><strong>無資料源</strong></div><div><span>HR／HRV</span><strong>未取得</strong></div><div><span>SpO₂</span><strong>未取得</strong></div><div><span>跌倒訊號</span><strong>未監測</strong></div></div>
-      <p>資料必須顯示設備來源、觀測時間、傳輸時間、有效性與是否已人工確認。iPhone Safari 不原生支援 Web Bluetooth；此頁不偵測、配對、讀取或儲存任何穿戴裝置。</p>
-      <button type="button" class="p10wearAction" data-p10wear-demo="compatibility">查看穿戴裝置接入邊界（非配對）</button>
-      <div class="p10wearResult" data-p10wear-output aria-live="polite" hidden></div>
+    <div class="p10wearGlobal p10manualVital" id="p10ManualVital" aria-label="人工生理與現場狀態速記">
+      <div class="p10wearGlobalHead"><strong>現場生理與狀態｜語音／文字速記</strong><span class="p10wearFlag">人工觀察・非自動感測</span></div>
+      <p class="p10manualIntro">先記錄現場看見、聽見與手錶實際顯示的內容；不連線 Garmin、不推論診斷或 GO／WAIT／RETREAT。可用 iPhone 鍵盤的麥克風口述文字，也可使用既有原音錄製。</p>
+      <div class="p10manualActions"><button type="button" id="p10ManualVoice" class="p10manualPrimary">按住說話｜開啟原音錄製</button><button type="button" id="p10ManualTextFocus">文字／系統聽寫速記</button></div>
+      <div class="p10manualFields">
+        <label for="p10ManualSubject">觀察對象（代稱，測試請勿使用真名）</label><input id="p10ManualSubject" placeholder="例如：隊員 A" autocomplete="off">
+        <label for="p10ManualObserved">實際觀察時間（未填則保留未知）</label><input id="p10ManualObserved" type="datetime-local">
+        <label for="p10ManualSource">資料來源</label><select id="p10ManualSource"><option value="">尚未選擇</option><option value="現場目視／口頭觀察">現場目視／口頭觀察</option><option value="手錶畫面人工抄錄">手錶畫面人工抄錄</option><option value="當事人口述">當事人口述</option><option value="其他人工來源">其他人工來源</option></select>
+        <label for="p10ManualRaw">當時原話／觀察（支援 iPhone 鍵盤語音輸入）</label><textarea id="p10ManualRaw" rows="3" placeholder="例如：隊員 A 在 2K 表示呼吸急促，休息後自述有緩解。不要補寫未實際量測的數字。"></textarea>
+        <label for="p10ManualReading">手錶實際顯示值／單位（選填）</label><input id="p10ManualReading" placeholder="例如：當時畫面 HR 135 bpm；未量測請留空" autocomplete="off">
+        <label for="p10ManualAction">現場已採取措施（選填）</label><textarea id="p10ManualAction" rows="2" placeholder="例如：停止行進、休息 10 分鐘"></textarea>
+        <label for="p10ManualResponse">後續觀察或反應（選填）</label><textarea id="p10ManualResponse" rows="2" placeholder="例如：休息後本人主述稍有緩解；未再次測量"></textarea>
+        <button type="button" id="p10ManualBuild" class="p10manualPrimary">整理待確認摘要</button>
+        <label for="p10ManualSummary">結構化摘要草稿（可修改；不是 AI 核實或診斷）</label><textarea id="p10ManualSummary" rows="7" placeholder="填寫觀察並點選整理摘要；所有欄位依你輸入原文整理，不填補缺失。"></textarea>
+        <label class="p10manualConfirm"><input id="p10ManualConfirm" type="checkbox"> 我已逐項核對摘要與原始觀察一致，願意以具名紀錄方式承接</label>
+        <button type="button" id="p10ManualTransfer" class="p10manualPrimary">帶入現場山域醫學紀錄（仍需按保存）</button>
+        <div id="p10ManualStatus" role="status" aria-live="polite">尚未建立草稿。沒有錄音或保存前，這些內容只存在本頁輸入欄位。</div>
+      </div>
+      <p class="p10manualBoundary">紀錄 ≠ 診斷 ≠ 已求援。原音與轉錄分開保存，轉錄須人工核對；iPhone Safari 的語音辨識並不保證可用或離線運作。正式紀錄沿用既有 Field Session 和 C3 UIRF 證據鏈；QA 階段沒有 RBAC／應用層加密，請勿輸入真實個資或健康資料。</p>
     </div>
   </div>
   
@@ -2716,13 +2747,10 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
     </details><details class="p10uiModule" id="p10ui-m08" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">08</span><span><span class="p10uiName">山域醫學與生命徵候</span><span class="p10uiBrief">氧、溫、血、腦、動五結構；分流與撤退支援</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
       <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜生命徵候與醫學 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C1 · C2 · C3｜Medical Overlay</span><span>觀察紀錄｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>氧｜氣體交換 <b>未確認</b></span><span>溫｜熱平衡 <b>未確認</b></span><span>血｜循環代謝 <b>未確認</b></span><span>腦｜神經中樞 <b>未確認</b></span><span>動｜組織完整性 <b>未確認</b></span></div><p class="p10uiHint">記錄徵候、意識、移動能力、處置、時間與具名人員；本頁不作診斷或自動下醫療指令。</p>
-      <div class="p10wearBlock" aria-label="穿戴式生命徵候感測器審核">
-        <h4>Wearable｜生理資料與訊號品質</h4>
-        <div class="p10wearVitalGrid"><div><small>HR・心率</small><strong>—</strong><small>bpm｜未取得</small></div><div><small>HRV・心率變異</small><strong>—</strong><small>毫秒｜未取得</small></div><div><small>SpO₂・血氧</small><strong>—</strong><small>%｜未取得</small></div><div><small>海拔關聯</small><strong>未知</strong><small>位置與高度未核對</small></div></div>
-        <div class="p10wearRows"><div><span>感測器來源與識別</span><strong>未連線</strong></div><div><span>最近觀測時間</span><strong>無</strong></div><div><span>資料新鮮度／品質</span><strong>無法評定</strong></div><div><span>生理訊號</span><strong>待人工評估</strong></div></div>
-        <button type="button" class="p10wearAction" data-p10wear-demo="vital">查看合成生理訊號卡（不作診斷）</button>
-        <div class="p10wearResult" data-p10wear-output role="status" aria-live="polite" hidden></div>
-        <p>心率、HRV、血氧不能單獨診斷 AMS／HAPE／HACE，不設定未經正式規格確認的閾值；任何 WAIT／RETREAT 建議需具名評估。</p>
+      <div class="p10wearBlock" aria-label="人工生理觀察與原始資料區分">
+        <h4>人工生理觀察｜來源與時間必須明確</h4>
+        <p>本區不顯示虛構的 HR、HRV 或 SpO₂ 即時值。手錶畫面讀數應註明來源、實際觀察時間及操作者；症狀、測量值、處置與反應分別記錄，不作診斷。</p>
+        <button type="button" class="p10wearAction" id="p10ManualReturn">前往上方人工語音／文字速記</button>
       </div>
       </div>
     </details><details class="p10uiModule" id="p10ui-m09" data-p10ui-status="legacy" >
@@ -4065,7 +4093,7 @@ async function v063StartVoice(pointerEvent){
   V063.locationRequest=WebLocationAdapter.request({timeout:12000});V063.locationResult.location_requested_at=V063.locationRequest.requested_at;
   V063.audioSession=await WebAudioAdapter.start();V063.recording=true;$("#voiceHoldButton").classList.add("recording");$("#voiceHoldLabel").textContent="錄音中…";$("#voiceHoldHint").textContent="放開結束 · 上滑鎖定";v063SetVoiceState("原始語音錄製中｜GPS 同步要求中");
   V063.transcription=WebTranscriptionAdapter.startLive(txt=>{V063.transcriptText+=(V063.transcriptText?" ":"")+txt;V063.transcriptMachine=true});
- }catch(e){v063SetVoiceState("無法啟動麥克風；請檢查權限或改用文字回報");alert("麥克風無法啟動。語音不是治理核心唯一入口，可繼續使用 快速事件 / 文字紀錄。")}
+ }catch(e){window.TSUMSP10MedicalVoiceIntent=false;v063SetVoiceState("無法啟動麥克風；請檢查權限或改用文字回報");alert("麥克風無法啟動。語音不是治理核心唯一入口，可繼續使用 快速事件 / 文字紀錄。")}
 }
 async function v063StopVoice(){
  if(!V063.recording)return;V063.recording=false;WebTranscriptionAdapter.stopLive(V063.transcription);V063.transcription=null;$("#voiceHoldButton").classList.remove("recording","locked");$("#voiceHoldLabel").textContent="按住說話｜即時回報";$("#voiceHoldHint").textContent="放開結束 · 上滑鎖定錄音";v063SetVoiceState("正在保存原始語音…");
@@ -4075,7 +4103,7 @@ async function v063StopVoice(){
   V063.voiceEvent=voiceEvent;$("#voiceStartedDisplay").textContent=v063FormatTime(audio.started_at);$("#voiceAudioDisplay").textContent=`已保存 · ${Math.max(1,Math.round(saved.size/1024))} KB`;
   $("#voiceTranscriptEdit").value=V063.transcriptText||"";$("#voiceTranscriptState").textContent=V063.transcriptMachine?"機器轉錄，待確認":"無機器轉錄，可手動補充";v063RenderLocation(V063.locationResult);v063RenderRisk(V063.transcriptText);$("#voiceCaptureDialog").showModal();v063SetVoiceState("語音已保存｜等待確認");
   V063.locationRequest?.promise.then(async r=>{V063.locationResult=r;v063RenderLocation(r);if(V063.voiceEvent){await appendFieldEvent("VOICE_LOCATION_SUPPLEMENT",{lifecycle_stage:4,module_refs:["C2","C3"],actor:$("#fieldActor").value.trim()||"未具名",observed_fact:r.location_status==="RECORDED"?"語音事件位置已補充":"語音事件定位結果已記錄",evidence_refs:[V063.voiceEvent.event_id],source_state:"DEVICE_RECORDED",input_source:"RECORDED_GPS",confirmed_by_user:true,location_record:r.record,location_requested_at:r.location_requested_at,location_captured_at:r.location_captured_at,location_status:r.location_status,location_origin:r.location_origin})}}).catch(()=>{});
- }catch(e){console.error(e);v063SetVoiceState("語音保存失敗｜請立即用文字補記");alert("語音檔保存失敗。請立即改用文字事件紀錄；系統不會假裝語音已保存。")}
+ }catch(e){window.TSUMSP10MedicalVoiceIntent=false;console.error(e);v063SetVoiceState("語音保存失敗｜請立即用文字補記");alert("語音檔保存失敗。請立即改用文字事件紀錄；系統不會假裝語音已保存。")}
 }
 
 const voiceBtn=$("#voiceHoldButton");let v063SuppressClickUntil=0;
@@ -4086,12 +4114,14 @@ voiceBtn.addEventListener("pointercancel",()=>{if(V063.recording&&!V063.locked)v
 voiceBtn.addEventListener("click",e=>{if(Date.now()<v063SuppressClickUntil){e.preventDefault();return}if(V063.recording&&V063.locked){e.preventDefault();v063StopVoice()}});
 
 $("#voiceTranscriptEdit").addEventListener("input",e=>v063RenderRisk(e.target.value));
-$("#voiceLaterBtn").onclick=()=>{$("#voiceCaptureDialog").close();v063SetVoiceState("原始語音已保存｜尚待後續確認")};
+$("#voiceLaterBtn").onclick=()=>{window.TSUMSP10MedicalVoiceIntent=false;$("#voiceCaptureDialog").close();v063SetVoiceState("原始語音已保存｜尚待後續確認")};
 $("#confirmVoiceCapture").onclick=async()=>{
  if(!V063.voiceEvent)return;const text=$("#voiceTranscriptEdit").value.trim(),analysis=v063RenderRisk(text),loc=V063.locationResult;
  const common={lifecycle_stage:analysis.decision_required?5:4,module_refs:analysis.decision_required?["C1","C2","C3"]:["C2","C3"],actor:$("#fieldActor").value.trim()||V063.voiceEvent.actor||"未具名",observed_fact:text||"語音紀錄已由使用者確認（無文字轉錄）",source_state:"USER_CONFIRMED",input_source:text?"VOICE_TRANSCRIPTION":"VOICE_CAPTURE",source_type:"VOICE_CAPTURE",confirmed_by_user:true,transcript_state:"USER_CONFIRMED",raw_transcript:V063.voiceEvent.raw_transcript||null,confirmed_transcript:text||null,evidence_refs:[V063.voiceEvent.event_id],location_record:loc?.record||null,location_requested_at:loc?.location_requested_at||V063.voiceEvent.location_requested_at,location_captured_at:loc?.location_captured_at||null,location_status:loc?.location_status||"PENDING",location_origin:loc?.location_origin||"NOT_RECORDED"};
- const e=analysis.decision_required?await appendFieldEvent("VOICE_RISK_REVIEW_REQUIRED",{...common,decision_required:true,duty_signal:analysis.duty_signal,known_facts:text,available_actions:["GO","WAIT","RETREAT","SOS"]}):await appendFieldEvent("CHECK_IN",{...common,decision_required:false,duty_signal:null});
- $("#voiceCaptureDialog").close();v063SetVoiceState(analysis.decision_required?"風險語音已確認｜等待人工決策":"一般語音回報已完成");V063.voiceEvent=null;V063.transcriptText="";if(e?.decision_required)v06OpenDecision(e,"WAIT")
+ const medicalVoice=window.TSUMSP10MedicalVoiceIntent===true;
+ const e=medicalVoice?await appendFieldEvent("MEDICAL_VOICE_OBSERVATION_CONFIRMED",{...common,module_refs:["C1","C2","C3"],decision_required:analysis.decision_required,duty_signal:analysis.decision_required?analysis.duty_signal:null,known_facts:text||null,medical_observation_only:true,available_actions:analysis.decision_required?["GO","WAIT","RETREAT","SOS"]:[]}):analysis.decision_required?await appendFieldEvent("VOICE_RISK_REVIEW_REQUIRED",{...common,decision_required:true,duty_signal:analysis.duty_signal,known_facts:text,available_actions:["GO","WAIT","RETREAT","SOS"]}):await appendFieldEvent("CHECK_IN",{...common,decision_required:false,duty_signal:null});
+ if(medicalVoice){window.TSUMSP10MedicalVoiceIntent=false;const medNote=$("#medicalNote");if(text&&medNote)medNote.value=(medNote.value.trim()?medNote.value.trim()+"\n\n":"")+"[人工確認之語音轉錄｜原音事件 "+V063.voiceEvent.event_id+"]\n"+text;}
+ $("#voiceCaptureDialog").close();v063SetVoiceState(analysis.decision_required?"風險語音已確認｜等待人工決策":medicalVoice?"生理觀察原音已確認｜未當作 CHECK-IN":"一般語音回報已完成");V063.voiceEvent=null;V063.transcriptText="";if(e?.decision_required)v06OpenDecision(e,"WAIT")
 };
 
 let v063CheckinInFlight=false;
@@ -9730,6 +9760,63 @@ packageData=async function(){
   window.TSUMSP10FocusSelect=select;
   // This is a UI function directory, NOT the canonical 14-stage governance lifecycle.
   select('01',{scroll:false});
+})();
+</script>
+<script id="tsums-p10-qa049-manual-physio-bridge">
+/* QA-049: manual observation / no biometric connection, no automatic diagnosis. Uses existing runtime for actual evidence writes. */
+(function(){'use strict';
+ const root=document.getElementById('p10ManualVital');if(!root)return;
+ const el=(id)=>document.getElementById(id),status=el('p10ManualStatus');
+ const ids=['p10ManualSubject','p10ManualObserved','p10ManualSource','p10ManualRaw','p10ManualReading','p10ManualAction','p10ManualResponse'];
+ let latestDraft='';
+ function show(message,error){status.textContent=message;status.style.color=error?'#ffb3a7':'#efdab4';}
+ ids.forEach(id=>el(id).addEventListener('input',()=>{latestDraft='';el('p10ManualConfirm').checked=false;show('資料已變動，請重新整理並核對摘要。')}));
+ el('p10ManualSummary').addEventListener('input',()=>{latestDraft='';el('p10ManualConfirm').checked=false;show('摘要已人工修改，請重新確認文字。')});
+ function draft(){
+  const v=(id)=>el(id).value.trim();
+  if(!v('p10ManualRaw')){show('請先輸入實際觀察原話；不能由空白資料產生生理判斷。',true);el('p10ManualRaw').focus();return false}
+  const lines=['TSUMS｜人工生理／現場觀察摘要（未核實，非診斷）',
+   '對象：'+(v('p10ManualSubject')||'未提供'),
+   '觀察時間：'+(v('p10ManualObserved')||'未提供（不得以存檔時間冒充觀察時間）'),
+   '來源：'+(v('p10ManualSource')||'未提供'),
+   '現場原話／觀察：'+v('p10ManualRaw'),
+   '儀表／手錶人工抄錄：'+(v('p10ManualReading')||'未提供'),
+   '已採取措施：'+(v('p10ManualAction')||'未提供'),
+   '後續反應：'+(v('p10ManualResponse')||'尚未記錄'),
+   '核驗狀態：僅供具名人工核對；不作自動醫療分級或 GO／WAIT／RETREAT 決策。'];
+  latestDraft=lines.join('\n');el('p10ManualSummary').value=latestDraft;el('p10ManualConfirm').checked=false;
+  show('已從你明確提供的內容建立摘要草稿；沒有 AI 自動轉譯、沒有推斷症狀或自動寫入證據鏈。請逐項核對。');return true
+ }
+ el('p10ManualBuild').addEventListener('click',draft);
+ el('p10ManualTextFocus').addEventListener('click',()=>{el('p10ManualRaw').focus();show('可使用 iPhone 鍵盤麥克風進行系統聽寫；輸入結果仍須人工核對。')});
+ async function isActive(){
+  if(typeof currentTrip!=='function')return false;
+  const t=await currentTrip();return !!(t?.field_session?.active&&t?.field_session?.status==='ACTIVE')
+ }
+ el('p10ManualVoice').addEventListener('click',async()=>{
+  try{
+   if(!await isActive()){show('尚無有效 Field Session。原音錄製不得在未啟動現場會話時冒充正式現場紀錄；可先用文字草稿測試。',true);return}
+   if(typeof go!=='function'||!el('voiceHoldButton'))throw Error('既有原音紀錄入口不可用');
+   window.TSUMSP10MedicalVoiceIntent=true;
+   await go('p6');if(typeof v06GoFieldPane==='function')v06GoFieldPane('fieldStatusPanel');
+   el('voiceHoldButton').scrollIntoView({block:'center',behavior:'smooth'});
+   el('voiceHoldButton').focus({preventScroll:true});
+  }catch(e){show('無法開啟錄音：'+String(e.message||e),true)}
+ });
+ el('p10ManualTransfer').addEventListener('click',async()=>{
+  try{
+   if(!el('p10ManualSummary').value.trim()){show('請先產生或輸入摘要並核對。',true);return}
+   if(!el('p10ManualConfirm').checked){show('必須先人工確認摘要，才可帶入正式紀錄。',true);return}
+   if(!await isActive()){show('尚無有效 Field Session；為避免假正式紀錄，禁止轉入保存。',true);return}
+   const actor=el('fieldActor').value.trim();if(!actor){show('請先至現場狀態填入具名紀錄人，才能承接醫學紀錄。',true);return}
+   const note=el('medicalNote');note.value=(note.value.trim()?note.value.trim()+'\n\n':'')+el('p10ManualSummary').value.trim();
+   const observed=el('p10ManualObserved').value;if(observed&&!el('observedAt').value)el('observedAt').value=observed;
+   show('已帶入現場醫學表單，尚未保存；仍需核對五結構及按「寫入山域醫學觀察紀錄」。');
+   await go('p6');if(typeof v06GoFieldPane==='function')v06GoFieldPane('fieldReportPanel');
+   note.scrollIntoView({block:'center',behavior:'smooth'});note.focus({preventScroll:true});
+  }catch(e){show('無法帶入：'+String(e.message||e),true)}
+ });
+ el('p10ManualReturn')?.addEventListener('click',()=>root.scrollIntoView({block:'start',behavior:'smooth'}));
 })();
 </script>
 </body></html>

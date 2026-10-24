@@ -1,26 +1,25 @@
 <!doctype html>
-<html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0f0c09"><title>TSUMS P10｜五結構醫學觀察 QA-057｜獨立驗收版</title>
+<html lang="zh-Hant">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#120e09"><title>TSUMS P10｜Medical Overlay｜QA-058 影像證據操作驗收版</title>
 <style>
-:root{color-scheme:dark;font-family:-apple-system,BlinkMacSystemFont,'Noto Sans TC',sans-serif;background:#0f0c09;color:#f4e3c5}
-*{box-sizing:border-box}body{margin:0;background:#0f0c09}main{max-width:820px;margin:0 auto;padding:22px 19px 90px}h1{font-size:clamp(1.3rem,4vw,1.7rem);line-height:1.6;margin:0 0 18px;color:#ffd595}
-p{line-height:1.65}header{padding:20px 18px;border:1px solid #a57b44;border-radius:16px;background:#322316;margin-bottom:16px}small{color:#d2b88d}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.chip{font-size:.87rem;border:1px solid #96713c;padding:8px 12px;border-radius:30px;background:#251d13;color:#f0c580}
-.cards{display:grid;gap:12px;margin-top:20px}.medical-card{padding:24px 18px;min-height:130px;display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid #826337;border-radius:18px;background:#17120e;color:#fff2d9;text-align:left;width:100%;font-family:inherit;font-weight:700;font-size:clamp(1rem,3.8vw,1.22rem);line-height:1.5;cursor:pointer}.medical-card .state{font-size:.85rem;max-width:46%;font-weight:700;color:#ffdb95;text-align:right}
-#qa057-history-btn{padding:13px 18px;width:100%;border-radius:12px;color:#281b10;border:0;background:#e5b96f;font-weight:bold;font-size:1rem;margin-top:18px;min-height:52px}
-.disclaimer{margin:24px 0;color:#d3bca0;font-size:.86rem;border-left:3px solid #c69756;padding-left:12px}.tag{font-size:.84rem;letter-spacing:.06em;color:#d9bd8b}.demo{display:inline-block;background:#5b3425;color:#ffe1c0;border-radius:6px;padding:4px 9px;font-size:.79rem}
+:root{color-scheme:dark;font-family:-apple-system,BlinkMacSystemFont,'Noto Sans TC',sans-serif;background:#120e09;color:#f7e4c6}*{box-sizing:border-box}body{margin:0;background:#120e09}
+main{max-width:860px;padding:18px 18px 90px;margin:auto}header{border:1px solid #a98857;background:#302216;padding:20px;border-radius:18px;margin:5px 0 18px}h1{font-size:clamp(1.35rem,4vw,1.9rem);line-height:1.5;color:#ffd89c;margin:8px 0}.small{font-size:.88rem;color:#d5c1a6;line-height:1.65}p{line-height:1.65}b{color:#ffdb99}.pill{display:inline-block;border:1px solid #aa7e43;border-radius:22px;padding:7px 11px;margin:3px;background:#251b11;color:#efd09a;font-size:.8rem}.status{padding:12px 15px;border:1px solid #94713e;background:#20170f;border-radius:12px;font-size:.91rem;line-height:1.6}.cards{display:grid;gap:14px;margin:20px 0}.unit{border:1px solid #806136;background:#18120d;border-radius:18px;padding:15px}.medical-card{padding:12px 10px;width:100%;background:transparent;border:0;text-align:left;display:flex;justify-content:space-between;color:#ffdfae;font-size:1.15rem;line-height:1.6;font-weight:700;gap:15px;cursor:pointer}.medical-card span:last-child{font-size:.79rem;color:#caaa78;max-width:38%;text-align:right}.medical-card:focus-visible{outline:3px solid white}.sub{color:#c9b490;font-size:.83rem;margin:3px 12px}.cta{border-radius:10px;min-height:45px;padding:8px 12px;font-size:.97rem;background:#45301b;color:#ffe0a2;border:1px solid #b38a50;cursor:pointer}.cta:focus-visible{outline:3px solid white}.secondary{background:#23190e}.toolbar{display:flex;gap:10px;flex-wrap:wrap}.toolbar .cta{flex:1 1 145px}.reference{border-left:3px solid #c49351;padding:12px 14px;margin:22px 0;background:#251c12}.footer{font-size:.79rem;color:#cbb89a;line-height:1.65;border-top:1px solid #735834;padding-top:20px}
 </style>
-<script src="./qa057-medical-overlay.js" defer></script></head>
-<body><main>
-<header><div class="tag">TSUMS 4.0V · Public-Layer Governance Execution Engine</div><span class="demo">QA-057 獨立互動驗收版｜非正式部署</span><h1>本區主責｜生命徵候與醫學 · 依 4.0V 公開層界面核驗</h1><p>山域醫學決策層是 C1 PCAR、C2 MSLS、C3 UIRF 的 Runtime Overlay，不是第六核心模組。</p></header>
-<div class="chips"><span class="chip">C1 · C2 · C3｜Medical Overlay</span><span class="chip">觀察紀錄｜可操作</span><span class="chip">本機保存｜無伺服器</span></div>
-<p data-tsums-medical-store-status aria-live="polite">檢查本機保存狀態中…</p>
-<section class="cards" aria-label="五結構現場觀察">
-<button type="button" class="medical-card" data-tsums-medical-domain="oxygen"><span>氧｜氣體交換</span><span data-tsums-medical-status class="state">未記錄／未確認</span></button>
-<button type="button" class="medical-card" data-tsums-medical-domain="thermal"><span>溫｜熱平衡</span><span data-tsums-medical-status class="state">未記錄／未確認</span></button>
-<button type="button" class="medical-card" data-tsums-medical-domain="circulation"><span>血｜循環代謝</span><span data-tsums-medical-status class="state">未記錄／未確認</span></button>
-<button type="button" class="medical-card" data-tsums-medical-domain="neuro"><span>腦｜神經中樞</span><span data-tsums-medical-status class="state">未記錄／未確認</span></button>
-<button type="button" class="medical-card" data-tsums-medical-domain="tissue"><span>動｜組織完整性</span><span data-tsums-medical-status class="state">未記錄／未確認</span></button>
+<script src="./medical-index-195.js" defer></script>
+<script src="./qa057-medical-overlay.js" defer></script>
+<script src="./qa058-photo-evidence.js" defer></script>
+</head><body><main>
+<header><div class="small">TSUMS 4.0V · Public-Layer Governance Execution Engine</div><div class="pill">QA-058 · 獨立隔離測試版 · 非正式部署</div><h1>五結構｜山域醫學觀察與影像證據</h1><p>先保全原圖，再形成候選摘要，由人覆核。五結構為 Mountain Medical Decision Layer，掛載 C1 PCAR、C2 MSLS、C3 UIRF；不是第六核心模組。</p><div><span class="pill">氧</span><span class="pill">溫</span><span class="pill">血</span><span class="pill">腦</span><span class="pill">動</span></div></header>
+<div class="status" data-qa058-total aria-live="polite">本機影像保存檢查中…</div>
+<p class="small" data-tsums-medical-store-status aria-live="polite">手動觀察紀錄狀態檢查中…</p>
+<section class="cards" aria-label="五結構快拍與觀察">
+ <div class="unit"><button type="button" class="medical-card" data-tsums-medical-domain="oxygen"><span>氧｜氣體交換</span><span data-tsums-medical-status>未記錄／未確認</span></button><p class="sub">呼吸／氧合，不能只憑單一 SpO₂ 數字判斷撤退。</p><div class="qa058-actions"><button type="button" data-qa058-photo="oxygen">📷 拍照紀錄</button><button type="button" data-qa058-index="oxygen">查索引 1–23</button></div></div>
+ <div class="unit"><button type="button" class="medical-card" data-tsums-medical-domain="thermal"><span>溫｜熱平衡</span><span data-tsums-medical-status>未記錄／未確認</span></button><p class="sub">體溫＋意識＋行動能力一起觀察。</p><div class="qa058-actions"><button type="button" data-qa058-photo="thermal">📷 拍照紀錄</button><button type="button" data-qa058-index="thermal">查索引 24–47</button></div></div>
+ <div class="unit"><button type="button" class="medical-card" data-tsums-medical-domain="circulation"><span>血｜循環代謝</span><span data-tsums-medical-status>未記錄／未確認</span></button><p class="sub">循環、能量與電解質；單一心率／血壓不能自動分級。</p><div class="qa058-actions"><button type="button" data-qa058-photo="circulation">📷 拍照紀錄</button><button type="button" data-qa058-index="circulation">查索引 48–74</button></div></div>
+ <div class="unit"><button type="button" class="medical-card" data-tsums-medical-domain="neuro"><span>腦｜神經中樞</span><span data-tsums-medical-status>未記錄／未確認</span></button><p class="sub">意識、判斷、協調與步態；不以本人「我還可以」當唯一依據。</p><div class="qa058-actions"><button type="button" data-qa058-photo="neuro">📷 拍照紀錄</button><button type="button" data-qa058-index="neuro">查索引 75–97</button></div></div>
+ <div class="unit"><button type="button" class="medical-card" data-tsums-medical-domain="tissue"><span>動｜外力與組織完整性</span><span data-tsums-medical-status>未記錄／未確認</span></button><p class="sub">腳趾、指甲、手部握力、創傷及環境能量；能走不一定能安全撤離。</p><div class="qa058-actions"><button type="button" data-qa058-photo="tissue">📷 拍照紀錄</button><button type="button" data-qa058-index="tissue">查索引 98–195</button></div></div>
 </section>
-<button id="qa057-history-btn" data-tsums-medical-history type="button">查看本機暫存觀察與雜湊核對</button>
-<div class="disclaimer">此頁為 QA-057 獨立驗收原型；不包含 P9、P11，也不宣稱已改動原三頁 index.html。IndexedDB 為瀏覽器本機未加密儲存，請勿輸入姓名或其他可識別個資；重要紀錄請由具權限者依正式流程處理。遇緊急狀況優先處置與求援，勿因填表延誤。</div>
+<div class="toolbar"><button class="cta" type="button" data-tsums-medical-history>查看 QA-057 本機手動觀察</button><button class="cta" type="button" data-qa058-history>查看 QA-058 原圖及人工覆核</button><button class="cta secondary" type="button" data-qa058-index>查閱全部 195 項</button></div>
+<div class="reference"><b>Medical T-State</b><p><b>T0｜可控制：</b>處理、休息、觀察、再評估。<br><b>T1｜停止前進：</b>停止上升／深入，啟動撤退。<br><b>T2｜立即救命／後送：</b>急救、求援、後送。</p><p class="small">僅供依 2026-08-31 中英文索引查閱；沒有自動偵測、醫療診斷或正式停損准駁。危急時優先依現場急救權限通報與求援。</p></div>
+<div class="footer">QA-058 Prototype · Public Layer · Protected Core excluded · IndexedDB 未加密 · 原始照片可能含身體與地理敏感資訊，請使用經授權裝置 · 裝置時間／相片中繼資料不是可信 T₀,k 時間證明 · 本機 SHA-256 不是數位簽章／不可否認證明 · 未連接正式會話、伺服器與醫療專業判斷 · P9/P11 及原 QA-056 三頁未修改。</div>
 </main></body></html>

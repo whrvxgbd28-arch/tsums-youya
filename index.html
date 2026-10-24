@@ -2032,6 +2032,18 @@ body.field #p6ui .p10uiModuleBody .p10uiMetrics>div>strong{color:#20140a!importa
 #p6ui .p10manualFields{scroll-margin-top:90px}
 @media(max-width:375px){#p6ui #qa053ActionStatus{font-size:17px}}
 </style>
+
+<style id="qa054-provisional-style">
+#p6ui .qa054ProvisionalBar{margin:10px 0 20px;padding:14px;border:2px solid #b58c4c;border-radius:16px;background:#1a140d;display:grid;gap:10px}
+#p6ui .qa054ProvisionalBar button{min-height:56px;border:2px solid #ddbd7e;border-radius:12px;background:#3b2b17;color:#ffe8ba;font-size:18px;font-weight:850;padding:12px;line-height:1.4;overflow-wrap:anywhere}
+#p6ui .qa054ProvisionalStatus{font-size:17px;line-height:1.55;color:#fff0cc;white-space:pre-wrap;overflow-wrap:anywhere}
+#p6ui .qa054ProvisionalList{display:grid;gap:10px}
+#p6ui .qa054ProvisionalRow{padding:12px;border:1px solid #96764f;border-radius:12px;background:#100e0b;display:grid;gap:8px}
+#p6ui .qa054ProvisionalRow strong{font-size:17px;color:#ffe0ab}
+#p6ui .qa054ProvisionalRow p{margin:0;font-size:15px;line-height:1.5;color:#ecdbc0;overflow-wrap:anywhere}
+#p6ui .qa054LinkControl{display:grid;gap:6px}#p6ui .qa054LinkControl label{font-size:16px;color:#ffdfa7}#p6ui #qa054LinkStage{font-size:18px;min-height:52px;width:100%;border:1.5px solid #98744a;background:#14100b;color:#fff1cf;border-radius:10px;padding:8px}
+#p6ui #qa054AudioBackup{font-size:17px;color:#fff0af;text-decoration:underline}#p6ui #qa054AudioBackup[hidden]{display:none}
+</style>
 </head>
 <body>
 <script id="tsums-p0-039-source-of-truth">
@@ -2683,7 +2695,7 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
    <button type="button" data-qa050-runtime="fieldStatusPanel" data-qa050-target="runtimeQuickCheckin"><strong>CHECK-IN／停損</strong><small>進入既有具名現場操作</small></button>
    <button type="button" data-qa050-runtime="fieldReportPanel" data-qa050-target="fieldNote"><strong>語音／事件速記</strong><small>本機事件與原音證據</small></button>
  </div>
- <p class="p10auditBoundary">119 與一鍵定位在畫面底部；此處開啟 CHECK-IN／現場速記。未建立有效 Field Session 時不得寫入紀錄，任何本機事件均不代表已傳送、送達或接獲救援。</p>
+ <p class="p10auditBoundary">119 與一鍵定位在畫面底部；此處開啟 CHECK-IN／現場速記。未建立有效 Field Session 時不可提交正式決策；原始觀察可獨立暫存，任何本機事件均不代表已傳送、送達或接獲救援。</p>
  <div id="p10auditActionStatus" role="status" aria-live="polite" hidden></div>
 <p class="p10locPreNotice">一鍵定位直接要求一次裝置位置；首次使用仍需遵循 iPhone／瀏覽器原生授權。座標與等高線地形圖僅供定位參考，不是離線導航；不儲存座標、不判定偏航。</p>
 </div>
@@ -2704,9 +2716,17 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
     <div class="p10wearGlobal p10manualVital" id="p10ManualVital" aria-label="人工生理與現場狀態速記">
       <div class="p10wearGlobalHead"><strong>現場生理與狀態｜語音／文字速記</strong><span class="p10wearFlag">人工觀察・非自動感測</span></div>
       <p class="p10manualIntro">先記錄現場看見、聽見與手錶實際顯示的內容；不連線 Garmin、不推論診斷或 GO／WAIT／RETREAT。可用 iPhone 鍵盤的麥克風口述文字，也可使用既有原音錄製。</p>
-      <div class="p10manualActions"><button type="button" id="p10ManualVoice" class="p10manualPrimary" aria-describedby="qa053ActionStatus">前往原音錄製</button><button type="button" id="p10ManualTextFocus" aria-controls="p10ManualRaw" aria-describedby="qa053ActionStatus">開啟文字／聽寫</button></div>
-      <div id="qa053ActionStatus" class="qa053ActionStatus" role="status" aria-live="polite" aria-atomic="true">選擇上方操作：文字可直接輸入；原音錄製需先啟動有效的現場會話。</div>
+      <div class="p10manualActions"><button type="button" id="p10ManualVoice" class="p10manualPrimary" aria-describedby="qa053ActionStatus">開始原音錄製</button><button type="button" id="p10ManualTextFocus" aria-controls="p10ManualRaw" aria-describedby="qa053ActionStatus">開啟文字／聽寫</button></div>
+      <div id="qa053ActionStatus" class="qa053ActionStatus" role="status" aria-live="polite" aria-atomic="true">選擇上方操作：原音與文字皆可先記錄，不要求 P9／Field Session；未歸屬紀錄不等於正式決策。</div>
       <button type="button" id="qa053GoSession" class="qa053GoSession" hidden>前往行前授權與現場會話啟動</button>
+      <div class="qa054ProvisionalBar" aria-label="本機原始紀錄保全">
+        <button type="button" id="qa054SealText">保存文字原始紀錄</button>
+        <button type="button" id="qa054ReloadRecords">查看／重新整理本機紀錄</button>
+        <div class="qa054ProvisionalStatus" id="qa054Status" role="status" aria-live="polite">待記錄。文字變更會自動暫存；音檔須停止錄製並確認本機保存成功。</div>
+        <a id="qa054AudioBackup" hidden download="tsums-recording-backup.webm">保存失敗：下載本次原音備份</a>
+        <div class="qa054ProvisionalList" id="qa054Records"></div>
+        <div class="qa054LinkControl"><label for="qa054LinkStage">承接至既有 Field Session 的治理階段（人工選擇，非覆寫原件）</label><select id="qa054LinkStage"><option value="4">4｜現場動態紀錄</option><option value="5">5｜警示與升級</option><option value="7">7｜事故／近失事件</option><option value="9">9｜原始證據保全</option></select></div>
+      </div>
       <div class="p10manualFields">
         <label for="p10ManualSubject">觀察對象（代稱，測試請勿使用真名）</label><input id="p10ManualSubject" placeholder="例如：隊員 A" autocomplete="off">
         <label for="p10ManualObserved">實際觀察時間（未填則保留未知）</label><input id="p10ManualObserved" type="datetime-local">
@@ -2719,9 +2739,9 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
         <label for="p10ManualSummary">結構化摘要草稿（可修改；不是 AI 核實或診斷）</label><textarea id="p10ManualSummary" rows="7" placeholder="填寫觀察並點選整理摘要；所有欄位依你輸入原文整理，不填補缺失。"></textarea>
         <label class="p10manualConfirm"><input id="p10ManualConfirm" type="checkbox"> 我已逐項核對摘要與原始觀察一致，願意以具名紀錄方式承接</label>
         <button type="button" id="p10ManualTransfer" class="p10manualPrimary">帶入現場山域醫學紀錄（仍需按保存）</button>
-        <div id="p10ManualStatus" role="status" aria-live="polite">尚未建立草稿。沒有錄音或保存前，這些內容只存在本頁輸入欄位。</div>
+        <div id="p10ManualStatus" role="status" aria-live="polite">尚未建立摘要草稿。原話欄位輸入後會另行自動暫存；正式承接須核對。</div>
       </div>
-      <p class="p10manualBoundary">紀錄 ≠ 診斷 ≠ 已求援。原音與轉錄分開保存，轉錄須人工核對；iPhone Safari 的語音辨識並不保證可用或離線運作。正式紀錄沿用既有 Field Session 和 C3 UIRF 證據鏈；QA 階段沒有 RBAC／應用層加密，請勿輸入真實個資或健康資料。</p>
+      <p class="p10manualBoundary">紀錄 ≠ 診斷 ≠ 已求援。原音與轉錄分開保存，轉錄須人工核對；iPhone Safari 的語音辨識並不保證可用或離線運作。原音與文字先保存為「待歸屬／未核驗」，不需會話；正式 C3 UIRF 承接才需要有效 Field Session、具名操作者與人工核對。裝置時間不是可信授時，雜湊是可偵測竄改而非不可竄改。QA 階段沒有 RBAC／應用層加密，請勿輸入真實個資或健康資料。</p>
     </div>
   </div>
   
@@ -3395,7 +3415,7 @@ TSUMS 4.0V 山域風險前移
 
 <script>
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const DB_NAME="tsums-youya-S505-QA-20261022",DB_VERSION=4,TRIPS="trips",EVENTS="events",AUDIO="audio_blobs",MEDIA="media_blobs",FIELD_SESSIONS="field_sessions",TRACKS="tracks",TRACK_POINTS="track_points",PLANNED_ROUTES="planned_routes";
+const DB_NAME="tsums-youya-S505-QA-20261022",DB_VERSION=5,PROVISIONAL="provisional_captures",PROVISIONAL_DRAFTS="provisional_drafts",TRIPS="trips",EVENTS="events",AUDIO="audio_blobs",MEDIA="media_blobs",FIELD_SESSIONS="field_sessions",TRACKS="tracks",TRACK_POINTS="track_points",PLANNED_ROUTES="planned_routes";
 let db=null,currentTripId=null;
 
 const MODULES={
@@ -3439,7 +3459,7 @@ const isoNow=()=>new Date().toISOString();
 function localNow(){const d=new Date(),x=new Date(d.getTime()-d.getTimezoneOffset()*60000);return x.toISOString().slice(0,16)}
 $("#observedAt").value=localNow();
 
-function openDB(){return new Promise((resolve,reject)=>{const r=indexedDB.open(DB_NAME,DB_VERSION);r.onupgradeneeded=()=>{const d=r.result;if(!d.objectStoreNames.contains(TRIPS))d.createObjectStore(TRIPS,{keyPath:"id"});if(!d.objectStoreNames.contains(EVENTS)){const s=d.createObjectStore(EVENTS,{keyPath:"event_id"});s.createIndex("trip_id","trip_id",{unique:false});s.createIndex("trip_seq",["trip_id","sequence"],{unique:true})}if(!d.objectStoreNames.contains(AUDIO)){const a=d.createObjectStore(AUDIO,{keyPath:"audio_id"});a.createIndex("trip_id","trip_id",{unique:false})}if(!d.objectStoreNames.contains(MEDIA)){const m=d.createObjectStore(MEDIA,{keyPath:"media_id"});m.createIndex("trip_id","trip_id",{unique:false});m.createIndex("kind","kind",{unique:false})}if(!d.objectStoreNames.contains(FIELD_SESSIONS)){const s=d.createObjectStore(FIELD_SESSIONS,{keyPath:"session_id"});s.createIndex("trip_id","trip_id",{unique:false});s.createIndex("status","status",{unique:false})}if(!d.objectStoreNames.contains(TRACKS)){const t=d.createObjectStore(TRACKS,{keyPath:"track_id"});t.createIndex("trip_id","trip_id",{unique:false});t.createIndex("session_id","session_id",{unique:true})}if(!d.objectStoreNames.contains(TRACK_POINTS)){const p=d.createObjectStore(TRACK_POINTS,{keyPath:"point_id"});p.createIndex("trip_id","trip_id",{unique:false});p.createIndex("session_id","session_id",{unique:false});p.createIndex("track_id","track_id",{unique:false});p.createIndex("session_seq",["session_id","sequence"],{unique:true})}if(!d.objectStoreNames.contains(PLANNED_ROUTES)){const p=d.createObjectStore(PLANNED_ROUTES,{keyPath:"planned_route_id"});p.createIndex("trip_id","trip_id",{unique:false});p.createIndex("session_id","session_id",{unique:true})}};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+function openDB(){return new Promise((resolve,reject)=>{const r=indexedDB.open(DB_NAME,DB_VERSION);r.onupgradeneeded=()=>{const d=r.result;if(!d.objectStoreNames.contains(TRIPS))d.createObjectStore(TRIPS,{keyPath:"id"});if(!d.objectStoreNames.contains(EVENTS)){const s=d.createObjectStore(EVENTS,{keyPath:"event_id"});s.createIndex("trip_id","trip_id",{unique:false});s.createIndex("trip_seq",["trip_id","sequence"],{unique:true})}if(!d.objectStoreNames.contains(AUDIO)){const a=d.createObjectStore(AUDIO,{keyPath:"audio_id"});a.createIndex("trip_id","trip_id",{unique:false})}if(!d.objectStoreNames.contains(MEDIA)){const m=d.createObjectStore(MEDIA,{keyPath:"media_id"});m.createIndex("trip_id","trip_id",{unique:false});m.createIndex("kind","kind",{unique:false})}if(!d.objectStoreNames.contains(FIELD_SESSIONS)){const s=d.createObjectStore(FIELD_SESSIONS,{keyPath:"session_id"});s.createIndex("trip_id","trip_id",{unique:false});s.createIndex("status","status",{unique:false})}if(!d.objectStoreNames.contains(TRACKS)){const t=d.createObjectStore(TRACKS,{keyPath:"track_id"});t.createIndex("trip_id","trip_id",{unique:false});t.createIndex("session_id","session_id",{unique:true})}if(!d.objectStoreNames.contains(TRACK_POINTS)){const p=d.createObjectStore(TRACK_POINTS,{keyPath:"point_id"});p.createIndex("trip_id","trip_id",{unique:false});p.createIndex("session_id","session_id",{unique:false});p.createIndex("track_id","track_id",{unique:false});p.createIndex("session_seq",["session_id","sequence"],{unique:true})}if(!d.objectStoreNames.contains(PLANNED_ROUTES)){const p=d.createObjectStore(PLANNED_ROUTES,{keyPath:"planned_route_id"});p.createIndex("trip_id","trip_id",{unique:false});p.createIndex("session_id","session_id",{unique:true})}if(!d.objectStoreNames.contains(PROVISIONAL)){const p=d.createObjectStore(PROVISIONAL,{keyPath:"capture_id"});p.createIndex("created_at","created_at",{unique:false})}if(!d.objectStoreNames.contains(PROVISIONAL_DRAFTS))d.createObjectStore(PROVISIONAL_DRAFTS,{keyPath:"draft_id"})};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
 const store=(n,m="readonly")=>db.transaction(n,m).objectStore(n);
 function put(n,o){return new Promise((res,rej)=>{const tx=db.transaction(n,"readwrite"),r=tx.objectStore(n).put(o);let settled=false;const fail=()=>{if(!settled){settled=true;rej(tx.error||r.error||new Error("LOCAL_TRANSACTION_ABORTED"))}};tx.oncomplete=()=>{if(!settled){settled=true;res(r.result)}};tx.onabort=fail;tx.onerror=fail})}
 function get(n,k){return new Promise((res,rej)=>{const r=store(n).get(k);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
@@ -9792,7 +9812,7 @@ packageData=async function(){
  }
  el('p10ManualTextFocus').addEventListener('click',()=>{
   goSession.hidden=true;
-  flash('文字速記已開啟。直接輸入原話，或點 iPhone 鍵盤的麥克風聽寫；本動作不會自動保存或判定醫療狀態。','ok');
+  flash('文字速記已開啟。直接輸入原話，或點 iPhone 鍵盤的麥克風聽寫；輸入後會自動暫存本機；正式摘要及決策仍須人工確認。','ok');
   const input=el('p10ManualRaw');
   // Focus within the direct click gesture so mobile software keyboard can open.
   input.focus({preventScroll:true});reveal(input);
@@ -9803,27 +9823,9 @@ packageData=async function(){
  }
  // The short button opens the existing press-and-hold recorder; it is not itself a recording button.
  // A missing Field Session is made visible immediately instead of silently writing text far below.
- el('p10ManualVoice').addEventListener('click',async()=>{
-  goSession.hidden=true;
-  flash('正在檢查現場會話；尚未啟動麥克風或寫入原音…');
-  try{
-   if(!await isActive()){
-    flash('無法開始正式原音錄製：目前沒有有效的 Field Session。請先完成 P9 行前授權及登山口現場確認；文字草稿可先輸入。','error');
-    goSession.hidden=false;
-    reveal(feedback);
-    return;
-   }
-   const recorder=el('voiceHoldButton');
-   if(typeof go!=='function'||!recorder)throw Error('原音錄製入口不存在');
-   window.TSUMSP10MedicalVoiceIntent=true;
-   flash('有效會話已確認；正在前往既有原音錄製。進入後請長按「按住說話」，放開結束。','ok');
-   await go('p6');
-   if(typeof v06GoFieldPane==='function')v06GoFieldPane('fieldStatusPanel');
-   reveal(recorder);
-   recorder.focus({preventScroll:true});
-   const captureState=el('voiceCaptureState');
-   if(captureState)captureState.textContent='已開啟原音錄製入口｜請長按上方按鈕開始｜錄音尚未開始';
-  }catch(e){window.TSUMSP10MedicalVoiceIntent=false;flash('無法前往原音錄製：'+String(e.message||e),'error');reveal(feedback)}
+ el('p10ManualVoice').addEventListener('click',()=>{
+  if(typeof window.TSUMSQA054VoiceToggle==='function')window.TSUMSQA054VoiceToggle();
+  else flash('原音保存功能尚未就緒；請重新開啟頁面或先使用文字速記。','error');
  });
  goSession.addEventListener('click',async()=>{
   flash('前往行前授權及登山口現場確認；不自動啟動會話。');
@@ -9891,6 +9893,146 @@ packageData=async function(){
   document.querySelectorAll('[data-p10ui-open]').forEach(btn=>btn.addEventListener('click',()=>refresh()));
   refresh();
   window.TSUMS_QA050={mode:'LOCAL_HUMAN_CONFIRMATION_ONLY',remote_sync:false,wearable_connection:false,member_confirmed_by_roster:false};
+})();
+</script>
+<script id="tsums-p10-qa054-emergency-provisional-capture">
+/* QA-054: Facts can be captured without P9/Field Session. No authorization/decision bypass.
+   Source records are append-only. Mutable autohandoff-free drafts are stored separately. */
+(function(){'use strict';
+ const el=id=>document.getElementById(id), status=el('qa054Status'),voice=el('p10ManualVoice');
+ if(!status||!voice)return;
+ const INPUTS=['p10ManualSubject','p10ManualObserved','p10ManualSource','p10ManualRaw','p10ManualReading','p10ManualAction','p10ManualResponse','p10ManualSummary'];
+ const fields=()=>Object.fromEntries(INPUTS.map(id=>[id,el(id)?.value||'']));
+ const say=(message,error=false)=>{status.textContent=message;status.style.color=error?'#ffb7ad':'#ffebbd';const action=el('qa053ActionStatus');if(action){action.textContent=message;action.dataset.qa053State=error?'error':'ok'}};
+ const now=()=>new Date().toISOString();
+ let draftRevision=0, saveTimer=null, saveSequence=Promise.resolve(), boot=false, audioSession=null, pending=false, backupUrl=null;
+ function ready(){return typeof db!=='undefined'&&db&&db.objectStoreNames.contains(PROVISIONAL)&&db.objectStoreNames.contains(PROVISIONAL_DRAFTS)}
+ function ensure(){if(!ready())throw Error('本機資料庫未就緒，資料尚未保存');}
+ function hashText(t){return sha256(t)}
+ // Draft is mutable WORKING DATA; only explicit capture creates an immutable source record.
+ async function saveDraft(revision){
+  ensure();
+  await put(PROVISIONAL_DRAFTS,{draft_id:'p10-manual-observation',fields:fields(),updated_at:now(),context_trip_id:currentTripId||null,state:'MUTABLE_UNVERIFIED_DRAFT'});
+  if(revision===draftRevision)say('文字草稿已保存到本機 IndexedDB（仍可編輯，尚未封存為獨立原始紀錄）。');
+ }
+ function scheduleDraft(){
+  ++draftRevision;const revision=draftRevision;
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{saveSequence=saveSequence.catch(()=>{}).then(()=>saveDraft(revision)).catch(e=>say('文字暫存失敗：'+e.message+'。請複製文字作為備援，不能假定已保存。',true));},450);
+ }
+ async function flushDraft(){
+  clearTimeout(saveTimer);const revision=++draftRevision;
+  saveSequence=saveSequence.catch(()=>{}).then(()=>saveDraft(revision));return saveSequence;
+ }
+ INPUTS.forEach(id=>el(id)?.addEventListener('input',scheduleDraft));
+ function stamp(kind, contentSha, more){
+  const capturedAt=now(), captureId=crypto.randomUUID();
+  const base={capture_id:captureId,record_type:kind,created_at:capturedAt,observed_at_claim:el('p10ManualObserved')?.value||null,
+   captured_trip_id:currentTripId||null,field_session_id:null,scope:'UNASSIGNED_PROVISIONAL',verified:false,
+   source_state:'USER_RECORDED_UNVERIFIED',content_sha256:contentSha,...more};
+  return base;
+ }
+ async function commitCapture(record){
+  ensure();
+  const {blob,...metadata}=record;
+  const sourceFingerprint=await hashText(stable(metadata));
+  const sealed={...record,record_sha256:sourceFingerprint};
+  await put(PROVISIONAL,sealed);return sealed;
+ }
+ async function textCapture(){
+  try{
+   if(!el('p10ManualRaw').value.trim()){say('尚無文字內容。請先輸入原始觀察；空白不會被冒充成完成紀錄。',true);return}
+   await flushDraft();
+   const content=fields(),json=stable(content),textHash=await hashText(json);
+   const sealed=await commitCapture(stamp('TEXT',textHash,{text_fields:content,source_encoding:'UTF-8',origin:'LOCAL_MANUAL_TEXT'}));
+   say('文字原始紀錄已保存：'+sealed.capture_id+'。SHA-256 已建立；目前待歸屬／未核驗，非正式決策。');await renderRecords();
+  }catch(e){say('文字原始紀錄保存失敗：'+e.message+'。請先複製內容保存備份。',true)}
+ }
+ async function voiceToggle(){
+  if(pending)return;
+  if(audioSession){
+   pending=true;voice.disabled=true;voice.textContent='正在保存原音…';say('錄音停止，正在計算 SHA-256 並保存本機原始音檔…');
+   const s=audioSession;audioSession=null;
+   try{
+    const audio=await WebAudioAdapter.stop(s);
+    if(!audio.blob?.size)throw Error('未取得有效音訊資料');
+    const record=stamp('AUDIO',audio.sha256,{started_at:audio.started_at,ended_at:audio.ended_at,mime:audio.mime,size:audio.blob.size,blob:audio.blob,origin:'DEVICE_MICROPHONE'});
+    try{const sealed=await commitCapture(record);say('原音已保存到本機 IndexedDB：'+sealed.capture_id+'。雜湊 '+sealed.content_sha256.slice(0,16)+'…｜待歸屬／未核驗。');await renderRecords()}
+    catch(storageError){
+     if(backupUrl)URL.revokeObjectURL(backupUrl);
+     backupUrl=URL.createObjectURL(audio.blob);
+     const a=el('qa054AudioBackup');a.href=backupUrl;a.download='tsums-provisional-'+audio.started_at.replace(/[:.]/g,'-')+(audio.mime.includes('mp4')?'.m4a':'.webm');a.hidden=false;
+     say('錄音已結束但本機保存失敗：'+storageError.message+'。請立即點「下載本次原音備份」，不可視為已入帳。',true);
+    }
+   }catch(e){say('原音結束或計算失敗：'+e.message+'；未建立已保存紀錄。',true)}
+   finally{pending=false;voice.disabled=false;voice.textContent='開始原音錄製'}
+   return;
+  }
+  pending=true;voice.disabled=true;say('正在向 Safari 要求麥克風權限；不要求 Field Session。');
+  try{audioSession=await WebAudioAdapter.start();voice.textContent='停止並保存原音';say('原音錄製中。再次按下同一按鈕才會停止並保存；切換或關閉頁面前請先停止。')}
+  catch(e){say('麥克風無法啟動：'+e.message+'。可以改用文字速記；尚未產生音檔。',true)}
+  finally{pending=false;voice.disabled=false}
+ }
+ window.TSUMSQA054VoiceToggle=voiceToggle;
+ async function renderRecords(){
+  const root=el('qa054Records');root.replaceChildren();
+  if(!ready()){root.textContent='尚無可讀取的本機資料庫。';return}
+  try{
+   const all=(await getAll(PROVISIONAL)).sort((a,b)=>b.created_at.localeCompare(a.created_at));
+   if(!all.length){root.textContent='尚無封存的本機原始紀錄。';return}
+   for(const c of all.slice(0,15)){
+    const box=document.createElement('section');box.className='qa054ProvisionalRow';
+    const h=document.createElement('strong');h.textContent=(c.record_type==='AUDIO'?'原音':'文字')+'｜'+new Date(c.created_at).toLocaleString('zh-TW');box.append(h);
+    const p=document.createElement('p');p.textContent='待歸屬／未核驗｜裝置保存時間：'+c.created_at+'｜來源 ID：'+c.capture_id+'｜SHA-256：'+c.content_sha256.slice(0,16)+'…';box.append(p);
+    if(c.record_type==='AUDIO'){
+     const play=document.createElement('button');play.type='button';play.textContent='播放本機原音';play.addEventListener('click',()=>{
+       const url=URL.createObjectURL(c.blob);const player=new Audio(url);player.addEventListener('ended',()=>URL.revokeObjectURL(url),{once:true});player.play().catch(e=>say('無法播放：'+e.message,true));
+     });box.append(play);
+    }
+    const link=document.createElement('button');link.type='button';link.textContent='人工承接至目前會話';link.addEventListener('click',()=>handoff(c));box.append(link);
+    root.append(box);
+   }
+   if(all.length>15){const p=document.createElement('p');p.textContent='另有 '+(all.length-15)+' 筆本機紀錄尚未列出；原紀錄仍保留。';root.append(p)}
+  }catch(e){say('無法讀取原始紀錄：'+e.message,true)}
+ }
+ async function handoff(c){
+  try{
+   ensure();const t=typeof currentTrip==='function'?await currentTrip():null;
+   const session=t?.field_session;
+   if(!t||!session?.active||session.status!=='ACTIVE')throw Error('正式承接需要有效現場會話，但原始資料仍已獨立保存。');
+   const actor=el('fieldActor')?.value.trim();if(!actor)throw Error('正式承接需要具名紀錄人。');
+   const stage=Number(el('qa054LinkStage').value);if(![4,5,7,9].includes(stage))throw Error('未選擇有效治理階段。');
+   // Do not redate or overwrite the provisional record; add a new, hash-chained linkage event.
+   // Verify source bytes and its stored metadata before formal linkage.
+   const {blob,record_sha256,...metadata}=c;
+   const recalculatedRecordHash=await hashText(stable(metadata));
+   if(recalculatedRecordHash!==record_sha256)throw Error('原始紀錄 metadata 雜湊核驗失敗，不得正式承接。');
+   const recalculatedContentHash= c.record_type==='AUDIO'
+    ?await WebCryptoAdapter.sha256Blob(c.blob)
+    :await hashText(stable(c.text_fields||{}));
+   if(recalculatedContentHash!==c.content_sha256)throw Error('原始資料 SHA-256 核驗失敗，不得正式承接。');
+   const evt=await appendFieldEvent('PROVISIONAL_CAPTURE_REFERENCED',{ 
+    lifecycle_stage:stage,module_refs:['C3'],actor,source_state:'USER_CONFIRMED',input_source:'PROVISIONAL_CAPTURE_LINK',confirmed_by_user:true,
+    observed_fact:'人工承接已存在的待歸屬原始紀錄；不宣稱原始內容已驗證',
+    evidence_refs:[c.capture_id],idempotency_key:'QA054_LINK:'+t.id+':'+c.capture_id+':'+stage,
+    structured_payload:{capture_id:c.capture_id,capture_kind:c.record_type,source_captured_at:c.created_at,source_observed_at_claim:c.observed_at_claim||null,original_content_sha256:c.content_sha256,original_record_sha256:c.record_sha256,linked_session_id:session.session_id||null,linkage_at:now(),verification_state:'UNVERIFIED_SOURCE_LINKED',storage:'LOCAL_INDEXEDDB',decision_effect:'NONE'}
+   });
+   if(!evt?.event_id)throw Error('正式承接事件未確認提交。');
+   say('已新增承接事件 '+evt.event_id+'；原始紀錄及原始時間未改寫。此事件不等於證據真實性或 GO 權限核准。');
+  }catch(e){say('尚未正式承接：'+e.message,true)}
+ }
+ el('p10ManualBuild')?.addEventListener('click',()=>setTimeout(scheduleDraft,0));
+ el('qa054SealText')?.addEventListener('click',textCapture);
+ el('qa054ReloadRecords')?.addEventListener('click',renderRecords);
+ const restore=async(attempt=0)=>{
+  if(!ready()){if(attempt<24)setTimeout(()=>restore(attempt+1),500);return}
+  try{
+   const saved=await get(PROVISIONAL_DRAFTS,'p10-manual-observation');
+   if(saved?.fields&&!boot){for(const [id,v] of Object.entries(saved.fields)){const target=el(id);if(target&&!target.value)target.value=v}say('已載入先前本機文字草稿（可編輯／尚未封存）。')}
+   boot=true;await renderRecords();
+  }catch(e){say('本機草稿還原失敗：'+e.message,true)}
+ };
+ setTimeout(()=>restore(),450);
 })();
 </script>
 </body></html>

@@ -2044,6 +2044,27 @@ body.field #p6ui .p10uiModuleBody .p10uiMetrics>div>strong{color:#20140a!importa
 #p6ui .qa054LinkControl{display:grid;gap:6px}#p6ui .qa054LinkControl label{font-size:16px;color:#ffdfa7}#p6ui #qa054LinkStage{font-size:18px;min-height:52px;width:100%;border:1.5px solid #98744a;background:#14100b;color:#fff1cf;border-radius:10px;padding:8px}
 #p6ui #qa054AudioBackup{font-size:17px;color:#fff0af;text-decoration:underline}#p6ui #qa054AudioBackup[hidden]{display:none}
 </style>
+<style id="tsums-qa056-communication-action-css">
+#p6ui .qa056CommReadouts{display:grid;grid-template-columns:1fr;gap:12px;margin:16px 0}
+#p6ui .qa056CommReadouts button{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:82px;padding:14px 16px;background:#120f0b;border:2px solid #8b6a43;border-radius:14px;color:#f9e1b1;text-align:left;font-size:20px;font-weight:750}
+#p6ui .qa056CommReadouts button b{font-size:19px;color:#ffd88e;text-align:right;overflow-wrap:anywhere}
+#p6ui .qa056CommReadouts button:focus-visible,#p6ui .qa056Capture button:focus-visible{outline:3px solid #ffe19a;outline-offset:3px}
+#p6ui .qa056Capture{border:2px solid #ad8750;border-radius:16px;background:#241a10;padding:16px;margin:16px 0;color:#f5dfb9}
+#p6ui .qa056Capture[hidden]{display:none!important}
+#p6ui .qa056Capture h4{font-size:22px;margin:0 0 9px}
+#p6ui .qa056Capture p,#p6ui .qa056Capture label{font-size:17px;line-height:1.55}
+#p6ui .qa056Capture label{display:block;font-weight:750;margin:12px 0 7px}
+#p6ui .qa056Capture :is(input,select,textarea){display:block;width:100%;box-sizing:border-box;background:#0c0b09;border:2px solid #8c724d;border-radius:10px;color:#ffe6bd;font-size:18px;padding:12px;min-height:54px}
+#p6ui .qa056Capture button{display:block;width:100%;margin-top:16px;min-height:68px;background:#5a3e22;color:#ffeac5;border:2px solid #d3a35e;border-radius:13px;font-size:19px;font-weight:850}
+#p6ui .qa056InlineStatus{border-left:5px solid #d5a652;border-radius:8px;background:#2a1d0f;color:#ffe1aa;padding:14px;margin:10px 0 8px;font-size:17px;line-height:1.6}
+#p6ui .qa056DeliverySummary{border-left:4px solid #947244;background:#1f170e;border-radius:8px;padding:10px 14px;margin:16px 0}
+#p6ui .qa056DeliverySummary p{margin:5px 0;color:#e9d1a8;font-size:17px;line-height:1.55}
+#p6ui .qa056QuickActions{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#p6ui .qa056QuickActions button{min-height:72px;padding:12px;background:#4b321b;color:#ffe2b0;border:2px solid #bb9659;border-radius:13px;font-size:18px;font-weight:800}
+#p6ui .qa056CommFields{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+#p6ui .p10uiFlow span{font-size:15px;max-width:100%;overflow-wrap:anywhere}
+@media(max-width:360px){#p6ui .qa056CommFields{grid-template-columns:1fr}#p6ui .qa056CommReadouts button{font-size:18px}#p6ui .qa056CommReadouts button b{font-size:17px}}
+</style>
 </head>
 <body>
 <script id="tsums-p0-039-source-of-truth">
@@ -2780,12 +2801,45 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
   </div>
 </details><details class="p10uiModule" id="p10ui-m06" data-p10ui-status="planned" >
       <summary><span class="p10uiNum">06</span><span><span class="p10uiName">定期 CHECK-IN 與逾時升級</span><span class="p10uiBrief">回報期限、留守人、遲到、失聯升級及責任節點</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜回報／逾時責任 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>逾時事件｜待接線</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>回報間隔 <b>依行前計畫</b></span><span>下一回報 <b>待計算</b></span><span>逾時起點 <b>未觸發</b></span><span>升級責任人 <b>待載入</b></span></div><div class="p10uiChoice"><button type="button" data-qa050-runtime="fieldStatusPanel" data-qa050-target="runtimeQuickCheckin">開啟 CHECK-IN／停損操作</button><span>現場會話未啟動時不允許提交；本機紀錄不代表已送達</span></div>
+      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜回報／逾時責任 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>逾時事件｜待接線</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>回報間隔 <b>依行前計畫</b></span><span>下一回報 <b>待計算</b></span><span>逾時起點 <b>未觸發</b></span><span>升級責任人 <b>待載入</b></span></div><div class="p10uiChoice"><button type="button" id="qa056OpenCheckin">開啟 CHECK-IN／停損操作</button><span>有正式 Field Session 時直達 CHECK-IN；尚未啟動時可先保存獨立到點事實，不冒充正式 CHECK-IN 或已對外送達。</span></div>
+      <div id="qa056CheckinStatus" class="qa056InlineStatus" role="status" aria-live="polite">尚未啟動操作；按上方按鈕進入。</div>
+      <section id="qa056CheckinProvisional" class="qa056Capture" hidden aria-label="獨立到點事實紀錄">
+        <h4>獨立到點事實紀錄｜非正式 CHECK-IN</h4>
+        <p>沒有 Field Session 也能留存當下觀察；尚未建立正式回報、失聯解除或送達回執。</p>
+        <label for="qa056CheckinActor">紀錄者（自述）</label><input id="qa056CheckinActor" autocomplete="off" placeholder="請填測試代稱">
+        <label for="qa056CheckinNote">當時位置／到點觀察</label><textarea id="qa056CheckinNote" rows="3" placeholder="例如：已到預定休息點；尚未對外回報"></textarea>
+        <button type="button" id="qa056SaveArrival">保存到點觀察｜本機待歸屬</button>
+      </section>
       
       </div>
     </details><details class="p10uiModule" id="p10ui-m07" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">07</span><span><span class="p10uiName">多通道通訊與送達狀態</span><span class="p10uiBrief">行動網路、無線電、衛星電話／追蹤器及回執</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
-      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜通訊與送達回執 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>多通道紀錄｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>行動網路 <b>未知</b></span><span>無線電 <b>人工紀錄</b></span><span>衛星電話 <b>人工紀錄</b></span><span>衛星追蹤器 <b>尚未接入</b></span></div><div class="p10uiFlow"><span>本機已保存</span><i>→</i><span>交付傳送</span><i>→</i><span>收到回執</span></div><p class="p10uiHint">三種狀態不可自動等同。沒有可靠回執時，送達狀態固定為 UNKNOWN。</p></div>
+      <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜通訊與送達回執 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C2 MSLS · C3 UIRF</span><span>多通道紀錄｜已有入口</span><span>合成 QA／未連線</span></div><p class="p10uiHint">下列四項為本機人工觀察，點選任一通道可填寫實際狀態；沒有自動接入或遠端監測。</p>
+        <div class="qa056CommReadouts">
+          <button type="button" data-qa056-channel="cellular">行動網路 <b id="qa056CellState">尚無人工紀錄</b></button>
+          <button type="button" data-qa056-channel="radio">無線電 <b id="qa056RadioState">尚無人工紀錄</b></button>
+          <button type="button" data-qa056-channel="satphone">衛星電話 <b id="qa056SatPhoneState">尚無人工紀錄</b></button>
+          <button type="button" data-qa056-channel="tracker">衛星追蹤器 <b id="qa056TrackerState">尚未接入</b></button>
+        </div>
+        <div class="qa056Capture" id="qa056CommEditor" hidden>
+          <h4>記錄通訊觀察｜不依賴正式會話</h4>
+          <p>只保留人工觀察與本機原始紀錄；任何通道的可用性不會自動證明送達。</p>
+          <div class="qa056CommFields">
+            <label>行動網路<select id="qa056Cell"><option value="UNKNOWN">未確認</option><option value="AVAILABLE">可用（人工觀察）</option><option value="LIMITED">有限</option><option value="UNAVAILABLE">不可用</option></select></label>
+            <label>無線電<select id="qa056Radio"><option value="UNKNOWN">未確認</option><option value="AVAILABLE">可用（人工觀察）</option><option value="LIMITED">有限</option><option value="UNAVAILABLE">不可用</option></select></label>
+            <label>衛星電話<select id="qa056SatPhone"><option value="UNKNOWN">未確認</option><option value="AVAILABLE">可用（人工觀察）</option><option value="LIMITED">有限</option><option value="UNAVAILABLE">不可用</option></select></label>
+            <label>衛星追蹤器<select id="qa056Tracker"><option value="UNKNOWN">未確認／尚未接入</option><option value="AVAILABLE">設備顯示可用（人工觀察）</option><option value="LIMITED">有限</option><option value="UNAVAILABLE">不可用</option></select></label>
+          </div>
+          <label for="qa056CommActor">紀錄者（自述）</label><input id="qa056CommActor" autocomplete="off" placeholder="請填測試代稱">
+          <label for="qa056CommNote">觀察時間與具體事實</label><textarea id="qa056CommNote" rows="3" placeholder="例如：11:30 無線電測試可通話；非自動監測"></textarea>
+          <label for="qa056DeliveryClaim">對外傳送／回執（人工自述）</label>
+          <select id="qa056DeliveryClaim"><option value="UNKNOWN">未確認是否發送或收到</option><option value="HANDOFF_REPORTED">自述已交付傳送｜未確認送達</option><option value="RECEIPT_REPORTED_UNVERIFIED">自述已有回執｜尚待核驗</option></select>
+          <label for="qa056ReceiptEvidence">回執參照（選填，不自動驗證）</label><input id="qa056ReceiptEvidence" placeholder="例如：外部回覆截圖或訊息 ID（僅用測試代碼）">
+          <button type="button" id="qa056SaveComm">保存四通道人工觀察｜本機待歸屬</button>
+        </div>
+        <div class="qa056DeliverySummary" aria-label="外部通訊程序狀態（僅供閱讀）"><p id="qa056LocalState">本機：尚無紀錄</p><p id="qa056HandoffState">傳送：未知</p><p id="qa056ReceiptState">回執：未核驗</p></div>
+        <div class="qa056QuickActions"><button type="button" id="qa056OpenComm">填寫／保存通訊觀察</button><button type="button" id="qa056FocusReceipt">補充外部回執參照</button></div>
+        <div id="qa056CommStatus" class="qa056InlineStatus" role="status" aria-live="polite">點上方通道開啟紀錄。送出訊息、外部接收、回執核驗分別留痕；本區無自動傳送。</div></div>
     </details><details class="p10uiModule" id="p10ui-m08" data-p10ui-status="legacy" >
       <summary><span class="p10uiNum">08</span><span><span class="p10uiName">山域醫學與生命徵候</span><span class="p10uiBrief">氧、溫、血、腦、動五結構；分流與撤退支援</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
       <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜生命徵候與醫學 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C1 · C2 · C3｜Medical Overlay</span><span>觀察紀錄｜已有入口</span><span>合成 QA／未連線</span></div><div class="p10uiMeters"><span>氧｜氣體交換 <b>未確認</b></span><span>溫｜熱平衡 <b>未確認</b></span><span>血｜循環代謝 <b>未確認</b></span><span>腦｜神經中樞 <b>未確認</b></span><span>動｜組織完整性 <b>未確認</b></span></div><p class="p10uiHint">記錄徵候、意識、移動能力、處置、時間與具名人員；本頁不作診斷或自動下醫療指令。</p>
@@ -10033,6 +10087,108 @@ packageData=async function(){
   }catch(e){say('本機草稿還原失敗：'+e.message,true)}
  };
  setTimeout(()=>restore(),450);
+})();
+</script>
+<script id="tsums-p10-qa056-actionable-checkin-and-communication">
+/* QA-056. Passive status != an operable control. Observation != transmission != receipt.
+   Provisional captures are append-only; no Field Session prerequisite for recording. */
+(function(){'use strict';
+ const by=id=>document.getElementById(id),scope=by('p6ui');if(!scope)return;
+ const ckStatus=by('qa056CheckinStatus'),comStatus=by('qa056CommStatus'),ckForm=by('qa056CheckinProvisional'),comForm=by('qa056CommEditor');
+ let commInteracted=false;
+ const setStatus=(el,text,bad=false)=>{if(el){el.textContent=text;el.style.borderLeftColor=bad?'#d56c60':'#d5a652'}};
+ const storeReady=()=>typeof db!=='undefined'&&!!db&&db.objectStoreNames.contains(PROVISIONAL);
+ const allowed=()=>typeof crypto!=='undefined'&&!!crypto.subtle&&typeof sha256==='function'&&typeof stable==='function';
+ const recordLabel={UNKNOWN:'未確認',AVAILABLE:'人工確認可用',LIMITED:'有限',UNAVAILABLE:'不可用'};
+ async function saveUnassigned(kind,fields){
+   if(!storeReady())throw new Error('IndexedDB 尚未就緒，沒有保存');
+   if(!allowed())throw new Error('無安全雜湊功能，沒有保存');
+   const when=new Date().toISOString(),capture_id=crypto.randomUUID();
+   const source={capture_id,record_type:'TEXT',created_at:when,observed_at_claim:null,
+     captured_trip_id:typeof currentTripId!=='undefined'?currentTripId||null:null,field_session_id:null,
+     scope:'UNASSIGNED_PROVISIONAL',verified:false,source_state:'USER_RECORDED_UNVERIFIED',
+     content_sha256:await sha256(stable(fields)),text_fields:fields,source_encoding:'UTF-8',origin:kind};
+   source.record_sha256=await sha256(stable(source));
+   await put(PROVISIONAL,source);
+   const reread=await get(PROVISIONAL,capture_id);
+   if(!reread||reread.record_sha256!==source.record_sha256)throw new Error('本機讀回核對失敗');
+   return source;
+ }
+ const safeTrip=async()=>{try{return typeof currentTrip==='function'?await currentTrip():null}catch{return null}};
+ async function onCheckin(){
+   const trip=await safeTrip(),active=trip?.field_session?.active&&trip.field_session.status==='ACTIVE';
+   if(active){
+     setStatus(ckStatus,'已找到有效現場會話，正前往既有正式 CHECK-IN／停損工具；開啟不代表已回報。');
+     try{
+       if(typeof go!=='function')throw new Error('導頁功能未載入');
+       await go('p6');
+       if(typeof v06GoFieldPane==='function')v06GoFieldPane('fieldStatusPanel');
+       const button=by('runtimeQuickCheckin');if(button){button.scrollIntoView({behavior:'instant',block:'center'});button.focus({preventScroll:true})}else throw new Error('CHECK-IN 控制不存在');
+     }catch(e){ckForm.hidden=false;setStatus(ckStatus,'無法進入正式工具：'+e.message+'；可先留存臨時到點觀察。',true)}
+   }else{
+     ckForm.hidden=false;
+     setStatus(ckStatus,'尚無正式現場會話。已開啟「獨立到點事實紀錄」；不會冒充正式 CHECK-IN 或更改逾時計時。');
+     ckForm.scrollIntoView({behavior:'instant',block:'center'});
+     by('qa056CheckinNote')?.focus({preventScroll:true});
+   }
+ }
+ by('qa056OpenCheckin')?.addEventListener('click',()=>{onCheckin().catch(e=>setStatus(ckStatus,'操作失敗：'+e.message,true))});
+ by('qa056SaveArrival')?.addEventListener('click',async()=>{
+   const b=by('qa056SaveArrival');b.disabled=true;setStatus(ckStatus,'正在保存臨時到點紀錄…');
+   try{
+     const fields={category:'ARRIVAL_OBSERVATION',actor:by('qa056CheckinActor').value.trim()||'未具名',note:by('qa056CheckinNote').value.trim(),observed_at_device:new Date().toISOString(),formal_checkin:false};
+     if(!fields.note)throw new Error('請先描述實際到點／現場事實');
+     const r=await saveUnassigned('QA056_ARRIVAL_OBSERVATION',fields);
+     setStatus(ckStatus,'獨立到點紀錄已保存：'+r.capture_id.slice(0,8)+'…｜待歸屬／未核驗；未建立正式 CHECK-IN，未向留守發送。');
+   }catch(e){setStatus(ckStatus,'保存失敗：'+e.message+'；請先複製文字備援。',true)}finally{b.disabled=false}
+ });
+ const readFields=()=>({
+   category:'COMMUNICATION_OBSERVATION',actor:by('qa056CommActor').value.trim()||'未具名',
+   cellular:by('qa056Cell').value,radio:by('qa056Radio').value,satphone:by('qa056SatPhone').value,tracker:by('qa056Tracker').value,
+   note:by('qa056CommNote').value.trim(),delivery_claim:by('qa056DeliveryClaim').value,
+   receipt_reference_claim:by('qa056ReceiptEvidence').value.trim(),observed_at_device:new Date().toISOString(),remote_ack_verified:false
+ });
+ const displayComm=fields=>{
+   for(const [name,id] of [['cellular','qa056CellState'],['radio','qa056RadioState'],['satphone','qa056SatPhoneState'],['tracker','qa056TrackerState']])by(id).textContent=recordLabel[fields[name]]||'未知';
+   by('qa056LocalState').textContent='本機：人工觀察已存';
+   by('qa056HandoffState').textContent=fields.delivery_claim==='HANDOFF_REPORTED'?'傳送：自述已交付':fields.delivery_claim==='RECEIPT_REPORTED_UNVERIFIED'?'傳送：自述已交付':'傳送：未知';
+   by('qa056ReceiptState').textContent=fields.delivery_claim==='RECEIPT_REPORTED_UNVERIFIED'?'回執：自述／待核驗':'回執：未核驗';
+ };
+ scope.querySelectorAll('[data-qa056-channel]').forEach(btn=>btn.addEventListener('click',()=>{
+   commInteracted=true;comForm.hidden=false;setStatus(comStatus,'已開啟人工通訊觀察。點選狀態後再按「保存」，才會建立本機原始紀錄；不會直接撥號或傳送。');
+   const key={cellular:'qa056Cell',radio:'qa056Radio',satphone:'qa056SatPhone',tracker:'qa056Tracker'}[btn.dataset.qa056Channel];
+   comForm.scrollIntoView({behavior:'instant',block:'center'});by(key)?.focus({preventScroll:true});
+ }));
+ function showCommEditor(focusId){
+   commInteracted=true;comForm.hidden=false;setStatus(comStatus,'已開啟人工通訊紀錄；需按保存才會建立本機原始紀錄。傳送或回執仍須人工另行核驗。');
+   comForm.scrollIntoView({behavior:'instant',block:'center'});by(focusId)?.focus({preventScroll:true});
+ }
+ by('qa056OpenComm')?.addEventListener('click',()=>showCommEditor('qa056Cell'));
+ by('qa056FocusReceipt')?.addEventListener('click',()=>showCommEditor('qa056DeliveryClaim'));
+ by('qa056SaveComm')?.addEventListener('click',async()=>{
+   commInteracted=true;const b=by('qa056SaveComm');b.disabled=true;setStatus(comStatus,'正在保存人工通訊觀察…');
+   try{
+     const fields=readFields();
+     if([fields.cellular,fields.radio,fields.satphone,fields.tracker].every(x=>x==='UNKNOWN')&&!fields.note)throw new Error('請選擇通道狀態或填寫具體觀察事實');
+     if(fields.delivery_claim==='RECEIPT_REPORTED_UNVERIFIED'&&!fields.receipt_reference_claim)throw new Error('若自述已有回執，請先填回執參照；仍視為未核驗');
+     const r=await saveUnassigned('QA056_COMMUNICATION_OBSERVATION',fields);
+     displayComm(fields);
+     setStatus(comStatus,'本機人工觀察已保存：'+r.capture_id.slice(0,8)+'…｜原始紀錄待歸屬／未核驗。發送與回執均未獲系統核證。');
+   }catch(e){setStatus(comStatus,'未完成保存：'+e.message,true)}finally{b.disabled=false}
+ });
+ async function restore(){
+   if(!storeReady())return;
+   try{
+     const all=await getAll(PROVISIONAL),tripId=typeof currentTripId!=='undefined'?currentTripId||null:null;
+     const matching=all.filter(x=>x.origin==='QA056_COMMUNICATION_OBSERVATION'&&(x.captured_trip_id||null)===tripId).sort((a,b)=>b.created_at.localeCompare(a.created_at));
+     const latest=matching[0];if(!latest)return;
+     const {record_sha256,...meta}=latest;
+     if(await sha256(stable(meta))!==record_sha256||await sha256(stable(latest.text_fields||{}))!==latest.content_sha256){setStatus(comStatus,'本機通訊原始紀錄完整性核對失敗；拒絕將其顯示為有效觀察。',true);return}
+     if(commInteracted)return;
+     displayComm(latest.text_fields);setStatus(comStatus,'已讀取同一行程的最後一筆本機人工觀察｜非即時通訊、非遠端回執。');
+   }catch(e){setStatus(comStatus,'本機紀錄讀取失敗：'+e.message,true)}
+ }
+ let attempts=0;const boot=()=>{if(storeReady())restore();else if(attempts++<25)setTimeout(boot,400)};setTimeout(boot,450);
 })();
 </script>
 </body></html>

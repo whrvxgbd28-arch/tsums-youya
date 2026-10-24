@@ -11074,4 +11074,169 @@ body:has(#p0.active) .journeyModebar {display:none!important}
  header .tsumsP9Manifesto > button.tsumsP9ManifestRow{min-height:82px!important;padding:8px 2px!important}
 }
 </style>
+
+<style id="tsums-qa078-six-check-ui">
+/* QA-078 — Presentation and supplemental, read-only checklist. Underlying 4.0V state / evidence code unchanged. */
+body.qa078Ready #p0>#journeySteps{display:none!important}
+#p0 #qa078Six{display:grid;gap:11px;margin:14px 0 22px;max-width:100%;min-width:0}
+#qa078Six .qa078Item{display:block;width:100%;box-sizing:border-box;min-width:0;border:1.5px solid #806441;border-radius:16px;background:#100d09;color:#f9e9c7;overflow:hidden}
+#qa078Six button.qa078Head{width:100%;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) 21px;gap:10px;align-items:center;text-align:left;min-height:74px;padding:15px 14px;background:none;color:#fae1a6;border:0;border-radius:0;font-size:21px;font-weight:900;touch-action:manipulation}
+#qa078Six button.qa078Head:focus-visible,#qa078Six .qa078Act:focus-visible{outline:3px solid #ffe1a6;outline-offset:-4px}
+#qa078Six .qa078Chevron{text-align:right;color:#e7c181;font-size:24px}
+#qa078Six .qa078State{display:block;padding:0 14px 14px;color:#d7c39e;font-size:15px;line-height:1.6;overflow-wrap:anywhere}
+#qa078Six .qa078State[data-state="identified"]{color:#eacb88}
+#qa078Six .qa078State[data-state="attention"]{color:#ffc5a7}
+#qa078Six .qa078First .qa078State{display:none}
+#qa078Six #qa074Start{display:block!important;background:transparent!important;border:0!important;box-shadow:none!important;margin:0!important;padding:0 14px 16px!important;max-width:100%!important}
+#qa078Six #qa074Start>h2{display:none!important}
+#qa078Six #qa074Start>p{font-size:15px;line-height:1.6;margin:0 0 14px;color:#e1cba6}
+#qa078Six #qa074Start label{font-size:16px;color:#f6ddb2;font-weight:850}
+#qa078Six #qa074Start input,#qa078Six #qa074Start textarea{font-size:16px!important;min-height:51px!important;width:100%;background:#110d09;color:#fff0ce;border:1.5px solid #997343;border-radius:11px}
+#qa078Six #qa074Start textarea{min-height:108px!important}
+#qa078Six #qa074Analyze{width:100%;min-height:63px!important;margin:12px 0 7px;background:#e4b96a!important;color:#25180d!important;font-size:19px!important;font-weight:900!important;border-radius:12px!important}
+#qa078Six #qa074Feedback{display:block;font-size:13px;line-height:1.6;color:#d0b78a;margin:3px 0 5px}
+#qa078Six #qa074Summary{border-top:1px solid #665130;padding-top:12px;margin-top:13px}
+#qa078Six #qa074Summary h3{font-size:19px;color:#f5d48f}
+#qa078Six #qa074SummaryText{white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px;color:#efdcbd;line-height:1.65}
+#qa078Six .qa078Actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+#qa078Six .qa078Act{min-height:50px;box-sizing:border-box;background:#2c2113;color:#ffdfa4;border:1.5px solid #ad8650;border-radius:11px;padding:9px;font-size:14px;font-weight:800;touch-action:manipulation}
+#qa078Six .qa078Help{color:#cfbb9a;font-size:12px;line-height:1.6;margin:7px 0}
+#qa078Six #qa078Review:not([hidden]){display:block!important;white-space:pre-wrap;color:#f5deb0;font-size:14px;line-height:1.7;background:#171108;border-left:3px solid #ddae62;padding:12px;border-radius:8px;margin:12px 0}
+#qa078Six .qa078BriefTitle{font-size:17px;font-weight:900;color:#f5d18a;margin:10px 0 5px}
+body.field #qa078Six .qa078Item{background:#fff9eb;color:#111;border-color:#795a2f}
+body.field #qa078Six button.qa078Head{color:#402a09}
+body.field #qa078Six .qa078State,body.field #qa078Six .qa078Help,body.field #qa078Six #qa074Feedback{color:#59482d}
+body.field #qa078Six #qa074Start input,body.field #qa078Six #qa074Start textarea{background:white;color:#111}
+#p4 #qa078SupportLinks{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 15px}#p4 #qa078SupportLinks button{min-height:52px;border:1.5px solid #ae8550;border-radius:11px;background:#352515;color:#faddaa;font-size:17px;font-weight:850}body.field #qa078Six #qa078Review{color:#21180d;background:#fff1d0}
+@media(max-width:385px){#qa078Six button.qa078Head{font-size:19px!important;padding:13px 11px;min-height:70px}#qa078Six .qa078Actions{grid-template-columns:1fr}}
+</style>
+<script id="tsums-qa078-six-check-controller">
+(function(){
+ 'use strict';
+ const q=(sel,root=document)=>root.querySelector(sel),byId=id=>document.getElementById(id);
+ const trim=id=>String(byId(id)?.value||'').trim();
+ const six=[
+  ['行程規劃','journeyStep1'],['隊伍成員','journeyStep2'],['路線風險','journeyStep3'],
+  ['保險留守',null],['裝備配置','journeyStep4'],['完備確認','journeyStep5']
+ ];
+ let lastReport='',summaryMade=false,scheduled=false;
+ function localRouteName(text){const routes=['郊山','中級山','百岳','探勘路線','縱走路線','非傳統路線'];return routes.filter(v=>text.includes(v));}
+ function textPreview(text){const m=text.match(/(?:\d+\s*天\s*\d+\s*夜|\d+\s*天|\d{4}[/-]\d{1,2}[/-]\d{1,2}|\d{1,2}月\d{1,2}日)/);return m?m[0]:'';}
+ function getInputs(){return [trim('qa074Trip')||trim('tripName'),trim('qa074Text')||trim('recruitment')];}
+ function assess(){
+   const [name,body]=getInputs(),all=(name+'\n'+body).trim();
+   const route=localRouteName(all),solo=/獨攀|獨行|單獨登山|單人攀登/.test(all)||byId('recruitType')?.value==='SOLO';
+   const member=/\d+\s*人|隊員|成員|領隊|主揪|總人數/.test(all),
+         guardian=!!trim('guardianName')&&!!trim('guardianPhone'),
+         ins=byId('insuranceMode')?.value,insured=!!ins&&ins!=='UNCONFIRMED',
+         rem=!!trim('qa071Hours')||!!trim('qa071Minutes')||!!byId('qa074NodeOnly')?.checked,
+         textIns=/保險|投保|保單/.test(all),textGuard=/留守|緊急聯絡|家屬聯絡/.test(all),
+         textGear=/裝備|頭燈|背包|帳篷|雨具|睡袋|飲水|行動電源|急救包|炊具/.test(all);
+   const done=(id)=>byId(id)?.dataset.status==='done';
+   const states=[
+     all ? ('已輸入行程'+(textPreview(all)?'，提及 '+textPreview(all):'')+'；請核對日期及路線'):'尚未輸入行程，先填名稱或貼招募文',
+     solo?'獨攀安排已提及；仍須確認留守人及緊急聯絡':member?'原文提到隊伍；請核對名冊、緊急聯絡與決策者':'原文未提及隊伍或獨攀安排，請確認',
+     route.length?'原文提及「'+route.join('／')+'」；請核對路況、天候與撤退點': '路線類型、天候、地形與撤退點尚待確認',
+     (guardian&&insured&&rem)?'留守聯絡、保險安排與回報設定均有填寫，請確認有效性':(textGuard||textIns)?'原文提及保險或留守；請補齊聯絡及回報設定':'原文未提供保險與留守安排，請補齊',
+     textGear?'原文提及裝備；請核對裝備、補給與適用性':'原文未列裝備／補給清單，請補齊',
+     done('journeyStep5')?'已有最終決策紀錄；資料變更後仍須重新確認':'尚待完成行前檢核與具名確認'
+   ];
+   const flags=[
+      !!all, solo||member,route.length>0,guardian&&insured&&rem, textGear,done('journeyStep5')
+   ];
+   const missing=[];
+   // A mentioned item is not an already verified item; only the existing preserved P9 states may indicate saved closure.
+   const saved=[false,done('journeyStep2'),done('journeyStep3'),false,done('journeyStep4'),done('journeyStep5')];
+   for(let i=0;i<6;i++){
+      const needsReview=(i===0 ? !textPreview(all) : (i===3 ? !(guardian&&insured&&rem) : !saved[i]));
+      if(needsReview)missing.push(six[i][0]+'：'+states[i]);
+      const item=byId('qa078Item'+(i+1));if(!item)continue;
+      const status=q('.qa078State',item);if(!status)continue;
+      status.textContent=summaryMade?states[i]:(i===0&&all?'有輸入內容，按一下整理':'待輸入行程後檢查');
+      status.dataset.state=summaryMade?(flags[i]?'identified':'attention'):'idle';
+   }
+   return {all,name,body,states,missing,solo};
+ }
+ function generate(){
+   const a=assess();if(!a.all){byId('qa074Trip')?.focus();return;}
+   summaryMade=true;const b=assess();
+   const label=b.solo?'獨攀':'團體／活動型態待核對';
+   const summary='行程：'+(b.name||'原文未列名稱')+'\n方式：'+label+'\n';
+   const intro=b.missing.length?'仍需補充／核對：\n'+b.missing.map((s,i)=>(i+1)+'. '+s).join('\n'):'六項皆有資料線索，仍須核對並完成原有正式檢核。';
+   lastReport='山上優雅｜行前待補清單\n'+summary+intro+'\n請以現場及相關資料逐項核對。';
+   const o=byId('qa078Review');if(o){o.hidden=false;o.textContent=lastReport;}
+   const copy=byId('qa078Copy');if(copy)copy.disabled=false;
+   const state=byId('qa078ReportState');if(state)state.textContent='已整理六項待補清單；點選各項可直接修改。';
+   byId('qa078Review')?.scrollIntoView({behavior:'smooth',block:'nearest'});
+ }
+ function gotoPageFrom(id,target){
+   // Click the original, retained handler, so the original router and History API stay authoritative.
+   byId(id)?.click();
+   if(target){
+     const reveal=()=>{const e=byId(target);if(!e)return;if(target==='qa071Pretrip')e.hidden=false;let p=e;while(p){if(p.tagName==='DETAILS')p.open=true;p=p.parentElement;}e.scrollIntoView({behavior:'smooth',block:'center'});};
+     setTimeout(reveal,220);setTimeout(reveal,650);
+   }
+ }
+ function nav(i){
+   if(i===1){byId('qa078Item1')?.scrollIntoView({behavior:'smooth',block:'start'});byId('qa074Trip')?.focus({preventScroll:true});return;}
+   if(i===4){gotoPageFrom('journeyStep4','externalSupportCard');return;}
+   if(i===5){gotoPageFrom('journeyStep4','gearList');return;}
+   gotoPageFrom(six[i-1][1]);
+ }
+ function wire(){
+   const overview=byId('journeySteps'),start=byId('qa074Start');if(!overview||!start||byId('qa078Six'))return;
+   const host=document.createElement('div');host.id='qa078Six';host.setAttribute('aria-label','出發前六大項');
+   for(let i=1;i<=6;i++){
+     const item=document.createElement('section');item.className='qa078Item'+(i===1?' qa078First':'');item.id='qa078Item'+i;
+     const button=document.createElement('button');button.type='button';button.className='qa078Head';
+     button.innerHTML='<span>'+i+'. '+six[i-1][0]+'</span><span class="qa078Chevron" aria-hidden="true">›</span>';
+     button.addEventListener('click',()=>nav(i));item.appendChild(button);
+     const state=document.createElement('div');state.className='qa078State';state.setAttribute('role','status');state.textContent='待輸入行程後檢查';item.appendChild(state);
+     if(i===1){
+       item.appendChild(start); // Move the original input controls; do NOT clone or replace their event handlers.
+       const buttons=document.createElement('div');buttons.className='qa078Actions';
+       const details=document.createElement('button');details.type='button';details.className='qa078Act';details.textContent='查看完整行程資料';details.addEventListener('click',()=>gotoPageFrom('journeyStep1','recruitment'));
+       const copy=document.createElement('button');copy.type='button';copy.className='qa078Act';copy.id='qa078Copy';copy.textContent='複製待補清單';copy.disabled=true;
+       copy.addEventListener('click',async()=>{
+         if(!lastReport)return;try{await navigator.clipboard.writeText(lastReport);byId('qa078ReportState').textContent='待補清單已複製，可貼給同行人員。';}
+         catch(e){const selection=window.getSelection(),range=document.createRange(),node=byId('qa078Review');if(node&&selection){range.selectNodeContents(node);selection.removeAllRanges();selection.addRange(range)}byId('qa078ReportState').textContent='已選取清單文字，請使用「複製」。';}
+       });
+       buttons.append(details,copy);start.appendChild(buttons);
+       const heading=document.createElement('div');heading.className='qa078BriefTitle';heading.textContent='六項待補清單';start.appendChild(heading);
+       const status=document.createElement('div');status.id='qa078ReportState';status.className='qa078Help';status.textContent='貼上行程後，按「一鍵整理」，立即查看缺少什麼。';start.appendChild(status);
+       const report=document.createElement('div');report.id='qa078Review';report.hidden=true;start.appendChild(report);
+       const orig=q('#qa074Analyze',item);if(orig){orig.textContent='一鍵產生行程摘要與待補清單';document.addEventListener('click',e=>{if(e.target===orig||orig.contains(e.target))setTimeout(generate,120)},{capture:true});}
+       for(const key of ['qa074Trip','qa074Text'])q('#'+key,item)?.addEventListener('input',()=>{summaryMade=false;lastReport='';byId('qa078Copy').disabled=true;byId('qa078Review').hidden=true;assess()});
+     }
+     host.appendChild(item);
+   }
+   overview.parentNode.insertBefore(host,overview);
+   document.body.classList.add('qa078Ready');
+   // Visible headings only; retain original element IDs, forms and binding code.
+   for(const [section,title] of [['p1','行程規劃'],['p4','裝備配置'],['p5','完備確認']]){
+     const h=q('h2',byId(section));if(h)h.textContent=title;
+   }
+   const support=byId('externalSupportCard');
+   if(support){
+     const heading=q('summary b',support);if(heading)heading.textContent='保險與留守聯絡';
+     const body=q('.v0632DisclosureBody',support);
+     if(body&&!byId('qa078SupportLinks')){
+       const links=document.createElement('div');links.className='qa078Actions';links.id='qa078SupportLinks';
+       const insurance=document.createElement('button');insurance.className='qa078Act';insurance.type='button';insurance.textContent='保險安排';
+       insurance.addEventListener('click',()=>gotoPageFrom('journeyStep2','insuranceMode'));
+       const reminder=document.createElement('button');reminder.className='qa078Act';reminder.type='button';reminder.textContent='回報時間';
+       reminder.addEventListener('click',()=>gotoPageFrom('journeyStep1','qa071Pretrip'));
+       links.append(insurance,reminder);body.prepend(links);
+     }
+   }
+   document.addEventListener('input',schedule,{passive:true});document.addEventListener('change',schedule,{passive:true});
+   const watched=byId('journeySteps');if(watched)new MutationObserver(schedule).observe(watched,{subtree:true,childList:true,attributes:true,attributeFilter:['data-status']});
+   const trip=byId('journeyTripName');if(trip)new MutationObserver(schedule).observe(trip,{subtree:true,characterData:true,childList:true});
+   setTimeout(assess,250);setTimeout(assess,1100);
+ }
+ function schedule(){if(scheduled)return;scheduled=true;setTimeout(()=>{scheduled=false;assess()},150);}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire,{once:true});else wire();
+})();
+</script>
+
 </body></html>

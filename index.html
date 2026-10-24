@@ -2153,34 +2153,22 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
 <section id="p0" class="page active">
 <div class="journeyTripContext"><span>行程</span><b id="journeyTripName">尚未建立行程</b></div>
 
-  <section class="qa071Card" id="qa071Pretrip" aria-labelledby="qa071Title">
-  <h2 id="qa071Title">這次去哪裡？</h2>
-  <p class="qa071Lead">選好路線與報平安的時間，再繼續準備。</p>
-  <div class="qa071Grid">
-    <div><label for="qa071Route">路線類型</label>
-      <select id="qa071Route" required>
-        <option value="">選擇路線</option>
-        <option value="郊山">郊山</option>
-        <option value="中級山">中級山</option>
-        <option value="百岳">百岳</option>
-        <option value="探勘路線">探勘路線</option>
-        <option value="縱走路線">縱走路線</option>
-        <option value="非傳統路線">非傳統路線</option>
-      </select>
-    </div>
-    <div><label for="qa071Report">留守回報提醒</label>
-      <select id="qa071Report" required>
-        <option value="">選擇時間</option>
-        <option value="60">每 1 小時</option>
-        <option value="180">每 3 小時</option>
-        <option value="360">每 6 小時</option>
-        <option value="node">只在重要節點</option>
-      </select>
-    </div>
-  </div>
-  <button type="button" id="qa071Save" class="qa071Primary">儲存設定，準備出發</button>
-  <output id="qa071SaveState" class="qa071Feedback" role="status" aria-live="polite">尚未儲存</output>
-</section>
+
+  <section id="qa074Start" class="qa074Start" aria-labelledby="qa074Title">
+   <h2 id="qa074Title">先說這次要去哪裡</h2>
+   <p>輸入行程名稱，或貼上招募文、行程計畫，系統會整理已有資訊及需要確認的地方。</p>
+   <label for="qa074Trip">行程名稱</label>
+   <input id="qa074Trip" autocomplete="off" placeholder="例如：鎮西堡－司馬庫斯櫻花季">
+   <label for="qa074Text">招募文／行程計畫（可留空）</label>
+   <textarea id="qa074Text" placeholder="有招募文就直接貼上；自己規劃只填行程名稱也可以。"></textarea>
+   <button type="button" id="qa074Analyze">產生行程與風險摘要</button>
+   <output id="qa074Feedback" role="status" aria-live="polite">尚未建立行程</output>
+   <div id="qa074Summary" hidden>
+    <h3>這次行程摘要</h3>
+    <div id="qa074SummaryText"></div>
+    <button type="button" id="qa074Review">查看詳細摘要及設定報平安時間 ›</button>
+   </div>
+  </section>
 
   <div class="journeySteps" id="journeySteps">
     <button class="journeyStep" data-step-target="p1" id="journeyStep1">
@@ -2237,6 +2225,27 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
 <div class="card"><h3>目前缺口與建議詢問</h3><div id="recruitMissing"></div></div>
 <div class="toolbar"><button class="primary next" data-next="p2">下一步：隊伍成員</button></div>
 </div>
+ <section class="qa071Card qa074After" id="qa071Pretrip" aria-labelledby="qa071Title" hidden>
+  <h2 id="qa071Title">報平安時間</h2>
+  <p class="qa071Lead">先看上方摘要，再設定需要提醒自己的時間。路線類型可依原文建議調整，也能先不選。</p>
+  <label for="qa071Route">路線類型（可調整）</label>
+  <select id="qa071Route">
+   <option value="">尚未確認／稍後再選</option>
+   <option value="郊山">郊山</option><option value="中級山">中級山</option><option value="百岳">百岳</option>
+   <option value="探勘路線">探勘路線</option><option value="縱走路線">縱走路線</option><option value="非傳統路線">非傳統路線</option>
+  </select>
+  <p id="qa074RouteHint" class="qa074Hint">請依實際規劃核對，不會只憑名稱認定路線。</p>
+  <label>留守回報提醒（自行設定）</label>
+  <div class="qa074Interval">
+   <div><label for="qa071Hours">小時</label><input type="number" id="qa071Hours" min="0" max="168" step="1" inputmode="numeric" value="3"></div>
+   <div><label for="qa071Minutes">分鐘</label><input type="number" id="qa071Minutes" min="0" max="59" step="1" inputmode="numeric" value="0"></div>
+  </div>
+  <label class="qa074NodeLabel" for="qa074NodeOnly"><input type="checkbox" id="qa074NodeOnly">只在重要節點自行回報</label>
+  <p class="qa074Hint">此處設定提醒，不會自動寄送簡訊。</p>
+  <button type="button" id="qa071Save" class="qa071Primary">儲存報平安設定</button>
+  <output id="qa071SaveState" class="qa071Feedback" role="status" aria-live="polite">尚未儲存</output>
+ </section>
+
 </section>
 
 <section id="p2" class="page">
@@ -10474,90 +10483,107 @@ body.qa070 #p11ui .p11Hero{margin-bottom:8px!important}
  'use strict';
  const KEY='tsums_youya_qa071_route_report_v1';
  const ROUTES=['郊山','中級山','百岳','探勘路線','縱走路線','非傳統路線'];
- const TIMES={'60':'每 1 小時','180':'每 3 小時','360':'每 6 小時',node:'只在重要節點'};
  const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
  let state=null,storageError='';
- function valid(x){return x&&ROUTES.includes(x.route)&&Object.hasOwn(TIMES,x.report)}
- function read(){try{const raw=localStorage.getItem(KEY);const d=raw?JSON.parse(raw):null;return valid(d)?d:null}catch(e){storageError='本機設定讀取失敗，請檢查瀏覽器儲存權限';return null}}
- function persist(){try{localStorage.setItem(KEY,JSON.stringify(state));return true}catch(e){storageError='無法儲存設定，請檢查瀏覽器儲存權限';return false}}
- function info(s,kind='',scope=document){scope.querySelectorAll('.qa071Feedback').forEach(n=>{n.textContent=s;n.dataset.kind=kind})}
+ const isMinute=(v)=>/^\d+$/.test(String(v))&&Number(v)>0&&Number(v)<=10080;
+ const valid=(x)=>!!(x&&(x.route===''||ROUTES.includes(x.route))&&(x.report==='node'||isMinute(x.report)));
+ const describe=(v)=>v==='node'?'只在重要節點':isMinute(v)?`每 ${Math.floor(+v/60)?Math.floor(+v/60)+' 小時 ':''}${(+v%60)?(+v%60)+' 分鐘':''}`.trim():'尚未設定';
+ function read(){try{const raw=localStorage.getItem(KEY),d=raw?JSON.parse(raw):null;return valid(d)?d:null}catch(e){storageError='本機設定無法讀取';return null}}
+ function persist(){try{localStorage.setItem(KEY,JSON.stringify(state));return true}catch(e){storageError='本機設定無法儲存';return false}}
+ function info(s,kind='',scope=document){(scope||document).querySelectorAll('.qa071Feedback').forEach(n=>{n.textContent=s;n.dataset.kind=kind})}
  function format(t){try{return new Date(t).toLocaleString('zh-TW',{hour12:false,month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}catch(e){return '—'}}
+ function setEdit(){const route=$('#qa071Route'),hours=$('#qa071Hours'),mins=$('#qa071Minutes'),node=$('#qa074NodeOnly');
+  if(route&&state)route.value=state.route||'';
+  if(node)node.checked=state?.report==='node';
+  if(state&&state.report!=='node'){
+   if(hours)hours.value=String(Math.floor(Number(state.report)/60));
+   if(mins)mins.value=String(Number(state.report)%60);
+  }
+  if(hours)hours.disabled=!!node?.checked;if(mins)mins.disabled=!!node?.checked;
+ }
  function render(){
-  const route=state?.route||'尚未設定',interval=state?TIMES[state.report]:'尚未設定';
+  const route=state?.route||'未確認',interval=state?describe(state.report):'尚未設定';
   $$('[data-qa071-route]').forEach(n=>n.textContent=route);
   $$('[data-qa071-interval]').forEach(n=>n.textContent=interval);
-  const a=$('#qa071Route'),b=$('#qa071Report');
-  if(a&&state)a.value=state.route;if(b&&state)b.value=state.report;
-  const save=$('#qa071SaveState');if(save&&state){save.textContent=`已儲存：${route}｜${interval}`;save.dataset.kind='ok'}
+  const out=$('#qa071SaveState');if(out&&state){out.textContent=`已儲存：${interval}`;out.dataset.kind='ok'}
   tick();
  }
  function tick(){
   $$('[data-qa071-countdown]').forEach(n=>{
    n.classList.remove('due');
-   if(!state){n.textContent='先在出發前設定';return}
+   if(!state){n.textContent='出發前可設定報平安時間';return}
    if(state.report==='node'){n.textContent='在重要節點自行回報';return}
    if(!Number.isFinite(state.timerStart)){n.textContent='按「開始提醒」啟動倒數';return}
-   const minute=Number(state.report),last=Number.isFinite(state.lastReport)?state.lastReport:state.timerStart;
-   const due=last+minute*60000;
-   const ms=due-Date.now();
-   if(ms<=0){n.textContent='回報時間到了，請聯絡留守人';n.classList.add('due');return}
-   const mins=Math.ceil(ms/60000),h=Math.floor(mins/60),m=mins%60;
+   const last=Number.isFinite(state.lastReport)?state.lastReport:state.timerStart;
+   const ms=last+Number(state.report)*60000-Date.now();
+   if(ms<=0){n.textContent='報平安時間到了';n.classList.add('due');return}
+   const count=Math.ceil(ms/60000),h=Math.floor(count/60),m=count%60;
    n.textContent=`下次提醒：約 ${h?h+' 小時 ':''}${m} 分鐘後`;
-  })
+  });
  }
- function save(){const a=$('#qa071Route'),b=$('#qa071Report'),out=$('#qa071SaveState');
-  const route=a?.value||'',report=b?.value||'';
-  if(!ROUTES.includes(route)||!Object.hasOwn(TIMES,report)){if(out){out.textContent='請先選擇路線與回報時間';out.dataset.kind='err'}return}
-  const previous=state;
+ function save(){
+  const route=$('#qa071Route')?.value||'',h=$('#qa071Hours')?.value,m=$('#qa071Minutes')?.value,node=$('#qa074NodeOnly')?.checked;
+  const out=$('#qa071SaveState');
+  if(route&&!ROUTES.includes(route)){info('請重新確認路線','err',$('#qa071Pretrip'));return}
+  const hr=Number(h),mi=Number(m);
+  if(!node&&(!Number.isInteger(hr)||!Number.isInteger(mi)||hr<0||hr>168||mi<0||mi>59||hr*60+mi<=0||hr*60+mi>10080)){
+   info('請輸入有效的小時與分鐘，或勾選重要節點','err',$('#qa071Pretrip'));return;
+  }
+  const report=node?'node':String(hr*60+mi),previous=state;
   state={route,report,timerStart:null,lastReport:null,updatedAt:Date.now()};
-  if(previous&&previous.report===report){state.timerStart=previous.timerStart??null;state.lastReport=previous.lastReport??null}
-  if(!persist()){state=previous;if(out){out.textContent=storageError;out.dataset.kind='err'}return}
-  render();
+  if(previous?.report===report){state.timerStart=previous.timerStart??null;state.lastReport=previous.lastReport??null}
+  if(!persist()){state=previous;info(storageError,'err',$('#qa071Pretrip'));return}
+  render();info('報平安設定已存到本機','ok',$('#qa071Pretrip'));
  }
  function fieldMessage(){
-  const trip=$('#journeyTripName')?.textContent?.trim();
-  const location=$('#fieldLocation')?.value?.trim();
-  const lines=[`山上優雅｜留守回報`,`時間：${format(Date.now())}`];
+  const trip=$('#journeyTripName')?.textContent?.trim(),location=$('#fieldLocation')?.value?.trim();
+  const lines=['山上優雅｜留守回報',`時間：${format(Date.now())}`];
   if(trip&&trip!=='尚未建立行程')lines.push('行程：'+trip);
-  lines.push('路線：'+(state?.route||'未設定'));
+  lines.push('路線：'+(state?.route||'待確認'));
   lines.push('位置：'+(location||'待補充目前座標或位置'));
   lines.push('目前狀況：請補充');
-  lines.push('下一個預計回報時間：'+(state?.report==='node'?'下一個重要節點':state?.report?`${state.report} 分鐘後（預計）`:'未設定'));
+  lines.push('預計下次回報：'+(state?describe(state.report):'尚未設定'));
   return lines.join('\n');
  }
  function messageNode(btn){const el=btn.closest('.qa071Field');return{scope:el,wrap:el?.querySelector('[data-qa071-msgwrap]'),text:el?.querySelector('[data-qa071-message]')}}
- function navigatePrep(){const first=$('#tsumsTabP9');if(first)first.click();else if(typeof go==='function')go('p0');
-  setTimeout(()=>{$('#qa071Pretrip')?.scrollIntoView({block:'start',behavior:'smooth'})},70)}
- function start(btn){if(!state){info('請先完成出發前設定','err',btn.closest('.qa071Field'));return}
-  if(state.report==='node'){info('重要節點模式：隨時可整理訊息回報','ok',btn.closest('.qa071Field'));return}
-  if(!Number.isFinite(state.timerStart)){state.timerStart=Date.now();state.lastReport=null;
-   if(!persist()){state.timerStart=null;info(storageError,'err',btn.closest('.qa071Field'));return}}
-  info('留守回報提醒已開始','ok',btn.closest('.qa071Field'));render()
+ function navigatePrep(){
+  const first=$('#tsumsTabP9');if(first)first.click();
+  if(typeof go==='function')void go('p1');
+  else $('#journeyStep1')?.click();
+  setTimeout(()=>{const x=$('#qa071Pretrip');if(x){x.hidden=false;x.scrollIntoView({block:'start',behavior:'smooth'})}},90);
  }
- function mark(btn){if(!state){info('請先完成出發前設定','err',btn.closest('.qa071Field'));return}
+ function start(btn){const box=btn.closest('.qa071Field');if(!state){info('先在出發前設定報平安時間','err',box);return}
+  if(state.report==='node'){info('重要節點模式：可隨時整理訊息回報','ok',box);return}
+  if(!Number.isFinite(state.timerStart)){
+   state.timerStart=Date.now();state.lastReport=null;
+   if(!persist()){state.timerStart=null;info(storageError,'err',box);return}
+  }
+  info('報平安提醒已開始','ok',box);render();
+ }
+ function mark(btn){const box=btn.closest('.qa071Field');if(!state){info('尚未設定報平安時間','err',box);return}
   if(!window.confirm('是否已自行完成本次回報？'))return;
   const old={...state};state.lastReport=Date.now();if(!Number.isFinite(state.timerStart))state.timerStart=state.lastReport;
-  if(!persist()){state=old;info(storageError,'err',btn.closest('.qa071Field'));return}
-  info('本次人工回報時間已記下','ok',btn.closest('.qa071Field'));render()
+  if(!persist()){state=old;info(storageError,'err',box);return}
+  info('已記下你確認的回報時間','ok',box);render();
  }
  function compose(btn){const {scope,wrap,text}=messageNode(btn);if(!wrap||!text)return;
-  wrap.hidden=false;text.value=fieldMessage();info('訊息已整理，請核對後自行傳送','ok',scope);text.focus()
+  wrap.hidden=false;text.value=fieldMessage();info('訊息已整理，請核對後自行傳送','ok',scope);text.focus();
  }
- async function copy(btn){const {scope,text}=messageNode(btn);if(!text||!text.value.trim()){info('先整理訊息','err',scope);return}
+ async function copy(btn){const {scope,text}=messageNode(btn);if(!text?.value.trim()){info('先整理訊息','err',scope);return}
   try{await navigator.clipboard.writeText(text.value);info('已複製訊息','ok',scope)}catch(e){text.focus();text.select();info('請使用手機的複製功能','',scope)}
  }
- async function share(btn){const {scope,text}=messageNode(btn);if(!text||!text.value.trim()){info('先整理訊息','err',scope);return}
+ async function share(btn){const {scope,text}=messageNode(btn);if(!text?.value.trim()){info('先整理訊息','err',scope);return}
   if(!navigator.share){await copy(btn);return}
-  try{await navigator.share({text:text.value}) ;info('分享操作已結束，請自行確認送達情況','',scope)}
+  try{await navigator.share({text:text.value});info('已開啟分享，請自行核對送達','',scope)}
   catch(e){if(e?.name!=='AbortError')info('無法開啟分享，請改用複製','err',scope)}
  }
  function init(){
-  const p=$('#qa071Pretrip'),a=$('#qa071Save');if(!p||!a)return;
+  const p=$('#qa071Pretrip'),saveBtn=$('#qa071Save');if(!p||!saveBtn)return;
   state=read();if(storageError)info(storageError,'err',p);
-  a.addEventListener('click',save);
+  saveBtn.addEventListener('click',save);
+  $('#qa074NodeOnly')?.addEventListener('change',()=>{const checked=$('#qa074NodeOnly')?.checked; const h=$('#qa071Hours'),m=$('#qa071Minutes');if(h)h.disabled=!!checked;if(m)m.disabled=!!checked;});
   document.addEventListener('click',ev=>{
-   const t=ev.target.closest?.('[data-qa071-start],[data-qa071-compose],[data-qa071-mark],[data-qa071-edit],[data-qa071-copy],[data-qa071-share]');
-   if(!t)return;
+   const t=ev.target.closest?.('[data-qa071-start],[data-qa071-compose],[data-qa071-mark],[data-qa071-edit],[data-qa071-copy],[data-qa071-share]');if(!t)return;
    if(t.hasAttribute('data-qa071-edit'))navigatePrep();
    else if(t.hasAttribute('data-qa071-start'))start(t);
    else if(t.hasAttribute('data-qa071-mark'))mark(t);
@@ -10565,11 +10591,9 @@ body.qa070 #p11ui .p11Hero{margin-bottom:8px!important}
    else if(t.hasAttribute('data-qa071-copy'))copy(t);
    else if(t.hasAttribute('data-qa071-share'))share(t);
   });
-  const help=$('#tsumsHelp');if(help){
-   const d=document.createElement('details');d.innerHTML='<summary>路線與留守提醒如何運作？</summary><p>六種路線只設定操作偏好。探勘／非傳統路線以 3 分鐘、其他路線以 10 分鐘作為前景定位參考；實際打點取決於定位授權、頁面運作與裝置狀態。倒數提醒只在網頁可執行時更新，不代表鎖屏背景提醒。簡訊與衛星通訊不會自動傳送；按「記下已回報」只是人工記錄，並不代表對方收到。設定存在本機，不取代正式行程確認與既有安全程序。</p>';
-   help.appendChild(d);
-  }
-  render();window.setInterval(tick,15000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick()});
+  $('#tsumsHelp')?.insertAdjacentHTML('beforeend','<details><summary>報平安時間說明</summary><p>此設定會在本機顯示倒數提醒，不保證手機鎖定後持續通知，也不會自動傳送簡訊。重要節點由使用者自行判斷。這個設定不取代既有失聯升級或必要求援流程。</p></details>');
+  setEdit();render();window.setInterval(tick,15000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick()});
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
@@ -10754,6 +10778,105 @@ header .tsumsP9ManifestText{white-space:normal;overflow-wrap:anywhere}
   if(tools)details.appendChild(tools);
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',move,{once:true});else move();
+})();
+</script>
+
+<style id="tsums-qa074-flow-style">
+#qa074Start{margin:13px 0 18px;padding:18px 15px;border:1.5px solid #a9844c;border-radius:16px;background:#21190f;color:#f6e6c8}
+#qa074Start h2{font-size:24px;color:#ffdc92;margin:0 0 9px}
+#qa074Start h3{font-size:19px;color:#ffdc92;margin:10px 0}
+#qa074Start p,#qa074Start output{display:block;color:#e7cca1;font-size:15px;line-height:1.6;margin:7px 0 12px}
+#qa074Start label{color:#ffe6b6;font-size:16px;margin-top:12px}
+#qa074Start input,#qa074Start textarea{background:#120e09;color:#fff1d5;border:1.5px solid #a98350;font-size:17px;max-width:100%}
+#qa074Start textarea{min-height:115px}
+#qa074Start button{display:block;width:100%;min-height:59px;margin:14px 0 7px;border:2px solid #e4bb73;border-radius:12px;background:#e5bd71;color:#221508;font-size:18px;font-weight:900}
+#qa074Summary{margin-top:14px;padding:14px;border:1px solid #916c36;border-radius:12px;background:#130f0b}
+#qa074Summary[hidden],#qa071Pretrip[hidden]{display:none!important}
+#qa074SummaryText{white-space:pre-line;color:#f5e0b8;font-size:16px;line-height:1.55}
+#qa074Summary button{background:#38270f;color:#ffe6ad;font-size:16px}
+#qa071Pretrip.qa074After{scroll-margin-top:110px;margin-top:17px}
+#qa071Pretrip .qa074Interval{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:8px 0 12px}
+#qa071Pretrip .qa074Interval input{font-size:20px;font-weight:800;max-width:100%;background:#130e09;color:#fff1d5;border:1.5px solid #a98350}
+#qa071Pretrip .qa074NodeLabel{display:flex;align-items:center;gap:12px;padding:13px 10px;border:1px solid #8b6c3d;border-radius:10px;margin:11px 0;cursor:pointer}
+#qa071Pretrip .qa074NodeLabel input{width:27px;height:27px;min-height:27px;margin:0;accent-color:#e5bd71}
+#qa071Pretrip .qa074Hint{font-size:13px;line-height:1.6;color:#ddc598;margin:8px 0}
+#qa071Pretrip [disabled]{opacity:.45}
+@media(max-width:390px){#qa074Start{padding:14px 12px}#qa071Pretrip .qa074Interval{grid-template-columns:1fr 1fr}}
+body.field #qa074Start,body.field #qa071Pretrip{background:#fff5df;color:#121212}
+body.field #qa074Start p,body.field #qa074Start output,body.field #qa074SummaryText,body.field #qa071Pretrip .qa074Hint{color:#493815}
+body.field #qa074Start input,body.field #qa074Start textarea,body.field #qa071Pretrip input{background:#fff;color:#111}
+body.field #qa074Start h2,body.field #qa074Start h3{color:#674100}
+</style>
+<script id="tsums-qa074-pretrip-first-analyze">
+(function(){
+ 'use strict';
+ const $=q=>document.querySelector(q);
+ const ROUTES=['郊山','中級山','百岳','探勘路線','縱走路線','非傳統路線'];
+ let busy=false,pending=false;
+ function hint(){
+  const text=($('#recruitment')?.value||'')+'\n'+($('#tripName')?.value||'');
+  // An explicit category mention is a suggestion, not a verified route fact.
+  const candidates=ROUTES.filter(x=>text.includes(x));
+  const node=$('#qa071Route'),label=$('#qa074RouteHint');
+  if(!node||!label)return;
+  if(candidates.length===1){
+   if(!node.value)node.value=candidates[0];
+   label.textContent='原文提及「'+candidates[0]+'」；請核對後儲存。';
+  }else if(candidates.length>1){label.textContent='原文出現多種類型，請依實際行程自行選擇。'}
+  else{label.textContent='原文未提供明確路線類型，可稍後再補。'}
+ }
+ function updateSummary(){
+  if(pending)return false;
+  const result=$('#recruitResult'),panel=$('#qa071Pretrip');
+  if(!result||getComputedStyle(result).display==='none')return false;
+  if(panel)panel.hidden=false;
+  const name=$('#tripName')?.value.trim()||'未命名行程';
+  const fields=Array.from($('#recruitFields')?.querySelectorAll('tr')||[]).slice(0,3).map(e=>e.textContent.trim().replace(/\s+/g,' '));
+  const gaps=Array.from($('#recruitMissing')?.querySelectorAll('.alert')||[]).slice(0,3).map(e=>e.textContent.trim());
+  const lines=['行程：'+name];
+  if(fields.length)lines.push('原文資訊：'+fields.join('、'));
+  if(gaps.length)lines.push('尚待核對：'+gaps.join('；'));
+  const output=$('#qa074SummaryText');if(output)output.textContent=lines.join('\n');
+  const box=$('#qa074Summary');if(box)box.hidden=false;
+  const status=$('#qa074Feedback');if(status)status.textContent='已整理原文摘要，可繼續補足資料。';
+  hint();return true;
+ }
+ function forward(){if(typeof go==='function'){void go('p1')}else $('#journeyStep1')?.click();
+  setTimeout(()=>{$('#qa071Pretrip')?.scrollIntoView({behavior:'smooth',block:'start'})},80)
+ }
+ function run(){
+  const title=$('#qa074Trip')?.value.trim()||'',text=$('#qa074Text')?.value.trim()||'';
+  const out=$('#qa074Feedback');
+  if(!title&&!text){if(out)out.textContent='請輸入行程名稱或貼上招募文。';$('#qa074Trip')?.focus();return}
+  if(busy)return;
+  const name=$('#tripName'),src=$('#recruitment');if(!name||!src)return;
+  const inferred=(text.match(/(?:活動名稱|行程名稱)[：:]\s*([^\n]+)/)||[])[1]||'';
+  name.value=title||inferred.trim()||'未命名行程';
+  src.value=text;
+  const start=text?$('#analyzeRecruitment'):$('#p9pdfPlanFromBlank');
+  if(!start){if(out)out.textContent='原有分析功能尚未就緒，請點「1. 團體招募」補充資料。';return}
+  busy=true;pending=true;const box=$('#qa074Summary');if(box)box.hidden=true;
+  if(out)out.textContent='正在依照原有分析流程整理行程…';
+  // Invoke only the original P9 button, preserving IndexedDB, event provenance, and decision gates.
+  start.click();
+  setTimeout(()=>{busy=false;if(pending&&out)out.textContent='原有分析尚未完成；請前往「1. 團體招募」核對儲存狀態。'},2000);
+ }
+ function init(){
+  const goBtn=$('#qa074Analyze');if(!goBtn)return;
+  goBtn.addEventListener('click',run);
+  $('#qa074Review')?.addEventListener('click',forward);
+  const original=$('#recruitResult');
+  if(original)new MutationObserver(()=>{if(!pending)updateSummary()}).observe(original,{attributes:true,attributeFilter:['style']});
+  const fields=$('#recruitFlags');if(fields)new MutationObserver(()=>{if(pending){pending=false;busy=false;}updateSummary()}).observe(fields,{childList:true,subtree:true});
+  const t=$('#tripName'),r=$('#recruitment');
+  let touched=false;const quickName=$('#qa074Trip'),quickText=$('#qa074Text');
+  quickName?.addEventListener('input',()=>touched=true);quickText?.addEventListener('input',()=>touched=true);
+  function syncInput(){if(touched)return;if(quickName)quickName.value=t?.value||'';if(quickText)quickText.value=r?.value||'';}
+  syncInput();const label=$('#journeyTripName');if(label)new MutationObserver(syncInput).observe(label,{childList:true,characterData:true,subtree:true});
+  if(original)setTimeout(updateSummary,800);
+  const details=$('#qa071Pretrip');if(details){details.hidden=!(original&&getComputedStyle(original).display!=='none')}
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
 </body></html>

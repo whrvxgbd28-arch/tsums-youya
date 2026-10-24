@@ -10191,4 +10191,180 @@ packageData=async function(){
  let attempts=0;const boot=()=>{if(storeReady())restore();else if(attempts++<25)setTimeout(boot,400)};setTimeout(boot,450);
 })();
 </script>
+
+<!-- QA-070 presentation-only layer. Original 4.0V source and runtime transactions are preserved above. -->
+<style id="tsums-qa070-user-facing">
+/* Presentation-only. Any field/evidence/state logic and backend data are untouched. */
+body.qa070 .kicker,body.qa070 .archline,body.qa070 #buildMarker,
+body.qa070 .statusbar .pill:last-child,body.qa070 #tsums-review-banner,
+body.qa070 #p6ui .p10auditOwner,body.qa070 #p6ui .p10uiModuleMeta,
+body.qa070 #p6ui .p10uiHint,body.qa070 #p6ui .p10uiFlow,
+body.qa070 #p6ui .p10uiSummary,body.qa070 #p6ui .p10manualBoundary,
+body.qa070 #p6ui .tsumsBridgeCaution,body.qa070 #p6ui .p10uiBottom,
+body.qa070 #p11ui .p11Scope,body.qa070 #p11ui .p11Signal,
+body.qa070 #p11ui .p11State,body.qa070 #p11ui .p11EndNote,body.qa070 #p11ui .p11Body > p,
+body.qa070 #p11ui .p11Footer > p,
+body.qa070 #p11ui .p11Hero .p11Badge,
+body.qa070 #p11ui details.p11Module summary .p11Name small,
+body.qa070 #p6ui .p10uiBrief,
+body.qa070 #p6ui .p10uiModuleMeta,
+body.qa070 #p6ui .p10uiModuleBody .p10auditOwner {display:none!important}
+/* Header remains the original visual identity; hide public-layer engineering copy. */
+body.qa070 header .tsumsP9Manifesto{padding:8px 10px!important;margin-top:6px!important}
+body.qa070 header .tsumsP9ManifestRow{min-height:54px!important;padding:6px 4px!important}
+body.qa070 header .tsumsP9ManifestRow .tsumsP9ManifestText{font-size:14px!important}
+body.qa070 header .tsumsP9Vow{font-size:14px!important;margin-top:3px!important;padding-top:8px!important}
+body.qa070 #p6ui .p10uiHero,body.qa070 #p11ui .p11Hero{padding:15px!important;margin:8px 0 12px!important}
+body.qa070 #p6ui .p10uiHero h2,body.qa070 #p11ui .p11Hero h2{font-size:26px!important;margin:5px 0!important}
+body.qa070 #p6ui .p10uiHero .p10uiIntro,body.qa070 #p11ui .p11Hero p{font-size:14px!important;line-height:1.5!important}
+body.qa070 #p6ui details.p10uiModule summary,body.qa070 #p11ui details.p11Module summary{min-height:62px!important;padding:13px 11px!important}
+body.qa070 #p6ui .p10uiName,body.qa070 #p11ui details.p11Module summary .p11Name{font-size:17px!important}
+body.qa070 #p6ui .p10uiNum,body.qa070 #p11ui details.p11Module summary .p11Num{font-size:16px!important}
+body.qa070 #p6ui .p10uiGrid{gap:7px!important}
+body.qa070 #p6ui details.p10uiModule{margin:6px 0!important}
+body.qa070 #p6ui .p10uiModuleBody{padding:7px 12px 13px!important}
+body.qa070 #p11ui .p11Body{padding:9px 12px 13px!important}
+body.qa070 #p6ui .p10uiHero .p10uiTags{display:none!important}
+body.qa070 .qa070-action{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:58px;padding:12px 14px;margin:10px 0 0;border-radius:12px;background:#3a2914;color:#ffe0a5;border:2px solid #c39b58;text-align:left;font-size:17px;font-weight:850;touch-action:manipulation}
+body.qa070 .qa070-action::after{content:'›';font-size:25px}
+body.qa070 .qa070-helper{padding:7px 0;font-size:13px;color:#dfcca7;line-height:1.45}
+body.qa070 .tsumsTopTabs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:4px!important;width:100%!important}
+body.qa070 .tsumsTopTabs button{min-width:0!important;min-height:47px!important;padding:6px 2px!important;font-size:clamp(11px,3vw,14px)!important;white-space:normal!important}
+body.qa070 #tsumsTabHelp.is-active{background:var(--gold)!important;color:#141006!important}
+body.qa070 #tsumsHelp{padding:12px 0 35px}
+body.qa070 #tsumsHelp h2{font-size:25px;color:#f1c978;margin:0 0 7px}
+body.qa070 #tsumsHelp h3{font-size:18px;color:#f2d394}
+body.qa070 #tsumsHelp p,body.qa070 #tsumsHelp li{font-size:16px;line-height:1.65}
+body.qa070 #tsumsHelp details{margin:11px 0;padding:14px;border-color:#8b7043}
+body.qa070 #tsumsHelp summary{font-size:17px;color:#f4cf88}
+body.qa070 #tsumsHelp .qa070-back{width:100%;min-height:64px;background:#493318;color:#ffe0a1;border:2px solid #ba9459}
+body.qa070 .qa070-review-card{display:none!important}
+body.qa070 #p11ui .p11Boundary > :not(.p11Nav){display:none!important}
+body.qa070 #p11ui .p11Boundary{padding:10px 11px!important;margin:10px 0!important}
+body.qa070 #p11ui .p11Footer > h3,body.qa070 #p11ui .p11Footer > p{display:none!important}
+body.qa070 .app > footer{display:none!important}
+body.qa070 .v0641CompactHeader{display:none!important}
+body.qa070 #p6ui .p10locPreNotice{display:none!important}
+body.qa070:has(#p6:not(.active)) .fieldBottomNav{display:none!important}
+body.qa070:has(#p6.active) .fieldBottomNav{display:grid!important}
+/* Field view still needs the top 4-page navigation; original mode hides it. */
+body.qa070.onFieldPage .journeyModebar{display:block!important}
+body.qa070 #p6ui .p10auditTopline > span,
+body.qa070 #p6ui .p10auditBoundary,
+body.qa070 #p6ui .p10uiIntro,
+body.qa070 #p6ui .p10uiHero .p10uiTags,
+body.qa070 #p6ui #qa047About,
+body.qa070 #p11ui .p11Hero > p {display:none!important}
+body.qa070 #p6ui .p10auditCritical{margin:8px 0 12px!important;padding:12px!important}
+body.qa070 #p6ui .p10auditTopline strong{font-size:18px!important}
+body.qa070 #p6ui .p10auditQuickGrid button{min-height:72px!important;font-size:15px!important}
+body.qa070 #p6ui .p10auditQuickGrid button small{font-size:12px!important}
+body.qa070 #p11ui .p11Hero{margin-bottom:8px!important}
+@media(max-width:420px){body.qa070 #p6ui .p10uiNum{font-size:15px!important}body.qa070 .qa070-action{font-size:16px}}
+</style>
+<script id="tsums-qa070-facing-only">
+(function(){
+ 'use strict';
+ // This script changes the presentation only. No indexedDB, storage, evidence, permission, or decision writes.
+ const $=(sel,root=document)=>root.querySelector(sel);
+ const $$=(sel,root=document)=>Array.from(root.querySelectorAll(sel));
+ function setLabel(sel,value){const e=$(sel);if(e)e.textContent=value;}
+ function changeText(el,table){if(!el)return; const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);const nodes=[];while(w.nextNode())nodes.push(w.currentNode);nodes.forEach(n=>{let v=n.nodeValue;for(const [re,to] of table)v=v.replace(re,to);if(v!==n.nodeValue)n.nodeValue=v;});}
+ const substitutions=[
+  [/TSUMS\s*4\.0V\s*\|?\s*公共層/gi,''],[/TSUMS\s*4\.0V/gi,''],[/4\.0V/gi,''],
+  [/C[1-5]\s*(?:PCAR|MSLS|UIRF|MFRF|USMP)?/g,''],[/\b(?:PCAR|MSLS|UIRF|MFRF|USMP)\b/g,''],
+  [/\b(?:Public Layer|Protected Core|RiskState)\b/gi,''],
+  [/\bCHECK[ -]?IN\b/gi,'報平安'],[/\bGO\b/g,'出發'],[/\bWAIT\b/g,'暫停'],[/\bRETREAT\b/g,'撤退'],
+  [/SHA-?256/gi,'檔案核對'],[/IndexedDB/gi,'手機紀錄'],[/GPX/g,'路線檔'],[/T0,k/g,'紀錄時間'],
+  [/Stage\s*\d+(?:\s*\/\s*\d+)?/gi,'紀錄'],[/Governance/gi,''],
+  [/治理快照/g,'紀錄'],[/治理回放/g,'紀錄回顧'],[/治理關閉/g,'完成確認'],
+  [/證據鏈/g,'紀錄'],[/正式授權/g,'出發確認'],[/全功能介面預覽/g,'功能總覽'],
+  [/公共層/g,''],[/具名/g,'本人'],[/原始紀錄待歸屬／未核驗/g,'待確認'],
+  [/非自動示警/g,'請留意現場狀況'],[/不等於接通/g,''],[/不代表送達/g,'']
+ ];
+ function cleanStaticLabels(){
+  const roots=$$('header,.modebar,section.page:not(#tsumsHelp)');
+  roots.forEach(root=>$$('button,summary,h2,h3,h4,label',root).forEach(node=>{
+    // Existing controls keep their ID, data bindings, and event listeners; change human-facing text nodes only.
+    if(node.matches('input,[contenteditable],textarea,select'))return;
+    changeText(node,substitutions);
+  }));
+ }
+ function activate(page){
+  try{
+   if(typeof go==='function'){go(page);}else{
+    $$('.page').forEach(p=>p.classList.toggle('active',p.id===page));window.scrollTo(0,0);
+   }
+  }catch(e){console.error('Page navigation failed',e);return;}
+  const h=$('#tsumsTabHelp');if(h){h.classList.toggle('is-active',page==='tsumsHelp');if(page==='tsumsHelp')h.setAttribute('aria-current','page');else h.removeAttribute('aria-current');}
+ }
+ function targetRoute(page,sel){
+  activate(page);
+  if(sel){const dest=$(sel);if(!dest)return;
+    const wrapper=dest.closest('.fieldPanel');if(wrapper&&!wrapper.classList.contains('active')){
+      const tab=$(`[data-field-tab="${wrapper.id}"]`);if(tab)tab.click();
+    }
+    requestAnimationFrame(()=>{const shown=dest.getClientRects().length?dest:dest.closest('.card')||dest;shown.scrollIntoView({block:'center',behavior:'auto'});if(dest.matches('input,textarea,select,button'))dest.focus({preventScroll:true});});
+  }
+ }
+ function addButton(parent,title,page,focus){if(!parent||$('.qa070-action',parent))return;const b=document.createElement('button');b.type='button';b.className='qa070-action';b.textContent=title;b.addEventListener('click',()=>targetRoute(page,focus));parent.appendChild(b);}
+ function init(){
+  document.body.classList.add('qa070');
+  document.title='山上優雅｜行前・途中・行後';setTimeout(()=>{document.title='山上優雅｜行前・途中・行後'},100);
+  setLabel('.tsumsP9ManifestRow[data-journey-nav="pretrip"] .tsumsP9ManifestText','想好路線、裝備和聯絡方式');
+  setLabel('.tsumsP9ManifestRow[data-journey-nav="runtime"] .tsumsP9ManifestText','記錄位置、身體和現場變化');
+  setLabel('.tsumsP9ManifestRow[data-journey-nav="replay"] .tsumsP9ManifestText','查看過程、整理與帶走紀錄');
+  setLabel('header .tsumsP9Vow','自保，然後助人。');
+  setLabel('#tsumsTabP9','出發前');setLabel('#tsumsTabP10','在路上');setLabel('#tsumsTabP11','我的紀錄');
+  ['tsumsTabP9','tsumsTabP10','tsumsTabP11'].forEach(id=>{let el=$('#'+id);if(el)el.setAttribute('aria-label',el.textContent);});
+  const tabs=$('.tsumsTopTabs');if(tabs){
+   const btn=document.createElement('button');btn.id='tsumsTabHelp';btn.type='button';btn.className='tsumsTopTab';btn.textContent='使用須知';btn.addEventListener('click',()=>activate('tsumsHelp'));tabs.appendChild(btn);
+  }
+  const f=document.createElement('section');f.id='tsumsHelp';f.className='page';f.setAttribute('aria-label','使用須知');
+  f.innerHTML=`<div class="card"><h2>使用須知</h2><p>這裡集中說明功能、限制與資料處理。其他三頁只保留當下需要操作的內容。</p>
+  <details><summary>位置與離線紀錄</summary><p>定位需要手機授權。GPS 在山谷或遮蔽處可能不準；iPhone 瀏覽器不能保證鎖定畫面、切換 App 或關閉頁面後仍持續記錄。地圖圖磚與官方公告可能需要網路。不要把沒有記錄的路段當作已經走過的路線。</p></details>
+  <details><summary>聯絡、簡訊與緊急求助</summary><p>複製文字或開啟分享畫面，不代表訊息已送出或對方已收到。需要時應使用實際可用的行動網路、衛星設備或求援方式，並確認對方回應。沒有訊號時，請依現場安全情況採取避險與撤退措施。</p></details>
+  <details><summary>照片、錄音與個人資料</summary><p>拍照與錄音需要相機、麥克風權限，原始媒體可能佔用手機空間。離線保存、匯出與檔案完整性檢查是不同工作；紀錄應先檢查是否真的保存。分享前請確認傷患、兒童及敏感位置等資訊的隱私。</p></details>
+  <details><summary>風險提醒與醫療觀察</summary><p>警示取決於有無實際資料、裝置能力及當時環境。未接入的感測器、官方警報或語音影像辨識，不會自動判定。身體數值是觀察紀錄，不取代現場評估與專業醫療。</p></details>
+  <details><summary>技術與治理資料</summary><p>內部保留五大模組 C1 PCAR、C2 MSLS、C3 UIRF、C4 MFRF、C5 USMP 及完整時間序、權限與證據紀錄。SHA-256 用於檢查內容是否被更動，但不能單靠雜湊證明事故事實或訊息送達。這些術語不要求一般使用者了解。</p></details>
+  <button class="qa070-back" id="qa070HelpBack" type="button">回到出發前</button></div>`;
+  const footer=$('.app > footer');if(footer)footer.before(f);else document.querySelector('.app')?.appendChild(f);
+  $('#qa070HelpBack')?.addEventListener('click',()=>activate('p0'));
+  // Original 14 functional sections remain. Provide a direct route to existing runtime controls instead of dead-end descriptions.
+  const p10=[
+   ['p6','#runtimeQuickCheckin','記錄目前狀況'],['p6','#captureGPS','查看目前位置'],
+   ['p6','#fieldNote','記錄天氣變化'],['p6','#quickRetreat','記錄地形變化'],
+   ['p6','#teamSnapshotNote','查看隊伍狀況'],['p6','#runtimeQuickCheckin','報平安'],
+   ['p6','#commState','記錄通訊狀態'],['p6','#medO','記錄身體狀況'],
+   ['p6','#quickSOS','開啟求援選項'],['p6','#quickWait','評估下一步'],
+   ['p6','#capturePhotoButton','拍照或錄音'],['p6','#runtimeNotifyGuardian','聯絡留守人'],
+   ['p6','#contextNote','記錄現場環境'],['p7','#outcome','查看結束與交接']
+  ];
+  for(let i=1;i<=14;i++){const m=$('#p10ui-m'+String(i).padStart(2,'0'));if(!m)continue;
+   const body=$('.p10uiModuleBody',m);const [page,sel,title]=p10[i-1];addButton(body,title,page,sel);
+  }
+  const p11=[['p7','#outcome','查看行程結果'],['p8','#eventLedger','查看沿途紀錄'],['p8','#eventLedger','核對補充紀錄'],['p8','#exportJson','查看照片與錄音'],['p8','#v0641ExportMasked','查看位置紀錄'],['p7','#v0641HandoffStatus','整理交接情況'],['p8','#exportTxt','查看身體觀察'],['p8','#exportTxt','整理發生經過'],['p7','#repairOwner','補上後續處理'],['p7','#closureActor','確認是否完成'],['p7','#p10PrivCard','查看資料保存'],['p8','#exportJson','匯出紀錄']];
+  for(let i=1;i<=12;i++){const m=$('#p11ui-m'+String(i).padStart(2,'0'));if(!m)continue;const body=$('.p11Body',m);const [page,sel,title]=p11[i-1];addButton(body,title,page,sel);}
+  setLabel('#p6ui .p10uiHero .p10uiOver','在路上');
+  setLabel('#p6ui .p10uiHero h2','途中示警');
+  setLabel('#p11ui .p11Hero h2','我的紀錄');
+  setLabel('#p6ui .p10uiIntro','有變化就記下來，需要協助就打開對應的操作。');
+  setLabel('#p6ui .p10uiDanger','需要立即協助時，請優先確保安全並使用可用的求援方式。');
+  // Fixed human-language equivalents for the original section titles; 14/12 modules and their data logic are not deleted.
+  const p10titles=['目前狀況','位置與走過的路','天氣變化','地形與溪流','同行者狀況','報平安','手機與通訊','身體狀況','需要救援','繼續或撤退','拍照與語音','撤退與接應','環境注意事項','結束與交接'];
+  p10titles.forEach((t,i)=>setLabel('#p10ui-m'+String(i+1).padStart(2,'0')+' .p10uiName',t));
+  const p11titles=['行程結束','紀錄是否完整','補充紀錄','照片與錄音','走過的路','聯絡與交接','身體狀況回顧','事情經過','費用與後續處理','補救與完成','隱私與保存','下載完整紀錄'];
+  p11titles.forEach((t,i)=>{const node=$('#p11ui-m'+String(i+1).padStart(2,'0')+' .p11Name');if(!node)return;for(const n of Array.from(node.childNodes))if(n.nodeType===Node.TEXT_NODE){n.nodeValue=t;break;}});
+  cleanStaticLabels();
+  // Restore friendly tab names if old page scripts update their state; no change to route targets or save actions.
+  setLabel('#tsumsTabP9','出發前');setLabel('#tsumsTabP10','在路上');setLabel('#tsumsTabP11','我的紀錄');
+  // The old preview launchers remain; this is an additive usability link to actual saved-record pages.
+  const preview=$('#p6ui .p10uiHero');if(preview)addButton(preview,'開始現場紀錄','p6','#runtimeQuickCheckin');
+  const review=$('#p11ui .p11Hero');if(review)addButton(review,'打開沿途紀錄','p8','#exportJson');
+  const ph=$('#tsumsTabHelp');
+  if(ph){const observer=new MutationObserver(()=>{const open=$('#tsumsHelp.page.active')!==null;ph.classList.toggle('is-active',open);if(open)ph.setAttribute('aria-current','page');else ph.removeAttribute('aria-current');});$$('section.page').forEach(p=>observer.observe(p,{attributes:true,attributeFilter:['class']}));}
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
 </body></html>

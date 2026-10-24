@@ -1912,6 +1912,48 @@ body.field #p6 .fieldRuntimeTop .metric b,body.field #p6 #v064TrackCard .v064Tra
 #p6ui #p10locSaveGPX{background:#2b2115!important;color:#fff1d2!important}
 #p6ui .p10locOfflineHandoff .p10locPrivacy,#p6ui .p10locHandoffAdvice{font-size:16px!important;line-height:1.65!important}
 </style>
+
+<!-- QA-047 | P10 單一功能區 Focus 檢視。僅呈現層，不變更治理狀態。 -->
+<style id="tsums-p10-qa047-focus-style">
+#p6ui .p10uiFilter{display:none!important}
+#p6ui .p10uiSticky{scroll-margin-top:10px}
+#p6ui .p10uiStrip{gap:9px;scrollbar-width:thin;scroll-padding-inline:8px}
+#p6ui .p10uiStrip>a{
+  min-width:65px!important;min-height:72px!important;
+  border:2px solid #98794d!important;border-radius:14px!important;
+  font-size:21px!important;transition:none!important;
+}
+#p6ui .p10uiStrip>a[aria-current="true"]{
+  background:#efc56c!important;color:#211406!important;
+  border-color:#fff0c2!important;box-shadow:inset 0 0 0 1px #5a391a;
+}
+#p6ui .p10uiStrip>a:focus-visible{outline:3px solid #ffffff!important;outline-offset:3px!important}
+#p6ui .qa047About{margin:12px 0 14px;background:#16110b;border:1px solid #7f633c;border-radius:13px;padding:11px 13px}
+#p6ui .qa047About>summary{font-size:16px;color:#f6d294;min-height:36px;display:flex;align-items:center}
+#p6ui .qa047About .p10uiSummary{margin:9px 0 0;font-size:16px}
+#p6ui .qa047FocusHeader{display:flex;justify-content:space-between;gap:12px;align-items:center;
+  border:2px solid #c79d56;background:linear-gradient(125deg,#302214,#18120b);
+  border-radius:17px;padding:18px 15px;margin:16px 0 12px;scroll-margin-top:110px;min-width:0}
+#p6ui .qa047FocusHeader>div{flex:1;min-width:0}
+#p6ui .qa047FocusKicker{font-weight:900;color:#eac27e;font-size:17px;line-height:1.5}
+#p6ui .qa047FocusHeader h3{font-size:24px;color:#ffe1a2;margin:6px 0;line-height:1.4}
+#p6ui .qa047FocusHeader p{font-size:16px;color:#ead8b6;line-height:1.55;margin:3px 0;overflow-wrap:anywhere}
+#p6ui .qa047FocusMode{flex:0 0 auto;border:1px solid #bc9255;background:#20170e;border-radius:999px;
+  padding:9px 11px;font-size:15px;color:#f5dbab;font-weight:900;max-width:125px;text-align:center}
+#p6ui .p10uiGrid{display:block!important;min-width:0!important}
+#p6ui .p10uiGrid>details.p10uiModule{display:none!important}
+#p6ui .p10uiGrid>details.p10uiModule.qa047Selected{display:block!important;
+  margin:0!important;max-width:100%;border:2px solid #84673c;border-radius:17px;overflow:hidden}
+#p6ui .p10uiGrid>details.p10uiModule>summary{display:none!important}
+#p6ui .p10uiGrid>details.p10uiModule.qa047Selected>.p10uiModuleBody{
+  display:block!important;padding:13px 16px 18px;border-top:0!important}
+@media(max-width:540px){
+  #p6ui .qa047FocusHeader{flex-direction:column;align-items:stretch;padding:15px}
+  #p6ui .qa047FocusMode{align-self:flex-start;max-width:100%}
+  #p6ui .qa047FocusHeader h3{font-size:22px}
+  #p6ui .p10uiGrid>details.p10uiModule.qa047Selected>.p10uiModuleBody{padding:13px 12px 19px}
+}
+</style>
 </head>
 <body>
 <script id="tsums-p0-039-source-of-truth">
@@ -2595,9 +2637,13 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
   <button type="button" class="p10uiReturn" data-p10ui-back>← 返回上一頁（不改寫資料）</button>
   <div class="p10uiSticky"><div class="p10uiStrip"><a href="#p10ui-m01">01</a><a href="#p10ui-m02">02</a><a href="#p10ui-m03">03</a><a href="#p10ui-m04">04</a><a href="#p10ui-m05">05</a><a href="#p10ui-m06">06</a><a href="#p10ui-m07">07</a><a href="#p10ui-m08">08</a><a href="#p10ui-m09">09</a><a href="#p10ui-m10">10</a><a href="#p10ui-m11">11</a><a href="#p10ui-m12">12</a><a href="#p10ui-m13">13</a><a href="#p10ui-m14">14</a></div></div>
   <h3 class="p10uiHeading">功能清單與操作層級</h3>
-  <p class="p10uiIntro">點每張卡片即可展開；顯示「已有入口」僅表示現行程式已有相關欄位，不代表已完成功能驗收。</p>
-  <div class="p10uiFilter" role="group" aria-label="模組篩選"><button type="button" data-p10ui-filter="all" aria-pressed="true">全部 14 區</button><button type="button" data-p10ui-filter="planned" aria-pressed="false">尚待串接</button><button type="button" data-p10ui-filter="legacy" aria-pressed="false">已有入口</button></div>
-  <div class="p10uiSummary"><strong>4.0V 治理主軸：</strong>C1 PCAR × C2 MSLS × C3 UIRF 主承接；C4 MFRF／C5 USMP 依外部責任、成本與程序修復介入。五大核心模組不增減，七大結構與核心參數不公開。<br><strong>當前顯示：</strong>功能呈現清單，不是正式 14-Stage Lifecycle。</div>
+  <p class="p10uiIntro">點上方 01–14 選擇功能區；下方只顯示選定項目。此處為 14 個介面功能區，不是 TSUMS 正式的十四階段治理生命週期。顯示「已有入口」不代表已完成功能驗收。</p>
+  <div class="p10uiFilter" role="group" aria-label="舊版模組篩選（已停用）" hidden><button type="button" data-p10ui-filter="all" aria-pressed="true">全部 14 區</button><button type="button" data-p10ui-filter="planned" aria-pressed="false">尚待串接</button><button type="button" data-p10ui-filter="legacy" aria-pressed="false">已有入口</button></div>
+  <details class="qa047About"><summary>關於公開層功能與驗證邊界</summary><div class="p10uiSummary"><strong>4.0V 治理主軸：</strong>C1 PCAR × C2 MSLS × C3 UIRF 主承接；C4 MFRF／C5 USMP 依外部責任、成本與程序修復介入。五大核心模組不增減，七大結構與核心參數不公開。<br><strong>當前顯示：</strong>功能呈現清單，不是正式 14-Stage Lifecycle。</div></details>
+  <section class="qa047FocusHeader" id="qa047FocusHeader" tabindex="-1" aria-live="polite" aria-atomic="true" aria-label="目前選取的功能區">
+    <div><span class="qa047FocusKicker">目前檢視 · <b id="qa047FocusCount">01 / 14</b></span><h3 id="qa047FocusName">總控與風險狀態</h3><p id="qa047FocusBrief">使用上方數字選擇功能；一次只顯示一區。</p></div>
+    <span class="qa047FocusMode" id="qa047FocusMode">待核驗</span>
+  </section>
   <div class="p10uiGrid"><details class="p10uiModule" id="p10ui-m01" data-p10ui-status="planned" open>
       <summary><span class="p10uiNum">01</span><span><span class="p10uiName">總控與風險狀態</span><span class="p10uiBrief">總覽 RiskState、T0,k、責任、下一決策與位置新鮮度</span></span><span class="p10uiArrow" aria-hidden="true">›</span></summary>
       <div class="p10uiModuleBody"><div class="p10auditOwner" aria-label="本區唯一主責功能">本區主責｜風險與責任總控 · 依 4.0V 公開層界面核驗</div><div class="p10uiModuleMeta"><span>C1 · C2 · C3</span><span>既有介面｜待驗收</span><span>合成 QA／未連線</span></div><div class="p10uiMetrics"><div><span>RiskState</span><strong>未取得</strong></div><div><span>最近 T0,k</span><strong>尚無</strong></div><div><span>具名指揮</span><strong>待核驗</strong></div><div><span>最後回報</span><strong>尚無</strong></div></div><p class="p10uiHint">本區為 UI 尺寸與資訊階層示範；實際狀態只從已啟動的 Field Session 及證據事件取得。</p></div>
@@ -7622,6 +7668,7 @@ document.querySelectorAll('#p6ui [data-p10wear-demo]').forEach(function(button){
 (function(){'use strict';
  const scope=document.getElementById('p6ui');if(!scope)return;
  function goToModule(k){
+  if(typeof window.TSUMSP10FocusSelect==='function'){window.TSUMSP10FocusSelect(k,{scroll:true,fromQuick:true});return}
   const card=document.getElementById('p10ui-m'+k);if(!card)return;
   const reset=scope.querySelector('[data-p10ui-filter="all"]');if(card.hidden&&reset)reset.click();
   card.open=true;
@@ -9589,6 +9636,60 @@ packageData=async function(){
  window.TSUMS_QA043={map_style:'OpenTopoMap',map_mode:'ONLINE_USER_INITIATED_ONLY',offline_tiles:false};
  window.TSUMS_QA044={offlineTarget,mode:'USER_CONFIRMED_COORDINATE_HANDOFF_ONLY',background_sync:false,route_sync:false};
  window.TSUMS_QA046={buildWaypointGPX,mode:'ONE_WAY_GPX_WAYPOINT_SHARE',app:'山林日誌',deep_link_verified:false,app_import_verified:false,third_party_map_read:false};
+})();
+</script>
+
+<script id="tsums-p10-qa047-single-focus">
+/* QA-047 only changes the P10 review-page presentation. No storage, decision or risk-state writes. */
+(function(){'use strict';
+  const scope=document.getElementById('p6ui');
+  if(!scope)return;
+  const cards=Array.from(scope.querySelectorAll('.p10uiGrid>details.p10uiModule'));
+  const nav=scope.querySelector('.p10uiStrip');
+  const tabs=Array.from(nav?.querySelectorAll('a[href^="#p10ui-m"]')||[]);
+  const head=scope.querySelector('#qa047FocusHeader');
+  if(cards.length!==14||tabs.length!==14||!head)return;
+  let selected='01';
+  const set=(id,value)=>{const node=scope.querySelector('#'+id);if(node)node.textContent=value};
+  function select(number,opts){
+    const key=String(number).replace(/^p10ui-m/,'').padStart(2,'0');
+    if(!/^\d{2}$/.test(key))return false;
+    const target=scope.querySelector('#p10ui-m'+key);
+    if(!target||!cards.includes(target))return false;
+    selected=key;
+    cards.forEach(function(card){
+      const match=card===target;
+      card.classList.toggle('qa047Selected',match);
+      card.hidden=!match;
+      card.open=match;
+    });
+    tabs.forEach(function(tab){
+      const active=tab.getAttribute('href')==='#p10ui-m'+key;
+      if(active)tab.setAttribute('aria-current','true');
+      else tab.removeAttribute('aria-current');
+      tab.setAttribute('aria-label',tab.textContent.trim()+'，'+(active?'目前檢視':'點擊檢視')+'功能區');
+    });
+    const name=target.querySelector('.p10uiName')?.textContent?.trim()||('功能區 '+key);
+    const brief=target.querySelector('.p10uiBrief')?.textContent?.trim()||'';
+    set('qa047FocusCount',key+' / 14');set('qa047FocusName',name);set('qa047FocusBrief',brief);
+    set('qa047FocusMode',target.dataset.p10uiStatus==='legacy'?'已有入口／待驗收':'尚待串接');
+    if(opts?.fromQuick){
+      const status=scope.querySelector('#p10auditActionStatus');
+      if(status){status.hidden=false;status.textContent='已切換至「'+name+'」；僅檢視介面，未建立事件、未通知留守人，亦未提交正式決策。'}
+    }
+    if(opts?.scroll){
+      head.scrollIntoView({behavior:'auto',block:'start'});
+      if(opts?.focus)head.focus({preventScroll:true});
+    }
+    return true;
+  }
+  tabs.forEach(function(tab){tab.addEventListener('click',function(ev){
+    ev.preventDefault();
+    select(tab.getAttribute('href').slice(-2),{scroll:true});
+  });});
+  window.TSUMSP10FocusSelect=select;
+  // This is a UI function directory, NOT the canonical 14-stage governance lifecycle.
+  select('01',{scroll:false});
 })();
 </script>
 </body></html>

@@ -1904,6 +1904,14 @@ body.field #p6 #v0641RuntimeBoard .v0641RuntimeMetrics span,body.field #p6 .fiel
 body.field #p6 #v064TrackCard .v064TrackMetrics span{color:#47331a!important}
 body.field #p6 .fieldRuntimeTop .metric b,body.field #p6 #v064TrackCard .v064TrackMetrics b{color:#20150c!important}
 </style>
+<style id="tsums-p10-qa046-mountaindiary-gpx-handoff">
+#p6ui .p10locMountainActions[hidden]{display:none!important}
+#p6ui .p10locMountainActions{display:grid;gap:10px;margin-top:12px}
+#p6ui .p10locMountainActions .p10locHandoffAction{min-height:76px;font-size:20px!important;margin:0!important}
+#p6ui #p10locShareGPX{background:#d6ab5e!important;color:#191006!important;border-color:#ffe1a0!important}
+#p6ui #p10locSaveGPX{background:#2b2115!important;color:#fff1d2!important}
+#p6ui .p10locOfflineHandoff .p10locPrivacy,#p6ui .p10locHandoffAdvice{font-size:16px!important;line-height:1.65!important}
+</style>
 </head>
 <body>
 <script id="tsums-p0-039-source-of-truth">
@@ -2685,14 +2693,20 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
  </div>
  <section id="p10locOfflineHandoff" class="p10locOfflineHandoff" aria-labelledby="p10locOfflineTitle">
    <h3 id="p10locOfflineTitle">使用我的離線地圖</h3>
-   <p>先在慣用地圖 App 下載目的地離線圖資。取得座標後，可由下方選擇 App 開啟<strong>單一位置標記</strong>；這不是路線、軌跡或導航狀態同步。Safari 不能可靠偵測 App 是否已安裝，也不能確認對方已接收。</p>
+   <p>TSUMS 無法直接讀取其他 App 儲存的離線地圖。取得座標後，山林日誌使用 <strong>GPX 單一航點分享／匯入</strong>；其他 App 可依官方連結打開位置。這不是離線圖資、航線或即時導航同步。</p>
    <label for="p10locOfflineApp">慣用離線地圖 App（只記住選擇，不保存位置）</label>
    <select id="p10locOfflineApp" aria-describedby="p10locOfflineAdvice">
+      <option value="mountaindiary">山林日誌｜以 GPX 航點分享／匯入</option>
       <option value="organic">Organic Maps｜離線地圖</option>
       <option value="guru">Guru Maps｜離線地圖</option>
       <option value="osmand">OsmAnd｜官方位置連結（可能先開網頁，需網路）</option>
       <option value="other">山林日誌／其他 App｜使用分享或複製座標</option>
    </select>
+   <div id="p10locMountainActions" class="p10locMountainActions" hidden>
+     <button type="button" id="p10locShareGPX" class="p10locHandoffAction" disabled>分享 GPX 定位航點（選「山林日誌」）</button>
+     <button type="button" id="p10locSaveGPX" class="p10locHandoffAction" disabled>儲存 GPX 航點檔（分享未顯示時）</button>
+     <p class="p10locPrivacy">這是一筆<strong>定位航點</strong>，不是地圖、航線或航跡；由 iPhone 分享選單挑選山林日誌，若未出現則存入「檔案」再至山林日誌匯入。無法確認對方是否成功匯入。</p>
+   </div>
    <a id="p10locOpenOffline" class="p10locHandoffAction" hidden rel="noopener noreferrer">在離線地圖顯示目前座標 ↗</a>
    <button type="button" id="p10locShareOffline" class="p10locHandoffAction" disabled>透過手機分享目前座標</button>
    <div id="p10locOfflineAdvice" class="p10locHandoffAdvice" role="status" aria-live="polite">先取得本次座標，才可轉交地圖 App。</div>
@@ -9367,10 +9381,11 @@ packageData=async function(){
  const launch=$('p10locLaunch'),retry=$('p10locRetry'),close=$('p10locClose'),copy=$('p10locCopy');
  const map=$('p10locMap'),mapState=$('p10locMapState'),external=$('p10locExternalMap');
  const offlineApp=$('p10locOfflineApp'),offlineLink=$('p10locOpenOffline'),offlineShare=$('p10locShareOffline'),offlineAdvice=$('p10locOfflineAdvice');
+ const mountainActions=$('p10locMountainActions'),shareGPX=$('p10locShareGPX'),saveGPX=$('p10locSaveGPX');
  let lastFix=null,requestSerial=0,busy=false,ageTimer=null;
  const offlinePreferenceKey='TSUMS_P10_OFFLINE_MAP_APP_V1';
- const offlineOptions=new Set(['organic','guru','osmand','other']);
- try{const old=window.localStorage.getItem(offlinePreferenceKey);if(offlineOptions.has(old))offlineApp.value=old;}catch(e){}
+ const offlineOptions=new Set(['mountaindiary','organic','guru','osmand','other']);
+ try{const old=window.localStorage.getItem(offlinePreferenceKey);if(offlineOptions.has(old))offlineApp.value=old;else offlineApp.value='mountaindiary';}catch(e){offlineApp.value='mountaindiary';}
  function offlineTarget(fix,app){
   if(!fix||!Number.isFinite(fix.lat)||!Number.isFinite(fix.lon))return null;
   const lat=fmt(fix.lat),lon=fmt(fix.lon),coord=lat+','+lon;
@@ -9382,11 +9397,15 @@ packageData=async function(){
  function syncOffline(){
   const app=offlineApp.value,available=!!lastFix&&!busy,url=available?offlineTarget(lastFix,app):null;
   offlineShare.disabled=!available||typeof navigator.share!=='function';
-  offlineShare.textContent=typeof navigator.share==='function'?'透過手機分享目前座標':'手機分享不可用｜請用上方「複製座標」';
+  offlineShare.textContent=typeof navigator.share==='function'?(app==='mountaindiary'?'分享純文字座標（備用）':'透過手機分享目前座標'):'手機分享不可用｜請用上方「複製座標」';
+  mountainActions.hidden=app!=='mountaindiary';
+  shareGPX.disabled=!available;
+  saveGPX.disabled=!available;
   if(url){offlineLink.href=url;offlineLink.hidden=false;
    offlineLink.textContent=app==='osmand'?'開啟 OsmAnd 位置連結（可能需要網路） ↗':'在 '+(app==='organic'?'Organic Maps':'Guru Maps')+' 顯示座標 ↗';
   }else{offlineLink.hidden=true;offlineLink.removeAttribute('href')}
   offlineAdvice.textContent=!available?'請先取得目前定位；沒有座標時不會產生外部連結。':
+   app==='mountaindiary'?'山林日誌未有可驗證的公開座標深度連結。請分享 GPX 單一航點並從分享選單選山林日誌；如分享名單沒有，先儲存 GPX 至檔案，再由山林日誌匯入。不能讀取它的魯地圖。':
    app==='other'?'未確認此 App 的網頁深度連結。可使用手機分享或複製 WGS84 座標，在慣用 App 內手動定位。':
    app==='osmand'?'OsmAnd 為官方位置網頁連結；開啟流程可能需要網路，無法保證直接進入已下載的離線地圖。':
    '只交接本次座標；請確認 '+(app==='organic'?'Organic Maps':'Guru Maps')+' 已安裝並預先下載當地離線圖。';
@@ -9492,6 +9511,54 @@ packageData=async function(){
    status(ok?'座標資訊已複製；請自行貼上並核對。':'此瀏覽器限制自動複製；請直接長按選取畫面座標。',!ok);
   }
  }
+ // QA-046: iOS system Share Sheet GPX waypoint handoff, not an unverified URL scheme.
+ // GPX <wpt> carries ONE observed device fix only. No fictitious track, route or map tiles.
+ function buildWaypointGPX(fix){
+  if(!fix||!Number.isFinite(fix.lat)||!Number.isFinite(fix.lon)||Math.abs(fix.lat)>90||Math.abs(fix.lon)>180)return null;
+  const date=new Date(fix.iso);
+  if(!Number.isFinite(date.getTime()))return null;
+  const escapeXML=(v)=>String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
+  const described='由裝置一次性定位取得；位置及裝置時鐘未經核驗；GPS 水平精度：'+(Number.isFinite(fix.accuracy)?'約 ±'+Math.round(fix.accuracy)+' m':'未知')+'。不是航跡、路線、偏航判定或官方測繪座標。';
+  const elevation=Number.isFinite(fix.altitude)?'    <ele>'+Number(fix.altitude).toFixed(1)+'</ele>\n':'';
+  return '<?xml version="1.0" encoding="UTF-8"?>\n'+
+   '<gpx xmlns="http://www.topografix.com/GPX/1/1" version="1.1" creator="TSUMS 4.0V Public Layer">\n'+
+   '  <metadata><name>TSUMS 單一 GPS 定位航點</name><time>'+date.toISOString()+'</time></metadata>\n'+
+   '  <wpt lat="'+fmt(fix.lat)+'" lon="'+fmt(fix.lon)+'">\n'+
+   '    <name>TSUMS 定位航點（待核對）</name>\n'+
+   '    <desc>'+escapeXML(described)+'</desc>\n'+elevation+
+   '    <time>'+date.toISOString()+'</time>\n'+
+   '  </wpt>\n</gpx>\n';
+ }
+ function waypointFile(){
+  if(!dialog.open||busy||!lastFix)return null;
+  const xml=buildWaypointGPX(lastFix);
+  if(!xml)return null;
+  const tag=lastFix.iso.replace(/[-:]/g,'').replace(/\..*$/,'').replace('T','_').replace('Z','');
+  return new File([xml],'TSUMS_GPS_waypoint_'+tag+'.gpx',{type:'application/gpx+xml'});
+ }
+ function downloadWaypoint(){
+  const file=waypointFile();
+  if(!file){offlineAdvice.textContent='目前沒有可用的新定位；請按「重新定位」。';return}
+  const url=URL.createObjectURL(file);
+  const a=document.createElement('a');a.href=url;a.download=file.name;a.style.display='none';document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),30000);
+  offlineAdvice.textContent='已要求瀏覽器儲存 GPX 單一航點；在 iPhone「檔案」找到後，可使用系統分享或山林日誌的 GPX 匯入功能。不代表已完成匯入。';
+ }
+ async function shareWaypoint(){
+  const file=waypointFile();
+  if(!file){offlineAdvice.textContent='定位不存在或已清除，請重新定位後再分享。';return}
+  if(typeof navigator.share!=='function'||typeof navigator.canShare==='function'&&!navigator.canShare({files:[file]})){
+   offlineAdvice.textContent='此瀏覽器不支援 GPX 檔案分享；請按「儲存 GPX 航點檔」，再在 iPhone 檔案 App 分享或匯入山林日誌。';return;
+  }
+  try{
+   await navigator.share({files:[file],title:'TSUMS｜單一 GPS 定位航點'});
+   offlineAdvice.textContent='已結束系統分享流程，但 TSUMS 無法判定山林日誌是否出現在清單或成功匯入。請在山林日誌內確認航點。';
+  }catch(e){
+   offlineAdvice.textContent=e&&e.name==='AbortError'?'已取消 GPX 分享；沒有發生資料交接。':'GPX 分享無法完成；請使用「儲存 GPX 航點檔」備用方式。';
+  }
+ }
+ shareGPX?.addEventListener('click',shareWaypoint);
+ saveGPX?.addEventListener('click',downloadWaypoint);
  function openPanel(){
   if(!dialog.open){if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','')}
   newRequest();
@@ -9521,6 +9588,7 @@ packageData=async function(){
  window.TSUMS_QA042={tm2,mode:'USER_INITIATED_LOCATION_ONLY',persistent_data:false};
  window.TSUMS_QA043={map_style:'OpenTopoMap',map_mode:'ONLINE_USER_INITIATED_ONLY',offline_tiles:false};
  window.TSUMS_QA044={offlineTarget,mode:'USER_CONFIRMED_COORDINATE_HANDOFF_ONLY',background_sync:false,route_sync:false};
+ window.TSUMS_QA046={buildWaypointGPX,mode:'ONE_WAY_GPX_WAYPOINT_SHARE',app:'山林日誌',deep_link_verified:false,app_import_verified:false,third_party_map_read:false};
 })();
 </script>
 </body></html>

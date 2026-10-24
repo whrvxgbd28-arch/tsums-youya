@@ -1714,8 +1714,57 @@ body.field .journeyTopNav #journeyHomeBtn{
 #p1 [id],#p2 [id],#p3 [id],#p4 [id],#p5 [id]{scroll-margin-top:110px}
 @media (prefers-reduced-motion:reduce){.qa038-jump-highlight{animation:none!important}}
 </style>
+<style id="tsums-p0-039-closeout-ui">
+#p7 #v0641HandoffEvidenceFields label{font-size:16px;line-height:1.5}
+#p7 #v0641HandoffEvidenceFields input{min-height:54px}
+#p7 #v0641FreezeState{font-size:17px;line-height:1.6;overflow-wrap:anywhere}
+#p7 #v0641CloseoutSummary .v0641CloseoutItem{font-size:16px;line-height:1.55;padding:12px 14px}
+</style>
+
+<style id="tsums-p10-qa042-location-style">
+#p6ui .p10auditFixed #p10locLaunch{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:clamp(17px,4.6vw,22px);line-height:1.35;min-width:0}
+#p6ui .p10auditFixed #p10locLaunch strong{font-size:inherit;color:inherit}
+#p6ui .p10auditFixed #p10locLaunch small{font-size:clamp(13px,3.4vw,16px);font-weight:750;line-height:1.35;color:#f4d8a3}
+#p6ui .p10locPreNotice{font-size:14px;line-height:1.65;color:#e1cda6;margin:10px 1px 0}
+#p6ui #p10locDialog{box-sizing:border-box;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(710px,calc(100vw - 22px));max-width:min(710px,calc(100vw - 22px));max-height:min(88dvh,calc(100dvh - 24px));overflow-y:auto;overscroll-behavior:contain;margin:0;padding:16px;border:2px solid #d6ae6b;border-radius:20px;background:#17120c;color:#f9e7c9;box-shadow:0 15px 65px rgba(0,0,0,.9);z-index:250}
+#p6ui #p10locDialog:not([open]){display:none!important}
+#p6ui #p10locDialog::backdrop{background:rgba(0,0,0,.8)}
+#p6ui .p10locHeader{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+#p6ui .p10locHeader h2{font-size:clamp(22px,5.8vw,28px)!important;margin:3px 0 10px!important;line-height:1.35!important}
+#p6ui .p10locHeader button{border:1px solid #99774b;background:#241b10;color:#ffdd9e;font-size:16px;flex:none;min-height:48px}
+#p6ui .p10locNotice{font-size:14px;line-height:1.65;color:#d7c4a2}
+#p6ui .p10locStatus{margin:12px 0;padding:12px;border-left:4px solid #d1a45c;border-radius:9px;background:#2c2114;font-size:17px;font-weight:800;line-height:1.5}
+#p6ui .p10locStatus.p10locError{border-color:#f19782;color:#ffcec0}
+#p6ui .p10locLead{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:10px 0}
+#p6ui .p10locLead>div{min-width:0;border:1px solid #836740;border-radius:12px;background:#110e0a;padding:11px}
+#p6ui .p10locLead span{display:block;font-size:14px;color:#d6bc92;line-height:1.45}
+#p6ui .p10locLead strong{display:block;font-size:clamp(18px,4.6vw,24px);color:#ffe2a8;margin-top:5px;overflow-wrap:anywhere}
+#p6ui .p10locCoordGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0}
+#p6ui .p10locCoordGrid>div{min-width:0;border:1px solid #836740;border-radius:12px;background:#110e0a;padding:12px}
+#p6ui .p10locCoordGrid .p10locCoordWide{grid-column:1/-1}
+#p6ui .p10locCoordGrid span{display:block;font-size:14px;color:#d6bc92;line-height:1.45}
+#p6ui .p10locCoordGrid strong{display:block;font-size:clamp(19px,5vw,25px);line-height:1.45;color:#ffe2a8;overflow-wrap:anywhere;word-break:break-word;margin-top:5px}
+#p6ui .p10locToolbar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0}
+#p6ui .p10locToolbar button,#p6ui .p10locToolbar a{box-sizing:border-box;display:flex;align-items:center;justify-content:center;min-height:58px;padding:10px;background:#402b12;color:#ffdf9e;border:2px solid #c59b51;border-radius:12px;font-size:17px;font-weight:800;text-align:center;text-decoration:none;overflow-wrap:anywhere}
+#p6ui .p10locToolbar button:disabled{opacity:.45;cursor:not-allowed}
+#p6ui .p10locToolbar [hidden]{display:none!important}
+#p6ui .p10locMapContainer{border:2px solid #8d724b;border-radius:14px;background:#100e0a;overflow:hidden;margin:12px 0}
+#p6ui .p10locMapState{padding:15px;line-height:1.6;font-size:16px;color:#e8d3a9}
+#p6ui #p10locMap{display:block;width:100%;height:260px;min-height:260px;border:0;background:#211a10}
+#p6ui #p10locMap[hidden]{display:none!important}
+@media(max-width:420px){#p6ui .p10locLead>div{padding:9px}#p6ui .p10locLead span{font-size:12px}#p6ui #p10locDialog{padding:12px}#p6ui .p10locToolbar{grid-template-columns:1fr}#p6ui .p10locCoordGrid{grid-template-columns:1fr}#p6ui #p10locMap{height:225px;min-height:225px}}
+@media(prefers-reduced-motion:reduce){#p6ui #p10locDialog *{scroll-behavior:auto!important}}
+</style>
 </head>
 <body>
+<script id="tsums-p0-039-source-of-truth">
+/* Build-time registry shared by app export metadata. */
+const TSUMS_RELEASE_REGISTRY=Object.freeze({"app_version":"0.6.4.6-P2","schema_version":"TSUMS-YOUYA-4V-REPLAY-0.6.4","build_id":"QA039-P0-INTEGRITY-20261024","commit_sha":null,"release_status":"LOCAL_QA_CANDIDATE_NOT_DEPLOYED"});
+const APP_VERSION=TSUMS_RELEASE_REGISTRY.app_version;
+const SCHEMA_VERSION=TSUMS_RELEASE_REGISTRY.schema_version;
+const BUILD_ID=TSUMS_RELEASE_REGISTRY.build_id;
+const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
+</script>
 <div id="tsums-review-banner" class="p9QaUnifiedNotice" role="status" aria-label="測試版本限制">
 <strong>TSUMS 4.0V｜合成 QA 預覽</strong>
 <span>非正式部署 · 隔離測試資料 · 請勿輸入真實行程</span>
@@ -2324,7 +2373,7 @@ body.field .journeyTopNav #journeyHomeBtn{
 <div class="bigActions"><button data-pre="GO">GO｜按計畫出發</button><button class="warn" data-pre="WAIT">WAIT｜暫緩待複核</button><button class="stop" data-pre="RETREAT">RETREAT｜終止本次行程</button></div>
 <div class="v8PrestartMeaning" role="note"><strong>行前決策範圍：</strong>GO 僅表示依原計畫啟程，不取代登山口現場覆核；WAIT 表示暫不出發，應記載具名複核人、時間、待查條件與停損點；RETREAT 表示終止本次計畫，取消或改期應保留原始紀錄並另行建案重評。<strong>本版只修正介面文案，WAIT 期限與改期重建案的強制檢核尚未驗收。</strong></div>
 <div class="alert blue">系統只揭露 風險狀態、責任訊號、尚缺事實、Blocker / 警示 / 未確認 與 需要決策。最終決策仍由具權限的人作成；GO 不等於安全保證。</div></div>
-<button type="button" class="p10uiLauncher" data-p10ui-open>第二頁｜途中示警全功能介面預覽<small>14 個公開層功能區 · 無須 GO · 不讀取真實 GPS · 不寫入治理資料</small></button>
+<button type="button" class="p10uiLauncher" data-p10ui-open>第二頁｜途中示警全功能介面預覽<small>14 個公開層功能區 · 定位按鈕主動讀取本次座標 · 不寫入治理資料</small></button>
 <div class="card" id="p10aCheckpointCard" data-p10a-public-layer="true">
   <h3>第二頁啟動前｜登山口現場二次確認</h3>
   <p>這是 Step 5 行前 GO → Field Runtime 現場啟動的獨立責任交接。現場資訊必須由具權限的人重新確認；不依賴行前 GO 自動放行。</p>
@@ -2361,6 +2410,7 @@ body.field .journeyTopNav #journeyHomeBtn{
  </div>
  <p class="p10auditBoundary">四個快速入口僅展開對應介面；不判定失聯、未發送通知，也不代為作成 GO／WAIT／RETREAT。系統自動警報與感測資料尚未接通。</p>
  <div id="p10auditActionStatus" role="status" aria-live="polite" hidden></div>
+<p class="p10locPreNotice">定位鍵會要求本次 GPS 權限；連網時將當前座標提供 OpenStreetMap 產生位置圖。此功能不儲存座標、不判定偏航。</p>
 </div>
   <section class="tsumsBridge" id="tsumsP10Handover" aria-label="行前授權與現場會話交接狀態">
 <h3>跨頁交接｜P9 → P10</h3>
@@ -2373,9 +2423,9 @@ body.field .journeyTopNav #journeyHomeBtn{
 <div class="p10uiHero">
     <div class="p10uiOver">TSUMS 4.0V · FIELD RUNTIME</div>
     <h2>途中示警<br>全功能介面總覽</h2>
-    <p class="p10uiIntro">完整 14 區的公開層功能介面；先總審現場操作路徑，後續逐項驗證。所有未接通的功能都不得推定為已監測、已送達或已授權。</p>
-    <div class="p10uiTags"><span>P10 UI MASTER</span><span>14 功能區</span><span>V5 高對比</span><span>僅展示介面</span></div>
-    <div class="p10uiDanger">不得用於真實導航、即時預警、遇難求援或 GO 授權。國家級告警／隊伍即時反饋尚未接通，所有狀態均為未連線或 UI 示意。</div>
+    <p class="p10uiIntro">14 區公開層功能介面；「一鍵定位」可在使用者主動授權後讀取單次裝置位置，其餘未接通功能不得推定為已監測、已送達或已授權。</p>
+    <div class="p10uiTags"><span>P10 UI MASTER</span><span>14 功能區</span><span>V5 高對比</span><span>定位可實測／其餘為 UI 示意</span></div>
+    <div class="p10uiDanger">單次定位與線上地圖不等於正式導航、偏航判定或持續定位；此介面不能替代 119 求援或 GO 授權。國家級告警與隊伍動態回報仍未介接。</div>
     <div class="p10wearGlobal" aria-label="穿戴式裝置未連線狀態">
       <div class="p10wearGlobalHead"><strong>穿戴式裝置｜現場感測總覽</strong><span class="p10wearFlag">未連線・功能待接通</span></div>
       <div class="p10wearMiniGrid"><div><span>裝置連線</span><strong>無資料源</strong></div><div><span>HR／HRV</span><strong>未取得</strong></div><div><span>SpO₂</span><strong>未取得</strong></div><div><span>跌倒訊號</span><strong>未監測</strong></div></div>
@@ -2474,13 +2524,38 @@ body.field .journeyTopNav #journeyHomeBtn{
   <div id="p10uiDemoOutput" role="status" aria-live="polite" hidden></div>
   <nav class="p10auditFixed" aria-label="途中操作快捷列">
  <a href="tel:119" aria-label="開啟系統 119 撥號，不代表已接通">119｜撥號</a>
- <button type="button" data-p10audit-jump="10">撤退決策介面</button>
+ <button type="button" id="p10locLaunch" aria-haspopup="dialog" aria-controls="p10locDialog"><strong>一鍵定位</strong><small>地圖＋座標</small></button>
 </nav>
-<div class="p10uiBottom">TSUMS Bunun Protocol Authority｜Public Layer Design Review｜資料未串接，不作事故預測、不宣稱收到國家級告警、不宣稱已通知留守人或救援機構。裝置與網路未持續運作時，不能保證背景定位與示警。</div>
+<dialog id="p10locDialog" aria-labelledby="p10locTitle" aria-describedby="p10locNotice">
+ <div class="p10locHeader"><h2 id="p10locTitle">一鍵定位｜地圖與座標</h2><button type="button" id="p10locClose" aria-label="關閉定位面板">關閉 ✕</button></div>
+ <p id="p10locNotice" class="p10locNotice">一次性主動定位。不啟動背景追蹤、不自動提交治理事件、不寫入 IndexedDB。GPS 可能有誤差；不取代正式導航或 119 語音報案。</p>
+ <div id="p10locStatus" class="p10locStatus" role="status" aria-live="polite">尚未要求定位</div>
+ <div class="p10locLead">
+   <div class="p10locCoordWide"><span>WGS84 緯度（北緯為正）</span><strong id="p10locLat">—</strong></div>
+   <div class="p10locCoordWide"><span>WGS84 經度（東經為正）</span><strong id="p10locLon">—</strong></div>
+ </div>
+ <div class="p10locToolbar">
+   <button type="button" id="p10locRetry">重新定位</button>
+   <button type="button" id="p10locCopy" disabled>複製座標／報案資訊</button>
+   <a id="p10locExternalMap" hidden target="_blank" rel="noopener noreferrer">開啟外部地圖 ↗</a>
+ </div>
+ <div id="p10locMapContainer" class="p10locMapContainer" role="region" aria-label="線上地圖預覽">
+   <div id="p10locMapState" class="p10locMapState">取得座標後顯示線上位置圖。沒有網路時仍可複製座標。</div>
+   <iframe id="p10locMap" title="OpenStreetMap 目前位置地圖（非導航）" referrerpolicy="no-referrer" loading="lazy" hidden></iframe>
+ </div>
+ <div class="p10locCoordGrid">
+   <div><span>水平精度（裝置回報）</span><strong id="p10locAccuracy">—</strong></div>
+   <div><span>海拔（裝置回報）</span><strong id="p10locAltitude">未提供</strong></div>
+   <div class="p10locCoordWide"><span>定位時間／資料新鮮度</span><strong id="p10locTime">—</strong></div>
+   <div class="p10locCoordWide"><span>TWD97／TM2（由 WGS84 概算，非測繪用途）</span><strong id="p10locTWD97">—</strong></div>
+ </div>
+ <p class="p10locNotice">點擊「一鍵定位」代表主動要求一次裝置位置；成功後，若有網路，會向 OpenStreetMap 傳送當前座標以載入地圖。若不願將座標提供第三方地圖服務，請勿使用此入口。地圖不含預定 GPX 軌跡，不提供距離路線或偏航判定。</p>
+</dialog>
+<div class="p10uiBottom">TSUMS Bunun Protocol Authority｜Public Layer Design Review｜單次定位功能需自行授權；其餘資料未串接，不作事故預測、不宣稱收到國家級告警、不宣稱已通知留守人或救援機構。裝置與網路未持續運作時，不能保證背景定位與示警。</div>
   <button type="button" class="p10uiReturn" data-p10ui-back>← 返回上一頁（仍為合成 QA）</button>
 </section>
 <section id="p6" class="page">
-<button type="button" class="p10uiLauncher" data-p10ui-open>第二頁｜途中示警全功能介面預覽<small>14 個公開層功能區 · 無須 GO · 不讀取真實 GPS · 不寫入治理資料</small></button>
+<button type="button" class="p10uiLauncher" data-p10ui-open>第二頁｜途中示警全功能介面預覽<small>14 個公開層功能區 · 定位按鈕主動讀取本次座標 · 不寫入治理資料</small></button>
 <div class="card" id="p10aFieldStatus"><h3>4.0V 現場責任交接</h3><p id="p10aFieldSummary">現場啟動紀錄尚未建立；不得由行前 GO 推定已進入 Field Session。</p></div>
 <div class="card">
   <h2>行程進行中</h2><p class="hint">現場運作｜優先記錄治理事實。</p>
@@ -2911,6 +2986,10 @@ body.field .journeyTopNav #journeyHomeBtn{
     </select></div>
     <div><label>交接 / 不適用說明</label><input id="v0641HandoffNote" placeholder="若 NOT_REQUIRED，請說明基礎"></div>
   </div>
+  <div class="row" id="v0641HandoffEvidenceFields">
+    <div><label for="v0641HandoffVerifier">交接狀態確認人／不適用理由具名者</label><input id="v0641HandoffVerifier" autocomplete="off" placeholder="填寫實際確認人"></div>
+    <div><label for="v0641HandoffEvidenceRef">收件證據編號／正式受理案號（適用時必填）</label><input id="v0641HandoffEvidenceRef" autocomplete="off" placeholder="收件編號、案件編號或證據參照"></div>
+  </div>
   <button class="secondary" id="v0641FreezeEvidence">建立 證據凍結 狀態快照</button>
   <div class="small" id="v0641FreezeState">尚未建立 Freeze 狀態快照</div>
 </div>
@@ -3218,7 +3297,7 @@ async function packageData(){
  const t=await currentTrip(),es=currentTripId?await eventsFor(currentTripId):[],v=await verifyChain(),allAudio=db?.objectStoreNames?.contains(AUDIO)?await getAll(AUDIO):[],allMedia=db?.objectStoreNames?.contains(MEDIA)?await getAll(MEDIA):[];
  const audioMeta=allAudio.filter(x=>x.trip_id===currentTripId).map(({blob,...m})=>m);const mediaMeta=allMedia.filter(x=>x.trip_id===currentTripId).map(({blob,...m})=>m);
  const lifecycle=STAGES.map(([n,en,zh])=>({stage:n,name:en,label:zh,event_count:es.filter(e=>e.lifecycle_stage===n).length}));
- const pkg={manifest:{schema_version:"TSUMS-YOUYA-4V-REPLAY-0.6.4",app_version:"0.6.4.5",architecture:"TSUMS 4.0V 山域風險前移部署版",product_architecture:"App-first / Web-compatible",trip_id:currentTripId,exported_at:isoNow(),record_count:es.length,storage:"IndexedDB local-first",synced_backend:false,tamper_claim:"Tamper-Evident Local Chain only",max_stack_conformance_claim:false,field_runtime:{version:"0.6.4.5",fact_first:true,quick_event_tags:true,t0_decision_sheet:true,bottom_nav:true,voice_capture:true,recorded_gps:true,device_adapter_layer:true}},trip:t,modules:MODULES,lifecycle,t0_replay:es.filter(e=>e.t0_id||e.human_decision),event_ledger:es,audio_evidence:audioMeta,media_evidence:mediaMeta,device_adapter_contract:{LocationAdapter:["request","capture"],AudioAdapter:["start","stop","cancel"],StorageAdapter:["saveAudio","getAudio","listAudioMeta"],CryptoAdapter:["sha256Blob"],TranscriptionAdapter:["startLive","stopLive"]},hash_manifest:{algorithm:"SHA-256",verified:v.ok,first_event_hash:v.first||null,last_event_hash:v.last||null},evidence_determination_layers:{A:"Confirmed Fact",B:"Reasonable Inference",C:"TSUMS Institutional Determination",D:"Legal Issue Reserved",E:"Corrective 修正行動"},boi:{may:["record facts and provenance","structure missing facts","represent bounded 風險狀態","identify 責任訊號s and decision requirements","preserve versions and replay","record repair and closure"],may_not:["determine criminal/civil/disciplinary liability","determine physical or legal causation","price insurance or decide coverage","replace medical diagnosis or rescue command","disclose Protected Core"]}};
+ const pkg={manifest:{schema_version:"TSUMS-YOUYA-4V-REPLAY-0.6.4",app_version:APP_VERSION,architecture:"TSUMS 4.0V 山域風險前移部署版",product_architecture:"App-first / Web-compatible",trip_id:currentTripId,exported_at:isoNow(),record_count:es.length,storage:"IndexedDB local-first",synced_backend:false,tamper_claim:"Tamper-Evident Local Chain only",max_stack_conformance_claim:false,field_runtime:{version:APP_VERSION,fact_first:true,quick_event_tags:true,t0_decision_sheet:true,bottom_nav:true,voice_capture:true,recorded_gps:true,device_adapter_layer:true}},trip:t,modules:MODULES,lifecycle,t0_replay:es.filter(e=>e.t0_id||e.human_decision),event_ledger:es,audio_evidence:audioMeta,media_evidence:mediaMeta,device_adapter_contract:{LocationAdapter:["request","capture"],AudioAdapter:["start","stop","cancel"],StorageAdapter:["saveAudio","getAudio","listAudioMeta"],CryptoAdapter:["sha256Blob"],TranscriptionAdapter:["startLive","stopLive"]},hash_manifest:{algorithm:"SHA-256",verified:v.ok,first_event_hash:v.first||null,last_event_hash:v.last||null},evidence_determination_layers:{A:"Confirmed Fact",B:"Reasonable Inference",C:"TSUMS Institutional Determination",D:"Legal Issue Reserved",E:"Corrective 修正行動"},boi:{may:["record facts and provenance","structure missing facts","represent bounded 風險狀態","identify 責任訊號s and decision requirements","preserve versions and replay","record repair and closure"],may_not:["determine criminal/civil/disciplinary liability","determine physical or legal causation","price insurance or decide coverage","replace medical diagnosis or rescue command","disclose Protected Core"]}};
  pkg.package_hash=await sha256(stable(pkg));return pkg
 }
 function downloadUtf8(name,text,type="application/json",bom=false){
@@ -3229,7 +3308,7 @@ function downloadUtf8(name,text,type="application/json",bom=false){
  a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1200)
 }
 $("#exportJson").onclick=async()=>{const p=await packageData();downloadUtf8(`TSUMS_山上優雅_${p.manifest.trip_id||"no-trip"}_4V_回放.json`,JSON.stringify(p,null,2),"application/json",false)}
-$("#exportTxt").onclick=async()=>{const p=await packageData();let s=`TSUMS 山上優雅 v0.6.4.6｜TSUMS 4.0V 回放\nTrip: ${p.trip?.name||"未建立"}\nEvents: ${p.manifest.record_count}\nChain verified: ${p.hash_manifest.verified}\nPackage hash: ${p.package_hash}\nEncoding: UTF-8\n\n`;s+=p.event_ledger.map(e=>`#${e.sequence} Stage ${e.lifecycle_stage} | ${e.observed_at} | ${e.event_type} | ${e.actor} | ${e.observed_fact}`).join("\n");downloadUtf8("TSUMS_山上優雅_4V_回放_UTF8.txt",s,"text/plain",true)}
+$("#exportTxt").onclick=async()=>{const p=await packageData();let s=`TSUMS 山上優雅 v${APP_VERSION}｜TSUMS 4.0V 回放\nTrip: ${p.trip?.name||"未建立"}\nEvents: ${p.manifest.record_count}\nChain verified: ${p.hash_manifest.verified}\nPackage hash: ${p.package_hash}\nEncoding: UTF-8\n\n`;s+=p.event_ledger.map(e=>`#${e.sequence} Stage ${e.lifecycle_stage} | ${e.observed_at} | ${e.event_type} | ${e.actor} | ${e.observed_fact}`).join("\n");downloadUtf8("TSUMS_山上優雅_4V_回放_UTF8.txt",s,"text/plain",true)}
 $("#exportHtml").onclick=async()=>{const p=await packageData();const rows=p.event_ledger.map(e=>`<tr><td>${esc(e.sequence)}</td><td>${esc(e.observed_at)}</td><td>${esc(e.event_type)}</td><td>${esc(e.actor)}</td><td>${esc(e.observed_fact||"")}</td><td>${esc(e.human_decision||"")}</td></tr>`).join("");const report=`<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>TSUMS 山上優雅 回放</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif;margin:28px;color:#111}h1{font-size:24px}table{width:100%;border-collapse:collapse;font-size:12px}th,td{border:1px solid #bbb;padding:7px;vertical-align:top}th{text-align:left;background:#eee}.meta{line-height:1.7;margin-bottom:18px}@media print{body{margin:12mm}}</style></head><body><h1>TSUMS 山上優雅｜回放</h1><div class="meta">行程：${esc(p.trip?.name||"未建立")}<br>Event：${p.manifest.record_count}<br>Chain verified：${p.hash_manifest.verified}<br>Package hash：${esc(p.package_hash)}</div><table><thead><tr><th>#</th><th>Observed</th><th>Event</th><th>Actor</th><th>Fact</th><th>Decision</th></tr></thead><tbody>${rows}</tbody></table>
 
 </body></html>`;downloadUtf8("TSUMS_山上優雅_4V_回放_UTF8.html",report,"text/html",false)}
@@ -4964,8 +5043,8 @@ const v064OldPackageData=packageData;
 packageData=async function(){
  const pkg=await v064OldPackageData(),sessions=db.objectStoreNames.contains(FIELD_SESSIONS)?await v064SessionsForTrip(currentTripId):[],s=sessions.at(-1);
  pkg.manifest.schema_version="TSUMS-YOUYA-4V-REPLAY-0.6.4";
- pkg.manifest.app_version="0.6.4.5";
- pkg.manifest.field_runtime={version:"0.6.4.5",phase_1:true,two_stage_activation:true,device_recorded_track:true,track_store_separated_from_evidence_ledger:true,background_location_acceptance:"NOT_YET_ESTABLISHED"};
+ pkg.manifest.app_version=APP_VERSION;
+ pkg.manifest.field_runtime={version:APP_VERSION,phase_1:true,two_stage_activation:true,device_recorded_track:true,track_store_separated_from_evidence_ledger:true,background_location_acceptance:"NOT_YET_ESTABLISHED"};
  pkg.manifest.jurisdiction_profile={profile_id:V064_JURISDICTION_PROFILE.profile_id,label:V064_JURISDICTION_PROFILE.label,scope:V064_JURISDICTION_PROFILE.scope};
  pkg.field_sessions=sessions;
  if(s){
@@ -5570,46 +5649,167 @@ async function v0641RenderRuntimeBoard(){
  $("#v0641OpenDuty").textContent=String(duties.length);$("#v0641OpenMissing").textContent=lastDecision?.unknown_facts?String(lastDecision.unknown_facts.split(/\n|、|;/).filter(Boolean).length):"0"
 }
 
-/* Closeout gate + evidence freeze. */
+/* P0 Integrity QA-039 | Freeze boundary, strict handoff, atomic Stage-14 closure.
+   This module contains no authority/threshold invention. Explicit failure => BLOCK. */
+function v0641HandoffAssessment(c){
+ const status=String(c?.handoff_status||'NOT_RECORDED'),who=String(c?.handoff_verifier||'').trim(),basis=String(c?.handoff_note||'').trim(),ref=String(c?.handoff_evidence_ref||'').trim();
+ if(status==='NOT_REQUIRED')return {ok:!!(who&&basis),label:who&&basis?'不需外部交接｜具名理由已記錄':'不需外部交接｜缺具名者或不適用理由',status};
+ if(status==='HANDOFF_INITIATED')return {ok:false,label:'已啟動交接 ≠ 外部已收件｜仍待承接確認',status};
+ if(status==='RECEIPT_CONFIRMED')return {ok:!!(who&&ref),label:who&&ref?'對方收件已申報｜附證據參照':'收件狀態缺確認人或收件證據參照',status};
+ if(status==='CASE_OPENED')return {ok:!!(who&&ref),label:who&&ref?'正式受理已申報｜附案件參照':'案件建立狀態缺確認人或正式案號',status};
+ return {ok:false,label:'外部交接狀態尚未記錄或無效',status};
+}
+function v0641FreezeFreshness(t,es,track=null){
+ const freeze=t?.closeout_control?.evidence_freeze;
+ if(!freeze)return {ok:false,state:'MISSING',added:0,label:'證據凍結尚未建立'};
+ const seq=freeze.freeze_event_sequence,hash=freeze.freeze_event_hash,id=freeze.freeze_event_id;
+ if(!Number.isSafeInteger(seq)||!hash||!id)return {ok:false,state:'LEGACY_UNBOUND',added:0,label:'舊版 Freeze 缺少事件錨點，須重新封存'};
+ const at=es.find(e=>e.sequence===seq);
+ if(!at||at.event_hash!==hash||at.event_id!==id||at.event_type!=='EVIDENCE_FREEZE_SNAPSHOT'||at.structured_payload?.freeze_snapshot_id!==freeze.freeze_snapshot_id)
+  return {ok:false,state:'BOUNDARY_INVALID',added:0,label:'Freeze 事件錨點無法驗證'};
+ const prev=es.find(e=>e.sequence===seq-1);
+ if((prev?.event_hash||null)!==(freeze.frozen_through_event_hash||null)||
+    (prev?.sequence||0)!==(freeze.frozen_through_event_sequence||0)||
+    (at.previous_hash||null)!==(prev?.event_hash||null))
+  return {ok:false,state:'PRE_FREEZE_BOUNDARY_MISMATCH',added:0,label:'封存前事件鏈邊界不一致'};
+ // Changes to the external handoff declaration after the Freeze require a new snapshot.
+ const handoffNow={status:t.closeout_control?.handoff_status||'NOT_RECORDED',note:t.closeout_control?.handoff_note||'',
+  verifier:t.closeout_control?.handoff_verifier||'',evidence_ref:t.closeout_control?.handoff_evidence_ref||''};
+ if(!freeze.handoff_claim||JSON.stringify(freeze.handoff_claim)!==JSON.stringify(handoffNow))
+  return {ok:false,state:'HANDOFF_CHANGED',added:0,label:'外部交接資料已變更或未納入封存；請重新 Freeze'};
+ const last=es.at(-1),after=es.filter(e=>e.sequence>seq);
+ // The Stage-14 closure event is the only permitted immediate successor to a valid Freeze.
+ // It must itself reference the exact Freeze, be final, and have been atomically committed.
+ const closed=after.length===1&&after[0].event_type==='CLOSURE_VERIFIED'&&
+  after[0].previous_hash===hash&&after[0].structured_payload?.evidence_freeze_ref===freeze.freeze_snapshot_id&&
+  t.closure?.evidence_freeze_ref===freeze.freeze_snapshot_id&&t.closure?.closure_event_id===after[0].event_id;
+ if(after.length&&!closed)return {ok:false,state:'STALE',added:after.length,label:`Evidence Freeze｜STALE — ${after.length} events added after freeze`};
+ if((!after.length&&(last?.event_hash!==hash||last.sequence!==seq)))
+  return {ok:false,state:'HEAD_MISMATCH',added:0,label:'目前事件鏈頭與 Freeze 錨點不一致'};
+ if(track){
+  if(freeze.track_chain_verified!==true||track.ok!==true||
+    (freeze.frozen_through_track_hash||null)!==(track.last||null)||
+    freeze.frozen_track_count!==track.count)
+   return {ok:false,state:'TRACK_STALE',added:0,label:'裝置軌跡在封存後變更或驗證未通過'};
+ }
+ if(freeze.event_chain_verified!==true)return {ok:false,state:'UNVERIFIED',added:0,label:'Freeze 建立時事件鏈未驗證'};
+ return {ok:true,state:closed?'CLOSED':'FRESH',added:0,label:closed?'封存邊界有效｜第14階段已關閉':`證據凍結有效：${freeze.freeze_snapshot_id}`};
+}
+async function v0641AssessCloseout(t,es,{activeSession=null,trackVerify=null,chainVerify=null}={}){
+ const c=t?.closeout_control||{},handoff=v0641HandoffAssessment(c),freeze=v0641FreezeFreshness(t,es,trackVerify),items=[];
+ items.push({ok:!activeSession,label:activeSession?'Field 現場會話仍 ACTIVE':'Field 現場會話已結束'});
+ items.push({ok:t?.outcome?.accounted==='全員已確認',label:`全員清點：${t?.outcome?.accounted||'未確認'}`});
+ items.push({ok:handoff.ok,label:`外部交接：${handoff.label}`});
+ items.push({ok:freeze.ok,label:freeze.label});
+ items.push({ok:chainVerify?.ok===true,label:chainVerify?.ok?'事件證據鏈驗證通過':'事件證據鏈驗證失敗／未完成'});
+ const hasResidual=!!t?.outcome?.residualRisk?.trim(),r=t?.repair||{},repairComplete=!!(r.owner&&r.deadline&&r.action&&r.evidence&&r.closureCondition);
+ items.push({ok:!hasResidual||repairComplete,label:hasResidual?(repairComplete?'殘餘風險具備修復責任與關閉條件':'殘餘風險未完成修復控制'):'無已記錄殘餘風險'});
+ return {ok:items.every(x=>x.ok),items,freeze,handoff};
+}
+function v0641HandoffDraft(t){
+ return {...t,closeout_control:{...(t.closeout_control||{}),handoff_status:$('#v0641HandoffStatus').value,
+  handoff_note:$('#v0641HandoffNote').value.trim(),handoff_verifier:$('#v0641HandoffVerifier').value.trim(),
+  handoff_evidence_ref:$('#v0641HandoffEvidenceRef').value.trim()}};
+}
+async function v0641CloseoutContext(t){
+ const es=await eventsFor(t.id),sessions=await v064SessionsForTrip(t.id),activeSession=sessions.find(x=>x.status==='ACTIVE')||null,s=sessions.at(-1)||null,
+  trackVerify=s?await v064VerifyTrackChain(s.session_id):{ok:true,last:null,count:0},chainVerify=await verifyChain();
+ return {es,activeSession,trackVerify,chainVerify};
+}
 async function v0641CreateEvidenceFreeze(){
- const t=await currentTrip();if(!t)return;
- const es=await eventsFor(currentTripId),evVerify=await verifyChain(),sessions=await v064SessionsForTrip(currentTripId),s=sessions.at(-1),trackVerify=s?await v064VerifyTrackChain(s.session_id):{ok:true,last:null,count:0},snapshot={freeze_snapshot_id:`EF-${crypto.randomUUID().slice(0,8)}`,frozen_at:isoNow(),event_chain_verified:evVerify.ok,frozen_through_event_hash:es.at(-1)?.event_hash||null,track_chain_verified:trackVerify.ok,frozen_through_track_hash:trackVerify.last||null,field_session_id:s?.session_id||null,boundary:"TAMPER_EVIDENT_SNAPSHOT_NOT_IMMUTABLE"};
- t.closeout_control=t.closeout_control||{};t.closeout_control.evidence_freeze=snapshot;t.closeout_control.handoff_status=$("#v0641HandoffStatus").value;t.closeout_control.handoff_note=$("#v0641HandoffNote").value.trim();await put(TRIPS,t);
- await appendEvent("EVIDENCE_FREEZE_SNAPSHOT",{lifecycle_stage:9,module_refs:["C3","C5"],actor:t.leader||"未具名",observed_fact:`證據凍結 ${snapshot.freeze_snapshot_id}｜Event Chain ${evVerify.ok?"PASS":"FAIL"}｜Track Chain ${trackVerify.ok?"PASS":"FAIL"}`,evidence_object_type:"EVIDENCE_FREEZE_SNAPSHOT",structured_payload:snapshot});
- await renderAll();alert("證據凍結 狀態快照 已建立；這是 tamper-evident snapshot，不代表資料不可刪除或法律上自動成立。")
+ const t0=await currentTrip();if(!t0)throw Error('NO_TRIP');
+ const t=v0641HandoffDraft(t0),ctx=await v0641CloseoutContext(t);
+ if(!ctx.chainVerify.ok||!ctx.trackVerify.ok)throw Error('FREEZE_SOURCE_CHAIN_INVALID');
+ const last=ctx.es.at(-1),snapshot={freeze_snapshot_id:`EF-${crypto.randomUUID().slice(0,8)}`,frozen_at:isoNow(),
+  event_chain_verified:true,frozen_through_event_hash:last?.event_hash||null,frozen_through_event_sequence:last?.sequence||0,
+  track_chain_verified:true,frozen_through_track_hash:ctx.trackVerify.last||null,frozen_track_count:ctx.trackVerify.count,
+  handoff_claim:{status:t.closeout_control.handoff_status||'NOT_RECORDED',note:t.closeout_control.handoff_note||'',
+   verifier:t.closeout_control.handoff_verifier||'',evidence_ref:t.closeout_control.handoff_evidence_ref||''},
+  field_session_id:(await v064SessionsForTrip(t.id)).at(-1)?.session_id||null,boundary:'TAMPER_EVIDENT_SNAPSHOT_NOT_IMMUTABLE'};
+ t.closeout_control.evidence_freeze=snapshot;
+ // Fail-closed while the self-referencing Freeze event has not been committed.
+ await put(TRIPS,t);
+ const eventHash=await appendEvent('EVIDENCE_FREEZE_SNAPSHOT',{lifecycle_stage:9,module_refs:['C3','C5'],actor:t.leader||'未具名',
+  observed_fact:`證據凍結 ${snapshot.freeze_snapshot_id}｜Event Chain PASS｜Track Chain PASS`,
+  evidence_object_type:'EVIDENCE_FREEZE_SNAPSHOT',structured_payload:snapshot});
+ const matching=(await eventsFor(t.id)).find(e=>e.event_hash===eventHash&&e.event_type==='EVIDENCE_FREEZE_SNAPSHOT'&&e.structured_payload?.freeze_snapshot_id===snapshot.freeze_snapshot_id);
+ if(!matching)throw Error('FREEZE_EVENT_ANCHOR_NOT_FOUND');
+ // A write to another event immediately after creation will leave the Freeze stale.
+ const fresh=await currentTrip();
+ fresh.closeout_control={...(fresh.closeout_control||{}),evidence_freeze:{...snapshot,freeze_event_id:matching.event_id,freeze_event_hash:matching.event_hash,freeze_event_sequence:matching.sequence}};
+ await put(TRIPS,fresh);await renderAll();await v0641RenderCloseoutGate();
+ alert('封存快照與事件錨點已記錄。新增事件或軌跡後必須重新 Freeze；快照並非不可竄改儲存。');
 }
-$("#v0641FreezeEvidence").onclick=()=>v0641CreateEvidenceFreeze().catch(e=>alert(e.message));
-
+$('#v0641FreezeEvidence').onclick=()=>v0641CreateEvidenceFreeze().catch(e=>alert(e.message));
 async function v0641RenderCloseoutGate(){
- if(!currentTripId)return;const t=await currentTrip(),s=await v064ActiveSession(),c=t.closeout_control||{},freeze=c.evidence_freeze,items=[];
- items.push({ok:!s,label:!s?"Field 現場會話 已結束":"Field 現場會話 仍 ACTIVE"});
- items.push({ok:t.outcome?.accounted==="全員已確認",label:`全員清點：${t.outcome?.accounted||"未確認"}`});
- items.push({ok:c.handoff_status&&c.handoff_status!=="NOT_RECORDED",label:`外部交接：${c.handoff_status||"NOT_RECORDED"}`});
- items.push({ok:!!freeze,label:freeze?`證據凍結：${freeze.freeze_snapshot_id}`:"證據凍結 尚未建立"});
- const hasResidual=!!t.outcome?.residualRisk?.trim(),repairComplete=!!(t.repair?.owner&&t.repair?.deadline&&t.repair?.action&&t.repair?.evidence&&t.repair?.closureCondition);
- items.push({ok:!hasResidual||repairComplete,label:hasResidual?(repairComplete?"殘餘風險 已有 Repair owner / deadline / verification / closure condition":"殘餘風險 尚未完成 Repair 控制"):"無已記錄 殘餘風險"});
- $("#v0641CloseoutSummary").innerHTML=items.map(x=>`<div class="v0641CloseoutItem ${x.ok?"ok":"block"}">${x.ok?"✓":"×"} ${esc(x.label)}</div>`).join("");
- $("#v0641HandoffStatus").value=c.handoff_status||"NOT_RECORDED";$("#v0641HandoffNote").value=c.handoff_note||"";$("#v0641FreezeState").textContent=freeze?`${freeze.freeze_snapshot_id}｜${new Date(freeze.frozen_at).toLocaleString("zh-TW")}`:"尚未建立 Freeze 狀態快照";
- return{ok:items.every(x=>x.ok),items}
+ if(!currentTripId)return;
+ const t=await currentTrip(),ctx=await v0641CloseoutContext(t),result=await v0641AssessCloseout(t,ctx.es,ctx);
+ $('#v0641CloseoutSummary').innerHTML=result.items.map(x=>`<div class="v0641CloseoutItem ${x.ok?'ok':'block'}">${x.ok?'✓':'×'} ${esc(x.label)}</div>`).join('');
+ const c=t.closeout_control||{};
+ $('#v0641HandoffStatus').value=c.handoff_status||'NOT_RECORDED';$('#v0641HandoffNote').value=c.handoff_note||'';
+ $('#v0641HandoffVerifier').value=c.handoff_verifier||'';$('#v0641HandoffEvidenceRef').value=c.handoff_evidence_ref||'';
+ $('#v0641FreezeState').textContent=result.freeze.label;
+ return result;
 }
-const v0641OldLockOutcome=$("#lockOutcome").onclick;
-$("#lockOutcome").onclick=async function(){
- const s=await v064ActiveSession();if(s)return alert("Field 現場會話 仍 ACTIVE。請先明確結束 現場會話，再固定 Stage 7/8 結果。");
+const v0641OldLockOutcome=$('#lockOutcome').onclick;
+$('#lockOutcome').onclick=async function(){
+ if(await v064ActiveSession())return alert('Field 現場會話仍 ACTIVE，不能鎖定 Closeout。');
  const t=await currentTrip();if(!t)return;
- t.closeout_control=t.closeout_control||{};t.closeout_control.handoff_status=$("#v0641HandoffStatus").value;t.closeout_control.handoff_note=$("#v0641HandoffNote").value.trim();await put(TRIPS,t);
- await v0641OldLockOutcome.call(this);await v0641RenderCloseoutGate()
+ await put(TRIPS,v0641HandoffDraft(t));await v0641OldLockOutcome.call(this);await v0641RenderCloseoutGate();
 };
-$("#closeGovernance").onclick=async function(){
- const btn=this;await v062Run("closure-v0641",btn,async()=>{
-  const t=await currentTrip();if(!t)return;if(!$("#closureVerified").checked)return alert("治理關閉 必須先由具名責任節點驗證關閉條件。");
-  const actor=$("#closureActor").value.trim();if(!actor)return alert("治理關閉 驗證人 / 角色必須具名。");
-  t.closeout_control=t.closeout_control||{};t.closeout_control.handoff_status=$("#v0641HandoffStatus").value;t.closeout_control.handoff_note=$("#v0641HandoffNote").value.trim();await put(TRIPS,t);
-  if(t.closeout_control.handoff_status==="NOT_REQUIRED"&&!t.closeout_control.handoff_note)return alert("交接狀態為 NOT_REQUIRED 時，請留下不適用基礎。");
-  const gate=await v0641RenderCloseoutGate();if(!gate.ok)return alert("結束治理閘門 尚有未關閉項目，不能進入 第 14 階段關閉。");
-  const snapshot={verified:true,actor,note:$("#closureNote").value.trim(),evidence_freeze_ref:t.closeout_control.evidence_freeze?.freeze_snapshot_id||null,handoff_status:t.closeout_control.handoff_status};
-  const sig=await v062Signature(snapshot);t.closure={...snapshot,closed_at:isoNow()};await put(TRIPS,t);
-  await appendEvent("CLOSURE_VERIFIED",{lifecycle_stage:14,module_refs:["C5","C3"],actor,observed_fact:t.closure.note||"治理關閉 condition verified",determination_layer:"E",structured_payload:snapshot,idempotency_key:`CLOSURE:${sig}`});alert("第 14 階段關閉 已記錄；可進入 回放");await go("p8")
- })
+function v0641AtomicCloseoutPair(tripId,expectedTrip,nextTrip,expectedEvents,closureEvent){
+ return new Promise((resolve,reject)=>{
+  const tx=db.transaction([TRIPS,EVENTS,FIELD_SESSIONS],'readwrite');let finished=false;
+  const fail=e=>{if(finished)return;finished=true;reject(e||tx.error||Error('CLOSEOUT_TRANSACTION_ABORTED'))};
+  tx.oncomplete=()=>{if(!finished){finished=true;resolve(closureEvent)}};
+  tx.onabort=()=>fail(tx.error||Error('CLOSEOUT_TRANSACTION_ABORTED'));
+  tx.onerror=()=>{};
+  const trips=tx.objectStore(TRIPS),events=tx.objectStore(EVENTS),sessions=tx.objectStore(FIELD_SESSIONS);
+  const tr=trips.get(tripId),er=events.index('trip_id').getAll(tripId),sr=sessions.index('trip_id').getAll(tripId);
+  let remaining=3;
+  const check=()=>{
+   if(--remaining)return;
+   try{
+    const actual=(er.result||[]).sort((a,b)=>a.sequence-b.sequence),a=actual.at(-1),b=expectedEvents.at(-1);
+    if(stable(tr.result)!==expectedTrip)throw Error('CLOSEOUT_STALE_TRIP_RETRY');
+    if(actual.length!==expectedEvents.length||a?.event_id!==b?.event_id||a?.event_hash!==b?.event_hash||a?.sequence!==b?.sequence)throw Error('CLOSEOUT_STALE_EVENT_HEAD_REFREEZE');
+    if((sr.result||[]).some(x=>x.status==='ACTIVE'))throw Error('CLOSEOUT_ACTIVE_FIELD_SESSION');
+    if((actual.at(-1)?.event_hash||null)!==nextTrip.closeout_control.evidence_freeze.freeze_event_hash)throw Error('CLOSEOUT_FREEZE_NOT_AT_HEAD');
+    trips.put(nextTrip);events.put(closureEvent);
+   }catch(e){tx.abort();fail(e)}
+  };
+  for(const r of [tr,er,sr])r.onsuccess=check;
+ });
+}
+$('#closeGovernance').onclick=async function(){
+ const btn=this;await v062Run('closure-p0-039',btn,async()=>{
+  try{
+   if(!$('#closureVerified').checked)return alert('治理關閉必須由具名責任節點驗證。');
+   const actor=$('#closureActor').value.trim();if(!actor)return alert('請填寫治理關閉驗證人。');
+   const t0=await currentTrip();if(!t0)return;
+   const expectedTrip=stable(t0),t=v0641HandoffDraft(t0),ctx=await v0641CloseoutContext(t0);
+   const gate=await v0641AssessCloseout(t,ctx.es,ctx);
+   if(!gate.ok){alert('第14階段不能關閉：\n'+gate.items.filter(x=>!x.ok).map(x=>x.label).join('\n'));return}
+   if(t.closure?.closed_at)return alert('第14階段已關閉；不得覆寫既有關閉紀錄。');
+   const last=ctx.es.at(-1),recorded_at=isoNow(),f=t.closeout_control.evidence_freeze,id=crypto.randomUUID();
+   const snapshot={verified:true,actor,note:$('#closureNote').value.trim(),evidence_freeze_ref:f.freeze_snapshot_id,
+    frozen_head_hash:f.freeze_event_hash, frozen_head_sequence:f.freeze_event_sequence,
+    handoff_status:t.closeout_control.handoff_status,handoff_evidence_ref:t.closeout_control.handoff_evidence_ref,
+    handoff_verifier:t.closeout_control.handoff_verifier,handoff_basis:t.closeout_control.handoff_note};
+   const base={event_id:id,trip_id:t.id,sequence:(last?.sequence||0)+1,event_type:'CLOSURE_VERIFIED',lifecycle_stage:14,
+    module_refs:['C5','C3'],source_state:'USER_RECORDED',determination_layer:'E',observed_at:recorded_at,recorded_at,synced_at:null,
+    actor,actor_role:null,observed_fact:snapshot.note||'治理關閉條件已具名確認',location_state:'',communication_state:null,
+    risk_state_before:last?.risk_state_after||'OPEN',risk_state_after:riskAfter('CLOSURE_VERIFIED',last?.risk_state_after||'OPEN'),
+    duty_signal:null,decision_required:false,authorized_role:null,human_decision:null,decision_reason:'',t0_id:null,corrects_event_id:null,
+    evidence_refs:[f.freeze_event_id,...(snapshot.handoff_evidence_ref?[snapshot.handoff_evidence_ref]:[])],
+    evidence_object_type:'CLOSURE_VERIFIED',structured_payload:snapshot,idempotency_key:`CLOSURE:${f.freeze_snapshot_id}`,previous_hash:last?.event_hash||null};
+   const event={...base,event_hash:await sha256(stable(base))};
+   t.closure={...snapshot,closure_event_id:id,closure_event_hash:event.event_hash,closed_at:recorded_at};
+   await v0641AtomicCloseoutPair(t.id,expectedTrip,t,ctx.es,event);
+   alert('第14階段關閉與關閉事件已共同提交；後續新增事件將使舊封存邊界需要重新核驗。');
+   await go('p8');
+  }catch(e){alert('治理關閉拒絕：'+e.message)}
+ });
 };
 
 /* Offline/local diagnostics. No server sync is claimed. */
@@ -6294,7 +6494,7 @@ $("#addTechnicalGear").onclick=()=>{
 const v0644PrevPackageData=packageData;
 packageData=async function(){
   const pkg=await v0644PrevPackageData(),t=await currentTrip();
-  pkg.manifest.app_version="0.6.4.5";
+  pkg.manifest.app_version=APP_VERSION;
   pkg.manifest.optional_pretrip_evidence_binding={
     enabled:true,
     mandatory:false,
@@ -6499,7 +6699,7 @@ v0641RenderPrestartGate=async function(){
 const v0645PrevPackageData=packageData;
 packageData=async function(){
  const pkg=await v0645PrevPackageData(),t=await currentTrip();
- pkg.manifest.app_version="0.6.4.5";
+ pkg.manifest.app_version=APP_VERSION;
  pkg.manifest.official_verification={
    structured:true,
    portal_handoff_not_equal_verification:true,
@@ -6533,7 +6733,7 @@ setTimeout(()=>{v0645HydrateOfficialVerification();v0644RefreshEvidenceStates().
    Public Layer only. Protected Core excluded.
    Pre-Trip = Risk-Forward Archive; Field Evidence Chain genesis = FIELD_SESSION_STARTED. */
 
-const V0646_VERSION="0.6.4.6-P2";
+const V0646_VERSION=APP_VERSION;
 const V0646_RECRUIT_STATUS={EXPLICIT:"文案已載明",PARTIAL:"部分載明",NOT_SEEN:"資料未見",AMBIGUOUS:"語意不明",USER_CONFIRMED:"已向主揪確認"};
 const V0646_RECRUIT_ITEMS=[
  {cat:"行程與路線",key:"date",label:"活動日期",patterns:[/活動日期|日期|出發日/i],q:"請問活動日期與預計天數為何？"},
@@ -8974,5 +9174,121 @@ async function qa038GotoFix(code, message, fallbackPage){
   }
 }
 window.TSUMS_QA038={navigate:qa038GotoFix,scope:'P9_GATE_NAVIGATION_ONLY'};
+</script>
+
+<script id="tsums-p0-version-registry">
+/* QA-039 build metadata. commit_sha is null until resolved from an actual commit. */
+const QA039BasePackageData=packageData;
+packageData=async function(){
+ const pkg=await QA039BasePackageData();
+ pkg.manifest.app_version=APP_VERSION;
+ pkg.manifest.schema_version=SCHEMA_VERSION;
+ pkg.manifest.field_runtime={...(pkg.manifest.field_runtime||{}),version:APP_VERSION};
+ pkg.manifest.build_id=BUILD_ID;pkg.manifest.commit_sha=COMMIT_SHA;
+ pkg.manifest.release_status=TSUMS_RELEASE_REGISTRY.release_status;
+ delete pkg.package_hash;pkg.package_hash=await sha256(stable(pkg));
+ return pkg;
+};
+</script>
+<script id="tsums-p10-qa042-one-tap-location">
+/* P10 QA-042: one-time Web Geolocation + map display, on user gesture only.
+   No GPS persisted to trip, event ledger or IndexedDB. No route-deviation claim. */
+(function(){'use strict';
+ const root=document.getElementById('p6ui');
+ const dialog=document.getElementById('p10locDialog');
+ if(!root||!dialog)return;
+ const $=(id)=>document.getElementById(id);
+ const launch=$('p10locLaunch'),retry=$('p10locRetry'),close=$('p10locClose'),copy=$('p10locCopy');
+ const map=$('p10locMap'),mapState=$('p10locMapState'),external=$('p10locExternalMap');
+ let lastFix=null,requestSerial=0,busy=false,ageTimer=null;
+ const fmt=(x,n=6)=>Number(x).toFixed(n);
+ const status=(msg,err=false)=>{const n=$('p10locStatus');n.textContent=msg;n.classList.toggle('p10locError',err)};
+ function tm2(lat,lon){
+  // Taiwan TWD97/TM2 GRS80 approximation; GPS WGS84 datum difference not surveyed.
+  if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat<20||lat>27.5||lon<118||lon>123.5)return null;
+  const central=lon<120?119:121,rad=Math.PI/180,phi=lat*rad,dLambda=(lon-central)*rad;
+  const a=6378137,invF=298.257222101,f=1/invF,e2=2*f-f*f,ep2=e2/(1-e2),k=.9999;
+  const sin=Math.sin(phi),cos=Math.cos(phi),tan=Math.tan(phi),T=tan*tan,C=ep2*cos*cos,A=cos*dLambda;
+  const N=a/Math.sqrt(1-e2*sin*sin),M=a*((1-e2/4-3*e2**2/64-5*e2**3/256)*phi
+   -(3*e2/8+3*e2**2/32+45*e2**3/1024)*Math.sin(2*phi)
+   +(15*e2**2/256+45*e2**3/1024)*Math.sin(4*phi)
+   -(35*e2**3/3072)*Math.sin(6*phi));
+  const easting=250000+k*N*(A+(1-T+C)*A**3/6+(5-18*T+T*T+72*C-58*ep2)*A**5/120);
+  const northing=k*(M+N*tan*(A*A/2+(5-T+9*C+4*C*C)*A**4/24+(61-58*T+T*T+600*C-330*ep2)*A**6/720));
+  return {zone:central,easting,northing};
+ }
+ function clearMap(){map.hidden=true;map.removeAttribute('src');external.hidden=true;external.removeAttribute('href');mapState.textContent='取得座標後顯示線上位置圖。沒有網路時仍可複製座標。'}
+ function stopAgeTimer(){if(ageTimer!==null){clearInterval(ageTimer);ageTimer=null}}
+ function refreshAge(){if(!lastFix)return;const sec=Math.max(0,Math.floor((Date.now()-Date.parse(lastFix.iso))/1000));$('p10locTime').textContent=lastFix.localTime+'（'+sec+' 秒前；裝置時間）'}
+ function newRequest(){
+  if(busy)return;
+  const current=++requestSerial;
+  busy=true;retry.disabled=true;copy.disabled=true;lastFix=null;stopAgeTimer();clearMap();
+  for(const id of ['p10locLat','p10locLon','p10locAccuracy','p10locTime','p10locTWD97'])$(id).textContent='—';
+  $('p10locAltitude').textContent='未提供';
+  if(!window.isSecureContext){status('目前頁面不是安全來源，瀏覽器可能拒絕定位。請使用 HTTPS 或 localhost。',true);busy=false;retry.disabled=false;return}
+  if(!navigator.geolocation){status('此瀏覽器沒有提供定位功能；未產生座標。',true);busy=false;retry.disabled=false;return}
+  status('正在向裝置要求目前位置…請確認瀏覽器定位授權。');
+  try{navigator.geolocation.getCurrentPosition(position=>{
+   if(current!==requestSerial||!dialog.open)return;
+   busy=false;retry.disabled=false;
+   const c=position.coords,lat=Number(c.latitude),lon=Number(c.longitude);
+   if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180){status('定位回傳座標無效，未產生地圖。',true);return}
+   const fixTime=Number.isFinite(position.timestamp)?new Date(position.timestamp):new Date();
+   if(!Number.isFinite(fixTime.getTime())){status('定位時間不可靠，未產生地圖。',true);return}
+   const age=Math.max(0,Math.round((Date.now()-fixTime.getTime())/1000));
+   const accuracy=Number.isFinite(c.accuracy)&&c.accuracy>=0?Number(c.accuracy):null;
+   const altitude=c.altitude!==null&&Number.isFinite(c.altitude)?Number(c.altitude):null;
+   const altitudeAccuracy=c.altitudeAccuracy!==null&&Number.isFinite(c.altitudeAccuracy)?Number(c.altitudeAccuracy):null;
+   const localTime=fixTime.toLocaleString('zh-TW',{hour12:false});
+   const projected=tm2(lat,lon);
+   lastFix={lat,lon,accuracy,altitude,altitudeAccuracy,age,localTime,iso:fixTime.toISOString(),projected};
+   $('p10locLat').textContent=fmt(lat)+'°';$('p10locLon').textContent=fmt(lon)+'°';
+   $('p10locAccuracy').textContent=accuracy===null?'未知':'約 ±'+Math.round(accuracy)+' m';
+   $('p10locAltitude').textContent=altitude===null?'裝置未提供':fmt(altitude,1)+' m'+(altitudeAccuracy===null?'（垂直精度未知）':'（約 ±'+Math.round(altitudeAccuracy)+' m）');
+   refreshAge();ageTimer=setInterval(refreshAge,10000);
+   $('p10locTWD97').textContent=projected?'TM2 '+projected.zone+'° 帶｜E '+fmt(projected.easting,1)+' m／N '+fmt(projected.northing,1)+' m':'不在臺灣適用範圍；未換算';
+   status('已取得裝置回報位置｜非路線偏航判定，需留意 GPS 精度。');
+   copy.disabled=false;
+   const north=lat+.012,south=lat-.012,east=lon+.016,west=lon-.016;
+   const query=(v)=>encodeURIComponent(String(v));
+   const osm='https://www.openstreetmap.org/export/embed.html?bbox='+[west,south,east,north].map(query).join('%2C')+'&layer=mapnik&marker='+query(lat)+ '%2C'+query(lon);
+   const link='https://www.openstreetmap.org/?mlat='+query(lat)+'&mlon='+query(lon)+'#map=15/'+fmt(lat)+'/'+fmt(lon);
+   external.href=link;external.hidden=false;
+   if(navigator.onLine===false){mapState.textContent='目前離線：已產生座標，但線上地圖無法載入。請使用複製座標功能。';return}
+   mapState.textContent='線上 OpenStreetMap 地圖：僅標示目前位置，不含路線或偏航資訊；地圖載入需網路。';
+   map.src=osm;map.hidden=false;
+  },error=>{
+   if(current!==requestSerial||!dialog.open)return;
+   busy=false;retry.disabled=false;lastFix=null;copy.disabled=true;
+   const reasons={1:'定位權限遭拒絕；請至瀏覽器或手機設定開啟權限。',2:'裝置暫時無法取得位置；請移至較開闊地點再試。',3:'定位要求逾時；請重新定位。'};
+   status((reasons[error&&error.code]||'定位失敗；未取得可用座標。')+' 未建立事件或地圖。',true);
+  },{enableHighAccuracy:true,maximumAge:0,timeout:15000})}
+  catch(e){busy=false;retry.disabled=false;status('瀏覽器拒絕定位要求；未建立位置紀錄。',true)}
+ }
+ async function copyPosition(){
+  if(!lastFix)return;
+  const x=lastFix;
+  const txt=['TSUMS｜當前裝置定位（未經外部核驗）','WGS84 緯度：'+fmt(x.lat),'WGS84 經度：'+fmt(x.lon),'GPS 水平精度：'+(x.accuracy===null?'未知':'約 ±'+Math.round(x.accuracy)+' m'),'定位時間：'+x.localTime+'（'+x.iso+'）','定位新鮮度（取得時）：'+x.age+' 秒','海拔：'+(x.altitude===null?'未提供':fmt(x.altitude,1)+' m'),x.projected?'TWD97／TM2（概算）'+x.projected.zone+'°：E '+fmt(x.projected.easting,1)+' m；N '+fmt(x.projected.northing,1)+' m':'TWD97／TM2：未換算','注意：GPS 可能有誤差；請在報案時口頭核對。'].join('\n');
+  try{if(navigator.clipboard&&navigator.clipboard.writeText)await navigator.clipboard.writeText(txt);else throw Error('clipboard unavailable');status('座標及報案資訊已複製；請自行貼上並核對。')}
+  catch(e){
+   const text=document.createElement('textarea');text.value=txt;text.setAttribute('readonly','');text.style.position='fixed';text.style.top='0';text.style.opacity='0';document.body.appendChild(text);text.select();text.setSelectionRange(0,txt.length);
+   let ok=false;try{ok=document.execCommand('copy')}catch(_){}text.remove();
+   status(ok?'座標資訊已複製；請自行貼上並核對。':'此瀏覽器限制自動複製；請直接長按選取畫面座標。',!ok);
+  }
+ }
+ function openPanel(){
+  if(!dialog.open){if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','')}
+  newRequest();
+ }
+ launch?.addEventListener('click',openPanel);
+ retry?.addEventListener('click',newRequest);
+ close?.addEventListener('click',()=>{if(typeof dialog.close==='function')dialog.close();else dialog.removeAttribute('open')});
+ copy?.addEventListener('click',copyPosition);
+ dialog.addEventListener('close',()=>{requestSerial++;busy=false;retry.disabled=false;copy.disabled=true;lastFix=null;stopAgeTimer();clearMap();status('尚未要求定位');});
+ dialog.addEventListener('click',e=>{if(e.target===dialog&&typeof dialog.close==='function')dialog.close()});
+ // Expose pure converter for QA verification only; never expose actual location readings.
+ window.TSUMS_QA042={tm2,mode:'USER_INITIATED_LOCATION_ONLY',persistent_data:false};
+})();
 </script>
 </body></html>

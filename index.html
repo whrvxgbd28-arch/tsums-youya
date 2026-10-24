@@ -10574,4 +10574,152 @@ body.qa070 #p11ui .p11Hero{margin-bottom:8px!important}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
+<style id="tsums-qa072-history-style">
+/* QA-072: navigation only. Existing form/event/data handlers are unchanged. */
+#qa072NavBack{display:none;align-items:center;justify-content:center;gap:5px;
+ min-height:46px;width:100%;margin:0 0 9px;border-radius:12px;border:1.5px solid #9f804d;
+ background:#241b11;color:#f8d99c;font:800 16px/1.4 -apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif;
+ cursor:pointer;touch-action:manipulation}
+#qa072NavBack[data-visible="true"]{display:flex}
+#qa072NavBack:focus-visible{outline:3px solid #ffe3a8;outline-offset:3px}
+body.field #qa072NavBack{background:#fff3d0;color:#48310c;border-color:#7c5b28}
+@media(max-width:420px){#qa072NavBack{min-height:49px;font-size:17px}}
+</style>
+<script id="tsums-qa072-history-and-swipe">
+(function(){
+ 'use strict';
+ // Additive navigation bridge. Never changes an event, evidence, IndexedDB, risk gate or confirmation.
+ const ROUTER='tsums_qa072_route';
+ const ROUTES=new Set(['p0','p1','p2','p3','p4','p5','p6ui','p6','p7','p11ui','p8','tsumsHelp']);
+ const MAIN=['p0','p6ui','p11ui','tsumsHelp'];
+ const $=(q)=>document.querySelector(q);
+ const active=()=>$('.page.active')?.id||'p0';
+ let current='p0',transition=false,lastExpanded=null,touch=null,installed=false,depth=0;
+ const valid=(r)=>ROUTES.has(r);
+ function makeUrl(id){
+  const u=new URL(location.href);
+  u.hash='view='+encodeURIComponent(id);
+  return u.pathname+u.search+u.hash;
+ }
+ function entry(id,at){return {[ROUTER]:true,view:id,depth:at}}
+ function isEntry(x){return !!(x&&x[ROUTER]===true&&valid(x.view))}
+ function updateBack(){
+  const b=$('#qa072NavBack');if(!b)return;
+  const hasLayer=!!(document.querySelector('dialog[open]')||lastExpanded?.open&&lastExpanded.closest('.page.active'));
+  const show=hasLayer||depth>0||active()!=='p0';
+  b.dataset.visible=show?'true':'false';b.disabled=!show;
+  b.setAttribute('aria-hidden',show?'false':'true');
+ }
+ function recordPageChange(){
+  if(!installed)return;
+  const id=active();if(!valid(id)||id===current){updateBack();return}
+  current=id;
+  if(!transition){
+   depth=(isEntry(history.state)?Number(history.state.depth)||0:depth)+1;
+   try{history.pushState(entry(id,depth),'',makeUrl(id))}catch(e){console.warn('頁面歷史紀錄無法建立',e)}
+  }
+  updateBack();
+ }
+ function switchTo(page){
+  if(!valid(page))return;
+  // Reuse the native app router, including its render and session refresh.
+  try{
+   if(typeof go==='function'){void go(page)}
+   else{document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===page));window.scrollTo(0,0)}
+  }catch(e){console.warn('頁面返回失敗',e)}
+  current=page;updateBack();
+ }
+ function fromHistory(e){
+  if(!isEntry(e.state))return;
+  transition=true;depth=Math.max(0,Number(e.state.depth)||0);
+  lastExpanded=null;switchTo(e.state.view);
+  // Observer runs as a microtask for the synchronous route switch.
+  setTimeout(()=>{transition=false;updateBack()},0);
+ }
+ function exitLayer(){
+  const dialog=document.querySelector('dialog[open]');
+  if(dialog){try{dialog.close()}catch(_){dialog.removeAttribute('open')}updateBack();return true}
+  if(lastExpanded?.open&&lastExpanded.closest('.page.active')){
+   lastExpanded.open=false;lastExpanded=null;updateBack();return true
+  }
+  return false;
+ }
+ function back(){
+  if(exitLayer())return;
+  const h=history.state;
+  if(isEntry(h)&&Number(h.depth)>0){history.back();return}
+  // Safe local fallback if opening a deep route directly, not a browser exit.
+  if(active()!=='p0')switchTo('p0');
+ }
+ function tabFor(page){
+  if(['p0','p1','p2','p3','p4','p5'].includes(page))return '#tsumsTabP9';
+  if(['p6ui','p6','p7'].includes(page))return '#tsumsTabP10';
+  if(['p11ui','p8'].includes(page))return '#tsumsTabP11';
+  return '#tsumsTabHelp';
+ }
+ function changeMain(offset){
+  const currentGroup=tabFor(active());
+  const at=MAIN.findIndex(x=>tabFor(x)===currentGroup);
+  if(at<0||at+offset<0||at+offset>=MAIN.length)return;
+  const nav=$(tabFor(MAIN[at+offset]));if(nav)nav.click();
+ }
+ function horizontallyScrollable(node){
+  for(let e=node;e&&e!==document.body;e=e.parentElement){
+   if(!(e instanceof Element))break;
+   if(e.scrollWidth>e.clientWidth+8){
+    const v=getComputedStyle(e).overflowX;
+    if(v==='auto'||v==='scroll')return true;
+   }
+  }
+  return false;
+ }
+ function disallowSwipe(node){
+  return !!(node?.closest?.('input,textarea,select,button,a,summary,label,[contenteditable],[role="slider"],dialog,video,audio,canvas,iframe,[data-qa072-no-swipe]'));
+ }
+ function touchStart(e){
+  touch=null;if(e.touches.length!==1||document.querySelector('dialog[open]'))return;
+  const t=e.touches[0];const target=e.target;
+  if(disallowSwipe(target)||horizontallyScrollable(target))return;
+  touch={x:t.clientX,y:t.clientY,time:Date.now(),target};
+ }
+ function touchEnd(e){
+  const start=touch;touch=null;if(!start||e.changedTouches.length!==1)return;
+  const end=e.changedTouches[0],dx=end.clientX-start.x,dy=end.clientY-start.y;
+  if(Date.now()-start.time>900||Math.abs(dx)<95||Math.abs(dx)<Math.abs(dy)*1.65||Math.abs(dy)>85)return;
+  if(document.querySelector('dialog[open]'))return;
+  // Safari owns the screen-edge navigation gesture. Don't run a competing handler.
+  if(dx>0&&start.x<36)return;
+  if(dx>0)back();else changeMain(+1);
+ }
+ function install(){
+  if(installed)return;
+  const bar=$('.journeyModebar');if(!bar)return;
+  const b=document.createElement('button');b.id='qa072NavBack';b.type='button';b.textContent='← 返回上一頁';b.setAttribute('aria-label','返回上一頁或收合目前操作');
+  bar.insertBefore(b,bar.firstChild);b.addEventListener('click',back);
+  const initial=active(),requested=location.hash.match(/^#view=(p0|p1|p2|p3|p4|p5|p6ui|p6|p7|p11ui|p8|tsumsHelp)$/)?.[1];
+  current=initial;
+  // Initial state belongs to this document; no extra dummy history that traps users.
+  const saved=history.state;
+  depth=isEntry(saved)?Math.max(0,Number(saved.depth)||0):0;
+  try{history.replaceState(entry(requested||initial,depth),'',location.href)}catch(e){console.warn('頁面歷史紀錄不可用',e)}
+  installed=true;
+  const observer=new MutationObserver(()=>queueMicrotask(recordPageChange));
+  document.querySelectorAll('.page').forEach(p=>observer.observe(p,{attributes:true,attributeFilter:['class']}));
+  window.addEventListener('popstate',fromHistory);
+  document.addEventListener('touchstart',touchStart,{passive:true});
+  document.addEventListener('touchend',touchEnd,{passive:true});
+  document.addEventListener('touchcancel',()=>{touch=null},{passive:true});
+  document.addEventListener('click',e=>{
+   const summary=e.target.closest?.('summary');if(!summary||!(summary.parentElement instanceof HTMLDetailsElement))return;
+   const el=summary.parentElement;
+   setTimeout(()=>{if(el.open)lastExpanded=el;else if(lastExpanded===el)lastExpanded=null;updateBack()},0);
+  },true);
+  if(requested&&requested!==initial){
+   transition=true;switchTo(requested);setTimeout(()=>{transition=false;updateBack()},0);
+  }
+  updateBack();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
+})();
+</script>
 </body></html>

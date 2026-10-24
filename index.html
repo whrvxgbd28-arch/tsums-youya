@@ -2117,15 +2117,15 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
     <div class="kicker">TSUMS 4.0V｜公共層</div>
     <h1>山上優雅</h1>
   </div>
-  <div class="tsumsP9Manifesto" aria-label="行前、進行、行後的治理原則">
-    <button type="button" class="tsumsP9ManifestRow" data-journey-nav="pretrip" aria-label="第一頁：風險前移，進入行前團體招募">
-      <strong>行前</strong><span class="tsumsP9ManifestText">把行程風險、決策與責任說清楚。</span><span class="tsumsP9ManifestArrow" aria-hidden="true">›</span>
+  <div class="tsumsP9Manifesto" aria-label="行前、進行、行後">
+    <button type="button" class="tsumsP9ManifestRow" data-journey-nav="pretrip" aria-label="行前：行程規劃、隊伍決策、裝備配置、留守保險">
+      <strong>行前</strong><span class="tsumsP9ManifestText">行程規劃、隊伍決策、裝備配置、留守保險。</span><span class="tsumsP9ManifestArrow" aria-hidden="true">›</span>
     </button>
-    <button type="button" class="tsumsP9ManifestRow" data-journey-nav="runtime" aria-label="第二頁：途中示警">
-      <strong>進行</strong><span class="tsumsP9ManifestText">將自然風險、提示與示警理清楚。</span><span class="tsumsP9ManifestArrow" aria-hidden="true">›</span>
+    <button type="button" class="tsumsP9ManifestRow" data-journey-nav="runtime" aria-label="進行：全時記錄、現場記實、動態示警、撤退停損">
+      <strong>進行</strong><span class="tsumsP9ManifestText">全時記錄、現場記實、動態示警、撤退停損。</span><span class="tsumsP9ManifestArrow" aria-hidden="true">›</span>
     </button>
-    <button type="button" class="tsumsP9ManifestRow" data-journey-nav="replay" aria-label="第三頁：行程後回放證據鏈">
-      <strong>行後</strong><span class="tsumsP9ManifestText">讓行程回放、過程中所有證據鏈。</span><span class="tsumsP9ManifestArrow" aria-hidden="true">›</span>
+    <button type="button" class="tsumsP9ManifestRow" data-journey-nav="replay" aria-label="行後：回放行程完整紀錄">
+      <strong>行後</strong><span class="tsumsP9ManifestText">回放行程完整紀錄。</span><span class="tsumsP9ManifestArrow" aria-hidden="true">›</span>
     </button>
     <div class="tsumsP9Vow">自保助人、山石永固</div>
   </div>
@@ -8709,7 +8709,7 @@ vR2SafeInit();
 (function(){
   'use strict';
   function openPage(kind){
-    const selector = kind==='pretrip' ? '#journeyStep1' :
+    const selector = kind==='pretrip' ? '#tsumsTabP9' :
       kind==='runtime' ? '#p0 [data-p10ui-open]' :
       kind==='replay' ? '#p0 [data-p11-open]' : null;
     const destination=selector&&document.querySelector(selector);
@@ -10413,10 +10413,10 @@ body.qa070 #p11ui .p11Hero{margin-bottom:8px!important}
  function init(){
   document.body.classList.add('qa070');
   document.title='山上優雅｜行前・途中・行後';setTimeout(()=>{document.title='山上優雅｜行前・途中・行後'},100);
-  setLabel('.tsumsP9ManifestRow[data-journey-nav="pretrip"] .tsumsP9ManifestText','想好路線、裝備和聯絡方式');
-  setLabel('.tsumsP9ManifestRow[data-journey-nav="runtime"] .tsumsP9ManifestText','記錄位置、身體和現場變化');
-  setLabel('.tsumsP9ManifestRow[data-journey-nav="replay"] .tsumsP9ManifestText','查看過程、整理與帶走紀錄');
-  setLabel('header .tsumsP9Vow','自保，然後助人。');
+  setLabel('.tsumsP9ManifestRow[data-journey-nav="pretrip"] .tsumsP9ManifestText','行程規劃、隊伍決策、裝備配置、留守保險。');
+  setLabel('.tsumsP9ManifestRow[data-journey-nav="runtime"] .tsumsP9ManifestText','全時記錄、現場記實、動態示警、撤退停損。');
+  setLabel('.tsumsP9ManifestRow[data-journey-nav="replay"] .tsumsP9ManifestText','回放行程完整紀錄。');
+  setLabel('header .tsumsP9Vow','自保助人、山石永固');
   setLabel('#tsumsTabP9','出發前');setLabel('#tsumsTabP10','在路上');setLabel('#tsumsTabP11','我的紀錄');
   ['tsumsTabP9','tsumsTabP10','tsumsTabP11'].forEach(id=>{let el=$('#'+id);if(el)el.setAttribute('aria-label',el.textContent);});
   const tabs=$('.tsumsTopTabs');if(tabs){
@@ -10720,6 +10720,40 @@ body.field #qa072NavBack{background:#fff3d0;color:#48310c;border-color:#7c5b28}
   updateBack();
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
+})();
+</script>
+
+<!-- QA-073: homepage copy + move diagnostic controls to existing 使用須知. No runtime/evidence changes. -->
+<style id="tsums-qa073-home-copy">
+/* Preserve the original brand, three operating pages and all functional controls. */
+body.qa070 header > .statusbar,body.qa070 header > .toolbar{display:none!important}
+#tsumsHelp #qa073SystemPanel{margin:12px 0;border:1px solid var(--line);border-radius:13px;padding:12px;background:var(--panel2)}
+#tsumsHelp #qa073SystemPanel>summary{cursor:pointer;color:var(--gold2);font-size:16px;padding:8px 3px}
+#tsumsHelp #qa073SystemPanel .statusbar{display:flex;justify-content:flex-start;flex-wrap:wrap;gap:8px}
+#tsumsHelp #qa073SystemPanel .toolbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-start}
+#tsumsHelp #qa073SystemPanel .toolbar button{font-size:14px;white-space:normal}
+header .tsumsP9ManifestText{white-space:normal;overflow-wrap:anywhere}
+</style>
+<script id="tsums-qa073-move-diagnostics">
+(function(){
+ 'use strict';
+ function move(){
+  const help=document.querySelector('#tsumsHelp > .card');
+  const status=document.querySelector('header > .statusbar');
+  const tools=document.querySelector('header > .toolbar');
+  if(!help || (!status&&!tools))return;
+  let details=document.getElementById('qa073SystemPanel');
+  if(!details){
+   details=document.createElement('details');details.id='qa073SystemPanel';
+   const title=document.createElement('summary');title.textContent='連線狀態與進階工具';details.appendChild(title);
+   const back=document.querySelector('#qa070HelpBack');
+   if(back && back.parentNode===help)help.insertBefore(details,back);else help.appendChild(details);
+  }
+  // Moving the original nodes (not clones) preserves ID references and event listeners.
+  if(status)details.appendChild(status);
+  if(tools)details.appendChild(tools);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',move,{once:true});else move();
 })();
 </script>
 </body></html>

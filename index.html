@@ -2117,15 +2117,15 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
     <div class="kicker">TSUMS 4.0V｜公共層</div>
     <h1>山上優雅</h1>
   </div>
-  <div class="tsumsP9Manifesto" aria-label="行前、進行、行後">
-    <button type="button" class="tsumsP9ManifestRow" data-journey-nav="pretrip" aria-label="行前：行程規劃、隊伍決策、裝備配置、留守保險">
-      <strong>行前</strong><span class="tsumsP9ManifestText">行程規劃、隊伍決策、裝備配置、留守保險。</span><span class="tsumsP9ManifestArrow" aria-hidden="true">›</span>
+  <div class="tsumsP9Manifesto" aria-label="風險前移、動態示警、行程回放">
+    <button type="button" class="tsumsP9ManifestRow" data-journey-nav="pretrip" aria-label="風險前移">
+      <strong>風險前移</strong><span class="tsumsP9ManifestArrow" aria-hidden="true">›</span>
     </button>
-    <button type="button" class="tsumsP9ManifestRow" data-journey-nav="runtime" aria-label="進行：全時記錄、現場記實、動態示警、撤退停損">
-      <strong>進行</strong><span class="tsumsP9ManifestText">全時記錄、現場記實、動態示警、撤退停損。</span><span class="tsumsP9ManifestArrow" aria-hidden="true">›</span>
+    <button type="button" class="tsumsP9ManifestRow" data-journey-nav="runtime" aria-label="動態示警">
+      <strong>動態示警</strong><span class="tsumsP9ManifestArrow" aria-hidden="true">›</span>
     </button>
-    <button type="button" class="tsumsP9ManifestRow" data-journey-nav="replay" aria-label="行後：回放行程完整紀錄">
-      <strong>行後</strong><span class="tsumsP9ManifestText">回放行程完整紀錄。</span><span class="tsumsP9ManifestArrow" aria-hidden="true">›</span>
+    <button type="button" class="tsumsP9ManifestRow" data-journey-nav="replay" aria-label="行程回放">
+      <strong>行程回放</strong><span class="tsumsP9ManifestArrow" aria-hidden="true">›</span>
     </button>
     <div class="tsumsP9Vow">自保助人、山石永固</div>
   </div>
@@ -10893,7 +10893,7 @@ body.qa070 header .tsumsP9Manifesto > button.tsumsP9ManifestRow {
   appearance:none!important;-webkit-appearance:none!important;
   display:flex!important;flex-direction:column!important;justify-content:center!important;
   align-items:center!important;grid-template-columns:none!important;
-  min-width:0!important;width:100%!important;min-height:128px!important;
+  min-width:0!important;width:100%!important;min-height:118px!important;
   margin:0!important;padding:16px 11px!important;gap:9px!important;
   border:1.5px solid #a7834d!important;border-radius:16px!important;
   background:linear-gradient(160deg,#2d2111,#151008)!important;
@@ -10902,12 +10902,12 @@ body.qa070 header .tsumsP9Manifesto > button.tsumsP9ManifestRow {
 }
 body.qa070 header .tsumsP9Manifesto > button.tsumsP9ManifestRow + button.tsumsP9ManifestRow{border:1.5px solid #a7834d!important;border-radius:16px!important}
 body.qa070 header .tsumsP9ManifestRow strong {
-  display:block!important;font-size:clamp(18px,4.2vw,26px)!important;
+  display:block!important;font-size:clamp(19px,5.2vw,29px)!important;
   font-weight:950!important;line-height:1.4!important;color:#f3cb7b!important;
   white-space:normal!important;letter-spacing:.015em!important;
 }
 body.qa070 header .tsumsP9ManifestRow .tsumsP9ManifestText {
-  display:block!important;margin:0!important;font-size:clamp(11px,2.6vw,14px)!important;
+  display:none!important;margin:0!important;font-size:clamp(11px,2.6vw,14px)!important;
   line-height:1.52!important;font-weight:650!important;color:#dfd0af!important;
   overflow-wrap:anywhere!important;word-break:normal!important;
 }
@@ -10945,10 +10945,16 @@ body.qa070 .tsumsQA075Footer .tsumsFooterAuthor{color:#dfd0b5!important;font-siz
 body.qa070 .tsumsQA075Footer button:focus-visible{outline:2px solid #f3cc7b!important;outline-offset:2px!important}
 @media(max-width:420px){
  body.qa070 header .tsumsP9Manifesto{padding:9px!important;gap:7px!important;border-radius:16px!important}
- body.qa070 header .tsumsP9Manifesto > button.tsumsP9ManifestRow{min-height:132px!important;padding:11px 6px!important;gap:7px!important;border-radius:13px!important}
- body.qa070 header .tsumsP9ManifestRow strong{font-size:clamp(17px,4.5vw,20px)!important}
- body.qa070 header .tsumsP9ManifestRow .tsumsP9ManifestText{font-size:11px!important;line-height:1.45!important}
+ body.qa070 header .tsumsP9Manifesto > button.tsumsP9ManifestRow{min-height:110px!important;padding:11px 6px!important;gap:7px!important;border-radius:13px!important}
+ body.qa070 header .tsumsP9ManifestRow strong{font-size:clamp(19px,5.2vw,24px)!important}
+ body.qa070 header .tsumsP9ManifestRow .tsumsP9ManifestText{display:none!important;line-height:1.45!important}
  body.qa070 header .tsumsP9Vow{font-size:15px!important}
+}
+
+/* QA-076: keep all four-character titles on one line even at 320px. */
+@media(max-width:340px){
+ body.qa070 header .tsumsP9Manifesto > button.tsumsP9ManifestRow{padding:9px 4px!important}
+ body.qa070 header .tsumsP9ManifestRow strong{font-size:18px!important;line-height:1.35!important;white-space:nowrap!important}
 }
 </style>
 <script id="tsums-qa075-three-entries-footer">
@@ -10957,7 +10963,7 @@ body.qa070 .tsumsQA075Footer button:focus-visible{outline:2px solid #f3cc7b!impo
  function init(){
   const categories=[
    ['pretrip','風險前移','行程規劃、隊伍決策、裝備配置、留守保險。'],
-   ['runtime','動態風險','全時記錄、現場記實、動態示警、撤退停損。'],
+   ['runtime','動態示警','全時記錄、現場記實、動態示警、撤退停損。'],
    ['replay','行程回放','回放行程完整紀錄。']
   ];
   for(const [key,title,detail] of categories){
@@ -10968,7 +10974,7 @@ body.qa070 .tsumsQA075Footer button:focus-visible{outline:2px solid #f3cc7b!impo
    if(desc)desc.textContent=detail;
    btn.setAttribute('aria-label',title+'：'+detail);
   }
-  const tabs=[['tsumsTabP9','風險前移'],['tsumsTabP10','動態風險'],['tsumsTabP11','行程回放']];
+  const tabs=[['tsumsTabP9','風險前移'],['tsumsTabP10','動態示警'],['tsumsTabP11','行程回放']];
   for(const [id,title] of tabs){const t=document.getElementById(id);if(t){t.textContent=title;t.setAttribute('aria-label',title);}}
   const help=document.getElementById('tsumsTabHelp');
   if(help){help.setAttribute('tabindex','-1');help.setAttribute('aria-hidden','true');}
@@ -10993,16 +10999,79 @@ body.qa070 .tsumsQA075Footer button:focus-visible{outline:2px solid #f3cc7b!impo
     if(!footer.querySelector('#qa075OpenHelp'))footer.replaceChildren(link,author);
    }).observe(footer,{childList:true});
   }
-  const p10Heading=document.querySelector('#p6ui .p10uiHero h2');if(p10Heading)p10Heading.textContent='動態風險';
+  const p10Heading=document.querySelector('#p6ui .p10uiHero h2');if(p10Heading)p10Heading.textContent='動態示警';
   const p11Heading=document.querySelector('#p11ui .p11Hero h2');if(p11Heading)p11Heading.textContent='行程回放';
   // Existing P9 route is already p0; on a homepage-tile tap bring its input into view.
   const pretrip=document.querySelector('header [data-journey-nav="pretrip"]');
   if(pretrip)pretrip.addEventListener('click',()=>setTimeout(()=>{
-   const input=document.querySelector('#qa074Start');
+   const input=document.querySelector('#journeyStep1');
    if(input)input.scrollIntoView({block:'start',behavior:'smooth'});
   },110));
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
+
+<style id="tsums-qa077-three-entry-fix">
+/* QA-077: presentation-only surgical fix on QA-076.
+   Keep the original 4.0V inputs, click handlers, P9/P10/P11, database and decisions.
+   Only move three entry buttons into the top hero and hide two redundant P0 displays. */
+header .tsumsP9Manifesto {
+ display:grid!important;
+ grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:clamp(5px,1.8vw,10px)!important;
+ align-items:stretch!important;
+ padding:clamp(7px,2.2vw,13px)!important;
+ width:100%!important;max-width:900px!important;
+ margin:12px auto 0!important;
+ background:#120e09!important;
+ border:1.5px solid #987647!important;border-radius:19px!important;
+}
+header .tsumsP9Manifesto > button.tsumsP9ManifestRow,
+header .tsumsP9Manifesto > button.tsumsP9ManifestRow + button.tsumsP9ManifestRow {
+ appearance:none!important;display:flex!important;
+ align-items:center!important;justify-content:center!important;
+ flex-direction:column!important;
+ grid-template-columns:none!important;
+ gap:0!important;
+ width:100%!important;min-width:0!important;
+ min-height:clamp(83px,21vw,116px)!important;
+ margin:0!important;padding:9px 3px!important;
+ border:1.5px solid #af874a!important;border-radius:15px!important;
+ color:#f1ca7d!important;background:linear-gradient(160deg,#302312,#17110b)!important;
+ text-align:center!important;box-shadow:none!important;
+ cursor:pointer!important;touch-action:manipulation!important;
+}
+header .tsumsP9Manifesto > button.tsumsP9ManifestRow strong {
+ display:block!important;white-space:nowrap!important;
+ font-size:clamp(16px,4.6vw,27px)!important;
+ line-height:1.35!important;font-weight:900!important;
+ letter-spacing:0!important;color:#f7d189!important;
+ text-align:center!important;
+}
+header .tsumsP9Manifesto .tsumsP9ManifestArrow,
+header .tsumsP9Manifesto .tsumsP9ManifestText{display:none!important}
+header .tsumsP9Manifesto .tsumsP9Vow{
+ display:block!important;grid-column:1/-1!important;
+ border-top:1px solid #86683e!important;
+ padding:12px 0 1px!important;margin:4px 0 0!important;
+ color:#f1cf8b!important;text-align:center!important;
+ font-size:clamp(15px,4vw,19px)!important;font-weight:900!important;
+ white-space:normal!important;letter-spacing:.12em!important;
+}
+/* Remove duplicate tab bar; the three real original navigation buttons remain in the masthead. */
+.journeyModebar .tsumsTopTabs {display:none!important}
+/* P0 is the homepage. Never show a redundant "back" or blank tab strip on the homepage. */
+body:has(#p0.active) .journeyModebar {display:none!important}
+/* Remove the two unwanted overview blocks; original P9 step 1 retains full trip/recruitment inputs. */
+#p0 > .journeyTripContext,
+#p0 > #qa074Start{display:none!important}
+/* Preserve working navigation of subpages and manual first-step input. */
+#p0 > .journeySteps {margin-top:14px!important}
+@media(max-width:340px){
+ header .tsumsP9Manifesto{gap:5px!important;padding:6px!important}
+ header .tsumsP9Manifesto > button.tsumsP9ManifestRow strong{font-size:15px!important}
+ header .tsumsP9Manifesto > button.tsumsP9ManifestRow{min-height:82px!important;padding:8px 2px!important}
+}
+</style>
 </body></html>

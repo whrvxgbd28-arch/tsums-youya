@@ -11110,11 +11110,31 @@ body.field #qa078Six #qa074Start input,body.field #qa078Six #qa074Start textarea
 #p4 #qa078SupportLinks{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 15px}#p4 #qa078SupportLinks button{min-height:52px;border:1.5px solid #ae8550;border-radius:11px;background:#352515;color:#faddaa;font-size:17px;font-weight:850}body.field #qa078Six #qa078Review{color:#21180d;background:#fff1d0}
 @media(max-width:385px){#qa078Six button.qa078Head{font-size:19px!important;padding:13px 11px;min-height:70px}#qa078Six .qa078Actions{grid-template-columns:1fr}}
 </style>
+<style id="tsums-qa079-venue-css">
+#qa079VenuePanel{scroll-margin-top:100px;border-color:#a98753}
+#qa079VenuePanel .qa079Sub{font-size:13px;line-height:1.6;color:#d9c5a5}
+#qa079VenuePanel .qa079Candidates{border:1px solid #80633a;border-radius:12px;background:#21180f;padding:12px;margin:12px 0}
+#qa079VenuePanel .qa079Candidates summary{font-size:17px;color:#f1d399;cursor:pointer}
+#qa079VenuePanel .qa079Extract{white-space:pre-wrap;font-size:13px;line-height:1.6;padding-top:9px;color:#eed6ae;overflow-wrap:anywhere}
+#qa079VenuePanel .qa079FormGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#qa079VenuePanel label{display:block;color:#f2d69e;font-size:15px;font-weight:800}
+#qa079VenuePanel input,#qa079VenuePanel select,#qa079VenuePanel textarea{width:100%;font-size:16px;max-width:100%;min-width:0}
+#qa079VenuePanel .qa079DayTrip{display:flex;align-items:center;gap:11px;min-height:53px}
+#qa079VenuePanel .qa079DayTrip input{width:22px;height:22px;min-height:22px;flex:0 0 22px}
+#qa079VenuePanel .qa079Actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+#qa079VenuePanel .qa079Actions button{min-height:61px;font-size:16px}
+#qa079VenuePanel .qa079State{margin:12px 0;padding:10px;background:#2a2014;border-left:3px solid #d9ad64;border-radius:8px;font-size:14px;color:#f6daaa}
+@media(max-width:460px){#qa079VenuePanel .qa079FormGrid,#qa079VenuePanel .qa079Actions{grid-template-columns:minmax(0,1fr)}}
+body.field #qa079VenuePanel .qa079Sub,body.field #qa079VenuePanel .qa079State{color:#3c311f}
+body.field #qa079VenuePanel .qa079Candidates{background:#fff3d1}
+body.field #qa079VenuePanel .qa079Candidates summary,body.field #qa079VenuePanel label,body.field #qa079VenuePanel .qa079Extract{color:#412b0c}
+</style>
 <script id="tsums-qa078-six-check-controller">
 (function(){
  'use strict';
  const q=(sel,root=document)=>root.querySelector(sel),byId=id=>document.getElementById(id);
  const trim=id=>String(byId(id)?.value||'').trim();
+ // Six user-facing groups. Underlying five formal runtime steps remain unchanged.
  const six=[
   ['行程規劃','journeyStep1'],['隊伍成員','journeyStep2'],['路線風險','journeyStep3'],
   ['保險留守',null],['裝備配置','journeyStep4'],['完備確認','journeyStep5']
@@ -11122,6 +11142,85 @@ body.field #qa078Six #qa074Start input,body.field #qa078Six #qa074Start textarea
  let lastReport='',summaryMade=false,scheduled=false;
  function localRouteName(text){const routes=['郊山','中級山','百岳','探勘路線','縱走路線','非傳統路線'];return routes.filter(v=>text.includes(v));}
  function textPreview(text){const m=text.match(/(?:\d+\s*天\s*\d+\s*夜|\d+\s*天|\d{4}[/-]\d{1,2}[/-]\d{1,2}|\d{1,2}月\d{1,2}日)/);return m?m[0]:'';}
+ 
+ function extractShelters(raw){
+   const pattern=/山屋|營地|營位|住宿|夜宿|宿營|露營|紮營|迫降|避難|緊急過夜|臨時過夜|撤退點|折返點|直升機|降落區|停機坪|緊急出口/;
+   const clean=String(raw||'').replace(/\r/g,'');
+   // Keep original phrases, never invent a coordinate, reservation or landing suitability.
+   return Array.from(new Set(clean.split(/[\n。；;]/).map(v=>v.trim().slice(0,180)).filter(v=>v&&pattern.test(v)))).slice(0,12);
+ }
+ function hasVenueEntry(){
+   const name=trim('qa079VenueName'),note=trim('qa079VenueNote');
+   return !!(name||note||byId('qa079DayTrip')?.checked);
+ }
+ function writeToOriginalRoute(){
+   const kind=byId('qa079VenueKind')?.value||'未分類地點';
+   const name=trim('qa079VenueName'),day=trim('qa079VenueDay'),pos=trim('qa079VenuePosition'),source=trim('qa079VenueSource'),note=trim('qa079VenueNote');
+   const daytrip=!!byId('qa079DayTrip')?.checked;
+   const output=byId('qa079VenueState'),route=byId('retreatPlan');
+   if(!route){if(output)output.textContent='找不到既有路線保存欄位；本次未改動任何資料。';return;}
+   if(!name&&!note&&!daytrip){if(output)output.textContent='請先輸入地點或選擇「當日往返」。';return;}
+   if(kind==='空勤候選降落位置'&&(!source||!note)){if(output)output.textContent='空勤候選位置請先註明來源與限制；不可當成已核可的降落點。';return;}
+   const lines=['[行前場域人工補充｜尚待原有路線存檔]',
+      '類別：'+(daytrip?'當日往返／不住宿':kind),
+      '地點：'+(name||'未指定'),'行程日：'+(day||'未指定'),
+      '位置／里程：'+(pos||'未提供'),'來源／查證：'+(source||'未查證'),
+      '備註：'+(note||'尚待確認'),
+      '狀態：使用者填寫，並非官方核准、空勤可降落認證或現場安全保證'];
+   const piece=lines.join('\n');
+   if(route.value.includes(piece)){
+     if(output)output.textContent='相同內容已在路線欄位，不再重複加入。';
+   }else{
+     route.value=(route.value.trim()?route.value.trim()+'\n\n':'')+piece;
+     route.dispatchEvent(new Event('input',{bubbles:true}));
+     if(output)output.textContent='已帶入原本路線欄位，尚未存檔。請開啟原路線欄位檢查後，按「保存路線」。';
+   }
+   const details=route.closest('details');if(details)details.open=true;
+   route.scrollIntoView({behavior:'smooth',block:'center'});
+ }
+ function wireVenues(){
+   const p3=byId('p3'),route=byId('retreatPlan');
+   if(!p3||!route||byId('qa079VenuePanel'))return;
+   const panel=document.createElement('section');panel.id='qa079VenuePanel';panel.className='card qa079VenuePanel';
+   panel.innerHTML=`
+   <h2>營地、山屋與緊急迫降</h2>
+   <p class="qa079Sub">貼上行程後，先看原文提及的地點。確認安排後，再帶入原本路線紀錄。</p>
+   <details class="qa079Candidates"><summary>從招募文摘錄的相關線索</summary>
+     <div id="qa079Extract" class="qa079Extract">尚未整理行程內容。</div>
+   </details>
+   <label for="qa079VenueKind">地點類型</label>
+   <select id="qa079VenueKind">
+     <option value="營地">營地</option><option value="山屋">山屋</option>
+     <option value="緊急迫降／臨時過夜">緊急迫降／臨時過夜</option>
+     <option value="避難／撤退點">避難／撤退點</option>
+     <option value="空勤候選降落位置">空勤候選降落位置</option>
+   </select>
+   <div class="qa079FormGrid">
+    <div><label for="qa079VenueName">地點名稱</label><input id="qa079VenueName" placeholder="例：預計住宿山屋或營地"></div>
+    <div><label for="qa079VenueDay">預計時間／第幾天</label><input id="qa079VenueDay" placeholder="例：第二天晚上"></div>
+    <div><label for="qa079VenuePosition">位置／里程（已知才填）</label><input id="qa079VenuePosition" placeholder="例：路線 7.2K；未知可空白"></div>
+    <div><label for="qa079VenueSource">查證來源</label><input id="qa079VenueSource" placeholder="例：山屋公告；尚未核對"></div>
+   </div>
+   <label for="qa079VenueNote">備援安排／限制</label>
+   <textarea id="qa079VenueNote" placeholder="例如：山屋尚未確認床位、雨天不可涉溪、備用撤退路線…"></textarea>
+   <label class="qa079DayTrip"><input type="checkbox" id="qa079DayTrip">這次當日往返，不安排住宿</label>
+   <div class="qa079Actions">
+     <button type="button" id="qa079Append" class="primary">加入路線備註</button>
+     <button type="button" id="qa079OpenOriginal" class="secondary">查看原本路線並保存</button>
+   </div>
+   <div id="qa079VenueState" role="status" class="qa079State">尚未加入路線紀錄。</div>
+   <p class="qa079Sub">空勤候選位置是否可降落，須由救援單位現場決定；不可把溪床或空地當成安全降落點。敏感位置請勿任意分享。</p>`;
+   const anchor=route.closest('.card');
+   if(anchor)anchor.insertAdjacentElement('afterend',panel);else p3.appendChild(panel);
+   byId('qa079Append')?.addEventListener('click',writeToOriginalRoute);
+   byId('qa079OpenOriginal')?.addEventListener('click',()=>{
+     const details=route.closest('details');if(details)details.open=true;
+     route.scrollIntoView({behavior:'smooth',block:'center'});
+     route.focus({preventScroll:true});
+     const output=byId('qa079VenueState');if(output)output.textContent='請核對原本路線備註，再按原有「鎖定路線治理快照」儲存。';
+   });
+ }
+
  function getInputs(){return [trim('qa074Trip')||trim('tripName'),trim('qa074Text')||trim('recruitment')];}
  function assess(){
    const [name,body]=getInputs(),all=(name+'\n'+body).trim();
@@ -11132,38 +11231,56 @@ body.field #qa078Six #qa074Start input,body.field #qa078Six #qa074Start textarea
          rem=!!trim('qa071Hours')||!!trim('qa071Minutes')||!!byId('qa074NodeOnly')?.checked,
          textIns=/保險|投保|保單/.test(all),textGuard=/留守|緊急聯絡|家屬聯絡/.test(all),
          textGear=/裝備|頭燈|背包|帳篷|雨具|睡袋|飲水|行動電源|急救包|炊具/.test(all);
+   const shelterLines=extractShelters(all),shelterWritten=hasVenueEntry();
    const done=(id)=>byId(id)?.dataset.status==='done';
+   const venueState=shelterWritten
+      ? '營地／山屋／迫降處已人工補充；仍須在原路線紀錄核對及保存'
+      : shelterLines.length
+        ? '招募文提及 '+shelterLines.length+' 段營地／山屋／避難或撤退線索，請確認位置與可用性'
+        : '營地／山屋／迫降處及撤退備案未見明確安排；當日往返亦請確認緊急停留位置';
+   const routeState=(route.length
+      ? '原文提及「'+route.join('／')+'」；路況、天候與撤退點須核對'
+      : '路線類型、天候、地形與撤退點尚待確認')+'。'+venueState;
    const states=[
      all ? ('已輸入行程'+(textPreview(all)?'，提及 '+textPreview(all):'')+'；請核對日期及路線'):'尚未輸入行程，先填名稱或貼招募文',
      solo?'獨攀安排已提及；仍須確認留守人及緊急聯絡':member?'原文提到隊伍；請核對名冊、緊急聯絡與決策者':'原文未提及隊伍或獨攀安排，請確認',
-     route.length?'原文提及「'+route.join('／')+'」；請核對路況、天候與撤退點': '路線類型、天候、地形與撤退點尚待確認',
+     routeState,
      (guardian&&insured&&rem)?'留守聯絡、保險安排與回報設定均有填寫，請確認有效性':(textGuard||textIns)?'原文提及保險或留守；請補齊聯絡及回報設定':'原文未提供保險與留守安排，請補齊',
      textGear?'原文提及裝備；請核對裝備、補給與適用性':'原文未列裝備／補給清單，請補齊',
      done('journeyStep5')?'已有最終決策紀錄；資料變更後仍須重新確認':'尚待完成行前檢核與具名確認'
    ];
    const flags=[
-      !!all, solo||member,route.length>0,guardian&&insured&&rem, textGear,done('journeyStep5')
+      !!all, solo||member,route.length>0||shelterLines.length>0||shelterWritten, guardian&&insured&&rem, textGear,done('journeyStep5')
    ];
-   const missing=[];
-   // A mentioned item is not an already verified item; only the existing preserved P9 states may indicate saved closure.
-   const saved=[false,done('journeyStep2'),done('journeyStep3'),false,done('journeyStep4'),done('journeyStep5')];
+   const missing=[], needsReviewByItem=[];
+   // Candidate text does not prove a location exists or is safe. Only original runtime actions can save it.
+   const saved=[done('journeyStep1'),done('journeyStep2'),done('journeyStep3'),false,done('journeyStep4'),done('journeyStep5')];
    for(let i=0;i<6;i++){
-      const needsReview=(i===0 ? !textPreview(all) : (i===3 ? !(guardian&&insured&&rem) : !saved[i]));
+      const needsReview=(i===0 ? !saved[i] :
+         i===2 ? (!saved[i] || !shelterWritten) :
+         i===3 ? !(guardian&&insured&&rem) : !saved[i]);
+      needsReviewByItem.push(needsReview);
       if(needsReview)missing.push(six[i][0]+'：'+states[i]);
       const item=byId('qa078Item'+(i+1));if(!item)continue;
       const status=q('.qa078State',item);if(!status)continue;
       status.textContent=summaryMade?states[i]:(i===0&&all?'有輸入內容，按一下整理':'待輸入行程後檢查');
       status.dataset.state=summaryMade?(flags[i]?'identified':'attention'):'idle';
    }
-   return {all,name,body,states,missing,solo};
+   return {all,name,body,states,missing,needsReviewByItem,solo,shelterLines};
  }
  function generate(){
    const a=assess();if(!a.all){byId('qa074Trip')?.focus();return;}
    summaryMade=true;const b=assess();
    const label=b.solo?'獨攀':'團體／活動型態待核對';
    const summary='行程：'+(b.name||'原文未列名稱')+'\n方式：'+label+'\n';
-   const intro=b.missing.length?'仍需補充／核對：\n'+b.missing.map((s,i)=>(i+1)+'. '+s).join('\n'):'六項皆有資料線索，仍須核對並完成原有正式檢核。';
-   lastReport='山上優雅｜行前待補清單\n'+summary+intro+'\n請以現場及相關資料逐項核對。';
+   const sixReport=six.map((part,i)=>
+      (i+1)+'. '+part[0]+'｜'+(b.needsReviewByItem[i]?'待補／核對':'已有紀錄，仍須複查')+'\n   '+b.states[i]
+   ).join('\n');
+   lastReport='山上優雅｜行前六項檢視\n'+summary+sixReport+
+      '\n\n路線風險補充｜營地／山屋／迫降處與撤退線索（原文摘錄、待查證）：\n'+
+      (b.shelterLines.length?b.shelterLines.map(v=>'• '+v).join('\n'):'原文未提供相關地點')+
+      '\n請核對來源、可用性與備援安排。';
+   const extracted=byId('qa079Extract');if(extracted)extracted.textContent=b.shelterLines.length?b.shelterLines.map(v=>'• '+v).join('\n'):'原文沒有可直接辨識的營地、山屋或迫降避難安排。';
    const o=byId('qa078Review');if(o){o.hidden=false;o.textContent=lastReport;}
    const copy=byId('qa078Copy');if(copy)copy.disabled=false;
    const state=byId('qa078ReportState');if(state)state.textContent='已整理六項待補清單；點選各項可直接修改。';
@@ -11192,6 +11309,13 @@ body.field #qa078Six #qa074Start input,body.field #qa078Six #qa074Start textarea
      button.innerHTML='<span>'+i+'. '+six[i-1][0]+'</span><span class="qa078Chevron" aria-hidden="true">›</span>';
      button.addEventListener('click',()=>nav(i));item.appendChild(button);
      const state=document.createElement('div');state.className='qa078State';state.setAttribute('role','status');state.textContent='待輸入行程後檢查';item.appendChild(state);
+     if(i===3){
+       const venue=document.createElement('button');venue.type='button';venue.className='qa078Act qa080VenueLink';
+       venue.textContent='營地／山屋／迫降處（查看及補充） ›';
+       venue.setAttribute('aria-label','路線風險：查看及補充營地、山屋、迫降避難與撤退位置');
+       venue.addEventListener('click',()=>gotoPageFrom('journeyStep3','qa079VenuePanel'));
+       item.appendChild(venue);
+     }
      if(i===1){
        item.appendChild(start); // Move the original input controls; do NOT clone or replace their event handlers.
        const buttons=document.createElement('div');buttons.className='qa078Actions';
@@ -11211,6 +11335,7 @@ body.field #qa078Six #qa074Start input,body.field #qa078Six #qa074Start textarea
      host.appendChild(item);
    }
    overview.parentNode.insertBefore(host,overview);
+   wireVenues();
    document.body.classList.add('qa078Ready');
    // Visible headings only; retain original element IDs, forms and binding code.
    for(const [section,title] of [['p1','行程規劃'],['p4','裝備配置'],['p5','完備確認']]){
@@ -11238,5 +11363,18 @@ body.field #qa078Six #qa074Start input,body.field #qa078Six #qa074Start textarea
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire,{once:true});else wire();
 })();
 </script>
+
+
+<style id="tsums-qa080-six-fixed-layout">
+/* QA-080: one venue subentry, inside item 3. Do not modify any saved state or 4.0V runtime gate. */
+#qa078Six #qa078Item3 .qa080VenueLink{display:block!important;width:calc(100% - 28px)!important;
+  margin:0 14px 16px!important;min-height:51px!important;
+  border:1.5px solid #9e7845!important;border-radius:11px!important;
+  color:#f2d49b!important;background:#2a2114!important;
+  padding:9px 11px!important;font-size:16px!important;font-weight:800!important;
+  text-align:left!important;line-height:1.45!important;white-space:normal!important;
+  overflow-wrap:anywhere!important;touch-action:manipulation!important}
+#qa078Six #qa078Item3 .qa080VenueLink:focus-visible{outline:3px solid #ffe1a6!important;outline-offset:2px!important}
+</style>
 
 </body></html>

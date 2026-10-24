@@ -1784,6 +1784,126 @@ body.field .journeyTopNav #journeyHomeBtn{
 #p6ui .p10locOfflineHandoff .p10locPrivacy{font-size:13px;line-height:1.6;color:#ccb890}
 #p6ui .p10locHandoffAction:focus-visible,#p6ui .p10locOfflineHandoff select:focus-visible{outline:3px solid #fff!important;outline-offset:3px}
 </style>
+<style id="tsums-p10-qa045-field-readability">
+/* QA-045 | P10 Field Runtime outdoor readable UI | presentation-only.
+   Scoped to #p6 and the P10 bottom navigation. No changes to evidence,
+   state-machine, decisions, risk threshold, persistence, GPS, or radio. */
+#p6{--p10f-text:#fff4dd;--p10f-muted:#ead7b7;--p10f-gold:#ffd68b;--p10f-line:#987847}
+#p6 .card{padding:18px!important;border-color:#806440!important;overflow-wrap:anywhere}
+#p6 h2{font-size:28px!important;line-height:1.3!important;color:var(--p10f-gold)!important}
+#p6 h3{font-size:clamp(23px,5.2vw,27px)!important;line-height:1.36!important;color:var(--p10f-text)!important;font-weight:850!important}
+#p6 .sectionEyebrow{font-size:17px!important;line-height:1.45!important;letter-spacing:.02em!important;color:var(--p10f-gold)!important;font-weight:850!important}
+#p6 .hint,#p6 .small,#p6 .boundaryNote,#p6 .miniBanner,#p6 p,#p6 .voiceSourceNote,
+#p6 .v064GovernanceStateNote{font-size:17px!important;line-height:1.65!important;color:var(--p10f-muted)!important;overflow-wrap:anywhere!important}
+#p6 label{font-size:18px!important;line-height:1.48!important;font-weight:800!important;color:#f4dfbb!important;margin-top:14px!important}
+#p6 input:not([type=checkbox]):not([type=radio]):not([type=file]),#p6 select,#p6 textarea{
+ font-size:20px!important;line-height:1.45!important;min-height:62px!important;
+ padding:12px 15px!important;color:#fff3de!important;background:#15110c!important;
+ border:2px solid #97774a!important;border-radius:13px!important;max-width:100%!important}
+#p6 textarea{min-height:145px!important}
+#p6 input[type=checkbox],#p6 input[type=radio]{width:28px!important;height:28px!important;min-height:28px!important;flex:0 0 28px!important;accent-color:#f0c96d!important}
+#p6 button{font-size:18px!important;line-height:1.4!important;min-height:60px!important;white-space:normal!important;overflow-wrap:anywhere!important;touch-action:manipulation}
+#p6 button:focus-visible,#p6 select:focus-visible,#p6 input:focus-visible,#p6 textarea:focus-visible{
+ outline:3px solid #ffe098!important;outline-offset:3px!important}
+/* 1-second scan: key status values are larger than field captions. */
+#p6 .fieldRuntimeTop{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+#p6 .fieldRuntimeTop .metric{padding:14px 10px!important;min-height:94px!important;text-align:left!important}
+#p6 .fieldRuntimeTop .metric span{font-size:16px!important;line-height:1.45!important;color:var(--p10f-muted)!important}
+#p6 .fieldRuntimeTop .metric b{font-size:21px!important;line-height:1.45!important;color:var(--p10f-text)!important;overflow-wrap:anywhere!important}
+#p6 #v0641RuntimeBoard .v0641RuntimeMetrics{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:11px!important;margin:16px 0!important}
+#p6 #v0641RuntimeBoard .v0641RuntimeMetrics>div{min-height:99px!important;padding:14px 12px!important;
+ border:1.5px solid var(--p10f-line)!important;border-radius:14px!important;background:#1b160f!important}
+#p6 #v0641RuntimeBoard .v0641RuntimeMetrics span{font-size:16px!important;line-height:1.4!important;
+ font-weight:750!important;color:var(--p10f-muted)!important}
+#p6 #v0641RuntimeBoard .v0641RuntimeMetrics b{font-size:clamp(20px,4.9vw,24px)!important;line-height:1.35!important;
+ font-weight:900!important;color:#ffe0a1!important;overflow-wrap:anywhere!important;margin-top:7px!important}
+#p6 .v0641RuntimeEvents{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:11px!important}
+#p6 .v0641RuntimeEvents button{min-height:76px!important;font-size:19px!important;
+ color:#ffe8b6!important;background:#2b2116!important;border:2px solid #b28a4d!important;
+ border-radius:14px!important;padding:12px!important;font-weight:850!important}
+/* Track card: legible evidence boundary, 2-col readouts on phones. */
+#p6 #v064TrackCard>.memberHead{flex-wrap:wrap!important;gap:10px!important}
+#p6 #v064TrackCard .statePill{font-size:16px!important;min-height:38px!important;padding:7px 12px!important;color:var(--p10f-gold)!important}
+#p6 #v064TrackCard .v064TrackMetrics{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:11px!important}
+#p6 #v064TrackCard .v064TrackMetrics>div{min-height:104px!important;padding:14px 12px!important;border:1.5px solid var(--p10f-line)!important}
+#p6 #v064TrackCard .v064TrackMetrics span{font-size:16px!important;color:var(--p10f-muted)!important;font-weight:750!important;line-height:1.4!important}
+#p6 #v064TrackCard .v064TrackMetrics b{font-size:21px!important;line-height:1.4!important;color:var(--p10f-text)!important;margin-top:7px!important}
+#p6 #v064TrackCard .v064TrackToolbar{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:11px!important}
+#p6 #v064TrackCard .v064TrackToolbar button{min-height:76px!important;padding:13px!important;font-size:18px!important}
+#p6 #v064TrackCard #v064EndSession{min-height:72px!important;font-weight:850!important}
+/* Internal evidence vs external drafts: never visually imply sent/verified. */
+#p6 .fieldTwoLayer{grid-template-columns:1fr!important;gap:13px!important}
+#p6 .internalCaptureGrid,#p6 .externalActionGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+#p6 .internalCaptureGrid button,#p6 .externalActionGrid button{
+ display:flex!important;align-items:flex-start!important;justify-content:center!important;flex-direction:column!important;
+ min-height:112px!important;padding:17px 14px!important;font-size:19px!important;
+ font-weight:850!important;color:#fff3db!important;background:#292116!important;
+ border:2px solid #957348!important;border-radius:16px!important;text-align:left!important}
+#p6 .internalCaptureGrid button small,#p6 .externalActionGrid button small{
+ font-size:16px!important;line-height:1.5!important;font-weight:700!important;
+ color:#ead4aa!important;margin-top:7px!important;overflow-wrap:anywhere!important}
+/* Event matrix: retain every category and action, increase legibility/tap clearance. */
+#p6 .quickGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;margin:16px 0!important}
+#p6 .quickGrid .quickBtn{min-height:122px!important;padding:18px 15px!important;
+ font-size:21px!important;font-weight:900!important;line-height:1.4!important;
+ color:#fff0d2!important;border-width:2px!important;border-radius:17px!important;
+ background:#2d2014!important;text-align:left!important}
+#p6 .quickGrid .quickBtn small{font-size:17px!important;line-height:1.5!important;margin-top:8px!important;
+ color:#f0d7b0!important;font-weight:700!important}
+#p6 .quickGrid .quickBtn.amber{background:#372714!important;border-color:#d6a24b!important}
+#p6 .quickGrid .quickBtn.red{background:#361d1a!important;border-color:#bf6960!important}
+#p6 .quickGrid .quickBtn.blue{background:#1a2932!important;border-color:#638ba6!important}
+/* Green must not mean automatic safety certification. Normal = human observation. */
+#p6 .quickGrid .quickBtn.green{background:#312516!important;border-color:#d9b36b!important}
+/* Forms and medical overlay are manually observed, not AI diagnoses. */
+#p6 .row{gap:13px!important}
+#p6 .row>div,#p6 .row3>div{min-width:0!important}
+#p6 .fieldStatusBanner strong{font-size:30px!important;line-height:1.3!important}
+#p6 .fieldStatusBanner{padding:17px!important}
+#p6 .teamFieldRow,#p6 .commChannel,#p6 .gpsBox,#p6 .metric{border-color:var(--p10f-line)!important}
+#p6 .commRuntimeSummary>div{padding:14px!important;min-height:88px!important}
+#p6 .commRuntimeSummary span{font-size:16px!important;color:var(--p10f-muted)!important}
+#p6 .commRuntimeSummary b{font-size:20px!important;color:var(--p10f-text)!important}
+#p6 .voiceHoldButton strong{font-size:21px!important}
+#p6 .voiceHoldButton small,#p6 .voiceCaptureState{font-size:16px!important;line-height:1.5!important;color:var(--p10f-muted)!important}
+#p6 .voiceHoldButton{min-height:98px!important}
+#p6 #emergencyLifelineButton{min-height:108px!important}
+#p6 #emergencyLifelineButton small{font-size:16px!important;color:#ffe6d9!important}
+/* Bottom tab labels 4-across at 320px, without hiding content. */
+body.onFieldPage .fieldBottomNav{gap:5px!important;z-index:50!important;padding-top:9px!important}
+body.onFieldPage .fieldBottomNav button{min-height:74px!important;font-size:15px!important;line-height:1.3!important;
+ font-weight:850!important;color:#f1d4a1!important;padding:7px 3px!important;white-space:normal!important}
+body.onFieldPage .fieldBottomNav button b{font-size:24px!important;line-height:1.2!important}
+body.onFieldPage .fieldBottomNav button.active{background:#241a0f!important;color:#ffd176!important}
+#p6{padding-bottom:calc(130px + env(safe-area-inset-bottom))!important}
+@media(max-width:365px){
+ #p6 .card{padding:14px!important}
+ #p6 .quickGrid,#p6 .internalCaptureGrid,#p6 .externalActionGrid{gap:10px!important}
+ #p6 .quickGrid .quickBtn{font-size:19px!important;min-height:119px!important;padding:14px 12px!important}
+ #p6 .quickGrid .quickBtn small{font-size:16px!important}
+ #p6 #v0641RuntimeBoard .v0641RuntimeMetrics b{font-size:20px!important}
+ body.onFieldPage .fieldBottomNav button{font-size:14px!important}
+}
+@media(min-width:780px){
+ #p6 .fieldRuntimeTop{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+ #p6 #v0641RuntimeBoard .v0641RuntimeMetrics{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ #p6 #v064TrackCard .v064TrackMetrics{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
+/* Existing field (high contrast light) toggle: maintain legible polarity. */
+body.field #p6{--p10f-text:#171109;--p10f-muted:#382a17;--p10f-gold:#6b4509;--p10f-line:#997135}
+body.field #p6 .card{background:#fffdf7!important}
+body.field #p6 input:not([type=checkbox]):not([type=radio]):not([type=file]),body.field #p6 select,body.field #p6 textarea{color:#16110c!important;background:#fff!important}
+body.field #p6 #v0641RuntimeBoard .v0641RuntimeMetrics>div,body.field #p6 .quickGrid .quickBtn,
+body.field #p6 .internalCaptureGrid button,body.field #p6 .externalActionGrid button{background:#fff1d4!important}
+body.field #p6 #v0641RuntimeBoard .v0641RuntimeMetrics b,body.field #p6 .quickGrid .quickBtn,
+body.field #p6 .internalCaptureGrid button,body.field #p6 .externalActionGrid button{color:#171109!important}
+body.field #p6 .quickGrid .quickBtn small,body.field #p6 .internalCaptureGrid button small,
+body.field #p6 .externalActionGrid button small{color:#423019!important}
+body.field #p6 #v0641RuntimeBoard .v0641RuntimeEvents button{background:#fff1d4!important;color:#171109!important}
+body.field #p6 #v0641RuntimeBoard .v0641RuntimeMetrics span,body.field #p6 .fieldRuntimeTop .metric span,
+body.field #p6 #v064TrackCard .v064TrackMetrics span{color:#47331a!important}
+body.field #p6 .fieldRuntimeTop .metric b,body.field #p6 #v064TrackCard .v064TrackMetrics b{color:#20150c!important}
+</style>
 </head>
 <body>
 <script id="tsums-p0-039-source-of-truth">

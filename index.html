@@ -10879,4 +10879,130 @@ body.field #qa074Start h2,body.field #qa074Start h3{color:#674100}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
+
+<style id="tsums-qa075-three-entries-style">
+/* QA-075: homepage display + footer links only. Existing fields, ids, dispatchers and state remain. */
+body.qa070 header .tsumsP9Manifesto {
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  align-items:stretch!important;gap:10px!important;
+  margin:13px auto 0!important;padding:13px!important;
+  border:1.5px solid #8d7044!important;border-radius:20px!important;
+  background:#120e09!important;max-width:900px!important;
+}
+body.qa070 header .tsumsP9Manifesto > button.tsumsP9ManifestRow {
+  appearance:none!important;-webkit-appearance:none!important;
+  display:flex!important;flex-direction:column!important;justify-content:center!important;
+  align-items:center!important;grid-template-columns:none!important;
+  min-width:0!important;width:100%!important;min-height:128px!important;
+  margin:0!important;padding:16px 11px!important;gap:9px!important;
+  border:1.5px solid #a7834d!important;border-radius:16px!important;
+  background:linear-gradient(160deg,#2d2111,#151008)!important;
+  text-align:center!important;color:#f5ddaf!important;
+  box-shadow:none!important;touch-action:manipulation;
+}
+body.qa070 header .tsumsP9Manifesto > button.tsumsP9ManifestRow + button.tsumsP9ManifestRow{border:1.5px solid #a7834d!important;border-radius:16px!important}
+body.qa070 header .tsumsP9ManifestRow strong {
+  display:block!important;font-size:clamp(18px,4.2vw,26px)!important;
+  font-weight:950!important;line-height:1.4!important;color:#f3cb7b!important;
+  white-space:normal!important;letter-spacing:.015em!important;
+}
+body.qa070 header .tsumsP9ManifestRow .tsumsP9ManifestText {
+  display:block!important;margin:0!important;font-size:clamp(11px,2.6vw,14px)!important;
+  line-height:1.52!important;font-weight:650!important;color:#dfd0af!important;
+  overflow-wrap:anywhere!important;word-break:normal!important;
+}
+body.qa070 header .tsumsP9ManifestRow .tsumsP9ManifestArrow{display:none!important}
+body.qa070 header .tsumsP9Manifesto > button.tsumsP9ManifestRow:active{transform:scale(.98)!important}
+body.qa070 header .tsumsP9Manifesto > button.tsumsP9ManifestRow:focus-visible{
+  outline:3px solid #ffe6ab!important;outline-offset:3px!important;
+}
+body.qa070 header .tsumsP9Vow {
+  grid-column:1/-1!important;display:block!important;margin:3px 0 0!important;
+  padding:13px 2px 0!important;font-size:17px!important;letter-spacing:.16em!important;
+  text-align:center!important;color:#f1ce83!important;border-top:1px solid #7e633a!important;
+}
+/* Keep the original three subpage navigation routes. Hide redundant tabs only on the initial first-page overview. */
+body.qa070 .tsumsTopTabs{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+body.qa070 #tsumsTabHelp{display:none!important}
+body.qa070:has(#p0.active) .journeyModebar .tsumsTopTabs{display:none!important}
+body.qa070:has(#p0.active) .journeyModebar:not(:has(#qa072NavBack[data-visible="true"])) {display:none!important}
+body.qa070:has(#p0.active) .journeyModebar:has(#qa072NavBack[data-visible="true"]) {padding-top:6px!important;padding-bottom:6px!important}
+/* A genuine footer, accessible after the currently selected page content. */
+body.qa070 .app > footer.tsumsQA075Footer {
+  display:flex!important;flex-wrap:wrap;justify-content:center;align-items:center;
+  gap:8px 15px;margin:28px 0 5px!important;padding:22px 8px calc(18px + env(safe-area-inset-bottom))!important;
+  border-top:1px solid #695334!important;white-space:normal!important;
+  font-size:14px!important;font-weight:650!important;color:#d7c5a6!important;
+  line-height:1.5!important;text-align:center!important;
+}
+body.qa070 .tsumsQA075Footer button {
+  min-height:42px!important;padding:6px 8px!important;border:0!important;
+  background:transparent!important;text-decoration:underline;text-underline-offset:4px;
+  font:750 14px/1.5 -apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif!important;
+  color:#f4d391!important;cursor:pointer;touch-action:manipulation;
+}
+body.qa070 .tsumsQA075Footer .tsumsFooterAuthor{color:#dfd0b5!important;font-size:14px!important}
+body.qa070 .tsumsQA075Footer button:focus-visible{outline:2px solid #f3cc7b!important;outline-offset:2px!important}
+@media(max-width:420px){
+ body.qa070 header .tsumsP9Manifesto{padding:9px!important;gap:7px!important;border-radius:16px!important}
+ body.qa070 header .tsumsP9Manifesto > button.tsumsP9ManifestRow{min-height:132px!important;padding:11px 6px!important;gap:7px!important;border-radius:13px!important}
+ body.qa070 header .tsumsP9ManifestRow strong{font-size:clamp(17px,4.5vw,20px)!important}
+ body.qa070 header .tsumsP9ManifestRow .tsumsP9ManifestText{font-size:11px!important;line-height:1.45!important}
+ body.qa070 header .tsumsP9Vow{font-size:15px!important}
+}
+</style>
+<script id="tsums-qa075-three-entries-footer">
+(function(){
+ 'use strict';
+ function init(){
+  const categories=[
+   ['pretrip','風險前移','行程規劃、隊伍決策、裝備配置、留守保險。'],
+   ['runtime','動態風險','全時記錄、現場記實、動態示警、撤退停損。'],
+   ['replay','行程回放','回放行程完整紀錄。']
+  ];
+  for(const [key,title,detail] of categories){
+   const btn=document.querySelector('header .tsumsP9ManifestRow[data-journey-nav="'+key+'"]');
+   if(!btn)continue;
+   const t=btn.querySelector('strong'),desc=btn.querySelector('.tsumsP9ManifestText');
+   if(t)t.textContent=title;
+   if(desc)desc.textContent=detail;
+   btn.setAttribute('aria-label',title+'：'+detail);
+  }
+  const tabs=[['tsumsTabP9','風險前移'],['tsumsTabP10','動態風險'],['tsumsTabP11','行程回放']];
+  for(const [id,title] of tabs){const t=document.getElementById(id);if(t){t.textContent=title;t.setAttribute('aria-label',title);}}
+  const help=document.getElementById('tsumsTabHelp');
+  if(help){help.setAttribute('tabindex','-1');help.setAttribute('aria-hidden','true');}
+  const footer=document.querySelector('.app > footer');
+  if(footer){
+   footer.classList.add('tsumsQA075Footer');
+   // Footer is presentation only. The actual help page and original data stay intact.
+   footer.replaceChildren();
+   const link=document.createElement('button');link.id='qa075OpenHelp';link.type='button';
+   link.textContent='使用須知與免責說明';
+   link.addEventListener('click',()=>{
+    const target=document.getElementById('tsumsTabHelp');
+    if(target){target.click();return;}
+    const page=document.getElementById('tsumsHelp');
+    if(page){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p===page));window.scrollTo(0,0);}
+   });
+   const author=document.createElement('span');author.className='tsumsFooterAuthor';author.textContent='作者：Ismahasan Vlian';
+   footer.append(link,author);
+   // An older presentation renderer rewrites the footer later. Keep this dedicated
+   // user-facing link visible without modifying any trip, state, or evidence logic.
+   new MutationObserver(()=>{
+    if(!footer.querySelector('#qa075OpenHelp'))footer.replaceChildren(link,author);
+   }).observe(footer,{childList:true});
+  }
+  const p10Heading=document.querySelector('#p6ui .p10uiHero h2');if(p10Heading)p10Heading.textContent='動態風險';
+  const p11Heading=document.querySelector('#p11ui .p11Hero h2');if(p11Heading)p11Heading.textContent='行程回放';
+  // Existing P9 route is already p0; on a homepage-tile tap bring its input into view.
+  const pretrip=document.querySelector('header [data-journey-nav="pretrip"]');
+  if(pretrip)pretrip.addEventListener('click',()=>setTimeout(()=>{
+   const input=document.querySelector('#qa074Start');
+   if(input)input.scrollIntoView({block:'start',behavior:'smooth'});
+  },110));
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
 </body></html>

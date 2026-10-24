@@ -2021,11 +2021,22 @@ body.field #p6ui .p10uiModuleBody .p10uiMetrics>div>strong{color:#20140a!importa
 #p6ui #qa050OpenTeam:focus-visible,#p6ui [data-qa050-runtime]:focus-visible{outline:3px solid #f6d27c;outline-offset:3px}
 @media (max-width:340px){#p6ui .qa050QuickGrid{gap:8px}#p6ui .qa050QuickGrid button{padding:12px 6px;font-size:17px}}
 </style>
+
+<style id="qa053-manual-actions-feedback">
+#p6ui #qa053ActionStatus{border:2px solid #b99557;border-radius:12px;background:#21180f;color:#ffe4ad;padding:14px 16px;font-size:18px;font-weight:700;line-height:1.55;overflow-wrap:anywhere;margin:0 0 12px}
+#p6ui #qa053ActionStatus[data-qa053-state="error"]{border-color:#df7c66;background:#391a16;color:#fff2e8}
+#p6ui #qa053ActionStatus[data-qa053-state="ok"]{border-color:#e1c183;background:#302513}
+#p6ui #qa053GoSession{display:block;min-height:58px;width:100%;margin:0 0 12px;border:2px solid #e0ba73;border-radius:12px;background:#d8ad60;color:#18110a;font-weight:900;font-size:17px;line-height:1.4;padding:12px}
+#p6ui #qa053GoSession[hidden]{display:none!important}
+#p6ui #p10ManualRaw:focus{outline:3px solid #ffd57e;outline-offset:3px;box-shadow:0 0 0 5px #a66c2940}
+#p6ui .p10manualFields{scroll-margin-top:90px}
+@media(max-width:375px){#p6ui #qa053ActionStatus{font-size:17px}}
+</style>
 </head>
 <body>
 <script id="tsums-p0-039-source-of-truth">
 /* Build-time registry shared by app export metadata. */
-const TSUMS_RELEASE_REGISTRY=Object.freeze({"app_version":"0.6.4.6-P2","schema_version":"TSUMS-YOUYA-4V-REPLAY-0.6.4","build_id":"QA044-P10-OFFLINE-HANDOFF-20261024","commit_sha":null,"release_status":"LOCAL_QA_CANDIDATE_NOT_DEPLOYED"});
+const TSUMS_RELEASE_REGISTRY=Object.freeze({"app_version":"0.6.4.6-P2","schema_version":"TSUMS-YOUYA-4V-REPLAY-0.6.4","build_id":"QA053-P10-MANUAL-ACTIONS-20261024","commit_sha":null,"release_status":"LOCAL_QA_CANDIDATE_NOT_DEPLOYED"});
 const APP_VERSION=TSUMS_RELEASE_REGISTRY.app_version;
 const SCHEMA_VERSION=TSUMS_RELEASE_REGISTRY.schema_version;
 const BUILD_ID=TSUMS_RELEASE_REGISTRY.build_id;
@@ -2693,7 +2704,9 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
     <div class="p10wearGlobal p10manualVital" id="p10ManualVital" aria-label="人工生理與現場狀態速記">
       <div class="p10wearGlobalHead"><strong>現場生理與狀態｜語音／文字速記</strong><span class="p10wearFlag">人工觀察・非自動感測</span></div>
       <p class="p10manualIntro">先記錄現場看見、聽見與手錶實際顯示的內容；不連線 Garmin、不推論診斷或 GO／WAIT／RETREAT。可用 iPhone 鍵盤的麥克風口述文字，也可使用既有原音錄製。</p>
-      <div class="p10manualActions"><button type="button" id="p10ManualVoice" class="p10manualPrimary">按住說話｜開啟原音錄製</button><button type="button" id="p10ManualTextFocus">文字／系統聽寫速記</button></div>
+      <div class="p10manualActions"><button type="button" id="p10ManualVoice" class="p10manualPrimary" aria-describedby="qa053ActionStatus">前往原音錄製</button><button type="button" id="p10ManualTextFocus" aria-controls="p10ManualRaw" aria-describedby="qa053ActionStatus">開啟文字／聽寫</button></div>
+      <div id="qa053ActionStatus" class="qa053ActionStatus" role="status" aria-live="polite" aria-atomic="true">選擇上方操作：文字可直接輸入；原音錄製需先啟動有效的現場會話。</div>
+      <button type="button" id="qa053GoSession" class="qa053GoSession" hidden>前往行前授權與現場會話啟動</button>
       <div class="p10manualFields">
         <label for="p10ManualSubject">觀察對象（代稱，測試請勿使用真名）</label><input id="p10ManualSubject" placeholder="例如：隊員 A" autocomplete="off">
         <label for="p10ManualObserved">實際觀察時間（未填則保留未知）</label><input id="p10ManualObserved" type="datetime-local">
@@ -9766,20 +9779,59 @@ packageData=async function(){
   show('已從你明確提供的內容建立摘要草稿；沒有 AI 自動轉譯、沒有推斷症狀或自動寫入證據鏈。請逐項核對。');return true
  }
  el('p10ManualBuild').addEventListener('click',draft);
- el('p10ManualTextFocus').addEventListener('click',()=>{el('p10ManualRaw').focus();show('可使用 iPhone 鍵盤麥克風進行系統聽寫；輸入結果仍須人工核對。')});
+ // QA-053: visible action feedback beside clicked controls, not at the end of a long form.
+ const feedback=el('qa053ActionStatus'),goSession=el('qa053GoSession');
+ function flash(message,kind='info'){
+  feedback.textContent=message;
+  feedback.dataset.qa053State=kind;
+  show(message,kind==='error');
+ }
+ function reveal(element){
+  if(!element)return;
+  try{element.scrollIntoView({behavior:'instant',block:'center'})}catch(_){element.scrollIntoView()}
+ }
+ el('p10ManualTextFocus').addEventListener('click',()=>{
+  goSession.hidden=true;
+  flash('文字速記已開啟。直接輸入原話，或點 iPhone 鍵盤的麥克風聽寫；本動作不會自動保存或判定醫療狀態。','ok');
+  const input=el('p10ManualRaw');
+  // Focus within the direct click gesture so mobile software keyboard can open.
+  input.focus({preventScroll:true});reveal(input);
+ });
  async function isActive(){
   if(typeof currentTrip!=='function')return false;
   const t=await currentTrip();return !!(t?.field_session?.active&&t?.field_session?.status==='ACTIVE')
  }
+ // The short button opens the existing press-and-hold recorder; it is not itself a recording button.
+ // A missing Field Session is made visible immediately instead of silently writing text far below.
  el('p10ManualVoice').addEventListener('click',async()=>{
+  goSession.hidden=true;
+  flash('正在檢查現場會話；尚未啟動麥克風或寫入原音…');
   try{
-   if(!await isActive()){show('尚無有效 Field Session。原音錄製不得在未啟動現場會話時冒充正式現場紀錄；可先用文字草稿測試。',true);return}
-   if(typeof go!=='function'||!el('voiceHoldButton'))throw Error('既有原音紀錄入口不可用');
+   if(!await isActive()){
+    flash('無法開始正式原音錄製：目前沒有有效的 Field Session。請先完成 P9 行前授權及登山口現場確認；文字草稿可先輸入。','error');
+    goSession.hidden=false;
+    reveal(feedback);
+    return;
+   }
+   const recorder=el('voiceHoldButton');
+   if(typeof go!=='function'||!recorder)throw Error('原音錄製入口不存在');
    window.TSUMSP10MedicalVoiceIntent=true;
-   await go('p6');if(typeof v06GoFieldPane==='function')v06GoFieldPane('fieldStatusPanel');
-   el('voiceHoldButton').scrollIntoView({block:'center',behavior:'smooth'});
-   el('voiceHoldButton').focus({preventScroll:true});
-  }catch(e){show('無法開啟錄音：'+String(e.message||e),true)}
+   flash('有效會話已確認；正在前往既有原音錄製。進入後請長按「按住說話」，放開結束。','ok');
+   await go('p6');
+   if(typeof v06GoFieldPane==='function')v06GoFieldPane('fieldStatusPanel');
+   reveal(recorder);
+   recorder.focus({preventScroll:true});
+   const captureState=el('voiceCaptureState');
+   if(captureState)captureState.textContent='已開啟原音錄製入口｜請長按上方按鈕開始｜錄音尚未開始';
+  }catch(e){window.TSUMSP10MedicalVoiceIntent=false;flash('無法前往原音錄製：'+String(e.message||e),'error');reveal(feedback)}
+ });
+ goSession.addEventListener('click',async()=>{
+  flash('前往行前授權及登山口現場確認；不自動啟動會話。');
+  try{
+   if(typeof go!=='function')throw Error('頁面導覽尚未就緒');
+   await go('p5');
+   const dest=el('startFieldSession');if(dest)reveal(dest);
+  }catch(e){flash('無法切換到行前確認：'+String(e.message||e),'error')}
  });
  el('p10ManualTransfer').addEventListener('click',async()=>{
   try{

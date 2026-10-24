@@ -1755,11 +1755,40 @@ body.field .journeyTopNav #journeyHomeBtn{
 @media(max-width:420px){#p6ui .p10locLead>div{padding:9px}#p6ui .p10locLead span{font-size:12px}#p6ui #p10locDialog{padding:12px}#p6ui .p10locToolbar{grid-template-columns:1fr}#p6ui .p10locCoordGrid{grid-template-columns:1fr}#p6ui #p10locMap{height:225px;min-height:225px}}
 @media(prefers-reduced-motion:reduce){#p6ui #p10locDialog *{scroll-behavior:auto!important}}
 </style>
+
+<style id="tsums-p10-qa043-terrain-fix">
+/* QA-043: one visible P10 119 action; user-invoked contour tiles, not navigation. */
+#p6ui .p10auditTopline{margin-bottom:14px}
+#p6ui .p10locTerrainWarning{background:#4b281e;border-left:5px solid #ffb58b;padding:13px 12px;font-size:17px;line-height:1.6;color:#fff1de}
+#p6ui .p10locTerrainWarning strong{color:#ffe4a5}
+#p6ui .p10locTopoMap{height:276px;min-height:276px;width:100%;position:relative;overflow:hidden;background:#181813;isolation:isolate}
+#p6ui .p10locTopoMap[hidden]{display:none!important}
+#p6ui .p10locTopoMap .p10locTile{position:absolute;width:256px;height:256px;display:block;max-width:none!important;object-fit:cover;user-select:none;pointer-events:none}
+#p6ui .p10locPin{position:absolute;left:50%;top:50%;width:22px;height:22px;border:4px solid #fff;border-radius:50%;background:#dc3d20;box-shadow:0 0 0 3px #1d1710,0 3px 12px #000b;transform:translate(-50%,-50%);z-index:2;pointer-events:none}
+#p6ui .p10locPin::after{content:'目前位置';position:absolute;left:50%;bottom:28px;transform:translateX(-50%);white-space:nowrap;background:#19140c;color:#fff;border:1px solid #ffe5b0;border-radius:8px;padding:4px 9px;font-size:13px;font-weight:900}
+#p6ui .p10locTopoAttribution{padding:9px 12px;color:#f5dfb8;background:#16120b;font-size:12px;line-height:1.55;overflow-wrap:anywhere}
+#p6ui .p10locTopoAttribution a{color:#ffe0a1;text-underline-offset:2px}
+#p6ui .p10locMapState{font-size:15px}
+@media(max-width:420px){#p6ui .p10locTopoMap{height:245px;min-height:245px}#p6ui .p10locTerrainWarning{font-size:15px}}
+</style>
+<style id="tsums-p10-qa044-offline-handoff-style">
+#p6ui .p10locOfflineHandoff{margin:16px 0 12px;padding:16px 13px;border:2px solid #bb9455;border-radius:15px;background:#20170d}
+#p6ui .p10locOfflineHandoff h3{font-size:clamp(21px,5.4vw,26px);color:#ffdd97;line-height:1.35;margin:0 0 9px}
+#p6ui .p10locOfflineHandoff p{font-size:15px;line-height:1.7;color:#e8d7b6;margin:10px 0}
+#p6ui .p10locOfflineHandoff label{font-size:16px;color:#ffe2a6;line-height:1.5;margin:12px 0 7px}
+#p6ui .p10locOfflineHandoff select{width:100%;min-height:60px;border:2px solid #c59c5b;border-radius:12px;background:#120f0a;color:#fff0d3;font-size:17px;font-weight:750;white-space:normal}
+#p6ui .p10locHandoffAction{display:flex;align-items:center;justify-content:center;text-decoration:none;text-align:center;width:100%;min-height:65px;padding:12px 14px;background:#422d12;color:#ffe3a1;border:2px solid #d4aa66;border-radius:12px;font-size:19px;font-weight:900;line-height:1.45;margin:12px 0 0;overflow-wrap:anywhere}
+#p6ui .p10locHandoffAction[hidden]{display:none!important}
+#p6ui .p10locHandoffAction:disabled{opacity:.44;cursor:not-allowed}
+#p6ui .p10locHandoffAdvice{padding:10px 12px;margin:12px 0 0;background:#16110b;border-left:4px solid #ba944e;border-radius:8px;font-size:14px;line-height:1.6;color:#ffe0a1}
+#p6ui .p10locOfflineHandoff .p10locPrivacy{font-size:13px;line-height:1.6;color:#ccb890}
+#p6ui .p10locHandoffAction:focus-visible,#p6ui .p10locOfflineHandoff select:focus-visible{outline:3px solid #fff!important;outline-offset:3px}
+</style>
 </head>
 <body>
 <script id="tsums-p0-039-source-of-truth">
 /* Build-time registry shared by app export metadata. */
-const TSUMS_RELEASE_REGISTRY=Object.freeze({"app_version":"0.6.4.6-P2","schema_version":"TSUMS-YOUYA-4V-REPLAY-0.6.4","build_id":"QA039-P0-INTEGRITY-20261024","commit_sha":null,"release_status":"LOCAL_QA_CANDIDATE_NOT_DEPLOYED"});
+const TSUMS_RELEASE_REGISTRY=Object.freeze({"app_version":"0.6.4.6-P2","schema_version":"TSUMS-YOUYA-4V-REPLAY-0.6.4","build_id":"QA044-P10-OFFLINE-HANDOFF-20261024","commit_sha":null,"release_status":"LOCAL_QA_CANDIDATE_NOT_DEPLOYED"});
 const APP_VERSION=TSUMS_RELEASE_REGISTRY.app_version;
 const SCHEMA_VERSION=TSUMS_RELEASE_REGISTRY.schema_version;
 const BUILD_ID=TSUMS_RELEASE_REGISTRY.build_id;
@@ -2401,7 +2430,7 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
 <section id="p6ui" class="page" aria-label="TSUMS 途中示警全功能介面 QA 審核">
 <div class="p10auditCritical" role="region" aria-label="優先求援與現場安全入口">
  <div class="p10auditTopline"><strong>現場安全｜最短操作入口</strong><span>PUBLIC UI REVIEW · 非自動示警</span></div>
- <a class="p10auditEmergency" href="tel:119" aria-label="開啟系統電話撥號 119，不代表已撥通或通知救援單位"><strong>119｜立即開啟系統撥號</strong><small>無須行前 GO · 撥號與接通須由手機確認</small></a>
+ 
  <div class="p10auditQuickGrid" role="group" aria-label="現場事件操作區導覽">
    <button type="button" data-p10audit-jump="05"><strong>隊伍異常</strong><small>開啟人員與失聯區</small></button>
    <button type="button" data-p10audit-jump="06"><strong>CHECK-IN 逾時</strong><small>開啟回報與升級區</small></button>
@@ -2410,7 +2439,7 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
  </div>
  <p class="p10auditBoundary">四個快速入口僅展開對應介面；不判定失聯、未發送通知，也不代為作成 GO／WAIT／RETREAT。系統自動警報與感測資料尚未接通。</p>
  <div id="p10auditActionStatus" role="status" aria-live="polite" hidden></div>
-<p class="p10locPreNotice">定位鍵會要求本次 GPS 權限；連網時將當前座標提供 OpenStreetMap 產生位置圖。此功能不儲存座標、不判定偏航。</p>
+<p class="p10locPreNotice">一鍵定位直接要求一次裝置位置；首次使用仍需遵循 iPhone／瀏覽器原生授權。座標與等高線地形圖僅供定位參考，不是離線導航；不儲存座標、不判定偏航。</p>
 </div>
   <section class="tsumsBridge" id="tsumsP10Handover" aria-label="行前授權與現場會話交接狀態">
 <h3>跨頁交接｜P9 → P10</h3>
@@ -2523,25 +2552,42 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
     </details></div>
   <div id="p10uiDemoOutput" role="status" aria-live="polite" hidden></div>
   <nav class="p10auditFixed" aria-label="途中操作快捷列">
- <a href="tel:119" aria-label="開啟系統 119 撥號，不代表已接通">119｜撥號</a>
+ <a href="tel:119" aria-label="開啟系統 119 撥號，不代表已接通">119｜緊急撥號</a>
  <button type="button" id="p10locLaunch" aria-haspopup="dialog" aria-controls="p10locDialog"><strong>一鍵定位</strong><small>地圖＋座標</small></button>
 </nav>
 <dialog id="p10locDialog" aria-labelledby="p10locTitle" aria-describedby="p10locNotice">
- <div class="p10locHeader"><h2 id="p10locTitle">一鍵定位｜地圖與座標</h2><button type="button" id="p10locClose" aria-label="關閉定位面板">關閉 ✕</button></div>
- <p id="p10locNotice" class="p10locNotice">一次性主動定位。不啟動背景追蹤、不自動提交治理事件、不寫入 IndexedDB。GPS 可能有誤差；不取代正式導航或 119 語音報案。</p>
+ <div class="p10locHeader"><h2 id="p10locTitle">一鍵定位｜等高線地形圖與座標</h2><button type="button" id="p10locClose" aria-label="關閉定位面板">關閉 ✕</button></div>
+ <p id="p10locNotice" class="p10locNotice">按一次取得目前位置；不啟動背景追蹤、不自動提交治理事件。GPS 有誤差，地形圖不是正式導航或 119 報案的替代品。</p>
  <div id="p10locStatus" class="p10locStatus" role="status" aria-live="polite">尚未要求定位</div>
  <div class="p10locLead">
    <div class="p10locCoordWide"><span>WGS84 緯度（北緯為正）</span><strong id="p10locLat">—</strong></div>
    <div class="p10locCoordWide"><span>WGS84 經度（東經為正）</span><strong id="p10locLon">—</strong></div>
  </div>
+ <section id="p10locOfflineHandoff" class="p10locOfflineHandoff" aria-labelledby="p10locOfflineTitle">
+   <h3 id="p10locOfflineTitle">使用我的離線地圖</h3>
+   <p>先在慣用地圖 App 下載目的地離線圖資。取得座標後，可由下方選擇 App 開啟<strong>單一位置標記</strong>；這不是路線、軌跡或導航狀態同步。Safari 不能可靠偵測 App 是否已安裝，也不能確認對方已接收。</p>
+   <label for="p10locOfflineApp">慣用離線地圖 App（只記住選擇，不保存位置）</label>
+   <select id="p10locOfflineApp" aria-describedby="p10locOfflineAdvice">
+      <option value="organic">Organic Maps｜離線地圖</option>
+      <option value="guru">Guru Maps｜離線地圖</option>
+      <option value="osmand">OsmAnd｜官方位置連結（可能先開網頁，需網路）</option>
+      <option value="other">山林日誌／其他 App｜使用分享或複製座標</option>
+   </select>
+   <a id="p10locOpenOffline" class="p10locHandoffAction" hidden rel="noopener noreferrer">在離線地圖顯示目前座標 ↗</a>
+   <button type="button" id="p10locShareOffline" class="p10locHandoffAction" disabled>透過手機分享目前座標</button>
+   <div id="p10locOfflineAdvice" class="p10locHandoffAdvice" role="status" aria-live="polite">先取得本次座標，才可轉交地圖 App。</div>
+   <p class="p10locPrivacy">外部 App 的離線圖資須事先下載；是否成功開啟、如何呈現定位與 GPS 更新，由該 App 控制。點選外部 App 才會嘗試轉交位置；不建立背景追蹤或雙向資料通道。</p>
+ </section>
+ <div id="p10locMapContainer" class="p10locMapContainer" role="region" aria-label="等高線地形圖參考預覽">
+   <div class="p10locTerrainWarning"><strong>地形圖僅供對照，不能作為唯一導航依據。</strong> 圖上有等高線，但不保證山徑、崩塌及封閉資訊即時正確；未載入預定 GPX，不能判定偏航。</div>
+   <div id="p10locMapState" class="p10locMapState" role="status" aria-live="polite">取得座標後載入線上等高線圖；離線時僅提供座標。</div>
+   <div id="p10locMap" class="p10locTopoMap" role="img" aria-label="OpenTopoMap 等高線地形圖；中心標記為裝置位置，不含預定路線" hidden></div>
+   <div class="p10locTopoAttribution">圖資：<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap contributors</a>、SRTM｜樣式：<a href="https://opentopomap.org/about" target="_blank" rel="noopener noreferrer">© OpenTopoMap（CC-BY-SA）</a>｜線上載入</div>
+ </div>
  <div class="p10locToolbar">
    <button type="button" id="p10locRetry">重新定位</button>
    <button type="button" id="p10locCopy" disabled>複製座標／報案資訊</button>
-   <a id="p10locExternalMap" hidden target="_blank" rel="noopener noreferrer">開啟外部地圖 ↗</a>
- </div>
- <div id="p10locMapContainer" class="p10locMapContainer" role="region" aria-label="線上地圖預覽">
-   <div id="p10locMapState" class="p10locMapState">取得座標後顯示線上位置圖。沒有網路時仍可複製座標。</div>
-   <iframe id="p10locMap" title="OpenStreetMap 目前位置地圖（非導航）" referrerpolicy="no-referrer" loading="lazy" hidden></iframe>
+   <a id="p10locExternalMap" hidden target="_blank" rel="noopener noreferrer">開啟 OpenTopoMap 等高線地圖 ↗</a>
  </div>
  <div class="p10locCoordGrid">
    <div><span>水平精度（裝置回報）</span><strong id="p10locAccuracy">—</strong></div>
@@ -2549,7 +2595,7 @@ const COMMIT_SHA=TSUMS_RELEASE_REGISTRY.commit_sha;
    <div class="p10locCoordWide"><span>定位時間／資料新鮮度</span><strong id="p10locTime">—</strong></div>
    <div class="p10locCoordWide"><span>TWD97／TM2（由 WGS84 概算，非測繪用途）</span><strong id="p10locTWD97">—</strong></div>
  </div>
- <p class="p10locNotice">點擊「一鍵定位」代表主動要求一次裝置位置；成功後，若有網路，會向 OpenStreetMap 傳送當前座標以載入地圖。若不願將座標提供第三方地圖服務，請勿使用此入口。地圖不含預定 GPX 軌跡，不提供距離路線或偏航判定。</p>
+ <p class="p10locNotice">一次定位由使用者按鍵啟動，首次 iPhone 定位授權無法繞過。線上地形圖會向 OpenTopoMap 索取定位周邊的圖磚，第三方可得知大致區域與網路連線資訊；不自動送出治理事件。地圖不含完整 GPX 與實測軌跡，不計算偏航、目的地距離或正式導航位置；GPS 精度及裝置時間須自行核對。</p>
 </dialog>
 <div class="p10uiBottom">TSUMS Bunun Protocol Authority｜Public Layer Design Review｜單次定位功能需自行授權；其餘資料未串接，不作事故預測、不宣稱收到國家級告警、不宣稱已通知留守人或救援機構。裝置與網路未持續運作時，不能保證背景定位與示警。</div>
   <button type="button" class="p10uiReturn" data-p10ui-back>← 返回上一頁（仍為合成 QA）</button>
@@ -9200,7 +9246,33 @@ packageData=async function(){
  const $=(id)=>document.getElementById(id);
  const launch=$('p10locLaunch'),retry=$('p10locRetry'),close=$('p10locClose'),copy=$('p10locCopy');
  const map=$('p10locMap'),mapState=$('p10locMapState'),external=$('p10locExternalMap');
+ const offlineApp=$('p10locOfflineApp'),offlineLink=$('p10locOpenOffline'),offlineShare=$('p10locShareOffline'),offlineAdvice=$('p10locOfflineAdvice');
  let lastFix=null,requestSerial=0,busy=false,ageTimer=null;
+ const offlinePreferenceKey='TSUMS_P10_OFFLINE_MAP_APP_V1';
+ const offlineOptions=new Set(['organic','guru','osmand','other']);
+ try{const old=window.localStorage.getItem(offlinePreferenceKey);if(offlineOptions.has(old))offlineApp.value=old;}catch(e){}
+ function offlineTarget(fix,app){
+  if(!fix||!Number.isFinite(fix.lat)||!Number.isFinite(fix.lon))return null;
+  const lat=fmt(fix.lat),lon=fmt(fix.lon),coord=lat+','+lon;
+  if(app==='organic')return 'om://map?v=1&ll='+coord+'&n='+encodeURIComponent('TSUMS 本次定位');
+  if(app==='guru')return 'guru://show?place='+coord+',15';
+  if(app==='osmand')return 'https://osmand.net/map/?pin='+coord+'#15/'+lat+'/'+lon;
+  return null;
+ }
+ function syncOffline(){
+  const app=offlineApp.value,available=!!lastFix&&!busy,url=available?offlineTarget(lastFix,app):null;
+  offlineShare.disabled=!available||typeof navigator.share!=='function';
+  offlineShare.textContent=typeof navigator.share==='function'?'透過手機分享目前座標':'手機分享不可用｜請用上方「複製座標」';
+  if(url){offlineLink.href=url;offlineLink.hidden=false;
+   offlineLink.textContent=app==='osmand'?'開啟 OsmAnd 位置連結（可能需要網路） ↗':'在 '+(app==='organic'?'Organic Maps':'Guru Maps')+' 顯示座標 ↗';
+  }else{offlineLink.hidden=true;offlineLink.removeAttribute('href')}
+  offlineAdvice.textContent=!available?'請先取得目前定位；沒有座標時不會產生外部連結。':
+   app==='other'?'未確認此 App 的網頁深度連結。可使用手機分享或複製 WGS84 座標，在慣用 App 內手動定位。':
+   app==='osmand'?'OsmAnd 為官方位置網頁連結；開啟流程可能需要網路，無法保證直接進入已下載的離線地圖。':
+   '只交接本次座標；請確認 '+(app==='organic'?'Organic Maps':'Guru Maps')+' 已安裝並預先下載當地離線圖。';
+ }
+ function clearOffline(){offlineLink.hidden=true;offlineLink.removeAttribute('href');offlineShare.disabled=true;syncOffline()}
+
  const fmt=(x,n=6)=>Number(x).toFixed(n);
  const status=(msg,err=false)=>{const n=$('p10locStatus');n.textContent=msg;n.classList.toggle('p10locError',err)};
  function tm2(lat,lon){
@@ -9217,13 +9289,37 @@ packageData=async function(){
   const northing=k*(M+N*tan*(A*A/2+(5-T+9*C+4*C*C)*A**4/24+(61-58*T+T*T+600*C-330*ep2)*A**6/720));
   return {zone:central,easting,northing};
  }
- function clearMap(){map.hidden=true;map.removeAttribute('src');external.hidden=true;external.removeAttribute('href');mapState.textContent='取得座標後顯示線上位置圖。沒有網路時仍可複製座標。'}
+ function clearMap(){map.hidden=true;map.replaceChildren();external.hidden=true;external.removeAttribute('href');mapState.textContent='取得座標後載入線上等高線圖；離線時僅提供座標。'}
+ function topoTiles(lat,lon){
+  // A small, on-demand viewport only; never prefetch or build offline tile caches.
+  // Official OpenTopoMap raster tile path, with mandatory visible attribution in HTML.
+  const z=15,n=2**z,clamped=Math.max(-85.051128,Math.min(85.051128,lat)),phi=clamped*Math.PI/180;
+  const cx=((lon+180)/360)*n,cy=((1-Math.asinh(Math.tan(phi))/Math.PI)/2)*n;
+  const width=map.clientWidth,height=map.clientHeight;
+  if(width<1||height<1)return false;
+  const firstX=Math.floor(cx-width/512),lastX=Math.floor(cx+width/512);
+  const firstY=Math.floor(cy-height/512),lastY=Math.floor(cy+height/512);
+  let requested=0,loaded=0,failed=0;
+  map.replaceChildren();
+  for(let yy=firstY;yy<=lastY;yy++)for(let xx=firstX;xx<=lastX;xx++){
+   if(yy<0||yy>=n)continue;
+   const img=document.createElement('img');img.className='p10locTile';img.alt='';img.decoding='async';
+   img.style.left=((xx-cx)*256+width/2)+'px';img.style.top=((yy-cy)*256+height/2)+'px';
+   const host=['a','b','c'][(xx+yy+6*n)%3];
+   img.addEventListener('load',()=>{loaded++;if(!lastFix||!dialog.open)return;mapState.textContent=failed?'已載入部分等高線圖；部分圖磚失敗，請勿依缺圖判讀。':'已載入等高線地形圖｜僅對照位置，非導航或偏航判定。'});
+   img.addEventListener('error',()=>{failed++;if(!lastFix||!dialog.open)return;mapState.textContent=loaded?'部分地形圖磚載入失敗；請勿依缺圖判讀。':'等高線圖資尚未載入或連線失敗；座標仍可複製。';if(failed>=requested&&loaded===0)map.hidden=true;});
+   requested++;map.appendChild(img);img.src='https://'+host+'.tile.opentopomap.org/'+z+'/'+((xx%n+n)%n)+'/'+yy+'.png';
+  }
+  if(!requested)return false;
+  const marker=document.createElement('span');marker.className='p10locPin';marker.setAttribute('aria-hidden','true');map.appendChild(marker);
+  return true;
+ }
  function stopAgeTimer(){if(ageTimer!==null){clearInterval(ageTimer);ageTimer=null}}
  function refreshAge(){if(!lastFix)return;const sec=Math.max(0,Math.floor((Date.now()-Date.parse(lastFix.iso))/1000));$('p10locTime').textContent=lastFix.localTime+'（'+sec+' 秒前；裝置時間）'}
  function newRequest(){
   if(busy)return;
   const current=++requestSerial;
-  busy=true;retry.disabled=true;copy.disabled=true;lastFix=null;stopAgeTimer();clearMap();
+  busy=true;retry.disabled=true;copy.disabled=true;lastFix=null;stopAgeTimer();clearMap();clearOffline();
   for(const id of ['p10locLat','p10locLon','p10locAccuracy','p10locTime','p10locTWD97'])$(id).textContent='—';
   $('p10locAltitude').textContent='未提供';
   if(!window.isSecureContext){status('目前頁面不是安全來源，瀏覽器可能拒絕定位。請使用 HTTPS 或 localhost。',true);busy=false;retry.disabled=false;return}
@@ -9243,6 +9339,7 @@ packageData=async function(){
    const localTime=fixTime.toLocaleString('zh-TW',{hour12:false});
    const projected=tm2(lat,lon);
    lastFix={lat,lon,accuracy,altitude,altitudeAccuracy,age,localTime,iso:fixTime.toISOString(),projected};
+   syncOffline();
    $('p10locLat').textContent=fmt(lat)+'°';$('p10locLon').textContent=fmt(lon)+'°';
    $('p10locAccuracy').textContent=accuracy===null?'未知':'約 ±'+Math.round(accuracy)+' m';
    $('p10locAltitude').textContent=altitude===null?'裝置未提供':fmt(altitude,1)+' m'+(altitudeAccuracy===null?'（垂直精度未知）':'（約 ±'+Math.round(altitudeAccuracy)+' m）');
@@ -9250,14 +9347,12 @@ packageData=async function(){
    $('p10locTWD97').textContent=projected?'TM2 '+projected.zone+'° 帶｜E '+fmt(projected.easting,1)+' m／N '+fmt(projected.northing,1)+' m':'不在臺灣適用範圍；未換算';
    status('已取得裝置回報位置｜非路線偏航判定，需留意 GPS 精度。');
    copy.disabled=false;
-   const north=lat+.012,south=lat-.012,east=lon+.016,west=lon-.016;
-   const query=(v)=>encodeURIComponent(String(v));
-   const osm='https://www.openstreetmap.org/export/embed.html?bbox='+[west,south,east,north].map(query).join('%2C')+'&layer=mapnik&marker='+query(lat)+ '%2C'+query(lon);
-   const link='https://www.openstreetmap.org/?mlat='+query(lat)+'&mlon='+query(lon)+'#map=15/'+fmt(lat)+'/'+fmt(lon);
+   const link='https://opentopomap.org/#map=15/'+fmt(lat)+'/'+fmt(lon);
    external.href=link;external.hidden=false;
-   if(navigator.onLine===false){mapState.textContent='目前離線：已產生座標，但線上地圖無法載入。請使用複製座標功能。';return}
-   mapState.textContent='線上 OpenStreetMap 地圖：僅標示目前位置，不含路線或偏航資訊；地圖載入需網路。';
-   map.src=osm;map.hidden=false;
+   if(navigator.onLine===false){mapState.textContent='目前離線：僅能使用已取得座標，等高線圖無法載入；請勿依賴在線圖資導航。';return}
+   map.hidden=false;
+   mapState.textContent='正在載入 OpenTopoMap 等高線地形圖；不含預定路線或偏航資料。';
+   if(!topoTiles(lat,lon)){map.hidden=true;mapState.textContent='地形圖無法建立；座標仍可複製。'}
   },error=>{
    if(current!==requestSerial||!dialog.open)return;
    busy=false;retry.disabled=false;lastFix=null;copy.disabled=true;
@@ -9285,10 +9380,27 @@ packageData=async function(){
  retry?.addEventListener('click',newRequest);
  close?.addEventListener('click',()=>{if(typeof dialog.close==='function')dialog.close();else dialog.removeAttribute('open')});
  copy?.addEventListener('click',copyPosition);
- dialog.addEventListener('close',()=>{requestSerial++;busy=false;retry.disabled=false;copy.disabled=true;lastFix=null;stopAgeTimer();clearMap();status('尚未要求定位');});
+ offlineApp?.addEventListener('change',()=>{try{window.localStorage.setItem(offlinePreferenceKey,offlineApp.value)}catch(e){}syncOffline()});
+ offlineLink?.addEventListener('click',()=>{
+  if(!lastFix||!offlineLink.href)return;
+  // The OS/app decides whether an external launch actually succeeds. No success claim.
+  offlineAdvice.textContent='已向系統提出開啟位置的要求；TSUMS 無法驗證地圖 App 是否開啟或收到座標。';
+ });
+ offlineShare?.addEventListener('click',async()=>{
+  if(!lastFix||typeof navigator.share!=='function')return;
+  const x=lastFix;
+  try{await navigator.share({title:'TSUMS 本次 GPS 座標',text:'WGS84：'+fmt(x.lat)+', '+fmt(x.lon)+'\n水平精度：'+(x.accuracy===null?'未知':'約 ±'+Math.round(x.accuracy)+' m')+'\n定位時間：'+x.localTime+'\n來源：裝置一次性回報；請人工核對。'});
+    offlineAdvice.textContent='已完成手機分享操作；不代表外部地圖已匯入或同步。';
+  }catch(e){offlineAdvice.textContent=e&&e.name==='AbortError'?'分享已取消，未建立任何同步狀態。':'手機分享未完成，可改用複製座標。';}
+ });
+ syncOffline();
+
+ dialog.addEventListener('close',()=>{requestSerial++;busy=false;retry.disabled=false;copy.disabled=true;lastFix=null;stopAgeTimer();clearMap();clearOffline();status('尚未要求定位');});
  dialog.addEventListener('click',e=>{if(e.target===dialog&&typeof dialog.close==='function')dialog.close()});
  // Expose pure converter for QA verification only; never expose actual location readings.
  window.TSUMS_QA042={tm2,mode:'USER_INITIATED_LOCATION_ONLY',persistent_data:false};
+ window.TSUMS_QA043={map_style:'OpenTopoMap',map_mode:'ONLINE_USER_INITIATED_ONLY',offline_tiles:false};
+ window.TSUMS_QA044={offlineTarget,mode:'USER_CONFIRMED_COORDINATE_HANDOFF_ONLY',background_sync:false,route_sync:false};
 })();
 </script>
 </body></html>

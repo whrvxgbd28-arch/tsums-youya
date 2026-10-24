@@ -1,17 +1,41 @@
 <!doctype html>
 <html lang="zh-Hant">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#120e09"><title>TSUMS P10｜Medical Overlay｜QA-058 影像證據操作驗收版</title>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#120e09"><title>TSUMS P10｜QA-059 救援交接影像與語音證據操作驗收版</title>
 <style>
 :root{color-scheme:dark;font-family:-apple-system,BlinkMacSystemFont,'Noto Sans TC',sans-serif;background:#120e09;color:#f7e4c6}*{box-sizing:border-box}body{margin:0;background:#120e09}
 main{max-width:860px;padding:18px 18px 90px;margin:auto}header{border:1px solid #a98857;background:#302216;padding:20px;border-radius:18px;margin:5px 0 18px}h1{font-size:clamp(1.35rem,4vw,1.9rem);line-height:1.5;color:#ffd89c;margin:8px 0}.small{font-size:.88rem;color:#d5c1a6;line-height:1.65}p{line-height:1.65}b{color:#ffdb99}.pill{display:inline-block;border:1px solid #aa7e43;border-radius:22px;padding:7px 11px;margin:3px;background:#251b11;color:#efd09a;font-size:.8rem}.status{padding:12px 15px;border:1px solid #94713e;background:#20170f;border-radius:12px;font-size:.91rem;line-height:1.6}.cards{display:grid;gap:14px;margin:20px 0}.unit{border:1px solid #806136;background:#18120d;border-radius:18px;padding:15px}.medical-card{padding:12px 10px;width:100%;background:transparent;border:0;text-align:left;display:flex;justify-content:space-between;color:#ffdfae;font-size:1.15rem;line-height:1.6;font-weight:700;gap:15px;cursor:pointer}.medical-card span:last-child{font-size:.79rem;color:#caaa78;max-width:38%;text-align:right}.medical-card:focus-visible{outline:3px solid white}.sub{color:#c9b490;font-size:.83rem;margin:3px 12px}.cta{border-radius:10px;min-height:45px;padding:8px 12px;font-size:.97rem;background:#45301b;color:#ffe0a2;border:1px solid #b38a50;cursor:pointer}.cta:focus-visible{outline:3px solid white}.secondary{background:#23190e}.toolbar{display:flex;gap:10px;flex-wrap:wrap}.toolbar .cta{flex:1 1 145px}.reference{border-left:3px solid #c49351;padding:12px 14px;margin:22px 0;background:#251c12}.footer{font-size:.79rem;color:#cbb89a;line-height:1.65;border-top:1px solid #735834;padding-top:20px}
+
+.qa059-rescue{border:1px solid #9d7944;border-radius:20px;padding:17px 15px 16px;background:#211811;margin:16px 0 26px}.qa059-rescue h2{font-size:1.34rem;color:#ffd699;margin:6px 0}.qa059-section-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.qa059-emergency{flex:0 0 auto;color:#ffe3ad;font-size:.78rem;line-height:1.4;background:#572e25;border:1px solid #d09a7c;padding:9px 10px;border-radius:10px;text-decoration:none;font-weight:700}.qa059-emergency:focus-visible{outline:3px solid white}.qa059-call-icon{font-size:1rem}.qa059-metrics{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin:14px 0}.qa059-metrics>div{border:1px solid #907044;background:#130f0b;border-radius:13px;min-height:93px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;gap:8px}.qa059-metrics span{font-size:.8rem;color:#e9d9b9}.qa059-metrics strong{color:#ffd393;font-size:.96rem;overflow-wrap:anywhere}.qa059-main-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:18px 0}.qa059-action{font:inherit;font-size:.93rem;font-weight:750;color:#ffe0a2;background:#42301d;border:1px solid #ddae68;border-radius:14px;padding:13px 9px;min-height:70px;cursor:pointer}.qa059-outline{font-size:.84rem;background:#1d170f;min-height:55px}.qa059-action:focus-visible,.qa059-bottom button:focus-visible{outline:3px solid white}.qa059-availability{color:#e8c999;font-size:.85rem;line-height:1.5}.qa059-bottom{position:fixed;bottom:0;left:0;right:0;z-index:7500;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px max(12px,env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));background:#0c0907ec;border-top:1px solid #8e653b;box-shadow:0 -5px 22px #000c}.qa059-bottom button{font:inherit;font-size:1rem;font-weight:800;min-height:65px;padding:11px 6px;color:#ffdeac;background:#43301d;border:1.5px solid #d3a469;border-radius:15px;cursor:pointer}.qa059-bottom button:first-child{background:#55321f}@media(max-width:420px){.qa059-rescue{padding:15px 11px}.qa059-metrics>div{min-height:90px;padding:10px}.qa059-emergency{font-size:.7rem;padding:8px 7px}.qa059-section-top{gap:6px}}main{padding-bottom:125px}
 </style>
 <script src="./medical-index-195.js" defer></script>
 <script src="./qa057-medical-overlay.js" defer></script>
 <script src="./qa058-photo-evidence.js" defer></script>
+<script src="./qa059-rescue-evidence.js" defer></script>
 </head><body><main>
-<header><div class="small">TSUMS 4.0V · Public-Layer Governance Execution Engine</div><div class="pill">QA-058 · 獨立隔離測試版 · 非正式部署</div><h1>五結構｜山域醫學觀察與影像證據</h1><p>先保全原圖，再形成候選摘要，由人覆核。五結構為 Mountain Medical Decision Layer，掛載 C1 PCAR、C2 MSLS、C3 UIRF；不是第六核心模組。</p><div><span class="pill">氧</span><span class="pill">溫</span><span class="pill">血</span><span class="pill">腦</span><span class="pill">動</span></div></header>
+<header><div class="small">TSUMS 4.0V · Public-Layer Governance Execution Engine</div><div class="pill">QA-059 · 獨立隔離測試版 · 非正式部署</div><h1>五結構｜山域醫學觀察與影像證據</h1><p>先保全原圖，再形成候選摘要，由人覆核。五結構為 Mountain Medical Decision Layer，掛載 C1 PCAR、C2 MSLS、C3 UIRF；不是第六核心模組。</p><div><span class="pill">氧</span><span class="pill">溫</span><span class="pill">血</span><span class="pill">腦</span><span class="pill">動</span></div></header>
 <div class="status" data-qa058-total aria-live="polite">本機影像保存檢查中…</div>
 <p class="small" data-tsums-medical-store-status aria-live="polite">手動觀察紀錄狀態檢查中…</p>
+
+<section id="qa059-rescue" class="qa059-rescue" aria-labelledby="qa059-rescue-title">
+ <div class="qa059-section-top"><div><div class="small">P10｜C2 MSLS × C3 UIRF｜事故救援與空勤交接</div><h2 id="qa059-rescue-title">現場事實保全匣</h2></div><a class="qa059-emergency" href="tel:119" aria-label="開啟電話撥號至 119，撥號不等於接通">緊急求援 119 <span class="qa059-call-icon" aria-hidden="true">↗</span></a></div>
+ <p class="small">重大緊急狀況請優先求援、急救及遵從現場救援指揮；拍照或錄音不得干擾吊掛、安全警戒或交接作業。119 撥號入口保留一次，不重複佔據固定工具列。</p>
+ <div class="qa059-stage-row"><span class="pill">人工紀錄｜無自動空勤串接</span><span class="pill">本機優先｜非正式送達</span></div>
+ <div class="qa059-metrics" aria-label="人工救援觀察狀態">
+  <div><span>事故 / SOS 事件</span><strong data-qa059-event-status>本機尚未建立</strong></div>
+  <div><span>救援受理</span><strong>UNKNOWN／未驗證</strong></div>
+  <div><span>最後有效位置</span><strong>未取得</strong></div>
+  <div><span>通報交接</span><strong>尚未確認</strong></div>
+ </div>
+ <div class="qa059-main-actions" aria-label="救援現場操作">
+   <button class="qa059-action" data-qa059-photo type="button"><span aria-hidden="true">📷</span> 現場拍照記錄</button>
+   <button class="qa059-action" data-qa059-voice type="button"><span aria-hidden="true">🎙️</span> 語音速記</button>
+   <button class="qa059-action qa059-outline" data-qa059-note type="button">新增救援交接文字紀錄</button>
+   <button class="qa059-action qa059-outline" data-qa059-history type="button">本機救援紀錄與匯出 <span data-qa059-counter>0</span></button>
+ </div>
+ <p class="qa059-availability" aria-live="polite" data-qa059-availability>正在檢查本機保存能力…</p>
+ <p class="small">沒有實際官方回執時，不宣稱事故建案、空勤受理、吊掛完成或正式交接成功。照片、錄音及人工文字只保全操作者可證明的觀察。</p>
+</section>
+
 <section class="cards" aria-label="五結構快拍與觀察">
  <div class="unit"><button type="button" class="medical-card" data-tsums-medical-domain="oxygen"><span>氧｜氣體交換</span><span data-tsums-medical-status>未記錄／未確認</span></button><p class="sub">呼吸／氧合，不能只憑單一 SpO₂ 數字判斷撤退。</p><div class="qa058-actions"><button type="button" data-qa058-photo="oxygen">📷 拍照紀錄</button><button type="button" data-qa058-index="oxygen">查索引 1–23</button></div></div>
  <div class="unit"><button type="button" class="medical-card" data-tsums-medical-domain="thermal"><span>溫｜熱平衡</span><span data-tsums-medical-status>未記錄／未確認</span></button><p class="sub">體溫＋意識＋行動能力一起觀察。</p><div class="qa058-actions"><button type="button" data-qa058-photo="thermal">📷 拍照紀錄</button><button type="button" data-qa058-index="thermal">查索引 24–47</button></div></div>
@@ -21,5 +45,7 @@ main{max-width:860px;padding:18px 18px 90px;margin:auto}header{border:1px solid 
 </section>
 <div class="toolbar"><button class="cta" type="button" data-tsums-medical-history>查看 QA-057 本機手動觀察</button><button class="cta" type="button" data-qa058-history>查看 QA-058 原圖及人工覆核</button><button class="cta secondary" type="button" data-qa058-index>查閱全部 195 項</button></div>
 <div class="reference"><b>Medical T-State</b><p><b>T0｜可控制：</b>處理、休息、觀察、再評估。<br><b>T1｜停止前進：</b>停止上升／深入，啟動撤退。<br><b>T2｜立即救命／後送：</b>急救、求援、後送。</p><p class="small">僅供依 2026-08-31 中英文索引查閱；沒有自動偵測、醫療診斷或正式停損准駁。危急時優先依現場急救權限通報與求援。</p></div>
-<div class="footer">QA-058 Prototype · Public Layer · Protected Core excluded · IndexedDB 未加密 · 原始照片可能含身體與地理敏感資訊，請使用經授權裝置 · 裝置時間／相片中繼資料不是可信 T₀,k 時間證明 · 本機 SHA-256 不是數位簽章／不可否認證明 · 未連接正式會話、伺服器與醫療專業判斷 · P9/P11 及原 QA-056 三頁未修改。</div>
-</main></body></html>
+<div class="footer">QA-059 Prototype / QA-058 Medical Overlay retained · Public Layer · Protected Core excluded · IndexedDB 未加密 · 原始照片可能含身體與地理敏感資訊，請使用經授權裝置 · 裝置時間／相片中繼資料不是可信 T₀,k 時間證明 · 本機 SHA-256 不是數位簽章／不可否認證明 · 未連接正式會話、伺服器與醫療專業判斷 · P9/P11 及原 QA-056 三頁未修改。</div>
+</main>
+<nav class="qa059-bottom" aria-label="現場快速保全"><button type="button" data-qa059-photo>📷 拍照保全</button><button type="button" data-qa059-voice>🎙️ 語音速記</button></nav>
+</body></html>
